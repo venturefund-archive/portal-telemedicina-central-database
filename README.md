@@ -1,29 +1,11 @@
-# README #
+# Central Database
 
-This README would normally document whatever steps are necessary to get your application up and running.
+The central database is a smart, scalable and extensible data warehouse that unifies, cleans, enriches and turns data available. The present version includes the following modules:
 
-### What is this repository for? ###
+* Information related to *Vaccines*
+* The main *Measures* related to the health of the patient
+* General information about *Patients*
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+In the *docs* folder it is possible to understand in details the modelling of these components.
 
-### How do I get set up? ###
-
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
+It uses Python 3.7 and Django 3.0.1
