@@ -8,4 +8,4 @@ The central database is a smart, scalable and extensible data warehouse that uni
 
 In the *docs* folder it is possible to understand in details the modelling of these components.
 
-It uses Python 3.7 and Django 3.0.1
+It uses Python 3.7 and Django 3.0.3
