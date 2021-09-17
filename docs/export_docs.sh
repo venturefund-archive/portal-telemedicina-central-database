@@ -11,7 +11,7 @@ file="docs/$app-$(date '+%Y%m%d-%H%M%S').png"
 if [ "$app" == "all" ]; then
     app="-a"
 fi
-python central_data_provider/manage.py graph_models -X *CDP*,Historical*,Log*,*Session*,*User*,Group,Permission,ContentType -o $file $app
+python central_database/manage.py graph_models -X *CDP*,Historical*,Log*,*Session*,*User*,Group,Permission,ContentType -o $file $app
 error=$?
 if [ $error == 0 ]; then
     echo "Documentation created at $file"
