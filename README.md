@@ -13,3 +13,4 @@ Use the following commands to build and run a local development environment with
 cd central_database
 sudo docker-compose -f local.yml build
 sudo docker-compose -f local.yml up
+```
