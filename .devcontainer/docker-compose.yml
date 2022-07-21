@@ -11,7 +11,7 @@ services:
         # Use -bullseye variants on local arm64/Apple Silicon.
         VARIANT: 3.9-bullseye
         # Optional Node.js version to install
-        NODE_VERSION: "lts/*"
+        NODE_VERSION: "none"
 
     volumes:
       - ..:/workspace:cached
@@ -30,17 +30,16 @@ services:
     environment:
       - DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5432/postgres
       - USE_DOCKER=no
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_PASSWORD=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@admin.com
+
   db:
     image: postgres:latest
     restart: unless-stopped
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
       POSTGRES_PASSWORD: postgres
     # Add "forwardPorts": ["5432"] to **devcontainer.json** to forward PostgreSQL locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
-
-volumes:
-  postgres-data: null
