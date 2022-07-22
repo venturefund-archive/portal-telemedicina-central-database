@@ -1,8 +1,8 @@
 # Fhirbase
 
-**[Download the Latest Release](https://github.com/fhirbase/fhirbase/releases/)**&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;**[Try Online](https://fbdemo.aidbox.app/)**&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;[Documentation](https://aidbox.gitbook.io/fhirbase/)&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;[Chat](https://chat.fhir.org/#narrow/stream/16-fhirbase)&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;[Google Group](https://groups.google.com/forum/#!forum/fhirbase)
+<!-- **[Download the Latest Release](https://github.com/fhirbase/fhirbase/releases/)**&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;**[Try Online](https://fbdemo.aidbox.app/)**&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;[Documentation](https://aidbox.gitbook.io/fhirbase/)&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;[Chat](https://chat.fhir.org/#narrow/stream/16-fhirbase)&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;[Google Group](https://groups.google.com/forum/#!forum/fhirbase)
 
-[![Build Status](https://travis-ci.org/fhirbase/fhirbase.svg?branch=master)](https://travis-ci.org/fhirbase/fhirbase)
+[![Build Status](https://travis-ci.org/fhirbase/fhirbase.svg?branch=master)](https://travis-ci.org/fhirbase/fhirbase) -->
 
 Fhirbase is a command-line utility which enables you to easily import
 [FHIR data](https://www.hl7.org/fhir/) into a PostgreSQL database and
@@ -18,11 +18,15 @@ History](https://www.hl7.org/fhir/http.html#history).
 
 ## Status
 
-Server FHIR
+Server FHIR running on a docker container with the the purpose to bring a PoC
+
+## Requirements
+
+to run the FHIR server - Docker Container you must have Docker installed on you computer
 
 ## Getting Started
 
-
+to run the application just run:  docker run --rm -p 3000:3000 fhirbase/fhirbase:latest
 
 ## Usage Statistics
 
@@ -32,5 +36,4 @@ Server FHIR
 
 
 ## License
-
 
