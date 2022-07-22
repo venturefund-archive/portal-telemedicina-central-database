@@ -22,11 +22,11 @@ Server FHIR running on a docker container with the the purpose to bring a PoC
 
 ## Requirements
 
-to run the FHIR server - Docker Container you must have Docker installed on you computer
+To run the FHIR server - Docker Container you must have **Docker** installed on you computer
 
 ## Getting Started
 
-to run the application just run:  docker run --rm -p 3000:3000 fhirbase/fhirbase:latest
+to run the application just run:  **docker run --rm -p 3000:3000 fhirbase/fhirbase:latest**
 
 ## Usage Statistics
 
