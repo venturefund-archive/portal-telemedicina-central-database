@@ -26,7 +26,7 @@ To run the FHIR server - Docker Container you must have **Docker** installed on 
 
 ## Getting Started
 
-to run the application just run:  **docker run --rm -p 3000:3000 fhirbase/fhirbase:latest**
+to run the application just run:  **docker run --rm -p 3000:3000 fhirbase/fhirbase:latest** and go to **http://localhost:3000**
 
 ## Usage Statistics
 
