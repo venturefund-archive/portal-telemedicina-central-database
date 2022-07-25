@@ -15,3 +15,11 @@ To open the development IDE, press 'F1' then search for: 'Remote-Containers: Reb
 VSCode should reopen your IDE inside the dev container, which should make you ready to start developing! This development image is accompanied by a PostgreSQL database configured (see the file .devcontainer/docker-compose.yml). The database starts with a superuser with username and password 'admin' for you to use.
 
 Use the Run and Debug tab to launch the local Django microservice. Tests should be available in the Testing tab.
+
+## Troubleshooting
+
+### Tests and not showing in the Test Explorer UI.
+The following message appears in VS Code:
+>Cannot activate the 'Python Test Explorer for Visual Studio Code' extension because it depends on the 'Python' extension, which is not installed. Would you like to install the extension and reload the window?
+
+Hit the Install and Reload button below the message. The IDE will reopen and tests should now appear in the Test Explorer.
