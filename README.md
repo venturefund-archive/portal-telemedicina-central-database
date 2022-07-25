@@ -1,11 +1,16 @@
 # Central Database
 
-The central database is a smart, scalable and extensible data warehouse that unifies, cleans, enriches and turns data available. The present version includes the following modules:
+The central database is a smart, scalable and extensible data warehouse that unifies, cleans, enriches and turns data available.
 
-* Information related to *Vaccines*
-* The main *Measures* related to the health of the patient
-* General information about *Patients*
+## central_database
 
-In the *docs* folder it is possible to understand in details the modelling of these components.
+This is a Django microservice built with [django-cookiecutter](https://cookiecutter-django.readthedocs.io/en/latest/index.html).
+The parameters used to create this project can be found in [cookiecutter.json](cookiecutter.json).
 
-It uses Python 3.7 and Django 3.0.3
+Use the following commands to build and run a local development environment with Docker:
+
+```bash
+cd central_database
+sudo docker-compose -f local.yml build
+sudo docker-compose -f local.yml up
+```

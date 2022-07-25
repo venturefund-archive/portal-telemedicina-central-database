@@ -1,0 +1,40 @@
+{
+    "project_name": "Central Database",
+    "project_slug": "central_database",
+    "description": "Central Database for child development monitoring.",
+    "author_name": "Guilherme Negrini, Nicholas Drabowski, Rodrigo Polverari",
+    "domain_name": "",
+    "email": "(g.negrini, nicholas, r.polverari) @portaltelemedicina.com.br",
+    "version": "0.0.1",
+    "open_source_license": [
+      "GPLv3"
+    ],
+    "timezone": "UTC",
+    "windows": "n",
+    "use_pycharm": "n",
+    "use_docker": "y",
+    "postgresql_version": [
+      "14"
+    ],
+    "cloud_provider": [
+      "None"
+    ],
+    "mail_service": [
+      "Mailgun"
+    ],
+    "use_async": "y",
+    "use_drf": "y",
+    "frontend_pipeline": [
+      "Gulp"
+    ],
+    "use_celery": "n",
+    "use_mailhog": "n",
+    "use_sentry": "y",
+    "use_whitenoise": "y",
+    "use_heroku": "n",
+    "ci_tool": [
+      "None"
+    ],
+    "keep_local_envs_in_vcs": "y",
+    "debug": "y"
+  }
