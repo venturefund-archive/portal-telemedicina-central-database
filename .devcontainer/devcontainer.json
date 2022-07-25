@@ -29,7 +29,8 @@
 				"python.testing.pytestEnabled": true,
 				"python.testing.pytestPath": "/usr/local/py-utils/bin/pytest",
 				"python.testing.pytestArgs": ["--rootdir=/workspace/central_database"],
-				"python.testing.cwd": "/workspace/central_database"
+				"python.testing.cwd": "/workspace/central_database",
+				"pythonTestExplorer.testFramework": "pytest"
 			},
 
 			// Add the IDs of extensions you want installed when the container is created.
@@ -45,7 +46,8 @@
 				"2gua.rainbow-brackets",
 				"vscode-icons-team.vscode-icons",
 				"redhat.vscode-yaml",
-				"alefragnani.Bookmarks"
+				"alefragnani.Bookmarks",
+				"littlefoxteam.vscode-python-test-adapter"
 			]
 		}
 	},
