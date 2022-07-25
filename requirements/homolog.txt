@@ -1,4 +1,0 @@
-# Production dependencies
--r prod.txt
-
-# Homolog dependencies (if necessary)
