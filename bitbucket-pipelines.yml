@@ -1,0 +1,19 @@
+image: python:3.9
+pipelines:
+  pull-requests:
+    '**':
+      - step:
+          name: Linter (using Flake8)
+          script:
+            - pip install flake8
+            - pip install flake8-todo
+            - pip install flake8-django
+            - flake8
+      - step:
+          name: Automated tests and coverage (using pytest)
+          services:
+            - docker
+          script:
+            - docker-compose -f .devcontainer/docker-compose.yml up
+            - docker exec -it devcontainer_app_1 pip install -r /workspace/central_database/requirements/local.txt
+            - docker exec -it devcontainer_app_1 pytest --cov --cov-fail-under=80 /workspace/central_database/
