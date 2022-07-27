@@ -5,6 +5,16 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Linting: flake8",
+            "type": "python",
+            "request": "launch",
+            "module": "flake8",
+            "args": [
+                "--config=${workspaceFolder}/central_database/setup.cfg"
+            ],
+            "justMyCode": true
+        },
+        {
             "name": "Python: Django",
             "type": "python",
             "request": "launch",
