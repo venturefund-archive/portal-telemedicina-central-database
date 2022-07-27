@@ -1,0 +1,16 @@
+{
+    "python.pythonPath": ".env/bin/python",
+    "python.linting.pylintEnabled": false,
+    "python.linting.pycodestyleEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": true,
+    "python.linting.mypyEnabled": true,
+    "editor.rulers": [
+        119
+    ],
+    "python.testing.pytestArgs": [
+        "central_database"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}
