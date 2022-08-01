@@ -263,7 +263,7 @@ then web server will listen on all available network interfaces.`,
 			Flags: []cli.Flag{
 				cli.UintFlag{
 					Name:  "webport",
-					Value: 3000,
+					Value: 3005,
 					Usage: "Port to start webserver on",
 				},
 				cli.StringFlag{

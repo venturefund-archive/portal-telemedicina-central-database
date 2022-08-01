@@ -2,7 +2,7 @@ FROM postgres:10.5
 WORKDIR /fhirbase
 
 COPY demo/bundle.ndjson.gzip .
-COPY bin/fhirbase-linux-amd64 /usr/bin/fhirbase
+COPY fhirbase-linux-amd64 /usr/bin/fhirbase
 
 RUN chmod +x /usr/bin/fhirbase
 
@@ -20,7 +20,7 @@ RUN PGDATA=/pgdata /docker-entrypoint.sh postgres  & \
     fhirbase -d fhirbase load --mode=insert ./bundle.ndjson.gzip; \
     pg_ctl -D /pgdata stop
 
-EXPOSE 3000
+EXPOSE 3005
 
 CMD pg_ctl -D /pgdata start && until psql -U postgres -c '\q'; do \
         >&2 echo "Postgres is starting up..."; \
