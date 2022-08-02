@@ -1,18 +1,19 @@
 version: '3.8'
 
+volumes:
+  central_database_local_postgres_data: {}
+  central_database_local_postgres_data_backups: {}
+
 services:
   app:
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
       args:
-        # Update 'VARIANT' to pick a version of Python: 3, 3.10, 3.9, 3.8, 3.7, 3.6
-        # Append -bullseye or -buster to pin to an OS version.
-        # Use -bullseye variants on local arm64/Apple Silicon.
         VARIANT: 3.9-bullseye
-        # Optional Node.js version to install
         NODE_VERSION: "none"
-
+    depends_on:
+      - postgres
     volumes:
       - ..:/workspace:cached
 
@@ -20,26 +21,70 @@ services:
     command: sleep infinity
 
     # Runs app on the same network as the database container, allows "forwardPorts" in devcontainer.json function.
-    network_mode: service:db
+    network_mode: service:postgres
     # Uncomment the next line to use a non-root user for all processes.
     # user: vscode
+    env_file:
+      - ../central_database/.envs/.local/.postgres
 
     # Use "forwardPorts" in **devcontainer.json** to forward an app port locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
 
-    environment:
-      - DATABASE_URL=postgres://postgres:postgres@127.0.0.1:5432/postgres
-      - USE_DOCKER=no
-      - DJANGO_SUPERUSER_USERNAME=admin
-      - DJANGO_SUPERUSER_PASSWORD=admin
-      - DJANGO_SUPERUSER_EMAIL=admin@admin.com
+  django:
+    build:
+      context: ../central_database
+      dockerfile: ./compose/local/django/Dockerfile
+    image: central_database_local_django
+    container_name: central_database_local_django
+    platform: linux/x86_64
+    depends_on:
+      - postgres
+    volumes:
+      - ../central_database:/app:z
+    env_file:
+      - ../central_database/.envs/.local/.django
+      - ../central_database/.envs/.local/.postgres
+    ports:
+      - "8000:8000"
+    command: /start
 
-  db:
-    image: postgres:latest
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_DB: postgres
-      POSTGRES_PASSWORD: postgres
+  postgres:
+    build:
+      context: ../central_database
+      dockerfile: ./compose/production/postgres/Dockerfile
+    image: central_database_production_postgres
+    container_name: central_database_local_postgres
+    volumes:
+      - central_database_local_postgres_data:/var/lib/postgresql/data:Z
+      - central_database_local_postgres_data_backups:/backups:z
+    env_file:
+      - ../central_database/.envs/.local/.postgres
+
+  docs:
+    image: central_database_local_docs
+    container_name: central_database_local_docs
+    platform: linux/x86_64
+    build:
+      context: ../central_database
+      dockerfile: ./compose/local/docs/Dockerfile
+    env_file:
+      - ../central_database/.envs/.local/.django
+    volumes:
+      - ../central_database/docs:/docs:z
+      - ../central_database/config:/app/config:z
+      - ../central_database/central_database:/app/central_database:z
+    ports:
+      - "9000:9000"
+    command: /start-docs
+
+  fhir-server:
+    build:
+      context: ../fhir_server
+      dockerfile: ./Dockerfile
+    image: fhir_server
+    container_name: fhir_server
+    ports:
+      - 3005:3000
+
     # Add "forwardPorts": ["5432"] to **devcontainer.json** to forward PostgreSQL locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)

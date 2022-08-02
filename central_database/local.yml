@@ -69,3 +69,12 @@ services:
       - "3000:3000"
       # Expose browsersync UI: https://www.browsersync.io/docs/options/#option-ui
       - "3001:3001"
+
+  fhir-server:
+    build:
+      context: ../fhir_server
+      dockerfile: ./Dockerfile
+    image: fhir_server
+    container_name: fhir_server
+    ports:
+      - 3005:3000
