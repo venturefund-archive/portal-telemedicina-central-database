@@ -12,6 +12,7 @@
 
 import os
 import sys
+
 import django
 
 if os.getenv("READTHEDOCS", default=False) == "True":
@@ -27,7 +28,8 @@ django.setup()
 # -- Project information -----------------------------------------------------
 
 project = "Central Database"
-copyright = """2022, Guilherme Negrini, Nicholas Drabowski, Rodrigo Polverari"""
+copyright = """2022, Guilherme Negrini,
+Nicholas Drabowski, Rodrigo Polverari"""
 author = "Guilherme Negrini, Nicholas Drabowski, Rodrigo Polverari"
 
 
