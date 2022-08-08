@@ -1,0 +1,3 @@
+# MDM is a EMPI-like module. For more information refer to:
+# https://hapifhir.io/hapi-fhir/docs/server_jpa_mdm/mdm.html
+hapi.fhir.mdm_enabled=true

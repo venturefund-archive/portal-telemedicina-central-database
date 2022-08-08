@@ -70,11 +70,10 @@ services:
       # Expose browsersync UI: https://www.browsersync.io/docs/options/#option-ui
       - "3001:3001"
 
-  fhir-server:
-    build:
-      context: ../fhir_server
-      dockerfile: ./Dockerfile
-    image: fhir_server
-    container_name: fhir_server
+  hapifhir:
+    image: hapiproject/hapi:v6.0.1
+    container_name: hapi-fhir-jpaserver-start
+    env_file:
+      - ../hapifhir/.envs/.local/.hapifhir
     ports:
-      - 3005:3000
+      - "8080:8080"
