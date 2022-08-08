@@ -21,7 +21,7 @@ To set up a developer environment and start contributing, please check our [cont
 
 ## Documentation
 
-A comprehensive documentation is available at <LINK_TO_DOCS_WEBSITE>.
+Documentation is currently generated in the [local development environment](CONTRIBUTING.md#how-to-create-a-development-environment).
 
 ## Contributing
 
@@ -39,7 +39,7 @@ List of any open source software used (including tools and frameworks).
  - [Docker](https://www.docker.com/)
  - [cookiecutter-django](https://github.com/cookiecutter/cookiecutter-django)
  - [Django](https://www.djangoproject.com/)
- - [fhirbase](https://www.health-samurai.io/fhirbase)
+ - [HAPI FHIR](https://hapifhir.io/)
 
 ## License
 
