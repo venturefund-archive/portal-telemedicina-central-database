@@ -3,6 +3,7 @@ version: '3.8'
 volumes:
   central_database_local_postgres_data: {}
   central_database_local_postgres_data_backups: {}
+  hapifhir_local_postgres_data: {}
 
 services:
   app:
@@ -80,10 +81,23 @@ services:
   hapifhir:
     image: hapiproject/hapi:v6.0.1
     container_name: hapi-fhir-jpaserver-start
+    depends_on:
+      - hapifhir-postgres
     env_file:
       - ../hapifhir/.envs/.local/.hapifhir
     ports:
       - "8080:8080"
+
+  hapifhir-postgres:
+    image: postgres:14
+    restart: always
+    volumes:
+      - hapifhir_local_postgres_data:/var/lib/postgresql/data:Z
+    expose:
+    - "5434"
+    env_file:
+      - ../hapifhir/.envs/.local/.postgres
+    command: -p 5434
 
     # Add "forwardPorts": ["5432"] to **devcontainer.json** to forward PostgreSQL locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
