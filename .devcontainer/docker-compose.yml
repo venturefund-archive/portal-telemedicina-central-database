@@ -32,8 +32,8 @@ services:
 
   django:
     build:
-      context: ../central_database
-      dockerfile: ./compose/local/django/Dockerfile
+      context: ..
+      dockerfile: ./central_database/compose/local/django/Dockerfile
     image: central_database_local_django
     container_name: central_database_local_django
     platform: linux/x86_64
@@ -65,8 +65,8 @@ services:
     container_name: central_database_local_docs
     platform: linux/x86_64
     build:
-      context: ../central_database
-      dockerfile: ./compose/local/docs/Dockerfile
+      context: ..
+      dockerfile: ./central_database/compose/local/docs/Dockerfile
     env_file:
       - ../central_database/.envs/.local/.django
     volumes:
