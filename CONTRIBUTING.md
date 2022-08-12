@@ -36,7 +36,7 @@ Rebuild and Reopen in Container should create:
 
 - A Django microservice on [localhost:8000](http://localhost:8000/)
 
-- A fhirbase basic Web UI for querying database on [localhost:3005](http://localhost:3005/)
+- A HL7 FHIR API on [localhost:8080](http://localhost:8080/)
 
 - Documentation on [localhost:9000](http://localhost:9000/)
 

@@ -12,6 +12,7 @@ Welcome to Central Database's documentation!
 
    howto
    users
+   hapifhir
 
 
 
