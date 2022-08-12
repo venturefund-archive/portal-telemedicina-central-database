@@ -32,7 +32,7 @@ RUN pip install poetry==${POETRY_VERSION}
 
 COPY pyproject.toml poetry.lock ./
 RUN poetry config virtualenvs.create false && \
-    poetry install --no-interaction
+    poetry install --no-interaction --no-root
 
 COPY ./central_database/compose/local/docs/start /start-docs
 RUN sed -i 's/\r$//g' /start-docs
