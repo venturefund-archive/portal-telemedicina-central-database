@@ -12,5 +12,12 @@
         "central_database"
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "json.schemas": [
+        {
+            // Apply this schema to any file ending with .fhir.json
+            "fileMatch": ["*.fhir.json"],
+            "url": "./fhir.schema.json"
+        }
+    ]
 }
