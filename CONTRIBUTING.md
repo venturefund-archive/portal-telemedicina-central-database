@@ -40,6 +40,16 @@ Rebuild and Reopen in Container should create:
 
 - Documentation on [localhost:9000](http://localhost:9000/)
 
+### Load FHIR dummy data
+
+Synthetic data of 1015 children (0 - 15 years-old) was generated with the [Synthea](https://github.com/synthetichealth/synthea) patient generator. To load the data using the FHIR API, run the `postSynthea.py` script in a terminal **outside the devcontainer environment**:
+
+```bash
+cd data/dummy/synthea
+unzip fhir.zip
+python postSynthea.py
+```
+
 ### Troubleshooting
 
 #### Tests are not showing in the Test Explorer UI.
