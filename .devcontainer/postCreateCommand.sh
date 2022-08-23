@@ -1,6 +1,8 @@
 # Install local dependencies
 pip install --upgrade pip
-pip install -r central_database/requirements/local.txt
+pip install poetry==1.1.14
+poetry config virtualenvs.create false
+poetry install
 
 # Install pre-commit hooks: https://pre-commit.com/. Amongst them is the auto-update of dependencies.
 pre-commit install -c central_database/.pre-commit-config.yaml
