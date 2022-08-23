@@ -50,6 +50,23 @@ unzip fhir.zip
 python postSynthea.py
 ```
 
+### Managing dependencies
+
+This project uses [Poetry](https://python-poetry.org/) for dependency management.
+Poetry offers a lockfile to ensure repeatable installs.
+
+To `add` a dependency, use:
+
+```bash
+poetry add <package>
+```
+
+Use the `--dev` option to add a package as a development dependency only.
+
+The `add` command adds required packages to the pyproject.toml, updates poetry.lock and installs them.
+
+Please consult [Poetry documentation](https://python-poetry.org/docs/) for more information.
+
 ### Troubleshooting
 
 #### Tests are not showing in the Test Explorer UI.
