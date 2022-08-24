@@ -10,8 +10,7 @@ Welcome to Central Database's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-   howto
-   users
+   quality_assurance
    hapifhir
 
 
