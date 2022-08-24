@@ -40,15 +40,17 @@ Rebuild and Reopen in Container should create:
 
 - Documentation on [localhost:9000](http://localhost:9000/)
 
-### Load FHIR dummy data
+### Load FHIR synthetic data
 
-Synthetic data of 1015 children (0 - 15 years-old) was generated with the [Synthea](https://github.com/synthetichealth/synthea) patient generator. To load the data using the FHIR API, run the `postSynthea.py` script in a terminal **outside the devcontainer environment**:
+[Synthetic data](data/synthetic/synthea/) of 1015 children (0 - 15 years-old) was generated with the [Synthea](https://github.com/synthetichealth/synthea) patient generator. To load the data using the FHIR API, run the `postSynthea.py` script in a terminal **outside the devcontainer environment**:
 
 ```bash
-cd data/dummy/synthea
+cd data/synthetic/synthea
 unzip fhir.zip
 python postSynthea.py
 ```
+
+A [mock Bundle](data/synthetic/indicators_proposal/John_Doe_cfsb1660843138275.fhir.json) was also generated to illustrate the ideal structure of FHIR resources for calculating indicators. This Bundle can be loaded using the [HAPI FHIR Server interface](http://localhost:8080/) > Server Actions > Transaction. Alternatively, a Bundle can also be loaded by doing a POST to the [server base](http://localhost:8080/fhir).
 
 ### Managing dependencies
 

@@ -253,7 +253,19 @@
           "code": "IMP",
           "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
           "display": "inpatient encounter"
-        }
+        },
+        "type": [
+					{
+						"coding": [
+							{
+								"system": "http://snomed.info/sct",
+								"code": "185347001",
+								"display": "Encounter for problem (procedure)"
+							}
+						],
+						"text": "Encounter for problem (procedure)"
+					}
+				]
       },
       "request": {
         "method": "POST",
@@ -271,7 +283,19 @@
           "code": "AMB",
           "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
           "display": "ambulatory"
-        }
+        },
+        "type": [
+					{
+						"coding": [
+							{
+								"system": "http://snomed.info/sct",
+								"code": "185345009",
+								"display": "Encounter for symptom"
+							}
+						],
+						"text": "Encounter for symptom"
+					}
+				]
       },
       "request": {
         "method": "POST",
