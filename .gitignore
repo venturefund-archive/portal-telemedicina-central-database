@@ -143,4 +143,4 @@ central_data_provider/importers/pickles/*
 c_adivisor
 .data
 open.sh
-data/dummy/synthea/fhir
+data/synthetic/synthea/fhir/
