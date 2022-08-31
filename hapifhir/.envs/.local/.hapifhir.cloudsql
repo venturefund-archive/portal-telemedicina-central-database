@@ -1,0 +1,13 @@
+# For all the configuration options for HAPI FHIR JPA, please see:
+# https://github.com/hapifhir/hapi-fhir-jpaserver-starter/blob/master/src/main/resources/application.yaml
+
+# MDM is a EMPI-like module. For more information refer to:
+# https://hapifhir.io/hapi-fhir/docs/server_jpa_mdm/mdm.html
+hapi.fhir.mdm_enabled=true
+
+# POSTGRESQL configuration
+spring.datasource.url=jdbc:postgresql://35.192.0.148:5432/hapi
+spring.datasource.username=postgres
+spring.datasource.password=admin
+spring.datasource.driverClassName=org.postgresql.Driver
+spring.jpa.properties.hibernate.dialect=ca.uhn.fhir.jpa.model.dialect.HapiFhirPostgres94Dialect
