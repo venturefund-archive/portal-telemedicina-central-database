@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+
+python ./central_database/manage.py migrate
+
+python ./central_database/manage.py collectstatic --noinput
+
+cd central_database
+gunicorn config.asgi --config ./config/gunicorn.conf.py
