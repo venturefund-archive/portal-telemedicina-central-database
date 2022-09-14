@@ -1,16 +1,39 @@
-# Central Database
+# SMART CHILD DEVELOPMENT ANALYZER
 
-The central database is a smart, scalable and extensible data warehouse that unifies, cleans, enriches and turns data available.
+## About
 
-## central_database
+Monitoring and ensuring perfect child development is a very difficult task that requires careful management of limited resources, close attention to each case by health professionals, prompt action on their part, and vigilant family and educational institutions. Timing is everything.
 
-This is a Django microservice built with [django-cookiecutter](https://cookiecutter-django.readthedocs.io/en/latest/index.html).
-The parameters used to create this project can be found in [cookiecutter.json](cookiecutter.json).
+Our project aims to integrate data from patients up to the age of 15 to produce insights/alerts for educators, families, and public managers, assisting society in quickly identifying and avoiding issues and managing resources.
 
-Use the following commands to build and run a local development environment with Docker:
+## Getting started
 
-```bash
-cd central_database
-sudo docker-compose -f local.yml build
-sudo docker-compose -f local.yml up
-```
+### Developers
+
+To set up a developer environment and start contributing, please check our [contribution guide](CONTRIBUTING.md#how-to-create-a-development-environment).
+
+## Documentation
+
+Documentation is currently generated in the [local development environment](CONTRIBUTING.md#how-to-create-a-development-environment).
+
+## Contributing
+
+This is an open source project and your contribution is very welcome! Please read our [contribution guide](CONTRIBUTING.md) to know more on how you can contribute.
+
+Please also mind our [code of conduct](CODE_OF_CONDUCT.md) before interacting and contributing with our community.
+
+## Built with
+
+<!--
+List of any open source software used (including tools and frameworks).
+-->
+
+ - [VS Code](https://code.visualstudio.com/)
+ - [Docker](https://www.docker.com/)
+ - [cookiecutter-django](https://github.com/cookiecutter/cookiecutter-django)
+ - [Django](https://www.djangoproject.com/)
+ - [HAPI FHIR](https://hapifhir.io/)
+
+## License
+
+This project is licensed under [GNU General Public License v3.0](LICENSE).
