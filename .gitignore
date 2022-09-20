@@ -144,3 +144,4 @@ c_adivisor
 .data
 open.sh
 data/synthetic/synthea/fhir/
+!deleted_immunizations.log
