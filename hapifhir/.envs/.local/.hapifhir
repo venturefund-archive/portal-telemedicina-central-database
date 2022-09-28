@@ -3,7 +3,7 @@
 
 # MDM is a EMPI-like module. For more information refer to:
 # https://hapifhir.io/hapi-fhir/docs/server_jpa_mdm/mdm.html
-hapi.fhir.mdm_enabled=true
+hapi.fhir.mdm_enabled=false
 
 # POSTGRESQL configuration
 spring.datasource.url=jdbc:postgresql://hapifhir-postgres:5434/hapi
