@@ -79,8 +79,8 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "central_database.users",
-    "central_database.healthcheck"
-    # Your stuff: custom apps go here
+    "central_database.healthcheck",
+    "central_database.patients",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

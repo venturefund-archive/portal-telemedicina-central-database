@@ -23,6 +23,7 @@ urlpatterns = [
     path("users/", include("central_database.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
     path("health/", include("central_database.healthcheck.urls")),
+    path("patients/", include("central_database.patients.urls")),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
     # Static file serving when using Gunicorn + Uvicorn
