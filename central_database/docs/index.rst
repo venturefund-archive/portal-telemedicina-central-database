@@ -13,6 +13,7 @@ Welcome to Central Database's documentation!
    quality_assurance
    hapifhir
    indicators
+   vaccines
 
 
 
