@@ -80,3 +80,9 @@ pytest-django = "4.5.2"  # https://github.com/pytest-dev/pytest-django
 [build-system]
 requires = ["poetry==1.1.14"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+plugins = ["mypy_django_plugin.main"]
+
+[tool.django-stubs]
+django_settings_module = "central_database.config.settings"
