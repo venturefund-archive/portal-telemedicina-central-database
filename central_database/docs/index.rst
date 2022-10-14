@@ -14,6 +14,7 @@ Welcome to Central Database's documentation!
    hapifhir
    indicators
    vaccines
+   ERD
 
 
 
