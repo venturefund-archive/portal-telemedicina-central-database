@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from central_database.base_models import CDModel
@@ -45,3 +46,80 @@ class Vaccine(CDModel, models.Model):
 
     def __str__(self):
         return f"{self.system}: {self.code} - {self.display}"
+
+
+class VaccineDose(CDModel, models.Model):
+    """
+    This class is used to represent the Vaccine Doses recommended
+    for certain ages.
+    """
+
+    vaccine = models.ForeignKey(
+        Vaccine, on_delete=models.CASCADE, related_name="vaccines"
+    )
+    minimum_recommended_age = models.PositiveIntegerField(
+        help_text="The minimum age, in months, if the administration can be performed within a range. If there is no range, leave it blank and use only the maximum recommended age.",  # noqa: E501
+        blank=True,
+        null=True,
+        default=None,
+    )
+    maximum_recommended_age = models.PositiveIntegerField(
+        help_text="The maximum age, in months, if the administration can be performed within a range. If there is no range, this is the recommended age."  # noqa: E501
+    )
+    dose_order = models.PositiveSmallIntegerField(
+        help_text="The order of this dose in the vaccination schedule."
+    )
+    booster = models.BooleanField(
+        help_text="Check if this is considered a booster shot in the vaccination schedule."  # noqa: E501
+    )
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["vaccine"]),
+            models.Index(fields=["maximum_recommended_age"]),
+        ]
+
+        constraints = [
+            models.CheckConstraint(
+                check=models.Q(
+                    maximum_recommended_age__gt=models.F(
+                        "minimum_recommended_age"
+                    )  # noqa: E501
+                ),
+                name="age_max_greater_age_min",
+            ),
+            models.UniqueConstraint(
+                fields=["vaccine", "dose_order"],
+                name="unique_vaccine_dose_order",  # noqa: E501
+            ),
+        ]
+
+    def save(self, *args, **kwargs):
+        prior_dose = VaccineDose.objects.filter(
+            vaccine=self.vaccine, dose_order__lt=self.dose_order
+        ).first()
+        next_dose = VaccineDose.objects.filter(
+            vaccine=self.vaccine, dose_order__gt=self.dose_order
+        ).first()
+
+        if prior_dose:
+            if (
+                self.maximum_recommended_age
+                < prior_dose.maximum_recommended_age  # noqa: E501
+            ):  # noqa: E501
+                raise ValidationError(
+                    "Max recommended age for a dose must be greater than the max recommended age from a prior dose."  # noqa: E501
+                )
+        if next_dose:
+            if (
+                self.maximum_recommended_age
+                > next_dose.maximum_recommended_age  # noqa: E501
+            ):  # noqa: E501
+                raise ValidationError(
+                    "Max recommended age for a dose must be less than the max recommended age from a subsequent dose."  # noqa: E501
+                )
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Vaccine: {self.vaccine} - Dose: {self.dose_order}"
