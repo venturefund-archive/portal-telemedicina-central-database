@@ -27,11 +27,11 @@ class Vaccine(CDModel, models.Model):
         help_text="Vaccine code used defined on a specific system."
     )
     display = models.CharField(
-        max_length=100,
+        max_length=200,
         help_text="Small text description from display field on FHIR.",  # noqa: E501
     )
     description = models.CharField(
-        max_length=100, help_text="Full text description of the vaccine."
+        max_length=200, help_text="Full text description of the vaccine."
     )
 
     class Meta:

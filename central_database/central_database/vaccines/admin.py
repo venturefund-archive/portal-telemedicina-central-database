@@ -5,8 +5,9 @@ from .models import Vaccine, VaccineAlert, VaccineDose
 
 class VaccineAdmin(admin.ModelAdmin):
     list_display = ("system", "code", "display", "description")
-    list_filter = ("system", "code", "display", "description")
-    search_fields = ["display", "description"]
+    list_filter = ("system", "description")
+    search_fields = ["display", "description", "code"]
+    ordering = ["system", "code"]
 
 
 class VaccineDoseAdmin(admin.ModelAdmin):
