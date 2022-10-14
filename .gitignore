@@ -146,3 +146,4 @@ open.sh
 data/synthetic/synthea/fhir/
 !deleted_immunizations.log
 poc/
+data/vaccine_codes
