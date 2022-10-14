@@ -1,7 +1,9 @@
+from datetime import datetime
+
 from django.core.exceptions import ValidationError
 from django.db import models
 
-from central_database.base_models import CDModel
+from central_database.base_models import Alert, CDModel
 
 
 class Vaccine(CDModel, models.Model):
@@ -123,3 +125,45 @@ class VaccineDose(CDModel, models.Model):
 
     def __str__(self):
         return f"Vaccine: {self.vaccine} - Dose: {self.dose_order}"
+
+
+class VaccineAlert(Alert, models.Model):
+    """
+    This class is used to represent a Vaccine alert.
+    """
+
+    DELAY = "Delayed"
+    VACCINATION_ISSUES = [
+        (DELAY, "Dose is delayed"),
+    ]
+
+    vaccine_dose = models.ForeignKey(
+        VaccineDose, on_delete=models.CASCADE, related_name="vaccine_doses"
+    )
+    patient_id = models.PositiveIntegerField(help_text="Patient ID from FHIR.")
+    issue = models.CharField(
+        max_length=50,
+        choices=VACCINATION_ISSUES,
+        help_text="Vaccination issue communicated by this alert.",
+    )
+    created_at = models.DateTimeField(default=datetime.now, blank=True)
+    active = models.BooleanField(
+        default=True, help_text="Check if this alert is active."
+    )
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["patient_id"]),
+            models.Index(fields=["issue"]),
+            models.Index(fields=["created_at"]),
+        ]
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=["vaccine_dose", "patient_id", "issue"],
+                name="unique_dose_alert_type_per_patient",
+            )
+        ]
+
+    def __str__(self):
+        return f"Vaccine dose {self.vaccine_dose} for patient {self.patient_id} is {self.issue}."  # noqa: E501
