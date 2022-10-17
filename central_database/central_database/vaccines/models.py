@@ -112,7 +112,7 @@ class VaccineDose(CDModel, models.Model):
             ),
         ]
 
-    def save(self, *args, **kwargs):
+    def clean(self, *args, **kwargs):
         prior_dose = VaccineDose.objects.filter(
             vaccine=self.vaccine,
             dose_order__lt=self.dose_order,
@@ -141,7 +141,7 @@ class VaccineDose(CDModel, models.Model):
                     "Max recommended age for a dose must be less than the max recommended age from a subsequent dose."  # noqa: E501
                 )
 
-        super().save(*args, **kwargs)
+        super().clean(*args, **kwargs)
 
     def __str__(self):
         return f"Vaccine: {self.vaccine} - Dose: {self.dose_order}"
