@@ -7,7 +7,8 @@
             "minimum_recommended_age": null,
             "maximum_recommended_age": 0,
             "dose_order": 1,
-            "booster": false
+            "booster": false,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -18,7 +19,8 @@
             "minimum_recommended_age": null,
             "maximum_recommended_age": 0,
             "dose_order": 1,
-            "booster": false
+            "booster": false,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -29,7 +31,8 @@
             "minimum_recommended_age": null,
             "maximum_recommended_age": 2,
             "dose_order": 1,
-            "booster": false
+            "booster": false,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -40,7 +43,8 @@
             "minimum_recommended_age": null,
             "maximum_recommended_age": 2,
             "dose_order": 1,
-            "booster": false
+            "booster": false,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -51,7 +55,8 @@
             "minimum_recommended_age": null,
             "maximum_recommended_age": 2,
             "dose_order": 1,
-            "booster": false
+            "booster": false,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -62,7 +67,8 @@
             "minimum_recommended_age": null,
             "maximum_recommended_age": 2,
             "dose_order": 1,
-            "booster": false
+            "booster": false,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -73,7 +79,8 @@
             "minimum_recommended_age": null,
             "maximum_recommended_age": 3,
             "dose_order": 1,
-            "booster": false
+            "booster": false,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -84,7 +91,8 @@
             "minimum_recommended_age": null,
             "maximum_recommended_age": 4,
             "dose_order": 2,
-            "booster": false
+            "booster": false,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -95,7 +103,8 @@
             "minimum_recommended_age": null,
             "maximum_recommended_age": 4,
             "dose_order": 2,
-            "booster": false
+            "booster": false,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -106,7 +115,8 @@
             "minimum_recommended_age": null,
             "maximum_recommended_age": 4,
             "dose_order": 2,
-            "booster": false
+            "booster": false,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -117,7 +127,8 @@
             "minimum_recommended_age": null,
             "maximum_recommended_age": 4,
             "dose_order": 2,
-            "booster": false
+            "booster": false,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -128,7 +139,8 @@
             "minimum_recommended_age": null,
             "maximum_recommended_age": 5,
             "dose_order": 2,
-            "booster": false
+            "booster": false,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -139,7 +151,8 @@
             "minimum_recommended_age": null,
             "maximum_recommended_age": 6,
             "dose_order": 3,
-            "booster": false
+            "booster": false,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -150,18 +163,8 @@
             "minimum_recommended_age": null,
             "maximum_recommended_age": 6,
             "dose_order": 3,
-            "booster": false
-        }
-    },
-    {
-        "model": "vaccines.vaccinedose",
-        "pk": 15,
-        "fields": {
-            "vaccine": 25,
-            "minimum_recommended_age": null,
-            "maximum_recommended_age": 6,
-            "dose_order": 3,
-            "booster": false
+            "booster": false,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -172,7 +175,8 @@
             "minimum_recommended_age": null,
             "maximum_recommended_age": 9,
             "dose_order": 1,
-            "booster": false
+            "booster": false,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -183,7 +187,8 @@
             "minimum_recommended_age": null,
             "maximum_recommended_age": 12,
             "dose_order": 1,
-            "booster": false
+            "booster": false,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -193,19 +198,21 @@
             "vaccine": 25,
             "minimum_recommended_age": null,
             "maximum_recommended_age": 12,
-            "dose_order": 4,
-            "booster": true
+            "dose_order": 3,
+            "booster": true,
+            "gender_recommendation": "B"
         }
     },
     {
         "model": "vaccines.vaccinedose",
         "pk": 19,
         "fields": {
-            "vaccine": 21,
+            "vaccine": 27,
             "minimum_recommended_age": null,
             "maximum_recommended_age": 15,
-            "dose_order": 4,
-            "booster": true
+            "dose_order": 1,
+            "booster": true,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -216,7 +223,8 @@
             "minimum_recommended_age": null,
             "maximum_recommended_age": 15,
             "dose_order": 1,
-            "booster": true
+            "booster": true,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -225,20 +233,22 @@
         "fields": {
             "vaccine": 40,
             "minimum_recommended_age": null,
-            "maximum_recommended_age": 15,
+            "maximum_recommended_age": 12,
             "dose_order": 3,
-            "booster": true
+            "booster": true,
+            "gender_recommendation": "B"
         }
     },
     {
         "model": "vaccines.vaccinedose",
         "pk": 22,
         "fields": {
-            "vaccine": 23,
+            "vaccine": 55,
             "minimum_recommended_age": null,
             "maximum_recommended_age": 15,
-            "dose_order": 2,
-            "booster": false
+            "dose_order": 1,
+            "booster": false,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -249,7 +259,8 @@
             "minimum_recommended_age": null,
             "maximum_recommended_age": 48,
             "dose_order": 2,
-            "booster": true
+            "booster": true,
+            "gender_recommendation": "B"
         }
     },
     {
@@ -258,9 +269,106 @@
         "fields": {
             "vaccine": 13,
             "minimum_recommended_age": null,
-            "maximum_recommended_age": 120,
+            "maximum_recommended_age": 48,
             "dose_order": 2,
-            "booster": true
+            "booster": true,
+            "gender_recommendation": "B"
+        }
+    },
+    {
+        "model": "vaccines.vaccinedose",
+        "pk": 25,
+        "fields": {
+            "vaccine": 32,
+            "minimum_recommended_age": null,
+            "maximum_recommended_age": 6,
+            "dose_order": 1,
+            "booster": false,
+            "gender_recommendation": "B"
+        }
+    },
+    {
+        "model": "vaccines.vaccinedose",
+        "pk": 26,
+        "fields": {
+            "vaccine": 32,
+            "minimum_recommended_age": 6,
+            "maximum_recommended_age": 7,
+            "dose_order": 2,
+            "booster": false,
+            "gender_recommendation": "B"
+        }
+    },
+    {
+        "model": "vaccines.vaccinedose",
+        "pk": 27,
+        "fields": {
+            "vaccine": 54,
+            "minimum_recommended_age": null,
+            "maximum_recommended_age": 15,
+            "dose_order": 1,
+            "booster": false,
+            "gender_recommendation": "B"
+        }
+    },
+    {
+        "model": "vaccines.vaccinedose",
+        "pk": 28,
+        "fields": {
+            "vaccine": 27,
+            "minimum_recommended_age": null,
+            "maximum_recommended_age": 48,
+            "dose_order": 2,
+            "booster": true,
+            "gender_recommendation": "B"
+        }
+    },
+    {
+        "model": "vaccines.vaccinedose",
+        "pk": 29,
+        "fields": {
+            "vaccine": 33,
+            "minimum_recommended_age": null,
+            "maximum_recommended_age": 48,
+            "dose_order": 1,
+            "booster": false,
+            "gender_recommendation": "B"
+        }
+    },
+    {
+        "model": "vaccines.vaccinedose",
+        "pk": 30,
+        "fields": {
+            "vaccine": 66,
+            "minimum_recommended_age": 108,
+            "maximum_recommended_age": 168,
+            "dose_order": 1,
+            "booster": false,
+            "gender_recommendation": "F"
+        }
+    },
+    {
+        "model": "vaccines.vaccinedose",
+        "pk": 31,
+        "fields": {
+            "vaccine": 66,
+            "minimum_recommended_age": 108,
+            "maximum_recommended_age": 168,
+            "dose_order": 2,
+            "booster": false,
+            "gender_recommendation": "F"
+        }
+    },
+    {
+        "model": "vaccines.vaccinedose",
+        "pk": 32,
+        "fields": {
+            "vaccine": 20,
+            "minimum_recommended_age": null,
+            "maximum_recommended_age": 60,
+            "dose_order": 1,
+            "booster": false,
+            "gender_recommendation": "B"
         }
     }
 ]

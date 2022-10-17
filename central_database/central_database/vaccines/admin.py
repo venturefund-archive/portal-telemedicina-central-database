@@ -17,6 +17,7 @@ class VaccineDoseAdmin(admin.ModelAdmin):
         "maximum_recommended_age",
         "dose_order",
         "booster",
+        "gender_recommendation",
     )
     list_filter = (
         "vaccine",
@@ -24,6 +25,7 @@ class VaccineDoseAdmin(admin.ModelAdmin):
         "maximum_recommended_age",
         "dose_order",
         "booster",
+        "gender_recommendation",
     )
     ordering = ["maximum_recommended_age", "dose_order"]
 
