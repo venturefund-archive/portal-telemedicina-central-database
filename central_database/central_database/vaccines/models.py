@@ -56,6 +56,15 @@ class VaccineDose(CDModel, models.Model):
     for certain ages.
     """
 
+    MALE = "M"
+    FEMALE = "F"
+    BOTH = "B"
+    GENDER_RECOMMENDATION = [
+        (BOTH, "Both"),
+        (MALE, "Male"),
+        (FEMALE, "Female"),
+    ]  # noqa: E501
+
     vaccine = models.ForeignKey(
         Vaccine, on_delete=models.CASCADE, related_name="vaccines"
     )
@@ -75,6 +84,13 @@ class VaccineDose(CDModel, models.Model):
         help_text="Check if this is considered a booster shot in the vaccination schedule."  # noqa: E501
     )
 
+    gender_recommendation = models.CharField(
+        max_length=1,
+        choices=GENDER_RECOMMENDATION,
+        default="B",
+        help_text="Select if this dose is gender specific.",
+    )
+
     class Meta:
         indexes = [
             models.Index(fields=["vaccine"]),
@@ -91,17 +107,21 @@ class VaccineDose(CDModel, models.Model):
                 name="age_max_greater_age_min",
             ),
             models.UniqueConstraint(
-                fields=["vaccine", "dose_order"],
-                name="unique_vaccine_dose_order",  # noqa: E501
+                fields=["vaccine", "dose_order", "gender_recommendation"],
+                name="unique_vaccine_dose_order_gender_recommendation",  # noqa: E501
             ),
         ]
 
     def save(self, *args, **kwargs):
         prior_dose = VaccineDose.objects.filter(
-            vaccine=self.vaccine, dose_order__lt=self.dose_order
+            vaccine=self.vaccine,
+            dose_order__lt=self.dose_order,
+            gender_recommendation=self.gender_recommendation,
         ).first()
         next_dose = VaccineDose.objects.filter(
-            vaccine=self.vaccine, dose_order__gt=self.dose_order
+            vaccine=self.vaccine,
+            dose_order__gt=self.dose_order,
+            gender_recommendation=self.gender_recommendation,
         ).first()
 
         if prior_dose:
