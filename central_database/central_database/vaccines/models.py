@@ -16,7 +16,10 @@ class Vaccine(CDModel, models.Model):
     BRI = "BRI"
     SYSTEM_VALUE_SETS = [
         (CVX, "http://hl7.org/fhir/sid/cvx"),
-        (BRI, "http://www.saude.gov.br/fhir/r4/CodeSystem/BRImunobiologico"),
+        (
+            BRI,
+            "https://integracao.esusab.ufsc.br/ledi/documentacao/referencias/dicionario.html#imunobiologico",  # noqa: E501
+        ),
     ]
     system = models.CharField(
         max_length=3,

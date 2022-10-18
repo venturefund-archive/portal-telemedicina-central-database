@@ -5,8 +5,8 @@
         "fields": {
             "system": "BRI",
             "code": 1,
-            "display": "IGHT",
-            "description": "Imunoglobulina humana antitétano"
+            "display": "IGTH",
+            "description": "Imunoglobulina anti tetânica"
         }
     },
     {
@@ -16,7 +16,7 @@
             "system": "BRI",
             "code": 2,
             "display": "SAT",
-            "description": "Soro antitetânico"
+            "description": "Soro tetânico"
         }
     },
     {
@@ -26,7 +26,7 @@
             "system": "BRI",
             "code": 3,
             "display": "SARC",
-            "description": "Soro antiaracnídico"
+            "description": "Soro aracnídico / Escorpiônico"
         }
     },
     {
@@ -35,8 +35,8 @@
         "fields": {
             "system": "BRI",
             "code": 4,
-            "display": "SAESCOR",
-            "description": "Soro antiescorpiônico"
+            "display": "SESCOR",
+            "description": "Soro escorpiônico"
         }
     },
     {
@@ -46,7 +46,7 @@
             "system": "BRI",
             "code": 5,
             "display": "DT",
-            "description": "Vacina difteria e tétano infantil"
+            "description": "Dupla infantil"
         }
     },
     {
@@ -55,8 +55,8 @@
         "fields": {
             "system": "BRI",
             "code": 6,
-            "display": "SAELAP",
-            "description": "Soro antielapídico"
+            "display": "SELAP",
+            "description": "Soro elapídico"
         }
     },
     {
@@ -65,8 +65,8 @@
         "fields": {
             "system": "BRI",
             "code": 7,
-            "display": "SAR",
-            "description": "Soro antirrábico"
+            "display": "SARH",
+            "description": "Soro rábico humano"
         }
     },
     {
@@ -75,8 +75,8 @@
         "fields": {
             "system": "BRI",
             "code": 8,
-            "display": "SABOTR",
-            "description": "Soro antibotrópico (pentavalente)"
+            "display": "SBOTR",
+            "description": "Soro botrópico"
         }
     },
     {
@@ -85,8 +85,8 @@
         "fields": {
             "system": "BRI",
             "code": 9,
-            "display": "HepB",
-            "description": "Vacina hepatite B"
+            "display": "HB",
+            "description": "Hepatite B"
         }
     },
     {
@@ -96,7 +96,7 @@
             "system": "BRI",
             "code": 10,
             "display": "SAD",
-            "description": "Soro antidiftérico"
+            "description": "Soro diftérico"
         }
     },
     {
@@ -105,8 +105,8 @@
         "fields": {
             "system": "BRI",
             "code": 11,
-            "display": "SABOCR",
-            "description": "Soro antibotrópico (pentavalente) e anticrotálico"
+            "display": "SBOCR",
+            "description": "Soro botrópico/crotálico"
         }
     },
     {
@@ -115,8 +115,8 @@
         "fields": {
             "system": "BRI",
             "code": 12,
-            "display": "SABOLA",
-            "description": "Soro antibotrópico (pentavalente) e antilaquético"
+            "display": "SBOLAQ",
+            "description": "Soro botrópico/laquético"
         }
     },
     {
@@ -126,7 +126,7 @@
             "system": "BRI",
             "code": 13,
             "display": "Meningo AC",
-            "description": "Vacina meningocócica AC"
+            "description": "Meningocócica AC"
         }
     },
     {
@@ -135,8 +135,8 @@
         "fields": {
             "system": "BRI",
             "code": 14,
-            "display": "VFA",
-            "description": "Vacina febre amarela"
+            "display": "FA",
+            "description": "Febre amarela"
         }
     },
     {
@@ -146,7 +146,7 @@
             "system": "BRI",
             "code": 15,
             "display": "BCG",
-            "description": "Vacina BCG"
+            "description": "BCG"
         }
     },
     {
@@ -155,8 +155,8 @@
         "fields": {
             "system": "BRI",
             "code": 16,
-            "display": "SACROT",
-            "description": "Soro anticrotálico"
+            "display": "SCROT",
+            "description": "Soro crotálico"
         }
     },
     {
@@ -166,7 +166,7 @@
             "system": "BRI",
             "code": 17,
             "display": "Hib",
-            "description": "Vacina Hib"
+            "description": "Haemophilus tipo b"
         }
     },
     {
@@ -175,8 +175,8 @@
         "fields": {
             "system": "BRI",
             "code": 18,
-            "display": "VR",
-            "description": "Vacina raiva embrião de galinha"
+            "display": "Embrião",
+            "description": "Raiva em cultivo celular (Embrião)"
         }
     },
     {
@@ -185,8 +185,8 @@
         "fields": {
             "system": "BRI",
             "code": 19,
-            "display": "IGHV",
-            "description": "Imunoglobulina humana antivaricela"
+            "display": "IGVZ",
+            "description": "Imunoglobulina anti varicela zoster"
         }
     },
     {
@@ -195,8 +195,8 @@
         "fields": {
             "system": "BRI",
             "code": 20,
-            "display": "IGHHB",
-            "description": "Imunoglobulina humana anti-hepatite B"
+            "display": "IGHB",
+            "description": "Imunoglobulina anti hepatite B"
         }
     },
     {
@@ -205,8 +205,8 @@
         "fields": {
             "system": "BRI",
             "code": 21,
-            "display": "VPP23",
-            "description": "Vacina pneumo 23"
+            "display": "Pncc23V",
+            "description": "Pneumocócica 23V"
         }
     },
     {
@@ -216,7 +216,7 @@
             "system": "BRI",
             "code": 22,
             "display": "VIP",
-            "description": "Vacina polio injetável"
+            "description": "Poliomielite inativada"
         }
     },
     {
@@ -225,8 +225,8 @@
         "fields": {
             "system": "BRI",
             "code": 23,
-            "display": "IGHR",
-            "description": "Imunoglobulina humana antirrábica"
+            "display": "IGRH",
+            "description": "Imunoglobulina anti rábica"
         }
     },
     {
@@ -236,7 +236,7 @@
             "system": "BRI",
             "code": 24,
             "display": "SCR",
-            "description": "Vacina sarampo, caxumba, rubéola"
+            "description": "Tríplice viral"
         }
     },
     {
@@ -246,7 +246,7 @@
             "system": "BRI",
             "code": 25,
             "display": "dT",
-            "description": "Vacina difteria e tétano adulto"
+            "description": "Dupla adulto"
         }
     },
     {
@@ -255,8 +255,8 @@
         "fields": {
             "system": "BRI",
             "code": 26,
-            "display": "VPC10",
-            "description": "Vacina pneumo 10"
+            "display": "Pncc10V",
+            "description": "Pneumocócica 10V"
         }
     },
     {
@@ -264,9 +264,9 @@
         "pk": 26,
         "fields": {
             "system": "BRI",
-            "code": 27,
-            "display": "SLATRO",
-            "description": "Soro latrodectus"
+            "code": 28,
+            "display": "VOP",
+            "description": "Poliomielite oral (Bivalente)"
         }
     },
     {
@@ -274,9 +274,9 @@
         "pk": 27,
         "fields": {
             "system": "BRI",
-            "code": 28,
-            "display": "VOP",
-            "description": "Vacina polio oral"
+            "code": 29,
+            "display": "PENTAinativada",
+            "description": "DTPa / Hib / Polio Inativa"
         }
     },
     {
@@ -284,9 +284,9 @@
         "pk": 28,
         "fields": {
             "system": "BRI",
-            "code": 29,
-            "display": "PENTA acelular",
-            "description": "Vacina penta acelular (DTPa/VIP/Hib)"
+            "code": 30,
+            "display": "FTp",
+            "description": "Febre tifóide (polissacarídica)"
         }
     },
     {
@@ -294,9 +294,9 @@
         "pk": 29,
         "fields": {
             "system": "BRI",
-            "code": 30,
-            "display": "FTp",
-            "description": "Vacina febre tifóide"
+            "code": 31,
+            "display": "SLOXO",
+            "description": "Soro loxoscélico"
         }
     },
     {
@@ -304,9 +304,9 @@
         "pk": 30,
         "fields": {
             "system": "BRI",
-            "code": 31,
-            "display": "SALOXO",
-            "description": "Soro antiloxoscélico (trivalente)"
+            "code": 32,
+            "display": "SLONO",
+            "description": "Soro lonômico"
         }
     },
     {
@@ -314,9 +314,9 @@
         "pk": 31,
         "fields": {
             "system": "BRI",
-            "code": 32,
-            "display": "SALONO",
-            "description": "Soro antilonômico"
+            "code": 33,
+            "display": "FLU3V",
+            "description": "Influenza Trivalente"
         }
     },
     {
@@ -324,9 +324,9 @@
         "pk": 32,
         "fields": {
             "system": "BRI",
-            "code": 33,
-            "display": "INF3",
-            "description": "Vacina influenza trivalente"
+            "code": 34,
+            "display": "VARC",
+            "description": "Varicela(atenuada)"
         }
     },
     {
@@ -334,9 +334,9 @@
         "pk": 33,
         "fields": {
             "system": "BRI",
-            "code": 34,
-            "display": "VAR",
-            "description": "Vacina varicela"
+            "code": 35,
+            "display": "HA",
+            "description": "Hepatite A (CRIE)"
         }
     },
     {
@@ -344,9 +344,9 @@
         "pk": 34,
         "fields": {
             "system": "BRI",
-            "code": 35,
-            "display": "HA",
-            "description": "Vacina hepatite A"
+            "code": 36,
+            "display": "SR",
+            "description": "Dupla viral"
         }
     },
     {
@@ -354,9 +354,9 @@
         "pk": 35,
         "fields": {
             "system": "BRI",
-            "code": 36,
-            "display": "SR",
-            "description": "Vacina sarampo, rubéola"
+            "code": 37,
+            "display": "Vero",
+            "description": "Raiva em cultivo celular Vero"
         }
     },
     {
@@ -364,9 +364,9 @@
         "pk": 36,
         "fields": {
             "system": "BRI",
-            "code": 37,
-            "display": "Vero",
-            "description": "Vacina raiva em cultivo celular vero"
+            "code": 38,
+            "display": "SBOTULTRI",
+            "description": "Soro botulínico trivalente"
         }
     },
     {
@@ -374,9 +374,9 @@
         "pk": 37,
         "fields": {
             "system": "BRI",
-            "code": 38,
-            "display": "SBOTULTRI",
-            "description": "Soro antibotulínico (trivalente)"
+            "code": 39,
+            "display": "Tetra",
+            "description": "DTP / Hib"
         }
     },
     {
@@ -384,9 +384,9 @@
         "pk": 38,
         "fields": {
             "system": "BRI",
-            "code": 39,
-            "display": "Tetra",
-            "description": "Vacina DTP/Hib"
+            "code": 41,
+            "display": "Men Conj C",
+            "description": "Meningocócica conjugada C"
         }
     },
     {
@@ -394,9 +394,9 @@
         "pk": 39,
         "fields": {
             "system": "BRI",
-            "code": 40,
-            "display": "Pncc7V",
-            "description": "Vacina pneumocócica 7V"
+            "code": 42,
+            "display": "Penta",
+            "description": "DTP/HB/Hib"
         }
     },
     {
@@ -404,9 +404,9 @@
         "pk": 40,
         "fields": {
             "system": "BRI",
-            "code": 41,
-            "display": "MenC",
-            "description": "Vacina meningo C"
+            "code": 43,
+            "display": "HEXA",
+            "description": "Hexavalente"
         }
     },
     {
@@ -414,9 +414,9 @@
         "pk": 41,
         "fields": {
             "system": "BRI",
-            "code": 42,
-            "display": "PENTA",
-            "description": "Vacina penta (DTP/HepB/Hib)"
+            "code": 44,
+            "display": "H1N1",
+            "description": "Influenza H1N1"
         }
     },
     {
@@ -424,9 +424,9 @@
         "pk": 42,
         "fields": {
             "system": "BRI",
-            "code": 43,
-            "display": "HEXA",
-            "description": "Vacina hexa (DTPa/HepB/VIP/Hib)"
+            "code": 45,
+            "display": "VRH",
+            "description": "Vacina rotavírus humano"
         }
     },
     {
@@ -434,9 +434,9 @@
         "pk": 43,
         "fields": {
             "system": "BRI",
-            "code": 44,
-            "display": "H1N1",
-            "description": "Vacina Influenza H1N1"
+            "code": 46,
+            "display": "DTP",
+            "description": "Tríplice bacteriana"
         }
     },
     {
@@ -444,9 +444,9 @@
         "pk": 44,
         "fields": {
             "system": "BRI",
-            "code": 45,
-            "display": "ROTA",
-            "description": "Vacina rotavírus"
+            "code": 47,
+            "display": "DTPa",
+            "description": "Tríplice acelular infantil"
         }
     },
     {
@@ -454,9 +454,9 @@
         "pk": 45,
         "fields": {
             "system": "BRI",
-            "code": 46,
-            "display": "DTP",
-            "description": "Vacina DTP"
+            "code": 51,
+            "display": "Fta",
+            "description": "Febre tifóide (atenuada)"
         }
     },
     {
@@ -464,9 +464,9 @@
         "pk": 46,
         "fields": {
             "system": "BRI",
-            "code": 47,
-            "display": "DTPa",
-            "description": "Vacina DTPa infantil"
+            "code": 55,
+            "display": "HAped",
+            "description": "Hepatite A Pediátrica"
         }
     },
     {
@@ -474,9 +474,9 @@
         "pk": 47,
         "fields": {
             "system": "BRI",
-            "code": 48,
-            "display": "DILSRC",
-            "description": "Diluente para vacina sarampo, caxumba, rubéola"
+            "code": 56,
+            "display": "Tetra Viral",
+            "description": "Tetra Viral"
         }
     },
     {
@@ -484,9 +484,9 @@
         "pk": 48,
         "fields": {
             "system": "BRI",
-            "code": 49,
-            "display": "DILVFA",
-            "description": "Diluente para vacina febre amarela"
+            "code": 57,
+            "display": "dTpa adulto",
+            "description": "Tríplice bacteriana acelular (adulto)- dTpa"
         }
     },
     {
@@ -494,9 +494,9 @@
         "pk": 49,
         "fields": {
             "system": "BRI",
-            "code": 50,
-            "display": "DILHib",
-            "description": "Diluente para vacina haemophilus influenzae B"
+            "code": 58,
+            "display": "DTPaVIP",
+            "description": "Tríplice acelular / poliomelite inativada"
         }
     },
     {
@@ -504,9 +504,9 @@
         "pk": 50,
         "fields": {
             "system": "BRI",
-            "code": 51,
-            "display": "Fta",
-            "description": "Vacina febre tifóide (atenuada)"
+            "code": 59,
+            "display": "Pncc13V",
+            "description": "Pneumocócica 13V"
         }
     },
     {
@@ -514,9 +514,9 @@
         "pk": 51,
         "fields": {
             "system": "BRI",
-            "code": 52,
-            "display": "DilMengAC",
-            "description": "Diluente meningo AC"
+            "code": 60,
+            "display": "HPV",
+            "description": "HPV Bivalente"
         }
     },
     {
@@ -524,94 +524,14 @@
         "pk": 52,
         "fields": {
             "system": "BRI",
-            "code": 53,
-            "display": "DILSR",
-            "description": "Diluente para vacina sarampo, rubéola"
+            "code": 61,
+            "display": "TT",
+            "description": "Toxóide Tetânico"
         }
     },
     {
         "model": "vaccines.vaccine",
         "pk": 53,
-        "fields": {
-            "system": "BRI",
-            "code": 54,
-            "display": "DILVAR",
-            "description": "Diluente para vacina varicela"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 54,
-        "fields": {
-            "system": "BRI",
-            "code": 55,
-            "display": "HepAinf",
-            "description": "Vacina hepatite A infantil"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 55,
-        "fields": {
-            "system": "BRI",
-            "code": 56,
-            "display": "SCRV",
-            "description": "Vacina sarampo, caxumba, rubéola e varicela"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 56,
-        "fields": {
-            "system": "BRI",
-            "code": 57,
-            "display": "dTpa",
-            "description": "Vacina dTpa adulto"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 57,
-        "fields": {
-            "system": "BRI",
-            "code": 58,
-            "display": "TETRA acelular",
-            "description": "Vacina DTPa/VIP"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 58,
-        "fields": {
-            "system": "BRI",
-            "code": 59,
-            "display": "VPC13",
-            "description": "Vacina pneumo 13"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 59,
-        "fields": {
-            "system": "BRI",
-            "code": 60,
-            "display": "HPV2",
-            "description": "Vacina HPV bivalente"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 60,
-        "fields": {
-            "system": "BRI",
-            "code": 61,
-            "display": "TT",
-            "description": "Vacina toxóide tetânico"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 61,
         "fields": {
             "system": "BRI",
             "code": 62,
@@ -621,12 +541,92 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 62,
+        "pk": 54,
         "fields": {
             "system": "BRI",
             "code": 63,
             "display": "HAeHB",
-            "description": "Vacina hepatite AeB (uso adulto)"
+            "description": "Hepatite AeB (uso adulto)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 55,
+        "fields": {
+            "system": "BRI",
+            "code": 64,
+            "display": "FLU ID",
+            "description": "Influenza ID"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 56,
+        "fields": {
+            "system": "BRI",
+            "code": 65,
+            "display": "ROTA penta",
+            "description": "Rotavírus pentavalente"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 57,
+        "fields": {
+            "system": "BRI",
+            "code": 66,
+            "display": "MEN B/C",
+            "description": "Meningocócica B / C"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 58,
+        "fields": {
+            "system": "BRI",
+            "code": 67,
+            "display": "HPV Quadri",
+            "description": "HPV Quadrivalente"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 59,
+        "fields": {
+            "system": "BRI",
+            "code": 69,
+            "display": "SBOTULBI",
+            "description": "Soro botulínico bivalente"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 60,
+        "fields": {
+            "system": "BRI",
+            "code": 70,
+            "display": "Sarampo",
+            "description": "Sarampo"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 61,
+        "fields": {
+            "system": "BRI",
+            "code": 71,
+            "display": "Rubéola",
+            "description": "Rubéola"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 62,
+        "fields": {
+            "system": "BRI",
+            "code": 72,
+            "display": "Gripe",
+            "description": "Gripe Sazonal"
         }
     },
     {
@@ -634,9 +634,9 @@
         "pk": 63,
         "fields": {
             "system": "BRI",
-            "code": 64,
-            "display": "FLU ID",
-            "description": "Vacina influenza ID"
+            "code": 74,
+            "display": "Meningo ACW135Y",
+            "description": "Meningocócica ACWY"
         }
     },
     {
@@ -644,9 +644,9 @@
         "pk": 64,
         "fields": {
             "system": "BRI",
-            "code": 65,
-            "display": "ROTA5",
-            "description": "Vacina rotavírus pentavalente"
+            "code": 75,
+            "display": "Cólera",
+            "description": "Cólera oral"
         }
     },
     {
@@ -654,9 +654,9 @@
         "pk": 65,
         "fields": {
             "system": "BRI",
-            "code": 66,
-            "display": "MEN BC",
-            "description": "Vacina meningocócica B/C"
+            "code": 76,
+            "display": "VHZ",
+            "description": "Herpes Zoster"
         }
     },
     {
@@ -664,9 +664,9 @@
         "pk": 66,
         "fields": {
             "system": "BRI",
-            "code": 67,
-            "display": "HPV4",
-            "description": "Vacina HPV quadrivalente"
+            "code": 77,
+            "display": "FLU4V",
+            "description": "Influenza Tetravalente"
         }
     },
     {
@@ -674,9 +674,9 @@
         "pk": 67,
         "fields": {
             "system": "BRI",
-            "code": 68,
-            "display": "HPV Bi",
-            "description": "Vacina HPV bivalente"
+            "code": 78,
+            "display": "MEN B",
+            "description": "Meningocócica B"
         }
     },
     {
@@ -684,9 +684,9 @@
         "pk": 68,
         "fields": {
             "system": "BRI",
-            "code": 69,
-            "display": "SABOT",
-            "description": "Soro antibotulínico AB (bivalente)"
+            "code": 82,
+            "display": "Dengue",
+            "description": "Vacina Dengue 1, 2, 3 e 4 (recomb e atenuada)"
         }
     },
     {
@@ -694,9 +694,9 @@
         "pk": 69,
         "fields": {
             "system": "BRI",
-            "code": 70,
-            "display": "Sarampo",
-            "description": "Vacina sarampo"
+            "code": 83,
+            "display": "HAadulto",
+            "description": "Vacina ads hepatite A (inativada, virossomal)"
         }
     },
     {
@@ -704,9 +704,9 @@
         "pk": 70,
         "fields": {
             "system": "BRI",
-            "code": 71,
-            "display": "Rubeola",
-            "description": "Vacina rubéola"
+            "code": 84,
+            "display": "FA (0,1 ml)",
+            "description": "Febre Amarela - Dose fracionada (0,1 ml)"
         }
     },
     {
@@ -714,9 +714,9 @@
         "pk": 71,
         "fields": {
             "system": "BRI",
-            "code": 72,
-            "display": "Gripe Sazonal",
-            "description": "Vacina gripe"
+            "code": 85,
+            "display": "COV19-AZE",
+            "description": "Covid-19 - Covishield - Oxford/Astrazeneca"
         }
     },
     {
@@ -724,9 +724,9 @@
         "pk": 72,
         "fields": {
             "system": "BRI",
-            "code": 73,
-            "display": "Quadrupla Viral",
-            "description": "Vacina quádrupla viral"
+            "code": 86,
+            "display": "COV19-VAC",
+            "description": "Covid-19 - Coronavac - Sinovac/Butantan"
         }
     },
     {
@@ -734,9 +734,9 @@
         "pk": 73,
         "fields": {
             "system": "BRI",
-            "code": 74,
-            "display": "MenACWY",
-            "description": "Vacina meningo ACWY"
+            "code": 87,
+            "display": "COV19-PFZ",
+            "description": "Covid-19 - BNT162b2 - BioNTech/Fosun Pharma/Pfizer"
         }
     },
     {
@@ -744,9 +744,9 @@
         "pk": 74,
         "fields": {
             "system": "BRI",
-            "code": 75,
-            "display": "COLERA",
-            "description": "Vacina cólera"
+            "code": 88,
+            "display": "COV19-JAN",
+            "description": "Covid-19 - Ad26.COV2.S - Janssen-Cilag"
         }
     },
     {
@@ -754,9 +754,9 @@
         "pk": 75,
         "fields": {
             "system": "BRI",
-            "code": 76,
-            "display": "VHZ",
-            "description": "Vacina herpes-zóster"
+            "code": 89,
+            "display": "COVID-19 ASTRAZENECA - ChAdOx1-S",
+            "description": "Covid-19 - ASTRAZENECA - ChAdOx1-S, recombinante"
         }
     },
     {
@@ -764,9 +764,9 @@
         "pk": 76,
         "fields": {
             "system": "BRI",
-            "code": 77,
-            "display": "INF4",
-            "description": "Vacina influenza tetravalente"
+            "code": 95,
+            "display": "COVID-19 GAMALEYA - SPUTNIK V",
+            "description": "Covid-19 - GAMALEYA - SPUTNIK V recombinante"
         }
     },
     {
@@ -774,9 +774,9 @@
         "pk": 77,
         "fields": {
             "system": "BRI",
-            "code": 78,
-            "display": "MenB",
-            "description": "Vacina meningo B"
+            "code": 96,
+            "display": "COVID-19 BHARAT - COVAXIN",
+            "description": "Covid-19 - COVID-19 BHARAT - COVAXIN inativada"
         }
     },
     {
@@ -784,9 +784,9 @@
         "pk": 78,
         "fields": {
             "system": "BRI",
-            "code": 79,
-            "display": "DILBCG",
-            "description": "Diluente para vacina BCG"
+            "code": 97,
+            "display": "COVID-19 MODERNA",
+            "description": "Covid-19 - MODERNA RNAm"
         }
     },
     {
@@ -794,9 +794,9 @@
         "pk": 79,
         "fields": {
             "system": "BRI",
-            "code": 80,
-            "display": "DILVRvero",
-            "description": "Diluente para vacina raiva cultivo celulas vero"
+            "code": 98,
+            "display": "COVID-19 SINOVAC - CORONAVAC",
+            "description": "Covid-19 - SINOVAC - CORONAVAC inativada"
         }
     },
     {
@@ -804,194 +804,14 @@
         "pk": 80,
         "fields": {
             "system": "BRI",
-            "code": 81,
-            "display": "DILMenC",
-            "description": "Diluente para vacina meningo C"
+            "code": 99,
+            "display": "COV19-PFZ-Pediátrica",
+            "description": "Covid-19 - Pfizer (Comirnaty) - Pediátrica"
         }
     },
     {
         "model": "vaccines.vaccine",
         "pk": 81,
-        "fields": {
-            "system": "BRI",
-            "code": 82,
-            "display": "Dengue",
-            "description": "Vacina dengue"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 82,
-        "fields": {
-            "system": "BRI",
-            "code": 83,
-            "display": "HEPAad",
-            "description": "Vacina hepatite A adulto"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 83,
-        "fields": {
-            "system": "BRI",
-            "code": 84,
-            "display": "VFA-F",
-            "description": "Vacina febre amarela fracionada"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 84,
-        "fields": {
-            "system": "BRI",
-            "code": 85,
-            "display": "COVID-19 ASTRAZENECA/FIOCRUZ - COVISHIELD",
-            "description": "Vacina Covid-19 ASTRAZENECA/FIOCRUZ - COVISHIELD, recombinante"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 85,
-        "fields": {
-            "system": "BRI",
-            "code": 86,
-            "display": "COVID-19 SINOVAC/BUTANTAN - CORONAVAC",
-            "description": "Vacina COVID-19 SINOVAC/BUTANTAN - CORONAVAC, inativada"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 86,
-        "fields": {
-            "system": "BRI",
-            "code": 87,
-            "display": "COVID-19 PFIZER - COMIRNATY",
-            "description": "Vacina COVID-19 PFIZER - COMIRNATY, RNAm"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 87,
-        "fields": {
-            "system": "BRI",
-            "code": 88,
-            "display": "COVID-19 JANSSEN - Ad26.COV2.S",
-            "description": "Vacina COVID-19 JANSSEN - Ad26.COV2.S, recombinante"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 88,
-        "fields": {
-            "system": "BRI",
-            "code": 89,
-            "display": "COVID-19 ASTRAZENECA - ChAdOx1-S",
-            "description": "Vacina COVID-19 ASTRAZENECA - ChAdOx1-S, recombinante"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 89,
-        "fields": {
-            "system": "BRI",
-            "code": 90,
-            "display": "DILSCRV",
-            "description": "Diluente para vacina sarampo, caxumba, rubéola e varicela"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 90,
-        "fields": {
-            "system": "BRI",
-            "code": 91,
-            "display": "DILVR",
-            "description": "Diluente para vacina raiva cultivo embrião de galinha"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 91,
-        "fields": {
-            "system": "BRI",
-            "code": 92,
-            "display": "VRvero",
-            "description": "Vacina raiva cultivo celulas vero"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 92,
-        "fields": {
-            "system": "BRI",
-            "code": 93,
-            "display": "HPV9",
-            "description": "Vacina HPV nonavalente"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 93,
-        "fields": {
-            "system": "BRI",
-            "code": 94,
-            "display": "DILCOV",
-            "description": "Diluente Covid-19"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 94,
-        "fields": {
-            "system": "BRI",
-            "code": 95,
-            "display": "COVID-19 GAMALEYA - SPUTNIK V",
-            "description": "Vacina COVID-19 GAMALEYA - SPUTNIK V recombinante"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 95,
-        "fields": {
-            "system": "BRI",
-            "code": 96,
-            "display": "COVID-19 BHARAT - COVAXIN",
-            "description": "Vacina Covid-19 COVID-19 BHARAT - COVAXIN inativada"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 96,
-        "fields": {
-            "system": "BRI",
-            "code": 97,
-            "display": "COVID-19 MODERNA",
-            "description": "Vacina COVID-19 MODERNA RNAm"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 97,
-        "fields": {
-            "system": "BRI",
-            "code": 98,
-            "display": "COVID-19 SINOVAC - CORONAVAC",
-            "description": "Vacina COVID-19 SINOVAC - CORONAVAC inativada"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 98,
-        "fields": {
-            "system": "BRI",
-            "code": 99,
-            "display": "COVID-19 PEDIÁTRICA - PFIZER COMIRNATY",
-            "description": "Vacina COVID-19 PEDIÁTRICA - PFIZER COMIRNATY RNAm"
-        }
-    },
-    {
-        "model": "vaccines.vaccine",
-        "pk": 99,
         "fields": {
             "system": "CVX",
             "code": 54,
@@ -1001,7 +821,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 100,
+        "pk": 82,
         "fields": {
             "system": "CVX",
             "code": 55,
@@ -1011,7 +831,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 101,
+        "pk": 83,
         "fields": {
             "system": "CVX",
             "code": 82,
@@ -1021,7 +841,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 102,
+        "pk": 84,
         "fields": {
             "system": "CVX",
             "code": 24,
@@ -1031,7 +851,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 103,
+        "pk": 85,
         "fields": {
             "system": "CVX",
             "code": 19,
@@ -1041,7 +861,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 104,
+        "pk": 86,
         "fields": {
             "system": "CVX",
             "code": 27,
@@ -1051,7 +871,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 105,
+        "pk": 87,
         "fields": {
             "system": "CVX",
             "code": 26,
@@ -1061,7 +881,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 106,
+        "pk": 88,
         "fields": {
             "system": "CVX",
             "code": 29,
@@ -1071,7 +891,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 107,
+        "pk": 89,
         "fields": {
             "system": "CVX",
             "code": 56,
@@ -1081,7 +901,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 108,
+        "pk": 90,
         "fields": {
             "system": "CVX",
             "code": 12,
@@ -1091,7 +911,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 109,
+        "pk": 91,
         "fields": {
             "system": "CVX",
             "code": 28,
@@ -1101,7 +921,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 110,
+        "pk": 92,
         "fields": {
             "system": "CVX",
             "code": 20,
@@ -1111,7 +931,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 111,
+        "pk": 93,
         "fields": {
             "system": "CVX",
             "code": 106,
@@ -1121,7 +941,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 112,
+        "pk": 94,
         "fields": {
             "system": "CVX",
             "code": 107,
@@ -1131,7 +951,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 113,
+        "pk": 95,
         "fields": {
             "system": "CVX",
             "code": 110,
@@ -1141,7 +961,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 114,
+        "pk": 96,
         "fields": {
             "system": "CVX",
             "code": 50,
@@ -1151,7 +971,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 115,
+        "pk": 97,
         "fields": {
             "system": "CVX",
             "code": 120,
@@ -1161,7 +981,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 116,
+        "pk": 98,
         "fields": {
             "system": "CVX",
             "code": 130,
@@ -1171,7 +991,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 117,
+        "pk": 99,
         "fields": {
             "system": "CVX",
             "code": 1,
@@ -1181,7 +1001,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 118,
+        "pk": 100,
         "fields": {
             "system": "CVX",
             "code": 22,
@@ -1191,7 +1011,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 119,
+        "pk": 101,
         "fields": {
             "system": "CVX",
             "code": 102,
@@ -1201,7 +1021,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 120,
+        "pk": 102,
         "fields": {
             "system": "CVX",
             "code": 57,
@@ -1211,7 +1031,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 121,
+        "pk": 103,
         "fields": {
             "system": "CVX",
             "code": 52,
@@ -1221,7 +1041,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 122,
+        "pk": 104,
         "fields": {
             "system": "CVX",
             "code": 83,
@@ -1231,7 +1051,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 123,
+        "pk": 105,
         "fields": {
             "system": "CVX",
             "code": 84,
@@ -1241,7 +1061,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 124,
+        "pk": 106,
         "fields": {
             "system": "CVX",
             "code": 31,
@@ -1251,7 +1071,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 125,
+        "pk": 107,
         "fields": {
             "system": "CVX",
             "code": 85,
@@ -1261,7 +1081,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 126,
+        "pk": 108,
         "fields": {
             "system": "CVX",
             "code": 104,
@@ -1271,7 +1091,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 127,
+        "pk": 109,
         "fields": {
             "system": "CVX",
             "code": 30,
@@ -1281,7 +1101,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 128,
+        "pk": 110,
         "fields": {
             "system": "CVX",
             "code": 8,
@@ -1291,7 +1111,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 129,
+        "pk": 111,
         "fields": {
             "system": "CVX",
             "code": 42,
@@ -1301,7 +1121,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 130,
+        "pk": 112,
         "fields": {
             "system": "CVX",
             "code": 43,
@@ -1311,7 +1131,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 131,
+        "pk": 113,
         "fields": {
             "system": "CVX",
             "code": 44,
@@ -1321,7 +1141,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 132,
+        "pk": 114,
         "fields": {
             "system": "CVX",
             "code": 45,
@@ -1331,7 +1151,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 133,
+        "pk": 115,
         "fields": {
             "system": "CVX",
             "code": 58,
@@ -1341,7 +1161,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 134,
+        "pk": 116,
         "fields": {
             "system": "CVX",
             "code": 59,
@@ -1351,7 +1171,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 135,
+        "pk": 117,
         "fields": {
             "system": "CVX",
             "code": 60,
@@ -1361,7 +1181,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 136,
+        "pk": 118,
         "fields": {
             "system": "CVX",
             "code": 46,
@@ -1371,7 +1191,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 137,
+        "pk": 119,
         "fields": {
             "system": "CVX",
             "code": 47,
@@ -1381,7 +1201,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 138,
+        "pk": 120,
         "fields": {
             "system": "CVX",
             "code": 48,
@@ -1391,7 +1211,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 139,
+        "pk": 121,
         "fields": {
             "system": "CVX",
             "code": 49,
@@ -1401,7 +1221,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 140,
+        "pk": 122,
         "fields": {
             "system": "CVX",
             "code": 17,
@@ -1411,7 +1231,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 141,
+        "pk": 123,
         "fields": {
             "system": "CVX",
             "code": 51,
@@ -1421,7 +1241,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 142,
+        "pk": 124,
         "fields": {
             "system": "CVX",
             "code": 61,
@@ -1431,7 +1251,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 143,
+        "pk": 125,
         "fields": {
             "system": "CVX",
             "code": 118,
@@ -1441,7 +1261,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 144,
+        "pk": 126,
         "fields": {
             "system": "CVX",
             "code": 62,
@@ -1451,7 +1271,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 145,
+        "pk": 127,
         "fields": {
             "system": "CVX",
             "code": 86,
@@ -1461,7 +1281,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 146,
+        "pk": 128,
         "fields": {
             "system": "CVX",
             "code": 87,
@@ -1471,7 +1291,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 147,
+        "pk": 129,
         "fields": {
             "system": "CVX",
             "code": 14,
@@ -1481,7 +1301,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 148,
+        "pk": 130,
         "fields": {
             "system": "CVX",
             "code": 111,
@@ -1491,7 +1311,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 149,
+        "pk": 131,
         "fields": {
             "system": "CVX",
             "code": 15,
@@ -1501,7 +1321,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 150,
+        "pk": 132,
         "fields": {
             "system": "CVX",
             "code": 16,
@@ -1511,7 +1331,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 151,
+        "pk": 133,
         "fields": {
             "system": "CVX",
             "code": 88,
@@ -1521,7 +1341,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 152,
+        "pk": 134,
         "fields": {
             "system": "CVX",
             "code": 123,
@@ -1531,7 +1351,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 153,
+        "pk": 135,
         "fields": {
             "system": "CVX",
             "code": 10,
@@ -1541,7 +1361,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 154,
+        "pk": 136,
         "fields": {
             "system": "CVX",
             "code": 2,
@@ -1551,7 +1371,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 155,
+        "pk": 137,
         "fields": {
             "system": "CVX",
             "code": 89,
@@ -1561,7 +1381,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 156,
+        "pk": 138,
         "fields": {
             "system": "CVX",
             "code": 39,
@@ -1571,7 +1391,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 157,
+        "pk": 139,
         "fields": {
             "system": "CVX",
             "code": 63,
@@ -1581,7 +1401,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 158,
+        "pk": 140,
         "fields": {
             "system": "CVX",
             "code": 64,
@@ -1591,7 +1411,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 159,
+        "pk": 141,
         "fields": {
             "system": "CVX",
             "code": 65,
@@ -1601,7 +1421,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 160,
+        "pk": 142,
         "fields": {
             "system": "CVX",
             "code": 66,
@@ -1611,7 +1431,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 161,
+        "pk": 143,
         "fields": {
             "system": "CVX",
             "code": 3,
@@ -1621,7 +1441,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 162,
+        "pk": 144,
         "fields": {
             "system": "CVX",
             "code": 4,
@@ -1631,7 +1451,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 163,
+        "pk": 145,
         "fields": {
             "system": "CVX",
             "code": 94,
@@ -1641,7 +1461,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 164,
+        "pk": 146,
         "fields": {
             "system": "CVX",
             "code": 67,
@@ -1651,7 +1471,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 165,
+        "pk": 147,
         "fields": {
             "system": "CVX",
             "code": 5,
@@ -1661,7 +1481,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 166,
+        "pk": 148,
         "fields": {
             "system": "CVX",
             "code": 68,
@@ -1671,7 +1491,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 167,
+        "pk": 149,
         "fields": {
             "system": "CVX",
             "code": 32,
@@ -1681,7 +1501,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 168,
+        "pk": 150,
         "fields": {
             "system": "CVX",
             "code": 103,
@@ -1691,7 +1511,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 169,
+        "pk": 151,
         "fields": {
             "system": "CVX",
             "code": 114,
@@ -1701,7 +1521,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 170,
+        "pk": 152,
         "fields": {
             "system": "CVX",
             "code": 108,
@@ -1711,7 +1531,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 171,
+        "pk": 153,
         "fields": {
             "system": "CVX",
             "code": 7,
@@ -1721,7 +1541,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 172,
+        "pk": 154,
         "fields": {
             "system": "CVX",
             "code": 69,
@@ -1731,7 +1551,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 173,
+        "pk": 155,
         "fields": {
             "system": "CVX",
             "code": 11,
@@ -1741,7 +1561,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 174,
+        "pk": 156,
         "fields": {
             "system": "CVX",
             "code": 23,
@@ -1751,7 +1571,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 175,
+        "pk": 157,
         "fields": {
             "system": "CVX",
             "code": 33,
@@ -1761,7 +1581,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 176,
+        "pk": 158,
         "fields": {
             "system": "CVX",
             "code": 100,
@@ -1771,7 +1591,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 177,
+        "pk": 159,
         "fields": {
             "system": "CVX",
             "code": 109,
@@ -1781,7 +1601,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 178,
+        "pk": 160,
         "fields": {
             "system": "CVX",
             "code": 70,
@@ -1791,7 +1611,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 179,
+        "pk": 161,
         "fields": {
             "system": "CVX",
             "code": 18,
@@ -1801,7 +1621,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 180,
+        "pk": 162,
         "fields": {
             "system": "CVX",
             "code": 40,
@@ -1811,7 +1631,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 181,
+        "pk": 163,
         "fields": {
             "system": "CVX",
             "code": 90,
@@ -1821,7 +1641,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 182,
+        "pk": 164,
         "fields": {
             "system": "CVX",
             "code": 72,
@@ -1831,7 +1651,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 183,
+        "pk": 165,
         "fields": {
             "system": "CVX",
             "code": 73,
@@ -1841,7 +1661,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 184,
+        "pk": 166,
         "fields": {
             "system": "CVX",
             "code": 34,
@@ -1851,7 +1671,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 185,
+        "pk": 167,
         "fields": {
             "system": "CVX",
             "code": 119,
@@ -1861,7 +1681,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 186,
+        "pk": 168,
         "fields": {
             "system": "CVX",
             "code": 122,
@@ -1871,7 +1691,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 187,
+        "pk": 169,
         "fields": {
             "system": "CVX",
             "code": 116,
@@ -1881,7 +1701,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 188,
+        "pk": 170,
         "fields": {
             "system": "CVX",
             "code": 74,
@@ -1891,7 +1711,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 189,
+        "pk": 171,
         "fields": {
             "system": "CVX",
             "code": 71,
@@ -1901,7 +1721,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 190,
+        "pk": 172,
         "fields": {
             "system": "CVX",
             "code": 93,
@@ -1911,7 +1731,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 191,
+        "pk": 173,
         "fields": {
             "system": "CVX",
             "code": 6,
@@ -1921,7 +1741,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 192,
+        "pk": 174,
         "fields": {
             "system": "CVX",
             "code": 38,
@@ -1931,7 +1751,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 193,
+        "pk": 175,
         "fields": {
             "system": "CVX",
             "code": 76,
@@ -1941,7 +1761,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 194,
+        "pk": 176,
         "fields": {
             "system": "CVX",
             "code": 113,
@@ -1951,7 +1771,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 195,
+        "pk": 177,
         "fields": {
             "system": "CVX",
             "code": 9,
@@ -1961,7 +1781,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 196,
+        "pk": 178,
         "fields": {
             "system": "CVX",
             "code": 115,
@@ -1971,7 +1791,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 197,
+        "pk": 179,
         "fields": {
             "system": "CVX",
             "code": 35,
@@ -1981,7 +1801,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 198,
+        "pk": 180,
         "fields": {
             "system": "CVX",
             "code": 112,
@@ -1991,7 +1811,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 199,
+        "pk": 181,
         "fields": {
             "system": "CVX",
             "code": 77,
@@ -2001,7 +1821,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 200,
+        "pk": 182,
         "fields": {
             "system": "CVX",
             "code": 13,
@@ -2011,7 +1831,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 201,
+        "pk": 183,
         "fields": {
             "system": "CVX",
             "code": 95,
@@ -2021,7 +1841,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 202,
+        "pk": 184,
         "fields": {
             "system": "CVX",
             "code": 96,
@@ -2031,7 +1851,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 203,
+        "pk": 185,
         "fields": {
             "system": "CVX",
             "code": 97,
@@ -2041,7 +1861,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 204,
+        "pk": 186,
         "fields": {
             "system": "CVX",
             "code": 98,
@@ -2051,7 +1871,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 205,
+        "pk": 187,
         "fields": {
             "system": "CVX",
             "code": 78,
@@ -2061,7 +1881,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 206,
+        "pk": 188,
         "fields": {
             "system": "CVX",
             "code": 91,
@@ -2071,7 +1891,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 207,
+        "pk": 189,
         "fields": {
             "system": "CVX",
             "code": 25,
@@ -2081,7 +1901,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 208,
+        "pk": 190,
         "fields": {
             "system": "CVX",
             "code": 41,
@@ -2091,7 +1911,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 209,
+        "pk": 191,
         "fields": {
             "system": "CVX",
             "code": 53,
@@ -2101,7 +1921,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 210,
+        "pk": 192,
         "fields": {
             "system": "CVX",
             "code": 101,
@@ -2111,7 +1931,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 211,
+        "pk": 193,
         "fields": {
             "system": "CVX",
             "code": 75,
@@ -2121,7 +1941,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 212,
+        "pk": 194,
         "fields": {
             "system": "CVX",
             "code": 105,
@@ -2131,7 +1951,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 213,
+        "pk": 195,
         "fields": {
             "system": "CVX",
             "code": 79,
@@ -2141,7 +1961,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 214,
+        "pk": 196,
         "fields": {
             "system": "CVX",
             "code": 21,
@@ -2151,7 +1971,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 215,
+        "pk": 197,
         "fields": {
             "system": "CVX",
             "code": 81,
@@ -2161,7 +1981,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 216,
+        "pk": 198,
         "fields": {
             "system": "CVX",
             "code": 80,
@@ -2171,7 +1991,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 217,
+        "pk": 199,
         "fields": {
             "system": "CVX",
             "code": 92,
@@ -2181,7 +2001,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 218,
+        "pk": 200,
         "fields": {
             "system": "CVX",
             "code": 36,
@@ -2191,7 +2011,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 219,
+        "pk": 201,
         "fields": {
             "system": "CVX",
             "code": 117,
@@ -2201,7 +2021,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 220,
+        "pk": 202,
         "fields": {
             "system": "CVX",
             "code": 37,
@@ -2211,7 +2031,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 221,
+        "pk": 203,
         "fields": {
             "system": "CVX",
             "code": 121,
@@ -2221,7 +2041,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 222,
+        "pk": 204,
         "fields": {
             "system": "CVX",
             "code": 998,
@@ -2231,7 +2051,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 223,
+        "pk": 205,
         "fields": {
             "system": "CVX",
             "code": 999,
@@ -2241,7 +2061,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 224,
+        "pk": 206,
         "fields": {
             "system": "CVX",
             "code": 99,
@@ -2251,7 +2071,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 225,
+        "pk": 207,
         "fields": {
             "system": "CVX",
             "code": 133,
@@ -2261,7 +2081,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 226,
+        "pk": 208,
         "fields": {
             "system": "CVX",
             "code": 134,
@@ -2271,7 +2091,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 227,
+        "pk": 209,
         "fields": {
             "system": "CVX",
             "code": 137,
@@ -2281,7 +2101,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 228,
+        "pk": 210,
         "fields": {
             "system": "CVX",
             "code": 136,
@@ -2291,7 +2111,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 229,
+        "pk": 211,
         "fields": {
             "system": "CVX",
             "code": 135,
@@ -2301,7 +2121,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 230,
+        "pk": 212,
         "fields": {
             "system": "CVX",
             "code": 131,
@@ -2311,7 +2131,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 231,
+        "pk": 213,
         "fields": {
             "system": "CVX",
             "code": 132,
@@ -2321,7 +2141,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 232,
+        "pk": 214,
         "fields": {
             "system": "CVX",
             "code": 128,
@@ -2331,7 +2151,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 233,
+        "pk": 215,
         "fields": {
             "system": "CVX",
             "code": 125,
@@ -2341,7 +2161,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 234,
+        "pk": 216,
         "fields": {
             "system": "CVX",
             "code": 126,
@@ -2351,7 +2171,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 235,
+        "pk": 217,
         "fields": {
             "system": "CVX",
             "code": 127,
@@ -2361,7 +2181,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 236,
+        "pk": 218,
         "fields": {
             "system": "CVX",
             "code": 138,
@@ -2371,7 +2191,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 237,
+        "pk": 219,
         "fields": {
             "system": "CVX",
             "code": 139,
@@ -2381,7 +2201,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 238,
+        "pk": 220,
         "fields": {
             "system": "CVX",
             "code": 140,
@@ -2391,7 +2211,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 239,
+        "pk": 221,
         "fields": {
             "system": "CVX",
             "code": 129,
@@ -2401,7 +2221,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 240,
+        "pk": 222,
         "fields": {
             "system": "CVX",
             "code": 141,
@@ -2411,7 +2231,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 241,
+        "pk": 223,
         "fields": {
             "system": "CVX",
             "code": 142,
@@ -2421,7 +2241,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 242,
+        "pk": 224,
         "fields": {
             "system": "CVX",
             "code": 143,
@@ -2431,7 +2251,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 243,
+        "pk": 225,
         "fields": {
             "system": "CVX",
             "code": 144,
@@ -2441,7 +2261,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 244,
+        "pk": 226,
         "fields": {
             "system": "CVX",
             "code": 145,
@@ -2451,7 +2271,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 245,
+        "pk": 227,
         "fields": {
             "system": "CVX",
             "code": 146,
@@ -2461,7 +2281,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 246,
+        "pk": 228,
         "fields": {
             "system": "CVX",
             "code": 147,
@@ -2471,7 +2291,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 247,
+        "pk": 229,
         "fields": {
             "system": "CVX",
             "code": 148,
@@ -2481,7 +2301,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 248,
+        "pk": 230,
         "fields": {
             "system": "CVX",
             "code": 149,
@@ -2491,7 +2311,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 249,
+        "pk": 231,
         "fields": {
             "system": "CVX",
             "code": 150,
@@ -2501,7 +2321,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 250,
+        "pk": 232,
         "fields": {
             "system": "CVX",
             "code": 151,
@@ -2511,7 +2331,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 251,
+        "pk": 233,
         "fields": {
             "system": "CVX",
             "code": 152,
@@ -2521,7 +2341,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 252,
+        "pk": 234,
         "fields": {
             "system": "CVX",
             "code": 153,
@@ -2531,7 +2351,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 253,
+        "pk": 235,
         "fields": {
             "system": "CVX",
             "code": 154,
@@ -2541,7 +2361,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 254,
+        "pk": 236,
         "fields": {
             "system": "CVX",
             "code": 155,
@@ -2551,7 +2371,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 255,
+        "pk": 237,
         "fields": {
             "system": "CVX",
             "code": 156,
@@ -2561,7 +2381,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 256,
+        "pk": 238,
         "fields": {
             "system": "CVX",
             "code": 157,
@@ -2571,7 +2391,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 257,
+        "pk": 239,
         "fields": {
             "system": "CVX",
             "code": 158,
@@ -2581,7 +2401,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 258,
+        "pk": 240,
         "fields": {
             "system": "CVX",
             "code": 159,
@@ -2591,7 +2411,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 259,
+        "pk": 241,
         "fields": {
             "system": "CVX",
             "code": 160,
@@ -2601,7 +2421,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 260,
+        "pk": 242,
         "fields": {
             "system": "CVX",
             "code": 801,
@@ -2611,7 +2431,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 261,
+        "pk": 243,
         "fields": {
             "system": "CVX",
             "code": 161,
@@ -2621,7 +2441,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 262,
+        "pk": 244,
         "fields": {
             "system": "CVX",
             "code": 162,
@@ -2631,7 +2451,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 263,
+        "pk": 245,
         "fields": {
             "system": "CVX",
             "code": 163,
@@ -2641,7 +2461,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 264,
+        "pk": 246,
         "fields": {
             "system": "CVX",
             "code": 164,
@@ -2651,7 +2471,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 265,
+        "pk": 247,
         "fields": {
             "system": "CVX",
             "code": 165,
@@ -2661,7 +2481,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 266,
+        "pk": 248,
         "fields": {
             "system": "CVX",
             "code": 166,
@@ -2671,7 +2491,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 267,
+        "pk": 249,
         "fields": {
             "system": "CVX",
             "code": 167,
@@ -2681,7 +2501,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 268,
+        "pk": 250,
         "fields": {
             "system": "CVX",
             "code": 168,
@@ -2691,7 +2511,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 269,
+        "pk": 251,
         "fields": {
             "system": "CVX",
             "code": 169,
@@ -2701,7 +2521,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 270,
+        "pk": 252,
         "fields": {
             "system": "CVX",
             "code": 170,
@@ -2711,7 +2531,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 271,
+        "pk": 253,
         "fields": {
             "system": "CVX",
             "code": 171,
@@ -2721,7 +2541,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 272,
+        "pk": 254,
         "fields": {
             "system": "CVX",
             "code": 172,
@@ -2731,7 +2551,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 273,
+        "pk": 255,
         "fields": {
             "system": "CVX",
             "code": 173,
@@ -2741,7 +2561,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 274,
+        "pk": 256,
         "fields": {
             "system": "CVX",
             "code": 174,
@@ -2751,7 +2571,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 275,
+        "pk": 257,
         "fields": {
             "system": "CVX",
             "code": 175,
@@ -2761,7 +2581,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 276,
+        "pk": 258,
         "fields": {
             "system": "CVX",
             "code": 176,
@@ -2771,7 +2591,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 277,
+        "pk": 259,
         "fields": {
             "system": "CVX",
             "code": 177,
@@ -2781,7 +2601,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 278,
+        "pk": 260,
         "fields": {
             "system": "CVX",
             "code": 178,
@@ -2791,7 +2611,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 279,
+        "pk": 261,
         "fields": {
             "system": "CVX",
             "code": 179,
@@ -2801,7 +2621,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 280,
+        "pk": 262,
         "fields": {
             "system": "CVX",
             "code": 180,
@@ -2811,7 +2631,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 281,
+        "pk": 263,
         "fields": {
             "system": "CVX",
             "code": 181,
@@ -2821,7 +2641,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 282,
+        "pk": 264,
         "fields": {
             "system": "CVX",
             "code": 182,
@@ -2831,7 +2651,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 283,
+        "pk": 265,
         "fields": {
             "system": "CVX",
             "code": 183,
@@ -2841,7 +2661,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 284,
+        "pk": 266,
         "fields": {
             "system": "CVX",
             "code": 184,
@@ -2851,7 +2671,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 285,
+        "pk": 267,
         "fields": {
             "system": "CVX",
             "code": 185,
@@ -2861,7 +2681,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 286,
+        "pk": 268,
         "fields": {
             "system": "CVX",
             "code": 186,
@@ -2871,7 +2691,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 287,
+        "pk": 269,
         "fields": {
             "system": "CVX",
             "code": 187,
@@ -2881,7 +2701,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 288,
+        "pk": 270,
         "fields": {
             "system": "CVX",
             "code": 188,
@@ -2891,7 +2711,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 289,
+        "pk": 271,
         "fields": {
             "system": "CVX",
             "code": 189,
@@ -2901,7 +2721,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 290,
+        "pk": 272,
         "fields": {
             "system": "CVX",
             "code": 190,
@@ -2911,7 +2731,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 291,
+        "pk": 273,
         "fields": {
             "system": "CVX",
             "code": 191,
@@ -2921,7 +2741,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 292,
+        "pk": 274,
         "fields": {
             "system": "CVX",
             "code": 192,
@@ -2931,7 +2751,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 293,
+        "pk": 275,
         "fields": {
             "system": "CVX",
             "code": 193,
@@ -2941,7 +2761,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 294,
+        "pk": 276,
         "fields": {
             "system": "CVX",
             "code": 194,
@@ -2951,7 +2771,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 295,
+        "pk": 277,
         "fields": {
             "system": "CVX",
             "code": 195,
@@ -2961,7 +2781,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 296,
+        "pk": 278,
         "fields": {
             "system": "CVX",
             "code": 196,
@@ -2971,7 +2791,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 297,
+        "pk": 279,
         "fields": {
             "system": "CVX",
             "code": 197,
@@ -2981,7 +2801,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 298,
+        "pk": 280,
         "fields": {
             "system": "CVX",
             "code": 200,
@@ -2991,7 +2811,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 299,
+        "pk": 281,
         "fields": {
             "system": "CVX",
             "code": 201,
@@ -3001,7 +2821,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 300,
+        "pk": 282,
         "fields": {
             "system": "CVX",
             "code": 202,
@@ -3011,7 +2831,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 301,
+        "pk": 283,
         "fields": {
             "system": "CVX",
             "code": 198,
@@ -3021,7 +2841,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 302,
+        "pk": 284,
         "fields": {
             "system": "CVX",
             "code": 203,
@@ -3031,7 +2851,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 303,
+        "pk": 285,
         "fields": {
             "system": "CVX",
             "code": 205,
@@ -3041,7 +2861,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 304,
+        "pk": 286,
         "fields": {
             "system": "CVX",
             "code": 206,
@@ -3051,7 +2871,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 305,
+        "pk": 287,
         "fields": {
             "system": "CVX",
             "code": 207,
@@ -3061,7 +2881,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 306,
+        "pk": 288,
         "fields": {
             "system": "CVX",
             "code": 208,
@@ -3071,7 +2891,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 307,
+        "pk": 289,
         "fields": {
             "system": "CVX",
             "code": 213,
@@ -3081,7 +2901,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 308,
+        "pk": 290,
         "fields": {
             "system": "CVX",
             "code": 210,
@@ -3091,7 +2911,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 309,
+        "pk": 291,
         "fields": {
             "system": "CVX",
             "code": 212,
@@ -3101,7 +2921,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 310,
+        "pk": 292,
         "fields": {
             "system": "CVX",
             "code": 204,
@@ -3111,7 +2931,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 311,
+        "pk": 293,
         "fields": {
             "system": "CVX",
             "code": 214,
@@ -3121,7 +2941,7 @@
     },
     {
         "model": "vaccines.vaccine",
-        "pk": 312,
+        "pk": 294,
         "fields": {
             "system": "CVX",
             "code": 211,
