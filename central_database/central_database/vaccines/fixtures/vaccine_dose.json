@@ -27,7 +27,7 @@
         "model": "vaccines.vaccinedose",
         "pk": 3,
         "fields": {
-            "vaccine": 41,
+            "vaccine": 42,
             "minimum_recommended_age": null,
             "maximum_recommended_age": 2,
             "dose_order": 1,
@@ -63,7 +63,7 @@
         "model": "vaccines.vaccinedose",
         "pk": 6,
         "fields": {
-            "vaccine": 44,
+            "vaccine": 39,
             "minimum_recommended_age": null,
             "maximum_recommended_age": 2,
             "dose_order": 1,
@@ -75,7 +75,7 @@
         "model": "vaccines.vaccinedose",
         "pk": 7,
         "fields": {
-            "vaccine": 40,
+            "vaccine": 38,
             "minimum_recommended_age": null,
             "maximum_recommended_age": 3,
             "dose_order": 1,
@@ -87,7 +87,7 @@
         "model": "vaccines.vaccinedose",
         "pk": 8,
         "fields": {
-            "vaccine": 41,
+            "vaccine": 42,
             "minimum_recommended_age": null,
             "maximum_recommended_age": 4,
             "dose_order": 2,
@@ -123,7 +123,7 @@
         "model": "vaccines.vaccinedose",
         "pk": 11,
         "fields": {
-            "vaccine": 44,
+            "vaccine": 39,
             "minimum_recommended_age": null,
             "maximum_recommended_age": 4,
             "dose_order": 2,
@@ -135,7 +135,7 @@
         "model": "vaccines.vaccinedose",
         "pk": 12,
         "fields": {
-            "vaccine": 40,
+            "vaccine": 38,
             "minimum_recommended_age": null,
             "maximum_recommended_age": 5,
             "dose_order": 2,
@@ -147,7 +147,7 @@
         "model": "vaccines.vaccinedose",
         "pk": 13,
         "fields": {
-            "vaccine": 41,
+            "vaccine": 39,
             "minimum_recommended_age": null,
             "maximum_recommended_age": 6,
             "dose_order": 3,
@@ -207,7 +207,7 @@
         "model": "vaccines.vaccinedose",
         "pk": 19,
         "fields": {
-            "vaccine": 27,
+            "vaccine": 26,
             "minimum_recommended_age": null,
             "maximum_recommended_age": 15,
             "dose_order": 1,
@@ -219,7 +219,7 @@
         "model": "vaccines.vaccinedose",
         "pk": 20,
         "fields": {
-            "vaccine": 46,
+            "vaccine": 44,
             "minimum_recommended_age": null,
             "maximum_recommended_age": 15,
             "dose_order": 1,
@@ -231,7 +231,7 @@
         "model": "vaccines.vaccinedose",
         "pk": 21,
         "fields": {
-            "vaccine": 40,
+            "vaccine": 38,
             "minimum_recommended_age": null,
             "maximum_recommended_age": 12,
             "dose_order": 3,
@@ -243,7 +243,7 @@
         "model": "vaccines.vaccinedose",
         "pk": 22,
         "fields": {
-            "vaccine": 55,
+            "vaccine": 47,
             "minimum_recommended_age": null,
             "maximum_recommended_age": 15,
             "dose_order": 1,
@@ -255,7 +255,7 @@
         "model": "vaccines.vaccinedose",
         "pk": 23,
         "fields": {
-            "vaccine": 46,
+            "vaccine": 44,
             "minimum_recommended_age": null,
             "maximum_recommended_age": 48,
             "dose_order": 2,
@@ -279,7 +279,7 @@
         "model": "vaccines.vaccinedose",
         "pk": 25,
         "fields": {
-            "vaccine": 32,
+            "vaccine": 31,
             "minimum_recommended_age": null,
             "maximum_recommended_age": 6,
             "dose_order": 1,
@@ -291,7 +291,7 @@
         "model": "vaccines.vaccinedose",
         "pk": 26,
         "fields": {
-            "vaccine": 32,
+            "vaccine": 31,
             "minimum_recommended_age": 6,
             "maximum_recommended_age": 7,
             "dose_order": 2,
@@ -303,7 +303,7 @@
         "model": "vaccines.vaccinedose",
         "pk": 27,
         "fields": {
-            "vaccine": 54,
+            "vaccine": 46,
             "minimum_recommended_age": null,
             "maximum_recommended_age": 15,
             "dose_order": 1,
@@ -315,7 +315,7 @@
         "model": "vaccines.vaccinedose",
         "pk": 28,
         "fields": {
-            "vaccine": 27,
+            "vaccine": 26,
             "minimum_recommended_age": null,
             "maximum_recommended_age": 48,
             "dose_order": 2,
@@ -327,7 +327,7 @@
         "model": "vaccines.vaccinedose",
         "pk": 29,
         "fields": {
-            "vaccine": 33,
+            "vaccine": 32,
             "minimum_recommended_age": null,
             "maximum_recommended_age": 48,
             "dose_order": 1,
@@ -339,7 +339,7 @@
         "model": "vaccines.vaccinedose",
         "pk": 30,
         "fields": {
-            "vaccine": 66,
+            "vaccine": 58,
             "minimum_recommended_age": 108,
             "maximum_recommended_age": 168,
             "dose_order": 1,
@@ -351,7 +351,7 @@
         "model": "vaccines.vaccinedose",
         "pk": 31,
         "fields": {
-            "vaccine": 66,
+            "vaccine": 58,
             "minimum_recommended_age": 108,
             "maximum_recommended_age": 168,
             "dose_order": 2,
