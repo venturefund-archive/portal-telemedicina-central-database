@@ -1,6 +1,6 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: [ 'build', '--build-arg', 'BUILD_ENVIRONMENT=${_BUILD_ENVIRONMENT}', '-t', 'us.gcr.io/$PROJECT_ID/$REPO_NAME-$BRANCH_NAME:$COMMIT_SHA', '-f', './central_database/compose/local/django/Dockerfile', '.']
+  args: [ 'build', '--build-arg', 'BUILD_ENVIRONMENT=${_BUILD_ENVIRONMENT}', '-t', 'us.gcr.io/$PROJECT_ID/$REPO_NAME-$BRANCH_NAME:$COMMIT_SHA', '-f', './central_database/Dockerfile', '.']
   timeout: 500s
 - name: 'google/cloud-sdk:alpine'
   args:
