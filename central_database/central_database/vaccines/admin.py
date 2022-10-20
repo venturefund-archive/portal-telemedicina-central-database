@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Vaccine, VaccineAlert, VaccineDose
+from .models import Vaccine, VaccineAlert, VaccineAlertType, VaccineDose
 
 
 @admin.register(Vaccine)
@@ -32,19 +32,27 @@ class VaccineDoseAdmin(admin.ModelAdmin):
     ordering = ["maximum_recommended_age", "dose_order"]
 
 
+@admin.register(VaccineAlertType)
+class VaccineAlertTypeAdmin(admin.ModelAdmin):
+    list_display = ("id", "description", "description_pt_br")
+    list_filter = ("id", "description", "description_pt_br")
+    search_fields = ["description"]
+    ordering = ["id"]
+
+
 @admin.register(VaccineAlert)
 class VaccineAlertAdmin(admin.ModelAdmin):
     list_display = (
         "vaccine_dose",
         "patient_id",
-        "issue",
+        "alert_type",
         "created_at",
         "active",
     )
     list_filter = (
         "vaccine_dose",
         "patient_id",
-        "issue",
+        "alert_type",
         "active",
     )
     ordering = ["-created_at"]
