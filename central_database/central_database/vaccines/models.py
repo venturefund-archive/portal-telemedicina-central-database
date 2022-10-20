@@ -3,7 +3,7 @@ from datetime import datetime
 from django.core.exceptions import ValidationError
 from django.db import models
 
-from central_database.base_models import Alert, CDModel
+from central_database.base_models import Alert, AlertType, CDModel
 
 
 class Vaccine(CDModel, models.Model):
@@ -150,24 +150,44 @@ class VaccineDose(CDModel, models.Model):
         return f"Vaccine: {self.vaccine} - Dose: {self.dose_order}"
 
 
+class VaccineAlertType(AlertType, models.Model):
+    """
+    This class is used to represent a type of alert for Vaccines.
+    """
+
+    description = models.CharField(
+        max_length=100,
+        help_text="Describe the event/issue this alert is representing.",  # noqa: E501
+    )
+
+    class Meta:
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=["description"], name="unique_description"
+            ),  # noqa: E501
+            models.UniqueConstraint(
+                fields=["description_pt_br"], name="unique_description_pt_br"
+            ),
+        ]
+
+    def __str__(self):
+        return f"{self.id}: {self.description}"
+
+
 class VaccineAlert(Alert, models.Model):
     """
     This class is used to represent a Vaccine alert.
     """
 
-    DELAY = "Delayed"
-    VACCINATION_ISSUES = [
-        (DELAY, "Dose is delayed"),
-    ]
-
     vaccine_dose = models.ForeignKey(
         VaccineDose, on_delete=models.CASCADE, related_name="vaccine_doses"
     )
     patient_id = models.PositiveIntegerField(help_text="Patient ID from FHIR.")
-    issue = models.CharField(
-        max_length=50,
-        choices=VACCINATION_ISSUES,
-        help_text="Vaccination issue communicated by this alert.",
+    alert_type = models.ForeignKey(
+        VaccineAlertType,
+        on_delete=models.CASCADE,
+        related_name="vaccine_alert_types",  # noqa: E501
     )
     created_at = models.DateTimeField(default=datetime.now, blank=True)
     active = models.BooleanField(
@@ -177,16 +197,16 @@ class VaccineAlert(Alert, models.Model):
     class Meta:
         indexes = [
             models.Index(fields=["patient_id"]),
-            models.Index(fields=["issue"]),
+            models.Index(fields=["alert_type"]),
             models.Index(fields=["created_at"]),
         ]
 
         constraints = [
             models.UniqueConstraint(
-                fields=["vaccine_dose", "patient_id", "issue"],
+                fields=["vaccine_dose", "patient_id", "alert_type"],
                 name="unique_dose_alert_type_per_patient",
             )
         ]
 
     def __str__(self):
-        return f"Vaccine dose {self.vaccine_dose} for patient {self.patient_id} is {self.issue}."  # noqa: E501
+        return f"Vaccine dose {self.vaccine_dose} for patient {self.patient_id} has alert: {self.alert_type}."  # noqa: E501

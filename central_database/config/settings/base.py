@@ -62,6 +62,7 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # "django.contrib.humanize", # Handy template tags
+    "modeltranslation",
     "django.contrib.admin",
     "django.forms",
 ]
@@ -325,3 +326,8 @@ SPECTACULAR_SETTINGS = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
+gettext = lambda s: s  # noqa: E731
+LANGUAGES = (
+    ("en", gettext("English")),
+    ("pt-br", gettext("Português")),
+)
