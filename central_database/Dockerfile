@@ -27,7 +27,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
 
 RUN pip install poetry==${POETRY_VERSION}
 
-COPY ../pyproject.toml ../poetry.lock ./
+COPY pyproject.toml poetry.lock ./
 RUN poetry config virtualenvs.create false && \
     poetry install --no-interaction --no-root
 
