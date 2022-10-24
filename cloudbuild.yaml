@@ -1,0 +1,38 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '--build-arg', 'BUILD_ENVIRONMENT=${_BUILD_ENVIRONMENT}', '-t', 'us.gcr.io/$PROJECT_ID/$REPO_NAME-$BRANCH_NAME:$COMMIT_SHA', '-f', './central_database/Dockerfile', '.']
+  timeout: 500s
+- name: 'google/cloud-sdk:alpine'
+  args:
+    - source
+    - repos
+    - clone
+    - $_HELM_CHART_REPOSITORY
+  id: Clone Helm Chart Repository
+  entrypoint: gcloud
+- name: 'google/cloud-sdk:alpine'
+  args:
+    - '-c'
+    - >
+      cd $_HELM_CHART_REPOSITORY
+
+      git checkout master
+
+      cd $(echo $REPO_NAME | sed 's/bitbucket_ptmtech_//g')
+
+      sed -i "s/tag: [a-z0-9]\{40\}/tag: ${COMMIT_SHA}/" values-$BRANCH_NAME.yaml
+
+      git config --global user.email
+      "cloudbuild@ptm-devops.portaltelemedicina.com.br"
+
+      git config --global user.name "CloudBuild"
+
+      git commit -am "Update image tag"
+
+      git push
+  id: Replace image tag and commit
+  entrypoint: /bin/sh
+images:
+- 'us.gcr.io/$PROJECT_ID/$REPO_NAME-$BRANCH_NAME:$COMMIT_SHA'
+substitutions:
+  _HELM_CHART_REPOSITORY: unicef-helm-charts
