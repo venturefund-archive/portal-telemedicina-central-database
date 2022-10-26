@@ -351,6 +351,21 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "dj-rest-auth"
+version = "2.2.5"
+description = "Authentication and Registration in Django Rest Framework"
+category = "main"
+optional = false
+python-versions = ">=3.5"
+
+[package.dependencies]
+Django = ">=2.0"
+djangorestframework = ">=3.7.0"
+
+[package.extras]
+with_social = ["django-allauth (>=0.40.0,<0.51.0)"]
+
+[[package]]
 name = "django"
 version = "3.2.14"
 description = "A high-level Python Web framework that encourages rapid development and clean, pragmatic design."
@@ -1978,7 +1993,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "6a57cad00080ad3be5f0bc030bce1beb9bb43d841e02383f456875e22bb9903d"
+content-hash = "383a53e723f42d6d6eb6ca69ec8977555b6e49a4c5e59f6b91daca539c75fcef"
 
 [metadata.files]
 alabaster = [
@@ -2260,6 +2275,9 @@ dill = [
 distlib = [
     {file = "distlib-0.3.5-py2.py3-none-any.whl", hash = "sha256:b710088c59f06338ca514800ad795a132da19fda270e3ce4affc74abf955a26c"},
     {file = "distlib-0.3.5.tar.gz", hash = "sha256:a7f75737c70be3b25e2bee06288cec4e4c221de18455b2dd037fe2a795cab2fe"},
+]
+dj-rest-auth = [
+    {file = "dj-rest-auth-2.2.5.tar.gz", hash = "sha256:c9a0dd9c79c33a2d4c723d1e4c1a60ab4657b6333aa2539b6781fe25a01c41b6"},
 ]
 django = [
     {file = "Django-3.2.14-py3-none-any.whl", hash = "sha256:a8681e098fa60f7c33a4b628d6fcd3fe983a0939ff1301ecacac21d0b38bad56"},
