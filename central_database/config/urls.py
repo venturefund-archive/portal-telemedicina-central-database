@@ -21,6 +21,7 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
     path("users/", include("central_database.users.urls", namespace="users")),
+    path("api/v1/vaccines/", include("vaccines.urls")),
     path("accounts/", include("allauth.urls")),
     path("health/", include("central_database.health.urls")),  # noqa
     # Your stuff: custom urls includes go here
