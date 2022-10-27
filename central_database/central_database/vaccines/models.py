@@ -149,6 +149,11 @@ class VaccineDose(CDModel, models.Model):
     def __str__(self):
         return f"Vaccine: {self.vaccine} - Dose: {self.dose_order}"
 
+    def get_vaccine_alerts(self, patient_id):
+        return VaccineAlert.objects.filter(
+            vaccine_dose=self.id, active=True, patient_id=patient_id
+        )
+
 
 class VaccineAlertType(AlertType, models.Model):
     """
