@@ -7,13 +7,12 @@ COPY ./package-lock.json /app
 
 RUN npm install
 
-COPY ./ /app
+COPY . ./
 RUN npm run build
 
 # production stage
 # FROM nginx:alpine as production-stage
 # COPY --from=build-stage /app/dist /usr/share/nginx/html
 
-EXPOSE 90
 # CMD ["nginx", "-g", "daemon off;"]
-CMD ["npm", "run", "dev"]
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
