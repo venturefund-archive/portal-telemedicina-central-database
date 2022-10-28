@@ -103,7 +103,7 @@ AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
 LOGIN_REDIRECT_URL = "users:redirect"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
-LOGIN_URL = "account_login"
+LOGIN_URL = "http://localhost:3000/#/"
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
@@ -267,6 +267,8 @@ LOGGING = {
 
 # django-allauth
 # ------------------------------------------------------------------------------
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+
 ACCOUNT_ALLOW_REGISTRATION = env.bool("DJANGO_ACCOUNT_ALLOW_REGISTRATION", True)  # noqa
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_AUTHENTICATION_METHOD = "username"
