@@ -13,7 +13,7 @@
                         </div>
                     </div>
                     <div>
-                        <img src="404.png" />
+                        <img src="" />
                     </div>
                 </div>
             </div>
