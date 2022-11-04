@@ -62,6 +62,7 @@ DJANGO_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # "django.contrib.humanize", # Handy template tags
+    "modeltranslation",
     "django.contrib.admin",
     "django.forms",
 ]
@@ -79,6 +80,7 @@ THIRD_PARTY_APPS = [
 
 LOCAL_APPS = [
     "central_database.users",
+    "central_database.vaccines.apps.VaccinesConfig",
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -320,3 +322,8 @@ SPECTACULAR_SETTINGS = {
 }
 # Your stuff...
 # ------------------------------------------------------------------------------
+gettext = lambda s: s  # noqa: E731
+LANGUAGES = (
+    ("en", gettext("English")),
+    ("pt-br", gettext("Português")),
+)
