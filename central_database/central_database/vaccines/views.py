@@ -16,5 +16,6 @@ class VaccineDosesViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
     def get_serializer_context(self):
         context = super().get_serializer_context()
         parameter = self.request.query_params.get("patient_id")
-        context.update({"patient_id": parameter})
+        if parameter:
+            context.update({"patient_id": parameter})
         return context
