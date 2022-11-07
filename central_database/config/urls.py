@@ -20,7 +20,6 @@ urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
-<<<<<<< HEAD
     path(
         "users/",
         include(
@@ -28,12 +27,6 @@ urlpatterns = [
             namespace="users",  # noqa: E501
         ),
     ),
-||||||| parent of d4d431e (feat: add vaccine dose url)
-    path("users/", include("central_database.users.urls", namespace="users")),
-=======
-    path("users/", include("central_database.users.urls", namespace="users")),
-    path("api/v1/vaccines/", include("vaccines.urls")),
->>>>>>> d4d431e (feat: add vaccine dose url)
     path("accounts/", include("allauth.urls")),
     path("health/", include("central_database.health.urls")),  # noqa
     # Your stuff: custom urls includes go here
