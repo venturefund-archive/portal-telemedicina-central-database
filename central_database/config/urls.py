@@ -24,6 +24,7 @@ urlpatterns = [
     # User management
     path("users/", include("central_database.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
+<<<<<<< HEAD
     path("dj-rest-auth/", include("dj_rest_auth.urls")),
     path(
         "dj-rest-auth/registration/account-confirm-email/<str:key>/",
@@ -42,6 +43,11 @@ urlpatterns = [
         PasswordResetConfirmView.as_view(),
         name="password_reset_confirm",
     ),
+=======
+    path(
+        "health/", include("central_database.health.urls"), namespace="health"
+    ),  # noqa
+>>>>>>> f2d8155 (feat: add health-check route)
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
