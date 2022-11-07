@@ -22,6 +22,7 @@ urlpatterns = [
     # User management
     path("users/", include("central_database.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
+    path("health/", include("central_database.health.urls")),  # noqa
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
