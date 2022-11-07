@@ -25,6 +25,7 @@ urlpatterns = [
     path("users/", include("central_database.users.urls", namespace="users")),
     path("accounts/", include("allauth.urls")),
 <<<<<<< HEAD
+<<<<<<< HEAD
     path("dj-rest-auth/", include("dj_rest_auth.urls")),
     path(
         "dj-rest-auth/registration/account-confirm-email/<str:key>/",
@@ -48,6 +49,9 @@ urlpatterns = [
         "health/", include("central_database.health.urls"), namespace="health"
     ),  # noqa
 >>>>>>> f2d8155 (feat: add health-check route)
+=======
+    path("health/", include("central_database.health.urls")),  # noqa
+>>>>>>> 1e0479a (fix: remove namespace from url path)
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
