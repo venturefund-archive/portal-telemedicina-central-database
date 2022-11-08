@@ -23,39 +23,11 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
     path("users/", include("central_database.users.urls", namespace="users")),
-    path("accounts/", include("allauth.urls")),
-<<<<<<< HEAD
-<<<<<<< HEAD
-    path("dj-rest-auth/", include("dj_rest_auth.urls")),
-    path(
-        "dj-rest-auth/registration/account-confirm-email/<str:key>/",
-        ConfirmEmailView.as_view(),
-    ),
-    path(
-        "dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")
-    ),  # noqa
-    path(
-        "dj-rest-auth/account-confirm-email/",
-        VerifyEmailView.as_view(),
-        name="account_email_verification_sent",
-    ),
-    path(
-        "rest-auth/password/reset/confirm/<slug:uidb64>/<slug:token>/",
-        PasswordResetConfirmView.as_view(),
-        name="password_reset_confirm",
-    ),
-=======
-    path(
-        "health/", include("central_database.health.urls"), namespace="health"
-    ),  # noqa
->>>>>>> f2d8155 (feat: add health-check route)
-=======
     path("health/", include("central_database.health.urls")),  # noqa
-<<<<<<< HEAD
->>>>>>> 1e0479a (fix: remove namespace from url path)
-=======
-    path('dj-rest-auth/', include('dj_rest_auth.urls')),
-    path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),  # noqa
+    path("dj-rest-auth/", include("dj_rest_auth.urls")),
+    path(
+        "dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")
+    ),  # noqa
     path("dj-rest-auth/", include("dj_rest_auth.urls")),
     path(
         "dj-rest-auth/registration/account-confirm-email/<str:key>/",
@@ -74,7 +46,7 @@ urlpatterns = [
         PasswordResetConfirmView.as_view(),
         name="password_reset_confirm",
     ),
->>>>>>> e182334 (feat: add user auth and register endpoints)
+    path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:
