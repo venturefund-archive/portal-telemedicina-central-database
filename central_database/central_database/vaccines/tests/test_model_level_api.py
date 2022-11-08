@@ -1,7 +1,7 @@
 from rest_framework.test import APITestCase
 
-from central_database.vaccines.factories import (
-    UserFactory,
+from central_database.users.tests.factories import UserFactory
+from central_database.vaccines.tests.factories import (
     VaccineAlertFactory,
     VaccineDoseFactory,
 )

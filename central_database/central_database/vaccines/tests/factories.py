@@ -1,17 +1,11 @@
 import factory.fuzzy
 
-from central_database.users.models import User
 from central_database.vaccines.models import (
     Vaccine,
     VaccineAlert,
     VaccineAlertType,
     VaccineDose,
 )
-
-
-class UserFactory(factory.django.DjangoModelFactory):
-    class Meta:
-        model = User
 
 
 class VaccineFactory(factory.django.DjangoModelFactory):
