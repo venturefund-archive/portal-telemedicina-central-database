@@ -23,7 +23,7 @@ class TestVaccineDoseViewSet(APITestCase):
         self.user = UserFactory()
 
     def test_it_requires_authentication(self):
-        response = self.client.get(reverse("vaccines:vaccine-doses-list"))
+        response = self.client.get(reverse("api:vaccine-doses-list"))
 
         self.assertEqual(response.status_code, 403)
 
@@ -42,7 +42,7 @@ class TestVaccineDoseViewSet(APITestCase):
             maximum_recommended_age=2,
         )
 
-        url = reverse("vaccines:vaccine-doses-list")
+        url = reverse("api:vaccine-doses-list")
 
         self.client.force_authenticate(self.user)
         response = self.client.get(url)
@@ -72,7 +72,7 @@ class TestVaccineDoseViewSet(APITestCase):
         vaccine_alert_1.save()
         query_params = {"patient_id": 11}
         url = build_url_with_query_params(
-            "vaccines:vaccine-doses-list", query_params
+            "api:vaccine-doses-list", query_params
         )  # noqa: E501
 
         self.client.force_authenticate(self.user)

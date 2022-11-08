@@ -2,8 +2,8 @@ from django.shortcuts import render  # noqa: F401
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from rest_framework.viewsets import GenericViewSet
 
+from central_database.vaccines.api.serializers import VaccineDosesSerializer
 from central_database.vaccines.models import VaccineDose
-from central_database.vaccines.serializers import VaccineDosesSerializer
 
 
 class VaccineDosesViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):

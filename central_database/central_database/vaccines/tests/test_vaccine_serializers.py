@@ -1,10 +1,10 @@
 from rest_framework.test import APITestCase
 
-from central_database.vaccines.factories import (  # noqa: E501
+from central_database.vaccines.api.serializers import VaccineDosesSerializer
+from central_database.vaccines.tests.factories import (  # noqa: E501
     VaccineAlertFactory,
     VaccineDoseFactory,
 )
-from central_database.vaccines.serializers import VaccineDosesSerializer
 
 
 class TestVaccineDoseSerializer(APITestCase):

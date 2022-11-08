@@ -15,6 +15,7 @@ class VaccineDosesSerializer(serializers.ModelSerializer):
     class Meta:
         model = VaccineDose
         fields = [
+            "id",
             "vaccine",
             "minimum_recommended_age",
             "maximum_recommended_age",
