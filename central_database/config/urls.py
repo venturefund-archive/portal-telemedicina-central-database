@@ -26,10 +26,6 @@ urlpatterns = [
     path("health/", include("central_database.health.urls")),  # noqa
     path("dj-rest-auth/", include("dj_rest_auth.urls")),
     path(
-        "dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")
-    ),  # noqa
-    path("dj-rest-auth/", include("dj_rest_auth.urls")),
-    path(
         "dj-rest-auth/registration/account-confirm-email/<str:key>/",
         ConfirmEmailView.as_view(),
     ),
