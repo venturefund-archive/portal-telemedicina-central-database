@@ -1,3 +1,8 @@
+// router.beforeEach((to, from, next) => {
+//   if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
+//   else next()
+// })
+
 export default [
   {
     path: '/dashboard',

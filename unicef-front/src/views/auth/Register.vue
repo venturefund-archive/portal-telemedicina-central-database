@@ -3,7 +3,7 @@
     <div class="grid gap-6">
       <!-- Name input -->
       <div class="space-y-2">
-        <Label for="name" value="Name" />
+        <Label for="name" value="Username" />
         <InputIconWrapper>
           <template #icon>
             <UserIcon aria-hidden="true" class="h-5 w-5" />
@@ -12,19 +12,19 @@
             withIcon
             id="name"
             type="text"
-            placeholder="Name"
+            placeholder="Username"
             class="block w-full"
             v-model="registerForm.name"
             required
             autofocus
-            autocomplete="name"
+            autocomplete="username"
           />
         </InputIconWrapper>
       </div>
 
       <!-- Email input -->
       <div class="space-y-2">
-        <Label for="email" value="Email" />
+        <Label for="email" value="E-mail" />
         <InputIconWrapper>
           <template #icon>
             <MailIcon aria-hidden="true" class="h-5 w-5" />
@@ -34,7 +34,7 @@
             id="email"
             type="email"
             class="block w-full"
-            placeholder="Email"
+            placeholder="E-mail"
             v-model="registerForm.email"
             required
             autocomplete="username"
