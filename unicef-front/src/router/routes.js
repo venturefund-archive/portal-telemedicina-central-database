@@ -2,6 +2,9 @@
 //   if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
 //   else next()
 // })
+import { useStorage } from '@vueuse/core'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 export default [
   {
@@ -24,6 +27,13 @@ export default [
         component: () => import('@/views/pages/Patient.vue'),
       },
     ],
+    beforeEnter: (to, from) => {
+      const state = useStorage('app-store', { token: '' })
+      if (Boolean(state.value.token)) {
+        return true
+      }
+      return { name: 'Login' }
+    },
   },
   {
     path: '/auth',
@@ -62,5 +72,5 @@ export default [
       },
     ],
   },
-  { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/components/pages/NotFound.vue')}
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/components/pages/NotFound.vue') },
 ]
