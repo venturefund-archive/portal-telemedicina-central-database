@@ -1,15 +1,14 @@
 <template>
   <div>
-    <p v-for="(error,k) in errors" :key="k">{{error}}</p>
     <h2 class="font-bold">Restricted access!</h2>
-    <p class="max-w-xl mb-5 text-gray-500 text-sm">
+    <p class="mb-5 max-w-xl text-sm text-gray-500">
       Work environment reserved for restricted access of health professionals.
     </p>
   </div>
   <form @submit.prevent="login">
     <div class="grid gap-6">
       <!-- User input -->
-      <div class="space-y-2 mb-1">
+      <div class="mb-1 space-y-2">
         <InputIconWrapper>
           <template #icon>
             <UserIcon aria-hidden="true" class="h-5 w-5" />
@@ -21,7 +20,6 @@
             class="block w-full"
             placeholder="Username"
             v-model="loginForm.username"
-            
             autofocus
             autocomplete="username"
           />
@@ -41,7 +39,6 @@
             class="block w-full"
             placeholder="Password"
             v-model="loginForm.password"
-            
             autocomplete="current-password"
           />
         </InputIconWrapper>
@@ -84,14 +81,15 @@
 <script setup>
 import { reactive } from 'vue'
 import InputIconWrapper from '@/components/InputIconWrapper.vue'
-import { MailIcon, LockClosedIcon, LoginIcon,UserIcon } from '@heroicons/vue/outline'
+import { MailIcon, LockClosedIcon, LoginIcon, UserIcon } from '@heroicons/vue/outline'
 // import { useHttp } from '@/composables
 import axios from 'axios'
-import { useRouter } from "vue-router";
+import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
-const router = useRouter();
+// import { errorToast } from '@/toast'
 
-const errors = []
+const router = useRouter()
+
 const loginForm = reactive({
   username: '',
   password: '',
@@ -100,61 +98,18 @@ const loginForm = reactive({
 })
 
 const login = async () => {
-  const data = {
-      "name": "Login",
-      "description": "Check the credentials and return the REST Token\nif the credentials are valid and authenticated.\nCalls Django Auth login method to register User ID\nin Django session framework\n\nAccept the following POST parameters: username, password\nReturn the REST Framework Token Object's key.",
-      "renders": [
-          "application/json",
-          "text/html"
-      ],
-      "parses": [
-          "application/json",
-          "application/x-www-form-urlencoded",
-          "multipart/form-data"
-      ],
-      "actions": {
-          "POST": {
-              "username": {
-                  "type": "string",
-                  "required": false,
-                  "read_only": false,
-                  "label": "Username"
-              },
-              "email": {
-                  "type": "email",
-                  "required": false,
-                  "read_only": false,
-                  "label": "Email"
-              },
-              "password": {
-                  "type": "string",
-                  "required": true,
-                  "read_only": false,
-                  "label": "Password"
-              }
-          }
-      }
-  }
-  console.log('tokenantigo:')
-  const state = useStorage('my-store', { token: 'hi' })
-  console.log(state.value.token)
+  const state = useStorage('app-store', { token: '' })
+  // console.log('token guardado: ' + state.value.token)
   try {
-    const response = await axios.post('http://localhost:8000/accounts/login/', loginForm)
-    const accessToken = response.key
-    state.value.token = accessToken
-    errors =  response.non_field_errors
-    await router.replace({ name: "Dashboard" }) ;
-  } catch (err) {
-    errors.push(err)
-    // if (err instanceof InvalidOtpError) {
-    //   await router.push({ name: "auth.login.otp" });
-    // } else {
-    //   toast.error(get(err, "message"));
-    //   throw err;
-    // }
-  }
+    const response = await axios.post('http://localhost:8000/dj-rest-auth/login/', loginForm)
 
-  // console.log(loginForm.username)
-  // console.log(data)e: "Dashboard" });
+    if (!response.data.non_field_errors || 0 === response.data.non_field_errors.length) {
+      state.value.token = response.data.key
+      router.replace({ name: 'Dashboard' })
+    }
+  } catch (err) {
+    console.log(err.message)
+    // errorToast(err.message)
+  }
 }
 </script>
