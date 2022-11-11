@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-shrink-0 items-center justify-between px-3">
-    <router-link :to="{ name: 'Dashboard' }" class="inline-flex items-center gap-2">
+    <router-link to="/" class="inline-flex items-center gap-2">
       <span class="sr-only">Unicef</span>
       <LogoFull class="w-36" v-if="sidebarState.isOpen || sidebarState.isHovered" aria-hidden="true" />
       <Logo v-else aria-hidden="true" class="h-auto w-10" />

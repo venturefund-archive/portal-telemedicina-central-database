@@ -1,7 +1,7 @@
 <template>
   <PageWrapper title="Patient">
-    {{ $route.params.id  }}
-    data  de nasc: 
+    {{ $route.params.id }}
+    data de nasc:
   </PageWrapper>
 </template>
 

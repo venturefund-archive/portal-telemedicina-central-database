@@ -2,7 +2,7 @@
   <nav
     aria-label="secondary"
     :class="[
-      'sticky top-0 z-10 flex items-center justify-between bg-white px-6 py-4 transition-transform duration-500 dark:bg-dark-eval-1',
+      'dark:bg-dark-eval-1 sticky top-0 z-10 flex items-center justify-between bg-white px-6 py-4 transition-transform duration-500',
       {
         '-translate-y-full': scrolling.down,
         'translate-y-0': scrolling.up,
@@ -11,9 +11,7 @@
   >
     <div class="flex items-center gap-2">
       <form>
-        <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900"
-          >Search</label
-        >
+        <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900">Search</label>
         <div class="relative">
           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
             <svg
@@ -39,7 +37,6 @@
           />
         </div>
       </form>
-
     </div>
 
     <div class="flex items-center gap-2">
@@ -47,7 +44,7 @@
       <Dropdown align="right" width="48">
         <template #trigger>
           <button
-            class="flex rounded-md border-2 border-transparent text-sm transition focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-dark-eval-1"
+            class="dark:focus:ring-offset-dark-eval-1 flex rounded-md border-2 border-transparent text-sm transition focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-1 focus:ring-offset-white"
           >
             <div class="flex flex-col items-end justify-center">
               <p class="font-bold">Cody Simmmons</p>
@@ -57,7 +54,7 @@
           </button>
         </template>
         <template #content>
-          <DropdownLink to="/">Log Out</DropdownLink>
+          <DropdownLink to="#" @click="logout">Log Out</DropdownLink>
         </template>
       </Dropdown>
       <Button
@@ -77,7 +74,7 @@
   <!-- Mobile bottom bar -->
   <div
     :class="[
-      'fixed inset-x-0 bottom-0 flex items-center justify-between bg-white px-4 py-4 transition-transform duration-500 dark:bg-dark-eval-1 sm:px-6 md:hidden',
+      'dark:bg-dark-eval-1 fixed inset-x-0 bottom-0 flex items-center justify-between bg-white px-4 py-4 transition-transform duration-500 sm:px-6 md:hidden',
       {
         'translate-y-full': scrolling.down,
         'translate-y-0': scrolling.up,
@@ -88,7 +85,7 @@
       <SearchIcon aria-hidden="true" :class="iconSizeClasses" />
     </Button>
 
-    <router-link :to="{ name: 'Dashboard' }">
+    <router-link to="/">
       <Logo class="h-10 w-10" />
       <span class="sr-only">unicef</span>
     </router-link>
@@ -120,8 +117,39 @@ import {
 } from '@/composables'
 import { ArrowsInnerIcon } from '@/components/icons/outline'
 import userAvatar from '@/assets/images/avatar.jpg'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
+import { useStorage } from '@vueuse/core'
+import { errorToast, successToast } from '@/toast'
 
+const router = useRouter()
 const { isFullscreen, toggle: toggleFullScreen } = useFullscreen()
+
+const logout = async () => {
+  const state = useStorage('app-store', { token: '' })
+  try {
+    const response = await axios.post(import.meta.env.VITE_API_URL + 'logout/')
+    state.value = null
+    successToast({ text: "You've successfully logged out." })
+    router.replace({ name: 'Login' })
+  } catch (err) {
+    errorToast({ text: err.message })
+  }
+}
+
+const me = async () => {
+  const state = useStorage('app-store', { token: '' })
+  try {
+    const response = await axios.get(import.meta.env.VITE_API_URL + 'user/', {
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${state.value.token}`,
+      },
+    })
+  } catch (err) {
+    errorToast({ text: err.message })
+  }
+}
 
 onMounted(() => {
   document.addEventListener('scroll', handleScroll)

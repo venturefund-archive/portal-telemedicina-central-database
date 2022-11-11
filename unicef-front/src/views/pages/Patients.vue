@@ -1,7 +1,6 @@
 <template>
   <PageWrapper title="Patients">
-<ProfileCard/>
-
+    <ProfileCard />
   </PageWrapper>
 </template>
 
