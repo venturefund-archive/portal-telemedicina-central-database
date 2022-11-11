@@ -6,7 +6,6 @@
 
   <form @submit.prevent="submit">
     <div class="grid gap-6">
-      <!-- Email input -->
       <div class="space-y-2">
         <Label for="email" value="Email" />
         <InputIconWrapper>
@@ -27,7 +26,6 @@
         </InputIconWrapper>
       </div>
 
-      <!-- Submit button -->
       <div>
         <Button
           type="submit"
@@ -46,14 +44,26 @@
 <script setup>
 import { reactive } from 'vue'
 import InputIconWrapper from '@/components/InputIconWrapper.vue'
-import { MailIcon, PaperAirplaneIcon } from '@heroicons/vue/outline'
+import { MailIcon, LockClosedIcon, LoginIcon, UserIcon } from '@heroicons/vue/outline'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
+import { useStorage } from '@vueuse/core'
+import { errorToast, successToast } from '@/toast'
+
+const router = useRouter()
 
 const forgotPasswordForm = reactive({
   email: '',
   processing: false,
 })
 
-const submit = () => {
-  //
+const submit = async () => {
+  try {
+    const response = await axios.post(import.meta.env.VITE_API_URL + 'password/reset/', forgotPasswordForm)
+    successToast({ text: response.data.detail })
+    router.replace({ name: 'Login' })
+  } catch (err) {
+    errorToast({ text: err.message })
+  }
 }
 </script>

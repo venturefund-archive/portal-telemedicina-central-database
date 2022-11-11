@@ -3,9 +3,9 @@
     v-if="href"
     :href="href"
     :class="[
-      'flex items-center gap-2 rounded-md p-2 transition-colors hover:no-underline no-underline',
+      'flex items-center gap-2 rounded-md p-2 no-underline transition-colors hover:no-underline',
       {
-        'text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-dark-eval-2 dark:hover:text-gray-300':
+        'dark:hover:bg-dark-eval-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:hover:text-gray-300':
           !active,
         'bg-blue-500 text-white shadow-lg hover:bg-blue-600': active,
       },
@@ -21,9 +21,9 @@
     v-else-if="to"
     :to="to"
     :class="[
-      'flex items-center gap-2 rounded-md p-2 transition-colors hover:no-underline no-underline',
+      'flex items-center gap-2 rounded-md p-2 no-underline transition-colors hover:no-underline',
       {
-        'text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:hover:bg-dark-eval-2 dark:hover:text-gray-300':
+        'dark:hover:bg-dark-eval-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:hover:text-gray-300':
           !active,
         'bg-blue-500 text-white shadow-lg hover:bg-blue-600': active,
       },
@@ -41,7 +41,7 @@
     :class="[
       'flex w-full items-center gap-2 rounded-md p-2 transition-colors',
       {
-        'text-gray-400 hover:bg-gray-100 hover:text-gray-500 dark:hover:bg-dark-eval-2 dark:hover:text-gray-300':
+        'dark:hover:bg-dark-eval-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 dark:hover:text-gray-300':
           !active,
         'bg-blue-500 text-white shadow-lg hover:bg-blue-600': active,
       },

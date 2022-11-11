@@ -4,6 +4,7 @@
 // })
 import { useStorage } from '@vueuse/core'
 import { useRouter } from 'vue-router'
+import { errorToast, successToast } from '@/toast'
 const router = useRouter()
 
 export default [
@@ -32,6 +33,7 @@ export default [
       if (Boolean(state.value.token)) {
         return true
       }
+      errorToast({ text: 'Authenticated area please login first.' })
       return { name: 'Login' }
     },
   },
@@ -71,6 +73,14 @@ export default [
         component: () => import('@/views/auth/VerifyEmail.vue'),
       },
     ],
+    beforeEnter: (to, from) => {
+      const state = useStorage('app-store', { token: '' })
+      if (!Boolean(state.value.token)) {
+        return true
+      }
+      successToast({ text: "You're already authenticated." })
+      return { name: 'Dashboard' }
+    },
   },
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/components/pages/NotFound.vue') },
 ]

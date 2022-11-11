@@ -86,7 +86,7 @@ import { MailIcon, LockClosedIcon, LoginIcon, UserIcon } from '@heroicons/vue/ou
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
-// import { errorToast } from '@/toast'
+import { errorToast, successToast } from '@/toast'
 
 const router = useRouter()
 
@@ -99,17 +99,22 @@ const loginForm = reactive({
 
 const login = async () => {
   const state = useStorage('app-store', { token: '' })
-  // console.log('token guardado: ' + state.value.token)
   try {
-    const response = await axios.post('http://localhost:8000/dj-rest-auth/login/', loginForm)
+    const response = await axios.post(import.meta.env.VITE_API_URL + 'login/', loginForm)
 
-    if (!response.data.non_field_errors || 0 === response.data.non_field_errors.length) {
-      state.value.token = response.data.key
-      router.replace({ name: 'Dashboard' })
+    if (response.data.non_field_errors) {
+      errorToast({ text: err.message })
+      return false
     }
+    state.value.token = response.data.key
+    successToast({ text: "You've successfully logged in." })
+    router.replace({ name: 'Dashboard' })
   } catch (err) {
-    console.log(err.message)
-    // errorToast(err.message)
+    if (err.response.data.non_field_errors) {
+      errorToast({ text: err.response.data.non_field_errors.join(', ') })
+      return false
+    }
+    errorToast({ text: err.message })
   }
 }
 </script>
