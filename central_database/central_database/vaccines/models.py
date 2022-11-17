@@ -154,6 +154,11 @@ class VaccineDose(CDModel, models.Model):
             vaccine_dose=self.id, active=True, patient_id=patient_id
         )
 
+    def get_vaccine_status(self, patient_id):
+        return VaccineStatus.objects.filter(
+            vaccine_dose=self.id, patient_id=patient_id
+        )  # noqa: E501
+
 
 class VaccineAlertType(AlertType, models.Model):
     """
@@ -180,14 +185,28 @@ class VaccineAlertType(AlertType, models.Model):
         return f"{self.id}: {self.description}"
 
 
+class VaccineStatus(CDModel, models.Model):
+    vaccine_dose = models.ForeignKey(
+        VaccineDose, on_delete=models.CASCADE
+    )  # noqa: E501
+    patient_id = models.PositiveIntegerField(
+        help_text="Patient ID from FHIR."
+    )  # noqa: E501
+    completed = models.BooleanField(default=False)
+
+    class Meta:
+        indexes = [models.Index(fields=["patient_id"])]  # noqa: E501
+
+    def __str__(self):
+        return f"Vaccine dose {self.vaccine_dose} for patient {self.patient_id} has completion status: {self.completed}."  # noqa: E501
+
+
 class VaccineAlert(Alert, models.Model):
     """
     This class is used to represent a Vaccine alert.
     """
 
-    vaccine_dose = models.ForeignKey(
-        VaccineDose, on_delete=models.CASCADE, related_name="vaccine_doses"
-    )
+    vaccine_dose = models.ForeignKey(VaccineDose, on_delete=models.CASCADE)
     patient_id = models.PositiveIntegerField(help_text="Patient ID from FHIR.")
     alert_type = models.ForeignKey(
         VaccineAlertType,
@@ -212,6 +231,20 @@ class VaccineAlert(Alert, models.Model):
                 name="unique_dose_alert_type_per_patient",
             )
         ]
+
+    def clean(self, *args, **kwargs):
+        vaccine_dose_status = VaccineStatus.objects.filter(  # noqa
+            patient_id=self.patient_id, vaccine_dose=self.vaccine_dose  # noqa
+        )
+        if (
+            vaccine_dose_status.exists()
+            and vaccine_dose_status.first().completed  # noqa
+        ):  # noqa: E501
+            raise ValidationError(
+                "It's not possible to create an vaccine dose alert to this patient, since it's already completed."  # noqa: E501
+            )
+
+        super().clean(*args, **kwargs)
 
     def __str__(self):
         return f"Vaccine dose {self.vaccine_dose} for patient {self.patient_id} has alert: {self.alert_type}."  # noqa: E501
