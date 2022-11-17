@@ -1,6 +1,12 @@
 from rest_framework import serializers
 
-from central_database.vaccines.models import VaccineAlert, VaccineDose
+from central_database.vaccines.models import Vaccine, VaccineAlert, VaccineDose
+
+
+class VaccineSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vaccine
+        fields = ["id", "description"]
 
 
 class VaccineAlertSerializer(serializers.ModelSerializer):
@@ -12,6 +18,7 @@ class VaccineAlertSerializer(serializers.ModelSerializer):
 class VaccineDosesSerializer(serializers.ModelSerializer):
     alerts = serializers.SerializerMethodField()
     is_completed = serializers.SerializerMethodField(method_name="get_status")
+    vaccine = VaccineSerializer()
 
     class Meta:
         model = VaccineDose

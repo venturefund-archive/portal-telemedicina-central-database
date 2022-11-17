@@ -15,7 +15,11 @@ class TestVaccineDoseSerializer(APITestCase):
         serialized_vaccine_dose = VaccineDosesSerializer(vaccine_dose).data
 
         self.assertEqual(
-            serialized_vaccine_dose["vaccine"], vaccine_dose.vaccine.id
+            serialized_vaccine_dose["vaccine"],
+            {
+                "id": vaccine_dose.vaccine.id,
+                "description": vaccine_dose.vaccine.description,
+            },
         )  # noqa: E501
         self.assertEqual(
             serialized_vaccine_dose["minimum_recommended_age"],
@@ -42,7 +46,11 @@ class TestVaccineDoseSerializer(APITestCase):
         VaccineDosesSerializer.context = {"patient_id": 11}
         serialized_vaccine_dose = VaccineDosesSerializer(vaccine_dose).data
         self.assertEqual(
-            serialized_vaccine_dose["vaccine"], vaccine_dose.vaccine.id
+            serialized_vaccine_dose["vaccine"],
+            {
+                "id": vaccine_dose.vaccine.id,
+                "description": vaccine_dose.vaccine.description,
+            },
         )  # noqa: E501
         self.assertEqual(
             serialized_vaccine_dose["minimum_recommended_age"],
