@@ -5,6 +5,7 @@ from central_database.vaccines.models import (
     VaccineAlert,
     VaccineAlertType,
     VaccineDose,
+    VaccineStatus,
 )
 
 
@@ -49,3 +50,12 @@ class VaccineAlertFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = VaccineAlert
+
+
+class VaccineStatusFactory(factory.django.DjangoModelFactory):
+    vaccine_dose = factory.SubFactory(VaccineDoseFactory)
+    patient_id = factory.Faker("pyint")
+    completed = factory.Faker("boolean")
+
+    class Meta:
+        model = VaccineStatus
