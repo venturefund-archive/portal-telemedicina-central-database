@@ -1,54 +1,55 @@
-from central_database.integrations.fhir_api.patient import PatientService
+import central_database.integrations.fhir_api.patient as service
 
 
-class PatientDetail:
-    def __init__(self, id):
-        service = PatientService()
-        self.detail = self.parse_patient_detail(service.get_detail(id))
+class Patient:
+    def __init__(self, id=None):
+        patient_service = service.PatientService()
+        if id:
+            self.detail = self._parse_patient_detail(
+                patient_service.get_detail(id)
+            )  # noqa: E501
+        else:
+            self.all = self._parse_all(patient_service.get_all())
 
-    def parse_address(self, data):
+    def _parse_address(self, data):
         data.pop("extension")
         return {
-            "line": data["line"][0],
-            "postal_code": data["postalCode"],
+            "line": data.get("line", None),
+            "postal_code": data.get("postalCode", None),
             **data,
         }  # noqa: E501
 
-    def parse_patient_detail(self, data):
+    def _parse_name(self, data):
+        return " ".join(data.get("given")) + " " + data.get("family")
+
+    def _parse_patient_detail(self, data):
         return {
-            "id": data["id"],
-            "name": data["name"][0]["family"],
-            "phone": data["telecom"][0]["value"],
-            "gender": data["gender"],
-            "birth_date": data["birthDate"],
-            "address": self.parse_address(data["address"][0]),
-            "marital_status": data["maritalStatus"]["text"],
+            "id": data.get("id", None),
+            "name": [
+                self._parse_name(name) for name in data.get("name", None)
+            ],  # noqa: E501
+            "telecom": data.get("telecom"),
+            "gender": data.get("gender"),
+            "birth_date": data.get("birthDate"),
+            "address": [
+                self._parse_address(address) for address in data.get("address")
+            ],
+            "marital_status": data.get("maritalStatus", None).get(
+                "text", None
+            ),  # noqa: E501
         }
 
-
-class PatientImmunization:
-    def __init__(self, id):
-        service = PatientService()
-        self.immunization = self.parse_patient_immunization(
-            service.get_immunization(id)
-        )
-
-    def parse_vaccine(self, data):
-        coding = data.pop("coding")[0]
-        return {**coding, **data}
-
-    def parse_immunization(self, data):
+    def _parse_initial_data(self, data):
         return {
             "id": data["id"],
-            "vaccine": self.parse_vaccine(data["vaccineCode"]),
-            "status": data["status"],
-            "timestamp": data["occurrenceDateTime"],
+            "name": [
+                self._parse_name(name) for name in data.get("name", None)
+            ],  # noqa: E501
         }
 
-    def parse_patient_immunization(self, data):
-        immunizations = data["entry"]
-        immunizations_list = [
-            self.parse_immunization(immunization["resource"])
-            for immunization in immunizations
+    def _parse_all(self, data):
+        list_of_patients = [
+            self._parse_initial_data(patient.get("resource", None))
+            for patient in data.get("entry", None)
         ]
-        return immunizations_list
+        return list_of_patients
