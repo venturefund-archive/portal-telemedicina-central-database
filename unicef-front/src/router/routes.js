@@ -58,7 +58,7 @@ export default [
         component: () => import('@/views/auth/ForgotPassword.vue'),
       },
       {
-        path: '/auth/reset-password',
+        path: '/rest-auth/password/reset/confirm/:uid/:token',
         name: 'ResetPassword',
         component: () => import('@/views/auth/ResetPassword.vue'),
       },
