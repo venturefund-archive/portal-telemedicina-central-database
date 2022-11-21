@@ -23,6 +23,7 @@ export default defineConfig({
         COMMIT_REF: '',
         BRANCH: '',
         CONTEXT: '',
+        VITE_API_URL: `http://localhost:8000/dj-rest-auth/`
       },
       { defineOn: 'import.meta.env' }
     ),
