@@ -128,7 +128,7 @@ const { isFullscreen, toggle: toggleFullScreen } = useFullscreen()
 const logout = async () => {
   const state = useStorage('app-store', { token: '' })
   try {
-    const response = await axios.post(import.meta.env.VITE_API_URL + 'logout/')
+    const response = await axios.post(import.meta.env.VITE_AUTH_API_URL + 'logout/')
     state.value = null
     successToast({ text: "You've successfully logged out." })
     router.replace({ name: 'Login' })
@@ -140,7 +140,7 @@ const logout = async () => {
 const me = async () => {
   const state = useStorage('app-store', { token: '' })
   try {
-    const response = await axios.get(import.meta.env.VITE_API_URL + 'user/', {
+    const response = await axios.get(import.meta.env.VITE_AUTH_API_URL + 'user/', {
       headers: {
         'Content-type': 'application/json',
         Authorization: `Bearer ${state.value.token}`,
