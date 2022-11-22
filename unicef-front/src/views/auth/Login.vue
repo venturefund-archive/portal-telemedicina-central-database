@@ -100,7 +100,7 @@ const loginForm = reactive({
 const login = async () => {
   const state = useStorage('app-store', { token: '' })
   try {
-    const response = await axios.post(import.meta.env.VITE_API_URL + 'login/', loginForm)
+    const response = await axios.post(import.meta.env.VITE_AUTH_API_URL + 'login/', loginForm)
 
     if (response.data.non_field_errors) {
       errorToast({ text: err.message })
