@@ -17,7 +17,7 @@ class TestPatientViewSet(APITestCase):
     def test_it_requires_authentication(self, mock_get):
         mock_get.return_value = json.load(
             open(
-                "central_database/patients/tests/fixtures/all_patients_fhir_responses.json"  # noqa: E501
+                "central_database/central_database/patients/tests/fixtures/all_patients_fhir_responses.json"  # noqa: E501
             )
         )
         response = self.client.get(reverse("api:patients-list"))
@@ -30,7 +30,7 @@ class TestPatientViewSet(APITestCase):
     def test_it_lists_patients(self, mock_get):
         mock_get.return_value = json.load(
             open(
-                "central_database/patients/tests/fixtures/all_patients_fhir_responses.json"  # noqa: E501
+                "central_database/central_database/patients/tests/fixtures/all_patients_fhir_responses.json"  # noqa: E501
             )
         )
 
@@ -49,7 +49,7 @@ class TestPatientViewSet(APITestCase):
     def test_it_retrieves_patient_detail(self, mock_get):
         mock_get.return_value = json.load(
             open(
-                "central_database/patients/tests/fixtures/patient_detail_fhir_response.json"  # noqa: E501
+                "central_database/central_database/patients/tests/fixtures/patient_detail_fhir_response.json"  # noqa: E501
             )
         )
 
