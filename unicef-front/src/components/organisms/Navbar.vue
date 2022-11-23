@@ -10,7 +10,7 @@
     ]"
   >
     <div class="flex items-center gap-2">
-      <form>
+      <form @submit.prevent="search">
         <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900">Search</label>
         <div class="relative">
           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -31,6 +31,7 @@
           </div>
           <input
             type="search"
+            v-model="queryText"
             class="block w-full rounded-lg border border-transparent bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 md:w-96"
             placeholder="Search for appointments, patients etc"
             required
@@ -105,7 +106,7 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, reactive } from 'vue'
 import { useFullscreen } from '@vueuse/core'
 import { SunIcon, MoonIcon, SearchIcon, MenuIcon, XIcon, ArrowsExpandIcon } from '@heroicons/vue/outline'
 import {
@@ -125,10 +126,12 @@ import { errorToast, successToast } from '@/toast'
 const router = useRouter()
 const { isFullscreen, toggle: toggleFullScreen } = useFullscreen()
 
+const queryText = ''
+
 const logout = async () => {
   const state = useStorage('app-store', { token: '' })
   try {
-    const response = await axios.post(import.meta.env.VITE_AUTH_API_URL + 'logout/')
+    const response = await axios.post(import.meta.env.AUTH_URL + 'logout/')
     state.value = null
     successToast({ text: "You've successfully logged out." })
     router.replace({ name: 'Login' })
@@ -137,10 +140,27 @@ const logout = async () => {
   }
 }
 
+const search = async () => {
+  const state = useStorage('app-store', { token: '' })
+  try {
+    console.log(queryText)
+    const response = await axios.get(import.meta.env.VITE_API_URL + 'patients/', {
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Bearer ${state.value.token}`,
+      },
+    })
+    console.log(response)
+  } catch (err) {
+    errorToast({ text: err.message })
+  }
+}
+
+
 const me = async () => {
   const state = useStorage('app-store', { token: '' })
   try {
-    const response = await axios.get(import.meta.env.VITE_AUTH_API_URL + 'user/', {
+    const response = await axios.get(import.meta.env.AUTH_URL + 'user/', {
       headers: {
         'Content-type': 'application/json',
         Authorization: `Bearer ${state.value.token}`,
