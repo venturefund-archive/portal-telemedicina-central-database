@@ -59,7 +59,7 @@ const forgotPasswordForm = reactive({
 
 const submit = async () => {
   try {
-    const response = await axios.post(import.meta.env.VITE_AUTH_API_URL + 'password/reset/', forgotPasswordForm)
+    const response = await axios.post(import.meta.env.AUTH_URL + 'password/reset/', forgotPasswordForm)
     successToast({ text: response.data.detail })
     router.replace({ name: 'Login' })
   } catch (err) {
