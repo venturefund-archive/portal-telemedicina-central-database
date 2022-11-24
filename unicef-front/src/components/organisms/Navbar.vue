@@ -131,7 +131,7 @@ const queryText = ''
 const logout = async () => {
   const state = useStorage('app-store', { token: '' })
   try {
-    const response = await axios.post(import.meta.env.AUTH_URL + 'logout/')
+    const response = await axios.post(import.meta.env.VITE_AUTH_API_URL + 'logout/')
     state.value = null
     successToast({ text: "You've successfully logged out." })
     router.replace({ name: 'Login' })
@@ -144,10 +144,10 @@ const search = async () => {
   const state = useStorage('app-store', { token: '' })
   try {
     console.log(queryText)
-    const response = await axios.get(import.meta.env.VITE_API_URL + 'patients/', {
+    const response = await axios.get('/api/pacients/', {
       headers: {
         'Content-type': 'application/json',
-        Authorization: `Bearer ${state.value.token}`,
+        Authentication: `Bearer ${state.value.token}`,
       },
     })
     console.log(response)
@@ -160,10 +160,10 @@ const search = async () => {
 const me = async () => {
   const state = useStorage('app-store', { token: '' })
   try {
-    const response = await axios.get(import.meta.env.AUTH_URL + 'user/', {
+    const response = await axios.get('/dj-rest-auth/user/', {
       headers: {
         'Content-type': 'application/json',
-        Authorization: `Bearer ${state.value.token}`,
+        Authentication: `${state.value.token}`,
       },
     })
   } catch (err) {

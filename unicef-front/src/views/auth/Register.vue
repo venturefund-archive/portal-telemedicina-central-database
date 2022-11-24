@@ -147,7 +147,7 @@ const register = async () => {
   try {
     const response = await axios.post(import.meta.env.VITE_AUTH_API_URL + 'registration/', registerForm)
     successToast({ text: response.data.detail })
-    router.replace({ name: 'Login' })
+    router.replace({ name: 'VerifyEmail' })
   } catch (err) {
     if (err.response.data.username) {
       errorToast({ text: 'Username ' + err.response.data.username.join(', ') })
