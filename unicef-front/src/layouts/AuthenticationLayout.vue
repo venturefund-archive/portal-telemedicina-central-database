@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div class="flex justify-center">
-      <div class="relative z-10 hidden bg-cover lg:block lg:w-2/3" style="background-image: url(unicef_bg.jpg)">
+      <div class="relative z-10 hidden bg-cover lg:block lg:w-2/3" style="background-image: url(/unicef_bg.jpg)">
         <div class="flex h-full items-center px-20">
           <div>
             <div class="overlay"></div>

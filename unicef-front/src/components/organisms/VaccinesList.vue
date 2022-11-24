@@ -128,7 +128,7 @@ const profile = async () => {
   const state = useStorage('app-store', { token: '' })
   try {
     // const patient_id = 4172
-    // const response = await axios.post(import.meta.env.AUTH_URL + `patients/${patient_id}`, profileForm)
+    // const response = await axios.post(import.meta.env.VITE_AUTH_API_URL + `patients/${patient_id}`, profileForm)
   } catch (err) {
     errorToast({ text: err.message })
   }

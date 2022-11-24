@@ -53,31 +53,41 @@ export default [
         component: () => import('@/views/auth/Register.vue'),
       },
       {
+        path: '/auth/verify-email',
+        name: 'VerifyEmail',
+        component: () => import('@/views/auth/VerifyEmail.vue'),
+      },
+      {
         path: '/auth/forgot-password',
         name: 'ForgotPassword',
         component: () => import('@/views/auth/ForgotPassword.vue'),
       },
       {
-        path: '/rest-auth/password/reset/confirm/:uid/:token',
         name: 'ResetPassword',
+        path: '/auth/reset-password/:uid/:token',
+        alias: '/rest-auth/password/reset/confirm/:uid/:token',
         component: () => import('@/views/auth/ResetPassword.vue'),
+        props: true,
       },
-      {
-        path: '/auth/confirm-password',
-        name: 'ConfirmPassword',
-        component: () => import('@/views/auth/ConfirmPassword.vue'),
-      },
-      {
-        path: '/auth/verify-email',
-        name: 'VerifyEmail',
-        component: () => import('@/views/auth/VerifyEmail.vue'),
-      },
+      // {
+      //   path: '/auth/confirm-password',
+      //   name: 'ConfirmPassword',
+      //   component: () => import('@/views/auth/ConfirmPassword.vue'),
+      // },
     ],
     beforeEnter: (to, from) => {
       const state = useStorage('app-store', { token: '' })
+
       if (!Boolean(state.value.token)) {
         return true
       }
+
+      if (to.params.token) {
+        state.value.token = to.params.token
+        return true
+      }
+
+      // @TODO: Check if the token is valid
       successToast({ text: "You're already authenticated." })
       return { name: 'Dashboard' }
     },
