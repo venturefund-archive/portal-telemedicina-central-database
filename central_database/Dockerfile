@@ -42,7 +42,7 @@ RUN chmod +x /start
 # copy application code to WORKDIR
 COPY . ${APP_HOME}
 
-COPY ./hook.sh /hook
+COPY ./central_database/hook.sh /hook
 
 RUN chmod +x /hook
 
