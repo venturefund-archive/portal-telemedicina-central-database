@@ -2,4 +2,4 @@
 
 echo Running migrations...
 
-python /app/manage.py migrate
+python central_database/manage.py migrate
