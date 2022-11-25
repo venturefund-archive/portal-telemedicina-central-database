@@ -54,12 +54,14 @@ import axios from 'axios'
 import { reactive } from 'vue'
 import { MailIcon, LockClosedIcon } from '@heroicons/vue/outline'
 import { useStorage } from '@vueuse/core'
+import { useRouter } from 'vue-router'
 import { errorToast, successToast } from '@/toast'
 
 const props = defineProps({
   uid: String,
   token: String,
 })
+const router = useRouter()
 
 const resetPasswordForm = reactive({
   password: '',
@@ -76,10 +78,10 @@ const submit = async () => {
         new_password2: resetPasswordForm.password_confirmation,
         uid: props.uid,
         token: props.token,
-      }
+      },
     )
-    successToast({ text: response.detail })
-    router.replace({ name: 'Dashboard' })
+    successToast({ text:'Password changed successfully' })
+    router.replace({ name: 'Login' })
   } catch (err) {
     if (err.response.data.token) {
       errorToast({ text: err.response.data.token.join(', ') })
