@@ -332,3 +332,5 @@ LANGUAGES = (
     ("en", gettext("English")),
     ("pt-br", gettext("Português")),
 )
+
+REST_AUTH_PW_RESET_USE_SITES_DOMAIN = True
