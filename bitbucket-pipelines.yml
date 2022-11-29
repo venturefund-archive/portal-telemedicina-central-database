@@ -17,6 +17,7 @@ pipelines:
               - poetry install --no-interaction --no-root
               - export DATABASE_URL=postgres://debug:debug@127.0.0.0:5432/central_database
               - export USE_DOCKER=no
+              - export DJANGO_SETTINGS_MODULE=config.settings.production
               - python central_database/manage.py migrate
               - pytest --cov --cov-fail-under=80 central_database/
             services:
