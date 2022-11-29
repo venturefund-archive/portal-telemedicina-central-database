@@ -2,8 +2,11 @@ from django.shortcuts import render  # noqa: F401
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from rest_framework.viewsets import GenericViewSet
 
-from central_database.vaccines.api.serializers import VaccineDosesSerializer
-from central_database.vaccines.models import VaccineDose
+from central_database.vaccines.api.serializers import (
+    VaccineDosesSerializer,
+    VaccineSerializer,
+)
+from central_database.vaccines.models import Vaccine, VaccineDose
 
 
 class VaccineDosesViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
@@ -19,3 +22,11 @@ class VaccineDosesViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
         if parameter:
             context.update({"patient_id": parameter})
         return context
+
+
+class VaccineViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
+
+    serializer_class = VaccineSerializer
+
+    def get_queryset(self):
+        return Vaccine.objects.all()

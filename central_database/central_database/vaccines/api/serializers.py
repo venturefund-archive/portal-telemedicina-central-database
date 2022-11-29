@@ -6,7 +6,7 @@ from central_database.vaccines.models import Vaccine, VaccineAlert, VaccineDose
 class VaccineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vaccine
-        fields = ["id", "description"]
+        fields = "__all__"
 
 
 class VaccineAlertSerializer(serializers.ModelSerializer):
@@ -18,7 +18,6 @@ class VaccineAlertSerializer(serializers.ModelSerializer):
 class VaccineDosesSerializer(serializers.ModelSerializer):
     alerts = serializers.SerializerMethodField()
     is_completed = serializers.SerializerMethodField(method_name="get_status")
-    vaccine = VaccineSerializer()
 
     class Meta:
         model = VaccineDose
