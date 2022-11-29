@@ -42,6 +42,10 @@ RUN chmod +x /start
 # copy application code to WORKDIR
 COPY . ${APP_HOME}
 
+COPY ./central_database/hook.sh /hook
+
+RUN chmod +x /hook
+
 ENTRYPOINT ["/entrypoint"]
 
 CMD ["/bin/bash", "/start"]
