@@ -130,3 +130,7 @@ LOGGING = {
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+FHIR_API_HOST = "hapifhir"
+FHIR_API_PORT = "8080"
+
+CENTRAL_DATABASE_PATH = "central_database/central_database/"

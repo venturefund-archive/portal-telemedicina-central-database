@@ -1,3 +1,3 @@
-from config.settings.local import FHIR_API_HOST, FHIR_API_PORT
+from django.conf import settings
 
-fhir_url = f"http://{FHIR_API_HOST}:{FHIR_API_PORT}/fhir/"
+fhir_url = f"http://{settings.FHIR_API_HOST}:{settings.FHIR_API_PORT}/fhir/"
