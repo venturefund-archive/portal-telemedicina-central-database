@@ -72,4 +72,4 @@ INSTALLED_APPS += ["django_extensions"]  # noqa F405
 FHIR_API_HOST = "hapifhir"
 FHIR_API_PORT = "8080"
 
-CENTRAL_DATABASE_PATH = "central_database/"
+CENTRAL_DATABASE_PATH = "central_database"
