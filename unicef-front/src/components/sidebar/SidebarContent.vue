@@ -6,11 +6,13 @@
       </template>
     </SidebarLink>
 
+    <!--
     <SidebarLink title="Pacients" :to="{ name: 'Patients' }" :active="isCurrentRoute('Patients')">
       <template #icon>
         <UserGroupIcon class="h-6 w-6 flex-shrink-0" aria-hidden="true" />
       </template>
     </SidebarLink>
+    -->
   </PerfectScrollbar>
 </template>
 
