@@ -1,8 +1,7 @@
 <template>
-  <!-- component -->
   <div class="flex flex-col">
-    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 px-3 py-2">
-      <div class="inline-block min-w-full sm:px-6 lg:px-8">
+    <div class="">
+      <div class="inline-block min-w-full">
         <div class="overflow-hidden">
           <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table class="w-full text-left text-sm text-neutral-100 dark:text-neutral-100">

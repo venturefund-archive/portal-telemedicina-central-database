@@ -1,22 +1,6 @@
 <template>
   <PageWrapper title="Patients">
-    {{isOpen}}
     <div class="flex">
-      <Dialog :open="isOpen" @close="setIsOpen">
-        <DialogPanel>
-          <DialogTitle>Edit Vaccine</DialogTitle>
-          <DialogDescription>
-            This will vaccine
-          </DialogDescription>
-
-          <p>
-            Are you sure you want to vaccine?
-          </p>
-
-          <button @click="setIsOpen(false)">Yes</button>
-          <button @click="setIsOpen(false)">Cancel</button>
-        </DialogPanel>
-      </Dialog>
 
       <aside class="w-64" aria-label="Sidebar">
         <div class="overflow-y-auto rounded border border-neutral-100 px-3 py-4 dark:bg-gray-800 decoration-none bg-gray-50 shadow-l-md">
@@ -83,9 +67,9 @@
         </div>
       </aside>
 
-      <div>
-        <ProfileCard />
-        <VaccinesList />
+      <div class="px-5">
+        <ProfileCard :id="patientId" class="px-3 pb-2" />
+        <VaccinesList class="px-3 py-2" />
       </div>
     </div>
   </PageWrapper>
@@ -102,10 +86,15 @@ import {
     DialogDescription,
   } from '@headlessui/vue'
 
-const isOpen = ref(true)
+const props = defineProps({
+  // blood_type
+  // document
+  // age
+  patientId: {
+    type: String,
+    default: '0',
+  },
+})
+// const isOpen = ref(true)
 
-function setIsOpen(value) {
-  console.log('hit')
-  isOpen.value = value
-}
 </script>

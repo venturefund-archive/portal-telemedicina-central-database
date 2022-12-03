@@ -123,6 +123,51 @@ import userAvatar from '@/assets/images/avatar.jpg'
 
 const { isFullscreen, toggle: toggleFullScreen } = useFullscreen()
 
+const queryText = ''
+
+const logout = async () => {
+  const state = useStorage('app-store', { token: '' })
+  try {
+    const response = await axios.post(import.meta.env.VITE_AUTH_API_URL + 'logout/')
+    state.value = null
+    successToast({ text: "You've successfully logged out." })
+    router.replace({ name: 'Login' })
+  } catch (err) {
+    errorToast({ text: err.message })
+  }
+}
+
+const search = async () => {
+  const state = useStorage('app-store', { token: '' })
+  try {
+    console.log(queryText)
+    const response = await axios.get('/api/pacients/', {
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Token ${state.value.token}`,
+      },
+    })
+    console.log(response)
+  } catch (err) {
+    errorToast({ text: err.message })
+  }
+}
+
+
+const me = async () => {
+  const state = useStorage('app-store', { token: '' })
+  try {
+    const response = await axios.get('/dj-rest-auth/user/', {
+      headers: {
+        'Content-type': 'application/json',
+        Authorization: `Token ${state.value.token}`,
+      },
+    })
+  } catch (err) {
+    errorToast({ text: err.message })
+  }
+}
+
 onMounted(() => {
   document.addEventListener('scroll', handleScroll)
 })
