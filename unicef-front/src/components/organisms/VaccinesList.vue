@@ -3,7 +3,7 @@
     <div class="">
       <div class="inline-block min-w-full">
         <div class="overflow-hidden">
-          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <div class="relative overflow-x-auto shadow-md sm:rounded-lg py-3">
             <table class="w-full text-left text-sm text-neutral-100 dark:text-neutral-100">
               <thead class="bg-neutral-200 text-xs uppercase text-white dark:text-white">
                 <tr>
@@ -43,7 +43,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="border-b hover:bg-neutral-300" v-for="(vaccine, k) in vaccines" :key="k">
+                <tr class="border-b" v-for="(vaccine, k) in vaccines" :key="k">
                   <td colspan="2" class="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 capitalize">{{ vaccine.name }}</td>
                   <td class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"><VaccineAlert :status="Math.floor((Math.random() * 4) + 1)"/></td>
                   <td class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"><VaccineAlert :status="Math.floor((Math.random() * 4) + 1)"/></td>
@@ -65,17 +65,7 @@
         </div>
       </div>
     </div>
-
-<Teleport to="body"><Modal ref="modal" /></Teleport>
-
-<button
-    class="block rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-    type="button"
-    @click="openModal"
-  >
-    Toggle modal
-  </button>
-
+    <Teleport to="body"><Modal ref="modal" /></Teleport>
   </div>
 </template>
 

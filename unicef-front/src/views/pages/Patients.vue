@@ -2,74 +2,9 @@
   <PageWrapper title="Patients">
     <div class="flex">
 
-      <aside class="w-64" aria-label="Sidebar">
-        <div class="overflow-y-auto rounded border border-neutral-100 px-3 py-4 dark:bg-gray-800 decoration-none bg-gray-50 shadow-l-md">
-          <ul class="space-y-2">
-            <li>
-              <a
-                href="#"
-                class="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-neutral-200"
-              >
-                <span class="ml-3">Peso, altura, IMC</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                target="_blank"
-                class="flex items-center rounded-lg p-2 text-base font-normal text-blue-600 hover:bg-neutral-200"
-              >
-                <span class="ml-3 flex-1 whitespace-nowrap">Cartilha de Vacinas</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                target="_blank"
-                class="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-neutral-200"
-              >
-                <span class="ml-3 flex-1 whitespace-nowrap">Período fetal</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-neutral-200"
-              >
-                <span class="ml-3 flex-1 whitespace-nowrap">Alergias</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-neutral-200"
-              >
-                <span class="ml-3 flex-1 whitespace-nowrap">Medicamentos</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-neutral-200"
-              >
-                <span class="ml-3 flex-1 whitespace-nowrap">Doenças</span>
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="flex items-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-neutral-200"
-              >
-                <span class="ml-3 flex-1 whitespace-nowrap">Dados socioculturais</span>
-              </a>
-            </li>
-          </ul>
-        </div>
-      </aside>
-
       <div class="px-5">
-        <ProfileCard :id="patientId" class="px-3 pb-2" />
-        <VaccinesList class="px-3 py-2" />
+        <ProfileCard :id="patientId" class="pb-2" />
+        <VaccinesList class="py-2" />
       </div>
     </div>
   </PageWrapper>
