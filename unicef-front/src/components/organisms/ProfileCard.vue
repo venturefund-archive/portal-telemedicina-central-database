@@ -4,18 +4,17 @@
       <div>
         <img src="https://picsum.photos/seed/2/200/200" class="max-w-20 max-h-20 rounded-full" />
       </div>
-
       <div class="ml-4">
-        <p class="cursor-pointer font-bold text-gray-600 hover:underline">{{ profileForm.name }}</p>
+        <p class="cursor-pointer font-bold text-gray-600 hover:underline">#{{ profileForm.id }} - {{ profileForm.name.join() }}</p>
         <div class="text-gray-400">
           <p>Blood Type: <span class="cursor-pointer hover:underline">B+</span></p>
-          <p>Document: <span class="cursor-pointer hover:underline">064.964.967-53</span></p>
+          <p>Gender: <span class="cursor-pointer hover:underline">{{ profileForm.gender }}</span></p>
+          <p>Marital Status: <span class="cursor-pointer hover:underline">{{ profileForm.marital_status }}</span></p>
           <p>
-            Region: <span class="cursor-pointer hover:underline">{{ profileForm.city }} / {{ profileForm.state }}</span>
+            Region: <span class="cursor-pointer hover:underline">{{ profileForm.address[0].city }} / {{ profileForm.address[0].state }}</span>
+            <span class="cursor-pointer hover:underline">{{ profileForm.address[0].postalCode }}</span>
           </p>
-          <p>
-            Contact: <span class="cursor-pointer hover:underline">{{ profileForm.phone }}</span>
-          </p>
+          <p>{{ profileForm.telecom.system }}: <span class="cursor-pointer hover:underline">{{ profileForm.telecom.value }}</span></p>
         </div>
       </div>
       <div class="">
@@ -38,13 +37,31 @@ import { errorToast, successToast } from '@/toast'
 const router = useRouter()
 
 const profileForm = reactive({
-  // blood_type
-  // document
-  // age
-  name: '',
-  phone: '(00) 00 000-000',
-  state: '',
-  city: '',
+  id: "4172",
+  name: [
+    'Asd Qwe Zxc'
+  ],
+  telecom: {
+    system: 'phone',
+    value: '555-385-9019',
+    use: 'home'
+  },
+  gender: 'male',
+  birth_date: '2012-06-10',
+  address: [
+    {
+      line:[
+        '370 Auer Knoll'
+      ],
+      postal_code: '02476',
+      postalCode: '02476',
+      city: 'Arlington',
+      state: 'MA',
+      country: 'US'
+    }
+  ],
+  marital_status: 'Never Married',
+
   processing: false,
 })
 
@@ -58,7 +75,7 @@ const profile = async () => {
   }
 }
 
-onMounted(() => {
-  profile()
+onMounted( async () => {
+  await profile()
 })
 </script>
