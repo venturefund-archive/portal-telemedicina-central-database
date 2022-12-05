@@ -4,7 +4,7 @@
 
 Monitoring and ensuring perfect child development is a very difficult task that requires careful management of limited resources, close attention to each case by health professionals, prompt action on their part, and vigilant family and educational institutions. Timing is everything.
 
-Our project aims to integrate data from patients up to the age of 15 to produce insights/alerts for educators, families, and public managers, assisting society in quickly identifying and avoiding issues and managing resources.
+Our project aims to integrate data from patients up to the age of 15 to produce insights/alerts for educators, doctors, families, and public managers, assisting society in quickly identifying and avoiding issues and managing resources.
 
 ## Getting started
 
