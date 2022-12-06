@@ -17,16 +17,6 @@ export default [
         name: 'Dashboard',
         component: () => import('@/views/Dashboard.vue'),
       },
-      {
-        path: '/pages/Patients',
-        name: 'Patients',
-        component: () => import('@/views/pages/Patients.vue'),
-      },
-      // {
-      //   path: '/patient/:id',
-      //   name: 'Patient',
-      //   component: () => import('@/views/pages/Patient.vue'),
-      // },
     ],
     beforeEnter: (to, from) => {
       const state = useStorage('app-store', { token: '' })
