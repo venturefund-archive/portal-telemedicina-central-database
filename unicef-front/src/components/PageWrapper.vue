@@ -9,7 +9,7 @@
   </header>
 
   <!-- Page Content -->
-  <main class="flex">
+  <main class="flex" :class="{ 'mt-6': !$slots.header }">
     <div class="grid gap-6 px-4 sm:px-6">
       <slot />
     </div>

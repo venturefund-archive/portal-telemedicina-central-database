@@ -1,7 +1,7 @@
 <template>
   <div class="">
     <div class="flex justify-center">
-      <div class="hidden relative bg-cover lg:block lg:w-2/3 z-10" style="background-image: url(unicef_bg.jpg)">
+      <div class="relative z-10 hidden bg-cover lg:block lg:w-2/3" style="background-image: url(/unicef_bg.jpg)">
         <div class="flex h-full items-center px-20">
           <div>
             <div class="overlay"></div>
@@ -14,14 +14,13 @@
           </div>
         </div>
       </div>
-      
 
-      <div class="mx-auto flex w-full max-w-md items-center lg:w-2/6 z-10">
+      <div class="z-10 mx-auto flex w-full max-w-md items-center lg:w-2/6">
         <div class="flex-1">
           <div class="">
             <div class="flex min-h-screen flex-col items-center justify-center gap-4 py-6">
-              <div class="flex-shrink-0 -ml-10">
-                <router-link :to="{ name: 'Dashboard' }">
+              <div class="-ml-10 flex-shrink-0">
+                <router-link to="/">
                   <LogoFull class="h-16" />
                   <span class="sr-only">Dashboard</span>
                 </router-link>
@@ -57,5 +56,4 @@
   overflow: hidden;
   z-index: 1;
 }
-
 </style>

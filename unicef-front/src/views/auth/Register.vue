@@ -3,28 +3,28 @@
     <div class="grid gap-6">
       <!-- Name input -->
       <div class="space-y-2">
-        <Label for="name" value="Name" />
+        <Label for="username" value="Username" />
         <InputIconWrapper>
           <template #icon>
             <UserIcon aria-hidden="true" class="h-5 w-5" />
           </template>
           <Input
             withIcon
-            id="name"
+            id="username"
             type="text"
-            placeholder="Name"
+            placeholder="Username"
             class="block w-full"
-            v-model="registerForm.name"
+            v-model="registerForm.username"
             required
             autofocus
-            autocomplete="name"
+            autocomplete="username"
           />
         </InputIconWrapper>
       </div>
 
       <!-- Email input -->
       <div class="space-y-2">
-        <Label for="email" value="Email" />
+        <Label for="email" value="E-mail" />
         <InputIconWrapper>
           <template #icon>
             <MailIcon aria-hidden="true" class="h-5 w-5" />
@@ -34,7 +34,7 @@
             id="email"
             type="email"
             class="block w-full"
-            placeholder="Email"
+            placeholder="E-mail"
             v-model="registerForm.email"
             required
             autocomplete="username"
@@ -44,18 +44,18 @@
 
       <!-- Password input -->
       <div class="space-y-2">
-        <Label for="password" value="Password" />
+        <Label for="password1" value="Password" />
         <InputIconWrapper>
           <template #icon>
             <LockClosedIcon aria-hidden="true" class="h-5 w-5" />
           </template>
           <Input
             withIcon
-            id="password"
+            id="password1"
             type="password"
             class="block w-full"
             placeholder="Password"
-            v-model="registerForm.password"
+            v-model="registerForm.password1"
             required
             autocomplete="new-password"
           />
@@ -64,18 +64,18 @@
 
       <!-- Password confirmation input -->
       <div class="space-y-2">
-        <Label for="password_confirmation" value="Confirm Password" />
+        <Label for="password2" value="Confirm Password" />
         <InputIconWrapper>
           <template #icon>
             <LockClosedIcon aria-hidden="true" class="h-5 w-5" />
           </template>
           <Input
             withIcon
-            id="password_confirmation"
+            id="password2"
             type="password"
             class="block w-full"
             placeholder="Confirm Password"
-            v-model="registerForm.password_confirmation"
+            v-model="registerForm.password2"
             required
             autocomplete="new-password"
           />
@@ -125,16 +125,48 @@
 <script setup>
 import { reactive } from 'vue'
 import InputIconWrapper from '@/components/InputIconWrapper.vue'
-import { UserIcon, MailIcon, LockClosedIcon, UserAddIcon } from '@heroicons/vue/outline'
+import { MailIcon, LockClosedIcon, LoginIcon, UserIcon } from '@heroicons/vue/outline'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
+import { useStorage } from '@vueuse/core'
+import { errorToast, successToast } from '@/toast'
+
+const router = useRouter()
 
 const registerForm = reactive({
-  name: '',
+  username: '',
   email: '',
-  password: '',
-  password_confirmation: '',
+  password1: '',
+  password2: '',
   terms: false,
   processing: false,
 })
 
-const register = () => {}
+const register = async () => {
+  const state = useStorage('app-store', { token: '' })
+  try {
+    const response = await axios.post(import.meta.env.VITE_AUTH_API_URL + 'registration/', registerForm)
+    successToast({ text: response.data.detail })
+    router.replace({ name: 'VerifyEmail' })
+  } catch (err) {
+    if (err.response.data.username) {
+      errorToast({ text: 'Username ' + err.response.data.username.join(', ') })
+      return false
+    }
+    if (err.response.data.password1) {
+      errorToast({ text: 'Password1 ' + err.response.data.password1.join(', ') })
+      return false
+    }
+    if (err.response.data.password2) {
+      errorToast({ text: 'Password2 ' + err.response.data.password2.join(', ') })
+      return false
+    }
+    if (err.response.data.non_field_errors) {
+      errorToast({ text: err.response.data.non_field_errors.join(', ') })
+      return false
+    }
+
+    errorToast({ text: err.message })
+  }
+}
 </script>

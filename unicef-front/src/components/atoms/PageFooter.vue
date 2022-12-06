@@ -8,7 +8,9 @@
     <p class="flex items-center gap-1 text-sm text-gray-500 dark:text-gray-400">
       <span>Made</span>
       <span>by</span>
-      <a href="https://portaltelemedicina.com.br/" target="_blank" class="text-blue-600 hover:underline">Portal Telemedicina</a>
+      <a href="https://portaltelemedicina.com.br/" target="_blank" class="text-blue-600 hover:underline"
+        >Portal Telemedicina</a
+      >
     </p>
   </footer>
 </template>

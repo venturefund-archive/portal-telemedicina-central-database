@@ -7,7 +7,7 @@
     </template>
 
     <div class="relative overflow-hidden pl-3">
-      <div class="flex justify-between flex-col">
+      <div class="flex flex-col justify-between">
         <h4 class="text-3xl font-semibold text-white">{{ result }}</h4>
         <p class="text-base font-semibold text-white">{{ title }}</p>
       </div>

@@ -7,16 +7,6 @@ import i18nResources from 'vite-plugin-i18n-resources'
 import Components from 'unplugin-vue-components/vite'
 
 export default defineConfig({
-  build: {
-    // generate manifest.json in outDir
-    manifest: true,
-    rollupOptions: {
-      // overwrite default .html entry
-      input: './src/main.js'
-    },
-    outDir: '../public', // this line place index.html in the public folder
-    assetsDir: './dist', // this line place your assets in the public/dist folder
-},
   plugins: [
     Components(),
     i18nResources({
@@ -60,6 +50,9 @@ export default defineConfig({
       '@': resolve(__dirname, 'src'),
     },
   },
+  // vueCompilerOptions: {
+  //   isCustomElement: tag => tag.startsWith('Vue-Toastification-')
+  // },
 
   optimizeDeps: {
     exclude: ['.out'],
@@ -69,7 +62,7 @@ export default defineConfig({
     port: 3000,
     proxy: {
       "/api": {
-        target: "http://django:8000/api",
+        target: "http://localhost:8000",
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, ""),

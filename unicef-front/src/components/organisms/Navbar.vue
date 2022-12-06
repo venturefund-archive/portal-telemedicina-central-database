@@ -2,7 +2,7 @@
   <nav
     aria-label="secondary"
     :class="[
-      'sticky top-0 z-10 flex items-center justify-between bg-white px-6 py-4 transition-transform duration-500 dark:bg-dark-eval-1',
+      'dark:bg-dark-eval-1 sticky top-0 z-10 flex items-center justify-between bg-white px-6 py-4 transition-transform duration-500',
       {
         '-translate-y-full': scrolling.down,
         'translate-y-0': scrolling.up,
@@ -10,10 +10,8 @@
     ]"
   >
     <div class="flex items-center gap-2">
-      <form>
-        <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900"
-          >Search</label
-        >
+      <form @submit.prevent="search">
+        <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900">Search</label>
         <div class="relative">
           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
             <svg
@@ -33,13 +31,13 @@
           </div>
           <input
             type="search"
+            v-model="queryText"
             class="block w-full rounded-lg border border-transparent bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 md:w-96"
             placeholder="Search for appointments, patients etc"
             required
           />
         </div>
       </form>
-
     </div>
 
     <div class="flex items-center gap-2">
@@ -47,7 +45,7 @@
       <Dropdown align="right" width="48">
         <template #trigger>
           <button
-            class="flex rounded-md border-2 border-transparent text-sm transition focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-1 focus:ring-offset-white dark:focus:ring-offset-dark-eval-1"
+            class="dark:focus:ring-offset-dark-eval-1 flex rounded-md border-2 border-transparent text-sm transition focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-1 focus:ring-offset-white"
           >
             <div class="flex flex-col items-end justify-center">
               <p class="font-bold">Cody Simmmons</p>
@@ -57,7 +55,7 @@
           </button>
         </template>
         <template #content>
-          <DropdownLink to="/">Log Out</DropdownLink>
+          <DropdownLink to="#" @click="logout">Log Out</DropdownLink>
         </template>
       </Dropdown>
       <Button
@@ -77,7 +75,7 @@
   <!-- Mobile bottom bar -->
   <div
     :class="[
-      'fixed inset-x-0 bottom-0 flex items-center justify-between bg-white px-4 py-4 transition-transform duration-500 dark:bg-dark-eval-1 sm:px-6 md:hidden',
+      'dark:bg-dark-eval-1 fixed inset-x-0 bottom-0 flex items-center justify-between bg-white px-4 py-4 transition-transform duration-500 sm:px-6 md:hidden',
       {
         'translate-y-full': scrolling.down,
         'translate-y-0': scrolling.up,
@@ -88,7 +86,7 @@
       <SearchIcon aria-hidden="true" :class="iconSizeClasses" />
     </Button>
 
-    <router-link :to="{ name: 'Dashboard' }">
+    <router-link to="/">
       <Logo class="h-10 w-10" />
       <span class="sr-only">unicef</span>
     </router-link>
@@ -108,7 +106,7 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted } from 'vue'
+import { onMounted, onUnmounted, reactive } from 'vue'
 import { useFullscreen } from '@vueuse/core'
 import { SunIcon, MoonIcon, SearchIcon, MenuIcon, XIcon, ArrowsExpandIcon } from '@heroicons/vue/outline'
 import {
@@ -120,7 +118,12 @@ import {
 } from '@/composables'
 import { ArrowsInnerIcon } from '@/components/icons/outline'
 import userAvatar from '@/assets/images/avatar.jpg'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
+import { useStorage } from '@vueuse/core'
+import { errorToast, successToast } from '@/toast'
 
+const router = useRouter()
 const { isFullscreen, toggle: toggleFullScreen } = useFullscreen()
 
 const queryText = ''
@@ -144,7 +147,7 @@ const search = async () => {
     const response = await axios.get('/api/pacients/', {
       headers: {
         'Content-type': 'application/json',
-        Authorization: `Token ${state.value.token}`,
+        Authentication: `Bearer ${state.value.token}`,
       },
     })
     console.log(response)
@@ -160,7 +163,7 @@ const me = async () => {
     const response = await axios.get('/dj-rest-auth/user/', {
       headers: {
         'Content-type': 'application/json',
-        Authorization: `Token ${state.value.token}`,
+        Authentication: `${state.value.token}`,
       },
     })
   } catch (err) {
