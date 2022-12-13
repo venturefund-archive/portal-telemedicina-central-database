@@ -1,6 +1,12 @@
 from django.contrib import admin
 
-from .models import Vaccine, VaccineAlert, VaccineAlertType, VaccineDose
+from .models import (  # noqa
+    Vaccine,
+    VaccineAlert,
+    VaccineAlertType,
+    VaccineDose,
+    VaccineStatus,
+)
 
 
 @admin.register(Vaccine)
@@ -56,3 +62,10 @@ class VaccineAlertAdmin(admin.ModelAdmin):
         "active",
     )
     ordering = ["-created_at"]
+
+
+@admin.register(VaccineStatus)
+class VaccineStatusAdmin(admin.ModelAdmin):
+    list_display = ("vaccine_dose", "patient_id", "completed")
+    list_filter = ("vaccine_dose", "patient_id", "completed")
+    ordering = ["id"]

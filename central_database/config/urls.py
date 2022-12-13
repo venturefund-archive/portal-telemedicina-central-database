@@ -20,7 +20,13 @@ urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
-    path("users/", include("central_database.users.urls", namespace="users")),
+    path(
+        "users/",
+        include(
+            ("central_database.users.urls", "central_database.users"),
+            namespace="users",  # noqa: E501
+        ),
+    ),
     path("accounts/", include("allauth.urls")),
     path("health/", include("central_database.health.urls")),  # noqa
     # Your stuff: custom urls includes go here

@@ -30,4 +30,4 @@ EMAIL_BACKEND = "django.core.mail.backends.locmem.EmailBackend"
 FHIR_API_HOST = "hapifhir"
 FHIR_API_PORT = "8080"
 
-CENTRAL_DATABASE_PATH = "central_database"
+CENTRAL_DATABASE_PATH = "central_database/central_database"
