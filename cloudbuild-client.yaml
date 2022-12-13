@@ -37,6 +37,6 @@ steps:
   id: Replace image tag and commit
   entrypoint: /bin/sh
 images:
-  - 'us.gcr.io/$PROJECT_ID/$REPO_NAME-client-$BRANCH_NAME:$COMMIT_SHA'
+  - 'us.gcr.io/$PROJECT_ID/$REPO_NAME-di-client-$BRANCH_NAME:$COMMIT_SHA'
 substitutions:
   _HELM_CHART_REPOSITORY: unicef-helm-charts
