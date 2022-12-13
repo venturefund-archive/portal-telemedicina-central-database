@@ -216,6 +216,7 @@ SECURE_BROWSER_XSS_FILTER = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#x-frame-options
 X_FRAME_OPTIONS = "DENY"
 
+CSRF_TRUSTED_ORIGINS = ["http://34.95.198.185:8000/"]
 
 # EMAIL
 # ------------------------------------------------------------------------------
