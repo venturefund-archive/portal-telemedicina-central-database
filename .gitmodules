@@ -1,0 +1,3 @@
+[submodule "unicef-front"]
+	path = unicef-front
+	url = git@bitbucket.org:ptmtech/unicef-front.git
