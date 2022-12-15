@@ -29,15 +29,13 @@
               ></path>
             </svg>
           </div>
-
-          <AutoComplete v-model="queryText" :suggestions="filteredResultsBasic" @complete="search($event)" optionLabel="name"
-          class="ml-10"
-                placeholder="Search for appointments, patients etc">
-            <template #item="slotProps">
-              <!--<img :alt="slotProps.item" :src="'demo/images/car/' + slotProps.item + '.png'" />-->
-                  <div>{{slotProps.item.name}}</div>
-            </template>
-          </AutoComplete>
+          <input
+            type="search"
+            v-model="queryText"
+            class="block w-full rounded-lg border border-transparent bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 md:w-96"
+            placeholder="Search for appointments, patients etc"
+            required
+          />
         </div>
       </form>
     </div>
@@ -124,13 +122,11 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
-import { ref } from 'vue'
 
 const router = useRouter()
 const { isFullscreen, toggle: toggleFullScreen } = useFullscreen()
 
-const queryText = ref(null)
-const filteredResultsBasic = ref(null)
+const queryText = ''
 
 const logout = async () => {
   const state = useStorage('app-store', { token: '' })
@@ -144,26 +140,11 @@ const logout = async () => {
   }
 }
 
-const search = async function (event) {
-  const response = {
-    data:{
-      items:[
-        {id:123, name:"Roberto Ali", gender:"male", birthDate:"2012-06-10", document:"23123"},
-        {id:321, name:"Angela Almeida", gender:"female", birthDate:"2012-06-10", document:"33123"},
-        {id:456, name:"Fausto Meneguel", gender:"male", birthDate:"2012-06-10", document:"43123"},
-        {id:789, name:"Rebeca Mendes", gender:"female", birthDate:"2012-06-10", document:"53123"},
-      ]
-    }
-  }
-  this.filteredResultsBasic = response.data.items
-
-  //this.filteredResultsBasic = this.resultService.search(event.query);
-
-  //return response.data.items
+const search = async () => {
   const state = useStorage('app-store', { token: '' })
   try {
     console.log(queryText)
-    const response = await axios.get('api/patient/4172', {
+    const response = await axios.get('/api/pacients/', {
       headers: {
         'Content-type': 'application/json',
         Authentication: `Bearer ${state.value.token}`,
@@ -174,6 +155,7 @@ const search = async function (event) {
     errorToast({ text: err.message })
   }
 }
+
 
 const me = async () => {
   const state = useStorage('app-store', { token: '' })

@@ -16,18 +16,8 @@ import { faWindowClose } from '@fortawesome/free-solid-svg-icons'
 // import { createI18n } from 'vue-i18n/index'
 import { messages } from 'vite-i18n-resources'
 // import axios from 'axios'
-import PrimeVue from 'primevue/config'
-import AutoComplete from 'primevue/autocomplete';
-
-
-import 'primevue/resources/themes/saga-blue/theme.css';
-import 'primevue/resources/primevue.min.css';
-import 'primeicons/primeicons.css';
-
 
 const app = createApp(App)
-
-app.use(PrimeVue);
 
 // // Allow axios in all components with this.$http.get
 // app.config.globalProperties.axios = axios;
@@ -41,5 +31,4 @@ app.use(Toast, {
   timeout: 5000,
   transition: 'Vue-Toastification__fade',
 })
-app.component('AutoComplete', AutoComplete);
 app.mount('#app')

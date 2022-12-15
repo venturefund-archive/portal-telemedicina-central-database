@@ -8,8 +8,8 @@
       <div class="col-span-5 ml-4 md:col-span-4">
         <p class="cursor-pointer font-bold text-gray-600 hover:underline">{{ profileForm.name }}</p>
         <div class="text-gray-400">
-          <p>Gender: <span class="cursor-pointer hover:underline">{{ profileForm.gender }}</span></p>
-          <p>Document: <span class="cursor-pointer hover:underline">{{ profileForm.document }}</span></p>
+          <p>Blood Type: <span class="cursor-pointer hover:underline">B+</span></p>
+          <p>Document: <span class="cursor-pointer hover:underline">064.964.967-53</span></p>
           <p>
             Region: <span class="cursor-pointer hover:underline">{{ profileForm.city }} / {{ profileForm.state }}</span>
           </p>
@@ -41,13 +41,10 @@ const profileForm = reactive({
   // blood_type
   // document
   // age
-  name: 'Roberto Ali',
-  gender:"male",
-  birthDate:"2012-06-10",
-  document:"23123",
+  name: '',
   phone: '(00) 00 000-000',
-  state: 'RJ',
-  city: 'Caxias',
+  state: '',
+  city: '',
   processing: false,
 })
 
