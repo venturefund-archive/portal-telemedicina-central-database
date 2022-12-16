@@ -18,15 +18,15 @@ export default [
         component: () => import('@/views/Dashboard.vue'),
       },
       {
-        path: '/pages/Patients',
+        path: '/patients',
         name: 'Patients',
         component: () => import('@/views/pages/Patients.vue'),
       },
-      // {
-      //   path: '/patient/:id',
-      //   name: 'Patient',
-      //   component: () => import('@/views/pages/Patient.vue'),
-      // },
+      {
+        path: '/patient/:id',
+        name: 'Patient',
+        component: () => import('@/views/pages/Patient.vue'),
+      },
     ],
     beforeEnter: (to, from) => {
       const state = useStorage('app-store', { token: '' })

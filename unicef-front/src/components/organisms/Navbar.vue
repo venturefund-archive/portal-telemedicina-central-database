@@ -10,7 +10,7 @@
     ]"
   >
     <div class="flex items-center gap-2">
-      <form @submit.prevent="search">
+      <form @submit.prevent="">
         <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900">Search</label>
         <div class="relative">
           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -29,13 +29,7 @@
               ></path>
             </svg>
           </div>
-          <input
-            type="search"
-            v-model="queryText"
-            class="block w-full rounded-lg border border-transparent bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 md:w-96"
-            placeholder="Search for appointments, patients etc"
-            required
-          />
+          <AutoComplete v-model="queryText" :suggestions="filteredResultsBasic" />
         </div>
       </form>
     </div>
@@ -122,11 +116,17 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
+import { ref, watch } from 'vue'
+
+const queryText = ref(null)
+const filteredResultsBasic = ref([])
+
+watch(queryText, (newQueryText) => {
+  search(newQueryText)
+})
 
 const router = useRouter()
 const { isFullscreen, toggle: toggleFullScreen } = useFullscreen()
-
-const queryText = ''
 
 const logout = async () => {
   const state = useStorage('app-store', { token: '' })
@@ -140,17 +140,30 @@ const logout = async () => {
   }
 }
 
-const search = async () => {
+const search = async (queryText) => {
   const state = useStorage('app-store', { token: '' })
   try {
-    console.log(queryText)
-    const response = await axios.get('/api/pacients/', {
+    //const d = event.target.value
+    const response = await axios.get('http://localhost:8000/api/patients/', {
       headers: {
         'Content-type': 'application/json',
         Authentication: `Bearer ${state.value.token}`,
       },
     })
-    console.log(response)
+
+    //const response = {
+    //    data: {
+    //        items: [
+    //            { id: 123, name: "Roberto Ali", gender: "male", birthDate: "2012-06-10", document: "23123", image: "https://toppng.com/uploads/thumbnail/roger-berry-avatar-placeholder-115629915618zfpmweri9.png" },
+    //            { id: 321, name: "Angela Almeida", gender: "female", birthDate: "2012-06-10", document: "33123", image: "https://toppng.com/uploads/thumbnail/roger-berry-avatar-placeholder-115629915618zfpmweri9.png" },
+    //            { id: 456, name: "Fausto Meneguel", gender: "male", birthDate: "2012-06-10", document: "43123", image: "https://toppng.com/uploads/thumbnail/roger-berry-avatar-placeholder-115629915618zfpmweri9.png" },
+    //            { id: 789, name: "Rebeca Mendes", gender: "female", birthDate: "2012-06-10", document: "53123", image: "https://toppng.com/uploads/thumbnail/roger-berry-avatar-placeholder-115629915618zfpmweri9.png" },
+    //        ]
+     //   }
+    //}
+
+    filteredResultsBasic.value = response.data.items
+    return
   } catch (err) {
     errorToast({ text: err.message })
   }
