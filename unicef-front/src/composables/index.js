@@ -1,9 +1,15 @@
 // import { useDark, useToggle } from '@vueuse/core'
-import { reactive, ref } from 'vue'
+import { reactive, ref, getCurrentInstance } from 'vue'
 
 export const isDark = false
 // export const isDark = useDark()
 // export const toggleDarkMode = useToggle(isDark)
+
+// export function useHttp () {
+//   const vm = getCurrentInstance()
+//   console.log(vm)
+//   return vm.appContext.config.globalProperties.$http
+// }
 
 export const sidebarState = reactive({
   isOpen: window.innerWidth > 1024,

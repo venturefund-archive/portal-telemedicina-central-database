@@ -1,26 +1,25 @@
 <template>
   <div>
-    <h2 class="font-bold">Acesso restrito!</h2>
-    <p class="max-w-xl mb-5 text-gray-500 text-sm">
-      Ambiente de trabalho reservado para acesso restrito dos profissionais de saúde.
+    <h2 class="font-bold">Restricted access!</h2>
+    <p class="mb-5 max-w-xl text-sm text-gray-500">
+      Work environment reserved for restricted access of health professionals.
     </p>
   </div>
   <form @submit.prevent="login">
     <div class="grid gap-6">
       <!-- User input -->
-      <div class="space-y-2 mb-1">
+      <div class="mb-1 space-y-2">
         <InputIconWrapper>
           <template #icon>
-            <MailIcon aria-hidden="true" class="h-5 w-5" />
+            <UserIcon aria-hidden="true" class="h-5 w-5" />
           </template>
           <Input
             withIcon
             id="username"
-            type="email"
+            type="text"
             class="block w-full"
             placeholder="Username"
             v-model="loginForm.username"
-            required
             autofocus
             autocomplete="username"
           />
@@ -40,7 +39,6 @@
             class="block w-full"
             placeholder="Password"
             v-model="loginForm.password"
-            required
             autocomplete="current-password"
           />
         </InputIconWrapper>
@@ -83,7 +81,14 @@
 <script setup>
 import { reactive } from 'vue'
 import InputIconWrapper from '@/components/InputIconWrapper.vue'
-import { MailIcon, LockClosedIcon, LoginIcon } from '@heroicons/vue/outline'
+import { MailIcon, LockClosedIcon, LoginIcon, UserIcon } from '@heroicons/vue/outline'
+// import { useHttp } from '@/composables
+import axios from 'axios'
+import { useRouter } from 'vue-router'
+import { useStorage } from '@vueuse/core'
+import { errorToast, successToast } from '@/toast'
+
+const router = useRouter()
 
 const loginForm = reactive({
   username: '',
@@ -92,5 +97,24 @@ const loginForm = reactive({
   processing: false,
 })
 
-const login = () => {}
+const login = async () => {
+  const state = useStorage('app-store', { token: '' })
+  try {
+    const response = await axios.post(import.meta.env.VITE_AUTH_API_URL + 'login/', loginForm)
+
+    if (response.data.non_field_errors) {
+      errorToast({ text: err.message })
+      return false
+    }
+    state.value.token = response.data.key
+    successToast({ text: "You've successfully logged in." })
+    router.replace({ name: 'Dashboard' })
+  } catch (err) {
+    if (err.response.data.non_field_errors) {
+      errorToast({ text: err.response.data.non_field_errors.join(', ') })
+      return false
+    }
+    errorToast({ text: err.message })
+  }
+}
 </script>

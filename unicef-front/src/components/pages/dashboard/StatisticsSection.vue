@@ -1,6 +1,5 @@
 <template>
   <section class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-
     <h2 class="sr-only">Quick statistics</h2>
 
     <QuickStatisticsCard title="Patients on hold" result="12" class="bg-red-500">
@@ -26,7 +25,6 @@
         <BellIcon aria-hidden="true" class="h-12 w-12 text-white" />
       </template>
     </QuickStatisticsCard>
-
   </section>
 </template>
 

@@ -14,17 +14,21 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { faWindowClose } from '@fortawesome/free-solid-svg-icons'
 // import { createI18n } from 'vue-i18n/index'
-import { messages } from "vite-i18n-resources";
-
+import { messages } from 'vite-i18n-resources'
+// import axios from 'axios'
 
 const app = createApp(App)
+
+// // Allow axios in all components with this.$http.get
+// app.config.globalProperties.axios = axios;
+
 app.use(router)
 app.use(Toast, {
   hideProgressBar: true,
   closeOnClick: false,
   closeButton: false,
   icon: false,
-  timeout: false,
+  timeout: 5000,
   transition: 'Vue-Toastification__fade',
 })
 app.mount('#app')

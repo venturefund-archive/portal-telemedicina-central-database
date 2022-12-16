@@ -10,16 +10,16 @@
 
   <form @submit.prevent="submit">
     <div class="mt-4 flex items-center justify-between">
-      <Button type="submit" :class="{ 'opacity-25': verifyEmailForm.processing }" :disabled="verifyEmailForm.processing"
+      <!-- <Button type="submit" :class="{ 'opacity-25': verifyEmailForm.processing }" :disabled="verifyEmailForm.processing"
         >Resend Verification Email</Button
-      >
+      > -->
 
       <router-link
-        :to="{ name: 'VerifyEmail' }"
+        :to="{ name: 'Login' }"
         method="post"
         as="button"
         class="text-sm text-blue-600 hover:underline dark:text-blue-400"
-        >Log Out</router-link
+        >Go back</router-link
       >
     </div>
   </form>

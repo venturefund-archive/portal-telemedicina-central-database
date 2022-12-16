@@ -1,28 +1,9 @@
 <template>
   <form @submit.prevent="submit">
     <div class="grid gap-4">
-      <div class="space-y-2">
-        <Label for="email" value="Email" />
-        <InputIconWrapper>
-          <template #icon>
-            <MailIcon aria-hidden="true" class="h-5 w-5" />
-          </template>
-          <Input
-            withIcon
-            id="email"
-            type="email"
-            placeholder="Email"
-            class="block w-full"
-            v-model="resetPasswordForm.email"
-            required
-            autofocus
-            autocomplete="username"
-          />
-        </InputIconWrapper>
-      </div>
 
       <div class="space-y-2">
-        <Label for="password" value="Password" />
+        <Label for="password" value="New password" />
         <InputIconWrapper>
           <template #icon>
             <LockClosedIcon aria-hidden="true" class="h-5 w-5" />
@@ -31,7 +12,7 @@
             withIcon
             id="password"
             type="password"
-            placeholder="Password"
+            placeholder="New password"
             class="block w-full"
             v-model="resetPasswordForm.password"
             required
@@ -69,23 +50,52 @@
 </template>
 
 <script setup>
+import axios from 'axios'
 import { reactive } from 'vue'
 import { MailIcon, LockClosedIcon } from '@heroicons/vue/outline'
+import { useStorage } from '@vueuse/core'
+import { useRouter } from 'vue-router'
+import { errorToast, successToast } from '@/toast'
 
 const props = defineProps({
-  email: String,
+  uid: String,
   token: String,
 })
+const router = useRouter()
 
 const resetPasswordForm = reactive({
-  token: '',
-  email: '',
   password: '',
   password_confirmation: '',
   processing: false,
 })
 
-const submit = () => {
-  //
+const submit = async () => {
+  const state = useStorage('app-store', { token: '' })
+  try {
+    const response = await axios.post(
+      import.meta.env.VITE_AUTH_API_URL2 + `password/reset/confirm/${props.uid}/${props.token}/`, {
+        new_password1: resetPasswordForm.password,
+        new_password2: resetPasswordForm.password_confirmation,
+        uid: props.uid,
+        token: props.token,
+      },
+    )
+    successToast({ text:'Password changed successfully' })
+    router.replace({ name: 'Login' })
+  } catch (err) {
+    if (err.response.data.token) {
+      errorToast({ text: err.response.data.token.join(', ') })
+      return false
+    }
+    if (err.response.data.new_password1) {
+      errorToast({ text: err.response.data.new_password1.join(', ') })
+      return false
+    }
+    if (err.response.data.new_password2) {
+      errorToast({ text: err.response.data.new_password2.join(', ') })
+      return false
+    }
+    errorToast({ text: err.message })
+  }
 }
 </script>
