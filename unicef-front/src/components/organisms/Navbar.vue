@@ -10,7 +10,7 @@
     ]"
   >
     <div class="flex items-center gap-2">
-      <form @submit.prevent="">
+      <form @submit.prevent="search">
         <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900">Search</label>
         <div class="relative">
           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -140,30 +140,17 @@ const logout = async () => {
   }
 }
 
-const search = async (queryText) => {
+const search = async () => {
   const state = useStorage('app-store', { token: '' })
   try {
-    //const d = event.target.value
-    const response = await axios.get('http://localhost:8000/api/patients/', {
+    console.log(queryText)
+    const response = await axios.get('/api/pacients/', {
       headers: {
         'Content-type': 'application/json',
         Authentication: `Bearer ${state.value.token}`,
       },
     })
-
-    //const response = {
-    //    data: {
-    //        items: [
-    //            { id: 123, name: "Roberto Ali", gender: "male", birthDate: "2012-06-10", document: "23123", image: "https://toppng.com/uploads/thumbnail/roger-berry-avatar-placeholder-115629915618zfpmweri9.png" },
-    //            { id: 321, name: "Angela Almeida", gender: "female", birthDate: "2012-06-10", document: "33123", image: "https://toppng.com/uploads/thumbnail/roger-berry-avatar-placeholder-115629915618zfpmweri9.png" },
-    //            { id: 456, name: "Fausto Meneguel", gender: "male", birthDate: "2012-06-10", document: "43123", image: "https://toppng.com/uploads/thumbnail/roger-berry-avatar-placeholder-115629915618zfpmweri9.png" },
-    //            { id: 789, name: "Rebeca Mendes", gender: "female", birthDate: "2012-06-10", document: "53123", image: "https://toppng.com/uploads/thumbnail/roger-berry-avatar-placeholder-115629915618zfpmweri9.png" },
-    //        ]
-     //   }
-    //}
-
-    filteredResultsBasic.value = response.data.items
-    return
+    console.log(response)
   } catch (err) {
     errorToast({ text: err.message })
   }
