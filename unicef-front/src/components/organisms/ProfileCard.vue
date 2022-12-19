@@ -6,20 +6,28 @@
       </div>
 
       <div class="col-span-5 ml-4 md:col-span-4">
-        <p class="cursor-pointer font-bold text-gray-600 hover:underline">{{ profileForm.name }}</p>
+        <p class="font-bold text-gray-600 pr-2">{{ patientsStore.item.name }}</p>
         <div class="text-gray-400">
-          <p>Gender: <span class="cursor-pointer hover:underline">{{ profileForm.gender }}</span></p>
-          <p>Document: <span class="cursor-pointer hover:underline">{{ profileForm.document }}</span></p>
+          <p>Gender: <span>{{ patientsStore.item.gender }}</span></p>
+          <p>Document: <span>{{ patientsStore.item.id }}</span></p>
+          <!--
           <p>
-            Region: <span class="cursor-pointer hover:underline">{{ profileForm.city }} / {{ profileForm.state }}</span>
+            Region: <span>{{ patientsStore.item.address[0].city }} / {{ patientsStore.item.address[0].state }}</span>
           </p>
           <p>
-            Contact: <span class="cursor-pointer hover:underline">{{ profileForm.phone }}</span>
+            Contact: <span>{{ patientsStore.item.telecom[0].value }}</span>
+          </p>
+          -->
+          <p>
+            Birth date: <span>{{ patientsStore.item.birth_date }}</span>
+          </p>
+          <p>
+            Marital Status: <span>{{ patientsStore.item.marital_status }}</span>
           </p>
         </div>
       </div>
       <div class="col-start-2 ml-4 flex md:col-start-auto md:ml-0 md:justify-end">
-        <p class="h-fit w-fit rounded-lg bg-sky-200 py-1 px-3 text-sm font-bold text-sky-600">Age:06</p>
+        <p class="h-fit w-fit rounded-lg bg-sky-200 py-1 px-3 text-sm font-bold text-sky-600">Age: {{ new Date().getFullYear() - patientsStore.item.birth_date.substr(0,4) }}</p>
       </div>
     </div>
   </div>
@@ -34,34 +42,15 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
+import { usePatientsStore } from '@/stores/patients'
+const patientsStore = usePatientsStore()
 
 const router = useRouter()
 
-const profileForm = reactive({
-  // blood_type
-  // document
-  // age
-  name: 'Roberto Ali',
-  gender:"male",
-  birthDate:"2012-06-10",
-  document:"23123",
-  phone: '(00) 00 000-000',
-  state: 'RJ',
-  city: 'Caxias',
-  processing: false,
-})
-
-const profile = async () => {
-  const state = useStorage('app-store', { token: '' })
-  try {
-    // const patient_id = 4172
-    // const response = await axios.post(import.meta.env.VITE_AUTH_API_URL + `patients/${patient_id}`, profileForm)
-  } catch (err) {
-    errorToast({ text: err.message })
-  }
-}
-
-onMounted(() => {
-  profile()
+const props = defineProps({
+  id: {
+    type: String,
+    default: '0',
+  },
 })
 </script>

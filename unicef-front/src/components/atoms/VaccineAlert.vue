@@ -10,6 +10,7 @@
     </span>
 
     <div v-else-if="3 == status" class="w-9 h-9 bg-red-500 border border-tranparent shadow-md rounded-full"></div>
+    <div v-else-if="4 == status" class="w-9 h-9 bg-neutral-200 border border-tranparent shadow-md rounded-full"></div>
     <div v-else class=""></div>
   </div>
 
@@ -32,7 +33,7 @@ const props = defineProps({
     type: Number,
     default: 0,
     validator(value) {
-      return [1, 2, 3, 4].includes(value)
+      return [0, 1, 2, 3, 4].includes(value)
     },
   },
 })

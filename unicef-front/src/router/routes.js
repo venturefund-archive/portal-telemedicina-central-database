@@ -1,7 +1,3 @@
-// router.beforeEach((to, from, next) => {
-//   if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
-//   else next()
-// })
 import { useStorage } from '@vueuse/core'
 import { useRouter } from 'vue-router'
 import { errorToast, successToast } from '@/toast'
@@ -18,14 +14,16 @@ export default [
         component: () => import('@/views/Dashboard.vue'),
       },
       {
-        path: '/patients',
-        name: 'Patients',
-        component: () => import('@/views/pages/Patients.vue'),
+        path: '/patients/:id',
+        name: 'PatientDetails',
+        component: () => import('@/views/pages/PatientDetails.vue'),
+        props: true,
       },
       {
-        path: '/patient/:id',
-        name: 'Patient',
-        component: () => import('@/views/pages/Patient.vue'),
+        path: '/patients',
+        name: 'NobodyPatientDetails',
+        component: () => import('@/views/pages/PatientDetails.vue'),
+        props: true,
       },
     ],
     beforeEnter: (to, from) => {

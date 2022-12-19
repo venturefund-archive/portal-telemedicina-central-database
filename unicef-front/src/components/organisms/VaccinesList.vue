@@ -44,21 +44,53 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="border-b hover:bg-neutral-300" v-for="(vaccine, k) in vaccines" :key="k">
-                  <td colspan="2" class="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 capitalize">{{ vaccine.name }}</td>
-                  <td class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"><VaccineAlert :status="Math.floor((Math.random() * 4) + 1)"/></td>
-                  <td class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"><VaccineAlert :status="Math.floor((Math.random() * 4) + 1)"/></td>
-                  <td class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"><VaccineAlert :status="Math.floor((Math.random() * 4) + 1)"/></td>
-                  <td class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"><VaccineAlert :status="Math.floor((Math.random() * 4) + 1)"/></td>
-                  <td class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"><VaccineAlert :status="Math.floor((Math.random() * 4) + 1)"/></td>
-                  <td class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"><VaccineAlert :status="Math.floor((Math.random() * 4) + 1)"/></td>
-                  <td class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"><VaccineAlert :status="Math.floor((Math.random() * 4) + 1)"/></td>
-                  <td class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"><VaccineAlert :status="Math.floor((Math.random() * 4) + 1)"/></td>
-                  <td class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"><VaccineAlert :status="Math.floor((Math.random() * 4) + 1)"/></td>
-                  <td class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"><VaccineAlert :status="Math.floor((Math.random() * 4) + 1)"/></td>
-                  <td class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"><VaccineAlert :status="Math.floor((Math.random() * 4) + 1)"/></td>
-                  <td class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"><VaccineAlert :status="Math.floor((Math.random() * 4) + 1)"/></td>
-                  <td class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"><VaccineAlert :status="Math.floor((Math.random() * 4) + 1)"/></td>
+                <tr class="border-b hover:bg-neutral-300" v-for="(vaccine, k) in vaccinesStore.items" :key="k">
+                  <td colspan="2"
+                    class="show-truncate truncate whitespace-nowrap px-6 py-4 text-sm font-medium capitalize text-gray-900">
+                    {{ vaccine.description }}
+                  </td>
+                  <td
+                    class="cursor-pointer whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"
+                    v-for="(range, rangeKey) in [
+                      { start: birthDate, end: add(birthDate, { months: 2 }) }, //ao nascer
+                      { start: add(birthDate, { months: 2 }), end: add(birthDate, { months: 3 }) },
+                      { start: add(birthDate, { months: 3 }), end: add(birthDate, { months: 4 }) },
+                      { start: add(birthDate, { months: 4 }), end: add(birthDate, { months: 5 }) },
+                      { start: add(birthDate, { months: 5 }), end: add(birthDate, { months: 6 }) },
+
+                      { start: add(birthDate, { months: 6 }), end: add(birthDate, { months: 11 }) },
+                      { start: add(birthDate, { months: 11 }), end: add(birthDate, { months: 12 }) },
+                      { start: add(birthDate, { months: 12 }), end: add(birthDate, { months: 15 }) },
+
+                      { start: add(birthDate, { months: 15 }), end: add(birthDate, { months: 18 }) },
+
+                      { start: add(birthDate, { months: 18 }), end: add(birthDate, { years: 6 }) },
+                      { start: add(birthDate, { years: 6 }), end: add(birthDate, { years: 10 }) },
+                      { start: add(birthDate, { years: 10 }), end: add(birthDate, { years: 12 }) },
+                      { start: add(birthDate, { years: 12 }), end: add(birthDate, { years: 15 }) },
+                    ]" :key="rangeKey">
+                    <div v-for="(dose, dk) in filteredDosesByVaccine(vaccine)" :key="dk">
+
+                      <VaccineAlert :status="1" v-if="dose.is_completed" />
+                      <div v-else v-for="(alert, ak) in dose.alerts" :key="ak">
+                        <!--
+                        <div class="absolute bg-neutral-500">
+                          <span>birth_parsed: {{ birthDate }}</span>
+                          <span>created_at: {{ parseISO(alert.created_at) }}</span>
+                          {{ differenceInDays(birthDate, parseISO(alert.created_at)) }}
+
+                          <span>resultado={{ Boolean(isWithinInterval(parseISO(alert.created_at), { start: range.start, end:range.end } )) }}</span>
+                          <span>resultado={{ isWithinInterval(parseISO(alert.created_at), { start: range.start, end:range.end } ) }}</span>
+                        </div>
+                        -->
+                        <VaccineAlert :status="2"
+                          v-if="isWithinInterval(parseISO(alert.created_at), { start: range.start, end:range.end } )" />
+                      </div>
+
+                    </div>
+
+                  </td>
+
                 </tr>
               </tbody>
             </table>
@@ -71,7 +103,7 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, reactive, ref } from 'vue'
+import { onMounted, onUnmounted, reactive, ref, onUpdated } from 'vue'
 import InputIconWrapper from '@/components/InputIconWrapper.vue'
 import { MailIcon, LockClosedIcon, LoginIcon, UserIcon } from '@heroicons/vue/outline'
 import axios from 'axios'
@@ -79,56 +111,48 @@ import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
 import { computed } from 'vue'
+import { formatDistance, parseISO, formatISO9075, add, isWithinInterval, differenceInDays, subDays } from 'date-fns'
+import { usePatientsStore } from '@/stores/patients'
+import { useDosesStore } from '@/stores/doses'
+import { useVaccinesStore } from '@/stores/vaccines'
+const patientsStore = usePatientsStore()
+const dosesStore = useDosesStore()
+const vaccinesStore = useVaccinesStore()
 
-const modal = ref()
 const router = useRouter()
 
-const vaccines = reactive([
-  { name: 'BCGID'},
-  { name: 'Hepatite B'},
-  { name: 'Tríplice bacteriana'},
-  { name: '(DTPw ou DTPa)'},
-  { name: 'Haemophilus'},
-  { name: 'influenzae b'},
-  { name: 'Poliomelite'},
-  { name: 'Rotavírus'},
-  { name: 'Pneumocócicas'},
-  { name: 'Meningocócicas'},
-  { name: 'Varicela'},
-  { name: 'Influenza'},
-  { name: 'Poliomelite oral'},
-  { name: 'Febre amarela'},
-  { name: 'Hepatite A'},
-  { name: 'Tríplice viral'},
-  { name: 'Covid'},
-  { name: 'HPV'},
-  { name: 'Tríplice bacteraina acelular'},
-])
-const profileForm = reactive({
-  // blood_type
-  // document
-  // age
-  name: '',
-  phone: '(00) 00 000-000',
-  state: '',
-  city: '',
-  processing: false,
+const birthDate = computed(() => parseISO(patientsStore.item.birth_date) )
+
+const filteredDosesByVaccine = computed(() => {
+  return (vaccine) => dosesStore.items.filter(dose => {
+    return dose.vaccine == vaccine.id
+  })
+
+  //const filteredName = this.doses.filter(dose => {
+  //  return dose.name.toLowerCase().includes(this.searchTerm.toLowerCase());
+  //})
+  //const orderedDoses = filteredDoses.sort((a, b) => {
+  //  return b.order - a.order;
+  //})
+  //return orderedDoses;
 })
-const profile = async () => {
-  const state = useStorage('app-store', { token: '' })
-  try {
-    // const patient_id = 4172
-    // const response = await axios.post(import.meta.env.VITE_AUTH_API_URL + `patients/${patient_id}`, profileForm)
-  } catch (err) {
-    errorToast({ text: err.message })
-  }
-}
+
+const key = ref(0)
 
 const addDose = () => {
   return console.log('dose adicionada')
 }
 
-onMounted(() => {
-  profile()
+onMounted(async () => {
+  await vaccinesStore.fetchVaccines()
 })
 </script>
+
+<style scoped>
+.show-truncate:hover{
+    overflow: visible;
+    white-space: normal;
+    height:auto;  /* just added this line */
+    cursor: default
+}
+</style>

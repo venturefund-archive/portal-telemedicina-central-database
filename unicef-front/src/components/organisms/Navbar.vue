@@ -29,7 +29,7 @@
               ></path>
             </svg>
           </div>
-          <AutoComplete v-model="queryText" :suggestions="filteredResultsBasic" />
+          <AutoComplete v-model="queryText" :suggestions="filteredResults" />
         </div>
       </form>
     </div>
@@ -42,7 +42,7 @@
             class="dark:focus:ring-offset-dark-eval-1 flex rounded-md border-2 border-transparent text-sm transition focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-1 focus:ring-offset-white"
           >
             <div class="flex flex-col items-end justify-center">
-              <p class="font-bold">Cody Simmmons</p>
+              <p class="font-bold" v-if="loggedUserStore.item">{{ loggedUserStore.item.username }}</p>
               <p class="text-sm text-gray-500">Nurse</p>
             </div>
             <img class="mx-5 h-12 w-12 rounded-md object-cover" :src="userAvatar" alt="User Name" />
@@ -116,13 +116,16 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
+import { usePatientsStore } from '@/stores/patients'
+import { useLoggedUserStore } from '@/stores/loggedUser'
+const loggedUserStore = useLoggedUserStore()
+const patientsStore = usePatientsStore()
 
-const queryText = ref(null)
-const filteredResultsBasic = ref([])
+const queryText = ref('')
 
-watch(queryText, (newQueryText) => {
-  search(newQueryText)
+watch(queryText, async (newQueryText) => {
+  await patientsStore.searchPatients(newQueryText)
 })
 
 const router = useRouter()
@@ -140,39 +143,25 @@ const logout = async () => {
   }
 }
 
-const search = async () => {
-  const state = useStorage('app-store', { token: '' })
-  try {
-    console.log(queryText)
-    const response = await axios.get('/api/pacients/', {
-      headers: {
-        'Content-type': 'application/json',
-        Authentication: `Bearer ${state.value.token}`,
-      },
-    })
-    console.log(response)
-  } catch (err) {
-    errorToast({ text: err.message })
+const filteredResults = computed(() => {
+  if (queryText.value === '') {
+    return []
   }
-}
 
+  let matches = 0
 
-const me = async () => {
-  const state = useStorage('app-store', { token: '' })
-  try {
-    const response = await axios.get('/dj-rest-auth/user/', {
-      headers: {
-        'Content-type': 'application/json',
-        Authentication: `${state.value.token}`,
-      },
-    })
-  } catch (err) {
-    errorToast({ text: err.message })
-  }
-}
+  return patientsStore.items.filter(patient => {
+    if ( patient.name.join().toLowerCase().includes(queryText.value.toLowerCase())
+          && matches < 10 ) {
+      matches++
+      return patient
+    }
+  })
+})
 
-onMounted(() => {
+onMounted(async () => {
   document.addEventListener('scroll', handleScroll)
+  await loggedUserStore.fetchMe()
 })
 
 onUnmounted(() => {

@@ -5,7 +5,7 @@
         <h2 class="text-xl font-semibold leading-tight">Dashboard</h2>
       </div>
       <div class="pl-5 pt-3">
-        <p class="font-bold">Welcome, Cody Simmmons</p>
+        <p class="font-bold" v-if="loggedUserStore.item">Welcome, {{ loggedUserStore.item.username }}</p>
         <span>Have a nice day and a nice job.</span>
       </div>
     </template>
@@ -23,3 +23,13 @@
     </div>
   </PageWrapper>
 </template>
+
+<script setup>
+import { onMounted } from 'vue'
+import { useLoggedUserStore } from '@/stores/loggedUser'
+const loggedUserStore = useLoggedUserStore()
+
+onMounted(async () => {
+  await loggedUserStore.fetchMe()
+})
+</script>
