@@ -24,16 +24,17 @@ urlpatterns = [
     # User management
     path("users/", include("central_database.users.urls", namespace="users")),
     path("health/", include("central_database.health.urls")),  # noqa
-    path("dj-rest-auth/", include("dj_rest_auth.urls")),
+    path("api/dj-rest-auth/", include("dj_rest_auth.urls")),
     path(
-        "dj-rest-auth/registration/account-confirm-email/<str:key>/",
+        "api/dj-rest-auth/registration/account-confirm-email/<str:key>/",
         ConfirmEmailView.as_view(),
     ),
     path(
-        "dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")
-    ),  # noqa
+        "api/dj-rest-auth/registration/",
+        include("dj_rest_auth.registration.urls"),  # E501: noqa
+    ),
     path(
-        "dj-rest-auth/account-confirm-email/",
+        "api/dj-rest-auth/account-confirm-email/",
         VerifyEmailView.as_view(),
         name="account_email_verification_sent",
     ),
