@@ -219,7 +219,7 @@ X_FRAME_OPTIONS = "DENY"
 
 CSRF_TRUSTED_ORIGINS = [
     "http://34.95.198.185:8000/",
-    "https://gestao-di.ptmdev.com.br/api/",
+    "https://gestao-di.ptmdev.com.br/",
 ]
 
 # EMAIL
