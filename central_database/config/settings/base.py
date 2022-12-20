@@ -218,8 +218,8 @@ SECURE_BROWSER_XSS_FILTER = True
 X_FRAME_OPTIONS = "DENY"
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://34.95.198.185:8000/",
-    "https://gestao-di.ptmdev.com.br/",
+    "http://34.95.198.185:8000",
+    "https://gestao-di.ptmdev.com.br",
 ]
 
 # EMAIL
