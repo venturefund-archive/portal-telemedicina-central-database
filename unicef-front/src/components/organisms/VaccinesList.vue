@@ -1,4 +1,6 @@
 <template>
+  <div class="w-full max-w-sm px-4">
+  </div>
   <!-- component -->
   <div class="flex flex-col">
     <div class="sm:-mx-6 lg:-mx-5 px-3 py-2">
@@ -8,15 +10,15 @@
             <table class="table-fixed w-full text-left text-sm text-neutral-100 dark:text-neutral-100 bg-white shadow-lg">
               <thead class="bg-neutral-200 text-xs uppercase text-white dark:text-white">
                 <tr>
-                  <th scope="col" colspan="2" class="bg-blue-200 px-6 py-4 text-center text-gray-900">Vacinas</th>
+                  <th scope="col" colspan="2" class="bg-blue-200 px-6 py-4 text-center text-gray-900">Vaccines</th>
                   <th scope="col" colspan="9" class="bg-blue-300 px-6 py-4 text-center">
                     <span class="rounded-t-xl border border-transparent bg-neutral-500 p-2 font-semibold text-white"
-                      >Meses</span
+                      >Months</span
                     >
                   </th>
                   <th scope="col" colspan="4" class="bg-blue-400 px-6 py-4 text-center text-gray-900">
                     <span class="rounded-t-xl border border-transparent bg-neutral-500 p-2 font-semibold text-white"
-                      >Anos</span
+                      >Years</span
                     >
                   </th>
                 </tr>
@@ -25,7 +27,7 @@
                     <Combobox v-model="selectedVaccine">
                       <ComboboxInput as="input" @change="vaccineQuery = $event.target.value"
                       class="w-48 rounded-lg border border-transparent bg-gray-50 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                      placeholder="Filtrar por vacina" />
+                      placeholder="Filter by vaccines" />
                     </Combobox>
                   </th>
                   <th scope="col" class="text-gray-900"></th>
@@ -60,14 +62,14 @@
                                                       isWithinInterval(add(birthDate, { months: dose.maximum_recommended_age }), {
                                                         start: range.start,
                                                         end: range.end
-                                                      }) )" />
+                                                      }) )"><VaccineAlertInfo :vaccine="vaccine" :dose="dose" /></VaccineAlert>
                       <div v-else-if="dose.alerts.length > 0" v-for="(alert, ak) in dose.alerts" :key="ak">
                         <VaccineAlert :status="2"
                             v-if="null != dose.maximum_recommended_age &&
                                   isWithinInterval(add(birthDate, { months: dose.maximum_recommended_age }), {
                                     start: range.start,
                                     end: range.end
-                                  }) " />
+                                  }) "><VaccineAlertInfo :vaccine="vaccine" :dose="dose" /></VaccineAlert>
                       </div>
                     </div>
 
@@ -86,8 +88,8 @@
 <script setup>
 import { onMounted, onUnmounted, reactive, ref, onUpdated } from 'vue'
 import InputIconWrapper from '@/components/InputIconWrapper.vue'
-import { MailIcon, LockClosedIcon, LoginIcon, UserIcon } from '@heroicons/vue/outline'
-import { Combobox, ComboboxInput } from '@headlessui/vue'
+import { MailIcon, LockClosedIcon, LoginIcon, UserIcon, SearchIcon, ChevronDownIcon } from '@heroicons/vue/outline'
+import { Combobox, ComboboxInput, Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
