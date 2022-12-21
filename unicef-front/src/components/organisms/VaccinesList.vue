@@ -24,11 +24,17 @@
                 </tr>
                 <tr class="text-center">
                   <th scope="col" colspan="2" class="text-gray-900 p-2 flex items-center">
-                    <Combobox v-model="selectedVaccine">
-                      <ComboboxInput as="input" @change="vaccineQuery = $event.target.value"
-                      class="w-48 rounded-lg border border-transparent bg-gray-50 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-                      placeholder="Filter by vaccines" />
-                    </Combobox>
+                      <InputIconWrapper>
+                          <template #icon>
+                            <SearchIcon aria-hidden="true" class="h-5 w-5" />
+                          </template>
+                          <Input
+                          v-model="vaccineQuery"
+                            withIcon
+                            placeholder="Search for vaccines"
+                            class="w-48 font-normal rounded-md bg-gray-50 p-2 text-sm"
+                          />
+                        </InputIconWrapper>
                   </th>
                   <th scope="col" class="text-gray-900"></th>
                   <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[0]) }" class="px-6 py-4 text-gray-900">0-2</th>
@@ -54,17 +60,17 @@
                   </td>
                   <td
                     class="cursor-pointer whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"
-                    v-for="(range, rangeKey) in ranges" :key="rangeKey">
+                    v-for="(range, rangeIndex) in ranges" :key="rangeIndex">
                     <div v-for="(dose, dk) in filteredDosesByVaccine(vaccine)" :key="dk">
 
-                      <VaccineAlert :status="1" v-if="dose.is_completed &&
+                      <VaccineAlert :rangeIndex="rangeIndex" :status="1" v-if="dose.is_completed &&
                                                       (null != dose.maximum_recommended_age &&
                                                       isWithinInterval(add(birthDate, { months: dose.maximum_recommended_age }), {
                                                         start: range.start,
                                                         end: range.end
                                                       }) )"><VaccineAlertInfo :vaccine="vaccine" :dose="dose" /></VaccineAlert>
                       <div v-else-if="dose.alerts.length > 0" v-for="(alert, ak) in dose.alerts" :key="ak">
-                        <VaccineAlert :status="2"
+                        <VaccineAlert :rangeIndex="rangeIndex" :status="2"
                             v-if="null != dose.maximum_recommended_age &&
                                   isWithinInterval(add(birthDate, { months: dose.maximum_recommended_age }), {
                                     start: range.start,
@@ -89,7 +95,7 @@
 import { onMounted, onUnmounted, reactive, ref, onUpdated } from 'vue'
 import InputIconWrapper from '@/components/InputIconWrapper.vue'
 import { MailIcon, LockClosedIcon, LoginIcon, UserIcon, SearchIcon, ChevronDownIcon } from '@heroicons/vue/outline'
-import { Combobox, ComboboxInput, Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
+import {Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'

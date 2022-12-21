@@ -1,22 +1,17 @@
 <template>
   <PageWrapper title="Patient Details">
-    <div v-if="patientsStore.item">
-      <ProfileCard :id="id" class="pb-2" />
-      <VaccinesList class="py-2" />
+    <div v-if="patientsStore.item && props.id">
+      <ProfileCard :id="id" />
+      <VaccinesList />
+    </div>
+    <div v-else>
+      <span class="flex justify-center text-neutral-500 text-lg">No Patient selected. Search for a patient...</span>
     </div>
   </PageWrapper>
 </template>
 
-}
 <script setup>
 import { onMounted, onUpdated, reactive, ref } from 'vue'
-import { DotsVerticalIcon, PlusCircleIcon, MinusCircleIcon } from '@heroicons/vue/outline'
-import {
-    Dialog,
-    DialogPanel,
-    DialogTitle,
-    DialogDescription,
-  } from '@headlessui/vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
