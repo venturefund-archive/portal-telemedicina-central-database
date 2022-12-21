@@ -21,7 +21,13 @@
                   </th>
                 </tr>
                 <tr class="text-center">
-                  <th scope="col" class="px-20 py-4 text-gray-900"></th>
+                  <th scope="col" colspan="2" class="text-gray-900 p-2 flex items-center">
+                    <Combobox v-model="selectedVaccine">
+                      <ComboboxInput as="input" @change="vaccineQuery = $event.target.value"
+                      class="w-48 rounded-lg border border-transparent bg-gray-50 p-2 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+                      placeholder="Filtrar por vacina" />
+                    </Combobox>
+                  </th>
                   <th scope="col" class="text-gray-900"></th>
                   <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[0]) }" class="px-6 py-4 text-gray-900">0-2</th>
                   <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[1]) }" class="px-6 py-4 text-gray-900">3</th>
@@ -32,14 +38,14 @@
                   <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[6]) }" class="px-6 py-4 text-gray-900">12</th>
                   <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[7]) }" class="px-6 py-4 text-gray-900">15</th>
                   <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[8]) }" class="px-6 py-4 text-gray-900">18</th>
-                  <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[9]) }" class="px-6 py-4 text-gray-900">4 a 6</th>
+                  <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[9]) }" class="px-6 py-4 text-gray-900">4 a 5</th>
                   <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[10]) }" class="px-6 py-4 text-gray-900">6 a 10</th>
                   <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[11]) }" class="px-6 py-4 text-gray-900">11 a 12</th>
                   <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[12]) }" class="px-6 py-4 text-gray-900">13 a 15</th>
                 </tr>
               </thead>
               <tbody>
-                <tr class="border-b hover:bg-neutral-300" v-for="(vaccine, k) in vaccinesStore.items" :key="k">
+                <tr class="border-b hover:bg-neutral-300" v-for="(vaccine, k) in filteredVaccines" :key="k">
                   <td colspan="2"
                     class="truncate whitespace-nowrap px-6 py-4 text-sm font-medium capitalize text-gray-900">
                     {{ vaccine.display }} {{ vaccine.description }}
@@ -81,6 +87,7 @@
 import { onMounted, onUnmounted, reactive, ref, onUpdated } from 'vue'
 import InputIconWrapper from '@/components/InputIconWrapper.vue'
 import { MailIcon, LockClosedIcon, LoginIcon, UserIcon } from '@heroicons/vue/outline'
+import { Combobox, ComboboxInput } from '@headlessui/vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
@@ -122,14 +129,23 @@ const filteredDosesByVaccine = computed(() => {
     return dose.vaccine == vaccine.id && vaccine.system == 'BRI'
   })
 
-  //const filteredName = this.doses.filter(dose => {
-  //  return dose.name.toLowerCase().includes(this.searchTerm.toLowerCase());
-  //})
   //const orderedDoses = filteredDoses.sort((a, b) => {
   //  return b.order - a.order;
   //})
   //return orderedDoses;
 })
+
+const filteredVaccines = computed(() => {
+  return vaccinesStore.items.filter(vaccine => {
+    return (
+      vaccine.description.toLowerCase().includes(vaccineQuery.value.toLowerCase()) ||
+      vaccine.display.toLowerCase().includes(vaccineQuery.value.toLowerCase())
+    )
+  })
+})
+
+const selectedVaccine = ref(filteredVaccines.value[0])
+const vaccineQuery = ref('')
 
 const key = ref(0)
 
