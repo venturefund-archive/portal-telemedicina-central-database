@@ -15,8 +15,9 @@ RUN npm install
 RUN npm run build
  
 FROM bitnami/nginx:1.23-debian-11 as production-stage
-COPY --from=build-stage /app/dist /app
-COPY my_server_block.conf /opt/bitnami/nginx/conf/server_blocks/my_server_block.conf
+COPY --from=build-stage my_server_block.conf opt/bitnami/nginx/conf/server_blocks/my_server_block.conf
+COPY --from=build-stage /app /app
+
 EXPOSE 8080
 
 CMD ["nginx", "-g", "daemon off;"]
