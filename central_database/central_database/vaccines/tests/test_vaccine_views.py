@@ -25,7 +25,7 @@ class TestVaccineDoseViewSet(APITestCase):
     def test_it_requires_authentication(self):
         response = self.client.get(reverse("api:vaccine-doses-list"))
 
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
 
     def test_it_list_vaccine_doses(self):
         vaccine = VaccineFactory()
