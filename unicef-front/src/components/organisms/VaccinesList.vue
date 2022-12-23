@@ -23,7 +23,7 @@
                   </th>
                 </tr>
                 <tr class="text-center">
-                  <th scope="col" colspan="2" class="text-gray-900 p-2 flex items-center">
+                  <th scope="col" colspan="2" class="text-gray-900 p-2 flex py-5">
                       <InputIconWrapper>
                           <template #icon>
                             <SearchIcon aria-hidden="true" class="h-5 w-5" />
@@ -32,24 +32,24 @@
                           v-model="vaccineQuery"
                             withIcon
                             placeholder="Search for vaccines"
-                            class="w-48 font-normal rounded-md bg-gray-50 p-2 text-sm"
+                            class="w-48 sm:w-32 flex font-normal rounded-md bg-gray-50 p-2 text-sm"
                           />
                         </InputIconWrapper>
                   </th>
                   <th scope="col" class="text-gray-900"></th>
-                  <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[0]) }" class="px-6 py-4 text-gray-900">0-2</th>
-                  <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[1]) }" class="px-6 py-4 text-gray-900">3</th>
-                  <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[2]) }" class="px-6 py-4 text-gray-900">4</th>
-                  <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[3]) }" class="px-6 py-4 text-gray-900">5</th>
-                  <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[4]) }" class="px-6 py-4 text-gray-900">6</th>
-                  <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[5]) }" class="px-6 py-4 text-gray-900">7-11</th>
-                  <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[6]) }" class="px-6 py-4 text-gray-900">12</th>
-                  <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[7]) }" class="px-6 py-4 text-gray-900">15</th>
-                  <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[8]) }" class="px-6 py-4 text-gray-900">18</th>
-                  <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[9]) }" class="px-6 py-4 text-gray-900">4 a 5</th>
-                  <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[10]) }" class="px-6 py-4 text-gray-900">6 a 10</th>
-                  <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[11]) }" class="px-6 py-4 text-gray-900">11 a 12</th>
-                  <th scope="col" :class="{ 'bg-yellow-300': isWithinInterval(new Date(), ranges[12]) }" class="px-6 py-4 text-gray-900">13 a 15</th>
+                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[0]) }" class="px-6 py-4 text-gray-900">0-2</th>
+                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[1]) }" class="px-6 py-4 text-gray-900">3</th>
+                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[2]) }" class="px-6 py-4 text-gray-900">4</th>
+                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[3]) }" class="px-6 py-4 text-gray-900">5</th>
+                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[4]) }" class="px-6 py-4 text-gray-900">6</th>
+                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[5]) }" class="px-6 py-4 text-gray-900">7-11</th>
+                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[6]) }" class="px-6 py-4 text-gray-900">12</th>
+                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[7]) }" class="px-6 py-4 text-gray-900">15</th>
+                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[8]) }" class="px-6 py-4 text-gray-900">18</th>
+                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[9]) }" class="px-6 py-4 text-gray-900">4 a 5</th>
+                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[10]) }" class="px-6 py-4 text-gray-900">6 a 10</th>
+                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[11]) }" class="px-6 py-4 text-gray-900">10 a 12</th>
+                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[12]) }" class="px-6 py-4 text-gray-900">13 a 15</th>
                 </tr>
               </thead>
               <tbody>
@@ -59,6 +59,7 @@
                     {{ vaccine.display }} {{ vaccine.description }}
                   </td>
                   <td
+                    :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[rangeIndex]) }"
                     class="cursor-pointer whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"
                     v-for="(range, rangeIndex) in ranges" :key="rangeIndex">
                     <div v-for="(dose, dk) in filteredDosesByVaccine(vaccine)" :key="dk">

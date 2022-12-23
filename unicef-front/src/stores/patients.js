@@ -9,7 +9,7 @@ export const usePatientsStore = defineStore('patients', () => {
   const item = ref(null)
 
   async function searchPatients() {
-    return this.fetchPatients()
+    return await this.fetchPatients()
   }
   async function fetchPatients() {
     const state = useStorage('app-store', { token: '' })

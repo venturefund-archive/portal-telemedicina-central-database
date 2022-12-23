@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="col-start-2 ml-4 flex md:col-start-auto md:ml-0 md:justify-end">
-        <p class="h-fit w-fit rounded-lg bg-sky-200 py-1 px-3 text-sm font-bold text-sky-600">Age: {{ new Date().getFullYear() - patientsStore.item.birth_date.substr(0,4) }}</p>
+        <p class="h-fit w-fit rounded-lg bg-sky-200 py-1 px-3 text-sm font-bold text-sky-600">Age: {{ differenceInYears(new Date(), birthDate) }}</p>
       </div>
     </div>
   </div>
@@ -35,17 +35,21 @@
 </template>
 
 <script setup>
-import { onMounted, reactive } from 'vue'
+import { onMounted, reactive, computed } from 'vue'
 import InputIconWrapper from '@/components/InputIconWrapper.vue'
 import { MailIcon, LockClosedIcon, LoginIcon, UserIcon } from '@heroicons/vue/outline'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
+
+import { parseISO, differenceInYears } from 'date-fns'
 import { usePatientsStore } from '@/stores/patients'
 const patientsStore = usePatientsStore()
 
 const router = useRouter()
+
+const birthDate = computed(() => parseISO(patientsStore.item.birth_date) )
 
 const props = defineProps({
   id: {

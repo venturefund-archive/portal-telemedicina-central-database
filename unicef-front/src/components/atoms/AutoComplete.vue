@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div ref="target">
     <input
       :type="type"
       :value="modelValue"
@@ -28,6 +28,7 @@
 
 <script setup>
 import { ref, toRefs, computed } from 'vue'
+import { onClickOutside } from '@vueuse/core'
 
 const emit = defineEmits(['click', 'update:modelValue'])
 const props = defineProps({
@@ -58,7 +59,10 @@ const props = defineProps({
     },
   },
 })
-
 const hideSuggestions = ref(true)
+const target = ref(null)
+
+onClickOutside(target, (event) => hideSuggestions.value = true)
+
 // <AutoComplete v-model="queryText" :suggestions="filteredResultsBasic" @complete="search($event)" optionLabel="name" />
 </script>
