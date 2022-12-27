@@ -32,7 +32,7 @@
                           v-model="vaccineQuery"
                             withIcon
                             placeholder="Search for vaccines"
-                            class="w-48 sm:w-32 flex font-normal rounded-md bg-gray-50 p-2 text-sm"
+                            class="lg:w-48 sm:w-20 flex font-normal rounded-md bg-gray-50 p-2 text-sm"
                           />
                         </InputIconWrapper>
                   </th>
