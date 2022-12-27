@@ -1,8 +1,8 @@
 <template>
   <PageWrapper title="Patient Details">
-    <div v-if="patientsStore.item && props.id" :key="forceRerender">
+    <div v-if="patientsStore.item && props.id">
       <ProfileCard :id="id" />
-      <VaccinesList />
+      <VaccinesList :id="id" />
     </div>
   </PageWrapper>
 </template>
@@ -19,8 +19,6 @@ const patientsStore = usePatientsStore()
 
 const router = useRouter()
 
-const forceRerender = ref(0)
-
 const props = defineProps({
   id: {
     type: String,
@@ -33,7 +31,6 @@ watch(
   async (id) => {
     if (props.id != 0) {
       await patientsStore.fetchPatient(props.id)
-      forceRerender.value++
     }
   },
   { immediate: true }

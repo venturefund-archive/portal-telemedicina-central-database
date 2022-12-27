@@ -92,7 +92,7 @@
 </template>
 
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
 import InputIconWrapper from '@/components/InputIconWrapper.vue'
 import { MailIcon, LockClosedIcon, LoginIcon, UserIcon, SearchIcon, ChevronDownIcon } from '@heroicons/vue/outline'
 import {Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
@@ -160,9 +160,20 @@ const addDose = () => {
   return console.log('dose adicionada')
 }
 
-onMounted(async () => {
-  await vaccinesStore.fetchVaccines()
+const props = defineProps({
+  id: {
+    type: String,
+    default: '0',
+  },
 })
+
+watch(
+  () => props.id,
+  async () => {
+    await vaccinesStore.fetchVaccines()
+  },
+  { immediate: true }
+)
 </script>
 
 <style scoped>
