@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h2 class="font-bold">Restricted access!</h2>
+    <h2 class="font-bold">Acesso restrito!</h2>
     <p class="mb-5 max-w-xl text-sm text-gray-500">
-      Work environment reserved for restricted access of health professionals.
+      Ambiente de trabalho reservado para acesso restrito de profissionais de saúde.
     </p>
   </div>
   <form @submit.prevent="login">
@@ -48,11 +48,11 @@
       <div class="flex items-center justify-between">
         <label class="flex items-center">
           <Checkbox name="remember" v-model:checked="loginForm.remember" />
-          <span class="ml-2 text-sm text-gray-600">Remember me</span>
+          <span class="ml-2 text-sm text-gray-600">Lembrar-me</span>
         </label>
 
         <router-link :to="{ name: 'ForgotPassword' }" class="text-sm text-blue-500 hover:underline"
-          >Forgot your password?</router-link
+          >Esqueceu a senha?</router-link
         >
       </div>
 
@@ -65,14 +65,14 @@
           v-slot="{ iconSizeClasses }"
         >
           <LoginIcon aria-hidden="true" :class="iconSizeClasses" />
-          <span>Log in</span>
+          <span>Entrar</span>
         </Button>
       </div>
 
       <!-- Register link -->
       <p class="text-sm text-gray-600 dark:text-gray-400">
-        Don't have an account?
-        <router-link :to="{ name: 'Register' }" class="text-blue-500 hover:underline">Register</router-link>
+        Ainda não tem uma conta?
+        <router-link :to="{ name: 'Register' }" class="text-blue-500 hover:underline">Cadastrar</router-link>
       </p>
     </div>
   </form>
@@ -107,7 +107,7 @@ const login = async () => {
       return false
     }
     state.value.token = response.data.key
-    successToast({ text: "You've successfully logged in." })
+    successToast({ text: "Você se conectou com sucesso." })
     router.replace({ name: 'Dashboard' })
   } catch (err) {
     if (err.response.data.non_field_errors) {

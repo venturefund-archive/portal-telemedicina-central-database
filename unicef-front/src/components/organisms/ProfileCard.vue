@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[32rem] rounded-xl border border-neutral-100 bg-gray-50">
+  <div class="mx-6 lg:w-[38rem] sm: rounded-xl border border-neutral-100 bg-gray-50">
     <div class="grid grid-cols-6 gap-y-2 p-5">
       <div>
         <img src="https://picsum.photos/seed/2/200/200" class="max-w-20 max-h-20 rounded-full" />
@@ -8,8 +8,8 @@
       <div class="col-span-5 ml-4 md:col-span-4">
         <p class="font-bold text-gray-600 pr-2">{{ patientsStore.item.name.join() }}</p>
         <div class="text-gray-400">
-          <p>Gender: <span>{{ patientsStore.item.gender }}</span></p>
-          <p>Document: <span>{{ patientsStore.item.id }}</span></p>
+          <p>Gênero: <span>{{ patientsStore.item.gender }}</span></p>
+          <p>Documento: <span>{{ patientsStore.item.id }}</span></p>
           <!--
           <p>
             Region: <span>{{ patientsStore.item.address[0].city }} / {{ patientsStore.item.address[0].state }}</span>
@@ -19,15 +19,15 @@
           </p>
           -->
           <p>
-            Birth date: <span>{{ patientsStore.item.birth_date }}</span>
+            Data de nascimento: <span>{{ patientsStore.item.birth_date }}</span>
           </p>
           <p>
-            Marital Status: <span>{{ patientsStore.item.marital_status }}</span>
+            Estado civil: <span>{{ patientsStore.item.marital_status }}</span>
           </p>
         </div>
       </div>
       <div class="col-start-2 ml-4 flex md:col-start-auto md:ml-0 md:justify-end">
-        <p class="h-fit w-fit rounded-lg bg-sky-200 py-1 px-3 text-sm font-bold text-sky-600">Years: {{ differenceInYears(new Date(), birthDate) }}</p>
+        <p class="h-fit w-fit rounded-lg bg-sky-200 py-1 px-3 text-sm font-bold text-sky-600">Idade: {{ differenceInYears(new Date(), birthDate) }}</p>
       </div>
     </div>
   </div>

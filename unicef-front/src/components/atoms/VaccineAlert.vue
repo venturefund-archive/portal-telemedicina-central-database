@@ -28,7 +28,7 @@
       <PopoverOverlay class="fixed inset-0 bg-black opacity-30" />
         <PopoverPanel
           class="absolute left-1/2 z-10 mt-3 w-auto max-w-sm transform-gpu px-4 sm:px-0 lg:max-w-3xl"
-          :class="{ '-translate-x-72': rangeIndex == 12, '-translate-x-48': rangeIndex != 12,  }"
+          :class="[rangeIndex == 11 ? '-translate-x-48' : ((rangeIndex <= 1) ? '' : '-translate-x-48')]"
         >
           <div
             class="overflow-hidden rounded-lg shadow-lg"

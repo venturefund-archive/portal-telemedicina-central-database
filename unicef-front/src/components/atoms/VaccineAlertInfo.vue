@@ -12,17 +12,17 @@
             </div>
 
             <p class="">Dose <span class="font-semibold">#{{ props.dose.dose_order }} </span></p>
-            Age: {{ props.dose.maximum_recommended_age }} months <br />
-            gender: {{ props.dose.gender_recommendation }}<br />
+            Idade: {{ props.dose.maximum_recommended_age }} meses <br />
+            Gênero: {{ props.dose.gender_recommendation }}<br />
         </div>
         <div class="bg-neutral-200 p-4 font-normal">
             <p class="font-semibold">Alerts</p>
             <div v-for="(alert, k) in props.dose.alerts" :key="k">
                 Id: {{ alert.id }} <br />
-                Alert type: {{ alert.alert_type }}<br />
-                created at: {{ alert.created_at }}
+                Tipo de alert: {{ alert.alert_type }}<br />
+                Criado em: {{ formatRelative(parseISO(alert.created_at), new Date()) }}
             </div>
-            Total alerts: {{ props.dose.alerts.length }}
+            Total: {{ props.dose.alerts.length }} alertas
         </div>
     </div>
 </template>
@@ -31,6 +31,8 @@
 import { onMounted, onUnmounted, ref } from 'vue'
 import PerfectScrollbar from 'perfect-scrollbar'
 import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/vue/outline';
+
+import { parseISO, formatRelative } from 'date-fns'
 
 const props = defineProps({
     vaccine: {

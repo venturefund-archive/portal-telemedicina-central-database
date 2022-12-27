@@ -42,7 +42,7 @@
 
       <div>
         <Button type="submit" class="w-full justify-center" :disabled="resetPasswordForm.processing"
-          >Reset Password</Button
+          >Resetar senha</Button
         >
       </div>
     </div>
@@ -80,7 +80,7 @@ const submit = async () => {
         token: props.token,
       },
     )
-    successToast({ text:'Password changed successfully' })
+    successToast({ text:'Senha alterada com sucesso!' })
     router.replace({ name: 'Login' })
   } catch (err) {
     if (err.response.data.token) {

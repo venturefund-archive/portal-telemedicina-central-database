@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper title="Patient Details">
+  <PageWrapper title="Detalhes do patiente">
     <div v-if="patientsStore.item && props.id">
       <ProfileCard :id="id" />
       <VaccinesList :id="id" />

@@ -30,7 +30,7 @@ export default [
       if (Boolean(state.value.token)) {
         return true
       }
-      errorToast({ text: 'Authenticated area please login first.' })
+      errorToast({ text: 'Área autenticada, faça o login primeiro.' })
       return { name: 'Login' }
     },
   },
@@ -85,7 +85,7 @@ export default [
       }
 
       // @TODO: Check if the token is valid
-      successToast({ text: "You're already authenticated." })
+      successToast({ text: "Você já está autenticado." })
       return { name: 'Dashboard' }
     },
   },

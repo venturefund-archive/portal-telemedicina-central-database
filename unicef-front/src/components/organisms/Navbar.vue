@@ -11,7 +11,7 @@
   >
     <div class="flex items-center gap-2">
       <form @submit.prevent="search">
-        <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900">Search</label>
+        <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900">Procurar</label>
         <div class="relative">
           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
             <svg
@@ -43,13 +43,13 @@
           >
             <div class="flex flex-col items-end justify-center">
               <p class="font-bold" v-if="loggedUserStore.item">{{ loggedUserStore.item.username }}</p>
-              <p class="text-sm text-gray-500">Nurse</p>
+              <p class="text-sm text-gray-500">Enfermeiro</p>
             </div>
             <img class="mx-5 h-12 w-12 rounded-md object-cover" :src="userAvatar" alt="User Name" />
           </button>
         </template>
         <template #content>
-          <DropdownLink to="#" @click="logout">Log Out</DropdownLink>
+          <DropdownLink to="#" @click="logout">Sair</DropdownLink>
         </template>
       </Dropdown>
       <Button
@@ -136,7 +136,7 @@ const logout = async () => {
   try {
     const response = await axios.post(import.meta.env.VITE_AUTH_API_URL + 'logout/')
     state.value = null
-    successToast({ text: "You've successfully logged out." })
+    successToast({ text: "Você saiu com sucesso!" })
     router.replace({ name: 'Login' })
   } catch (err) {
     errorToast({ text: err.message })

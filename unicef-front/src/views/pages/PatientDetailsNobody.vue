@@ -1,7 +1,7 @@
 <template>
-  <PageWrapper title="Patient Details">
+  <PageWrapper title="Detalhes do patiente">
     <div>
-      <span class="flex justify-center text-neutral-500 text-lg">No Patient selected. Search for a patient...</span>
+      <span class="flex justify-center text-neutral-500 text-lg h-20">Nenhum paciente selecionado. Procure por um paciente...</span>
     </div>
   </PageWrapper>
 </template>
