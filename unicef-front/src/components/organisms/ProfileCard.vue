@@ -6,7 +6,7 @@
       </div>
 
       <div class="col-span-5 ml-4 md:col-span-4">
-        <p class="font-bold text-gray-600 pr-2">{{ patientsStore.item.name }}</p>
+        <p class="font-bold text-gray-600 pr-2">{{ patientsStore.item.name.join() }}</p>
         <div class="text-gray-400">
           <p>Gender: <span>{{ patientsStore.item.gender }}</span></p>
           <p>Document: <span>{{ patientsStore.item.id }}</span></p>
