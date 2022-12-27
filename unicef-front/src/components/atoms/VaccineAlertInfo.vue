@@ -12,7 +12,7 @@
             </div>
 
             <p class="">Dose <span class="font-semibold">#{{ props.dose.dose_order }} </span></p>
-            Age: {{ props.dose.maximum_recommended_age }} <br />
+            Age: {{ props.dose.maximum_recommended_age }} months <br />
             gender: {{ props.dose.gender_recommendation }}<br />
         </div>
         <div class="bg-neutral-200 p-4 font-normal">

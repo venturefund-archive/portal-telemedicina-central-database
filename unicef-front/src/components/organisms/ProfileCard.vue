@@ -1,5 +1,5 @@
 <template>
-  <div class="w-[30rem] rounded-xl border border-neutral-100 bg-gray-50">
+  <div class="w-[32rem] rounded-xl border border-neutral-100 bg-gray-50">
     <div class="grid grid-cols-6 gap-y-2 p-5">
       <div>
         <img src="https://picsum.photos/seed/2/200/200" class="max-w-20 max-h-20 rounded-full" />
