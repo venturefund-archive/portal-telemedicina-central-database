@@ -46,7 +46,7 @@
                   <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[6]) }" class="px-6 py-4 text-gray-900">12</th>
                   <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[7]) }" class="px-6 py-4 text-gray-900">15</th>
                   <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[8]) }" class="px-6 py-4 text-gray-900">18</th>
-                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[9]) }" class="px-6 py-4 text-gray-900">3 a 5</th>
+                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[9]) }" class="px-6 py-4 text-gray-900">1 a 5</th>
                   <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[10]) }" class="px-6 py-4 text-gray-900">5 a 10</th>
                   <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[11]) }" class="px-6 py-4 text-gray-900">10 a 12</th>
                   <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[12]) }" class="px-6 py-4 text-gray-900">12 a 15</th>
