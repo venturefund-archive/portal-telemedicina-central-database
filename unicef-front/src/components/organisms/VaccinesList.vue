@@ -1,6 +1,4 @@
 <template>
-  <div class="w-full max-w-sm px-4">
-  </div>
   <!-- component -->
   <div class="flex flex-col">
     <div class="sm:-mx-6 lg:-mx-5 px-3 py-2">
