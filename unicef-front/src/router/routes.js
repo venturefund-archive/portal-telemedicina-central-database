@@ -21,9 +21,8 @@ export default [
       },
       {
         path: '/patients',
-        name: 'NobodyPatientDetails',
-        component: () => import('@/views/pages/PatientDetails.vue'),
-        props: true,
+        name: 'PatientDetailsNobody',
+        component: () => import('@/views/pages/PatientDetailsNobody.vue'),
       },
     ],
     beforeEnter: (to, from) => {

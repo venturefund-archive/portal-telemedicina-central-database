@@ -37,33 +37,34 @@
                         </InputIconWrapper>
                   </th>
                   <th scope="col" class="text-gray-900"></th>
-                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[0]) }" class="px-6 py-4 text-gray-900">0-2</th>
+                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[0]) }" class="px-6 py-4 text-gray-900">0 a 2</th>
                   <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[1]) }" class="px-6 py-4 text-gray-900">3</th>
                   <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[2]) }" class="px-6 py-4 text-gray-900">4</th>
                   <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[3]) }" class="px-6 py-4 text-gray-900">5</th>
                   <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[4]) }" class="px-6 py-4 text-gray-900">6</th>
-                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[5]) }" class="px-6 py-4 text-gray-900">7-11</th>
+                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[5]) }" class="px-6 py-4 text-gray-900">7 a 11</th>
                   <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[6]) }" class="px-6 py-4 text-gray-900">12</th>
                   <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[7]) }" class="px-6 py-4 text-gray-900">15</th>
                   <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[8]) }" class="px-6 py-4 text-gray-900">18</th>
-                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[9]) }" class="px-6 py-4 text-gray-900">4 a 5</th>
-                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[10]) }" class="px-6 py-4 text-gray-900">6 a 10</th>
+                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[9]) }" class="px-6 py-4 text-gray-900">3 a 5</th>
+                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[10]) }" class="px-6 py-4 text-gray-900">5 a 10</th>
                   <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[11]) }" class="px-6 py-4 text-gray-900">10 a 12</th>
-                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[12]) }" class="px-6 py-4 text-gray-900">13 a 15</th>
+                  <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[12]) }" class="px-6 py-4 text-gray-900">12 a 15</th>
                 </tr>
               </thead>
               <tbody>
-                <tr class="border-b hover:bg-neutral-300" v-for="(vaccine, k) in filteredVaccines" :key="k">
+                <tr class="table-row border-b hover:bg-neutral-200" v-for="(vaccine, k) in filteredVaccines" :key="k">
                   <td colspan="2"
                     class="truncate whitespace-nowrap px-6 py-4 text-sm font-medium capitalize text-gray-900">
                     {{ vaccine.display }} {{ vaccine.description }}
                   </td>
                   <td
-                    :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[rangeIndex]) }"
-                    class="cursor-pointer whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"
+                    :class="{ 'box-border border-x-2 border-sky-500 col-birth': isWithinInterval(new Date(), ranges[rangeIndex]) }"
+                    class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"
                     v-for="(range, rangeIndex) in ranges" :key="rangeIndex">
-                    <div v-for="(dose, dk) in filteredDosesByVaccine(vaccine)" :key="dk">
 
+                    <div v-for="(dose, dk) in filteredDosesByVaccine(vaccine)" :key="dk"
+                          class="text-center">
                       <VaccineAlert :rangeIndex="rangeIndex" :status="1" v-if="dose.is_completed &&
                                                       (null != dose.maximum_recommended_age &&
                                                       isWithinInterval(add(birthDate, { months: dose.maximum_recommended_age }), {
@@ -93,7 +94,7 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, reactive, ref, onUpdated } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import InputIconWrapper from '@/components/InputIconWrapper.vue'
 import { MailIcon, LockClosedIcon, LoginIcon, UserIcon, SearchIcon, ChevronDownIcon } from '@heroicons/vue/outline'
 import {Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
@@ -114,6 +115,19 @@ const router = useRouter()
 
 const birthDate = computed(() => parseISO(patientsStore.item.birth_date) )
 //const birthDateInMonthsFromNow = computed(() => differenceInMonths(birthDate, new Date()) )
+
+const vaccineQuery = ref('')
+const filteredVaccines = computed(() => {
+  return vaccinesStore.items.filter(vaccine => {
+    return (
+      vaccine.description.toLowerCase().includes(vaccineQuery.value.toLowerCase()) ||
+      vaccine.display.toLowerCase().includes(vaccineQuery.value.toLowerCase())
+    )
+  })
+})
+const selectedVaccine = ref(filteredVaccines.value[0])
+
+const key = ref(0)
 
 const ranges = computed(() => [{ start: birthDate.value, end: add(birthDate.value, { months: 2 }) }, //ao nascer
                 { start: add(birthDate.value, { months: 2, seconds:1 }), end: add(birthDate.value, { months: 3 }) },
@@ -144,20 +158,6 @@ const filteredDosesByVaccine = computed(() => {
   //return orderedDoses;
 })
 
-const filteredVaccines = computed(() => {
-  return vaccinesStore.items.filter(vaccine => {
-    return (
-      vaccine.description.toLowerCase().includes(vaccineQuery.value.toLowerCase()) ||
-      vaccine.display.toLowerCase().includes(vaccineQuery.value.toLowerCase())
-    )
-  })
-})
-
-const selectedVaccine = ref(filteredVaccines.value[0])
-const vaccineQuery = ref('')
-
-const key = ref(0)
-
 const addDose = () => {
   return console.log('dose adicionada')
 }
@@ -168,5 +168,10 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-
+.table-row:hover > td:not(.col-birth) {
+  @apply border-none;
+}
+.table-row td:not(:nth-child(1)):not(.col-birth) {
+  @apply border-x
+}
 </style>

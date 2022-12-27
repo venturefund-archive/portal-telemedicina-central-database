@@ -27,7 +27,7 @@
         </div>
       </div>
       <div class="col-start-2 ml-4 flex md:col-start-auto md:ml-0 md:justify-end">
-        <p class="h-fit w-fit rounded-lg bg-sky-200 py-1 px-3 text-sm font-bold text-sky-600">Age: {{ differenceInYears(new Date(), birthDate) }}</p>
+        <p class="h-fit w-fit rounded-lg bg-sky-200 py-1 px-3 text-sm font-bold text-sky-600">Years: {{ differenceInYears(new Date(), birthDate) }}</p>
       </div>
     </div>
   </div>

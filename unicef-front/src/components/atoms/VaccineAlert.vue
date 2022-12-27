@@ -24,6 +24,8 @@
         leave-from-class="translate-y-0 opacity-100"
         leave-to-class="translate-y-1 opacity-0"
       >
+      <div>
+      <PopoverOverlay class="fixed inset-0 bg-black opacity-30" />
         <PopoverPanel
           class="absolute left-1/2 z-10 mt-3 w-auto max-w-sm transform-gpu px-4 sm:px-0 lg:max-w-3xl"
           :class="{ '-translate-x-72': rangeIndex == 12, '-translate-x-48': rangeIndex != 12,  }"
@@ -34,6 +36,7 @@
           <slot />
           </div>
         </PopoverPanel>
+      </div>
       </transition>
     </Popover>
 
@@ -44,7 +47,7 @@
 import { onMounted, onUnmounted, reactive, ref } from 'vue'
 import InputIconWrapper from '@/components/InputIconWrapper.vue'
 import { ChevronDownIcon } from '@heroicons/vue/outline'
-import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
+import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue'
 import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'

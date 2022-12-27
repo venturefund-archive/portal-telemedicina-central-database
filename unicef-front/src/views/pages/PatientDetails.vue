@@ -4,9 +4,6 @@
       <ProfileCard :id="id" />
       <VaccinesList />
     </div>
-    <div v-else>
-      <span class="flex justify-center text-neutral-500 text-lg">No Patient selected. Search for a patient...</span>
-    </div>
   </PageWrapper>
 </template>
 
@@ -20,6 +17,7 @@ import { watch, computed } from 'vue'
 import { usePatientsStore } from '@/stores/patients'
 const patientsStore = usePatientsStore()
 
+const router = useRouter()
 
 const props = defineProps({
   id: {
@@ -28,18 +26,13 @@ const props = defineProps({
   },
 })
 
-onMounted(async () => {
-  if (props.id != 0)
-    await patientsStore.fetchPatient(props.id)
-})
-onUpdated(async () => {
-  if (props.id != 0)
-    await patientsStore.fetchPatient(props.id)
-})
-
-
-function setIsOpen(value) {
-  console.log('hit')
-  isOpen.value = value
-}
+watch(
+  () => props.id,
+  async (id) => {
+    if (props.id != 0) {
+      await patientsStore.fetchPatient(props.id)
+    }
+  },
+  { immediate: true }
+)
 </script>
