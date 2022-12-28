@@ -2,8 +2,8 @@ import central_database.integrations.fhir_api.patient as service
 
 
 class Patient:
-    def __init__(self, id=None):
-        patient_service = service.PatientService()
+    def __init__(self, id=None, client=None):
+        patient_service = service.PatientService(client)
         if id:
             self.detail = self._parse_patient_detail(
                 patient_service.get_detail(id)
@@ -12,7 +12,8 @@ class Patient:
             self.all = self._parse_all(patient_service.get_all())
 
     def _parse_address(self, data):
-        data.pop("extension")
+        if "extension" in data:
+            data.pop("extension")
         return {
             "line": data.get("line", None),
             "postal_code": data.get("postalCode", None),
@@ -34,9 +35,7 @@ class Patient:
             "address": [
                 self._parse_address(address) for address in data.get("address")
             ],
-            "marital_status": data.get("maritalStatus", None).get(
-                "text", None
-            ),  # noqa: E501
+            "marital_status": data.get("maritalStatus", None),  # noqa: E501
         }
 
     def _parse_initial_data(self, data):
@@ -48,8 +47,10 @@ class Patient:
         }
 
     def _parse_all(self, data):
-        list_of_patients = [
-            self._parse_initial_data(patient.get("resource", None))
-            for patient in data.get("entry", None)
-        ]
-        return list_of_patients
+        if data.get("entry", None):
+            list_of_patients = [
+                self._parse_initial_data(patient.get("resource", None))
+                for patient in data.get("entry", None)
+            ]
+            return list_of_patients
+        return []

@@ -1,8 +1,11 @@
 from typing import Any, Sequence
 
+import factory.fuzzy
 from django.contrib.auth import get_user_model
 from factory import Faker, post_generation
 from factory.django import DjangoModelFactory
+
+from central_database.customers.factories import ClientFactory
 
 
 class UserFactory(DjangoModelFactory):
@@ -10,6 +13,7 @@ class UserFactory(DjangoModelFactory):
     username = Faker("user_name")
     email = Faker("email")
     name = Faker("name")
+    client = factory.SubFactory(ClientFactory)
 
     @post_generation
     def password(self, create: bool, extracted: Sequence[Any], **kwargs):
