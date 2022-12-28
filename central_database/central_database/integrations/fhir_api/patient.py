@@ -1,18 +1,13 @@
-import requests
-
-from central_database.integrations.fhir_api.schema import fhir_url
+from central_database.integrations.fhir_api.schema import get_resource
 
 
 class PatientService:
-    def __init__(self):
-        self.url = fhir_url
+    def __init__(self, client):
+        self.resource_type = "Patient"
+        self.client = client
 
     def get_all(self):
-        url = self.url + "Patient"
-        data = requests.get(url)
-        return data.json()
+        return get_resource(self.resource_type, client=self.client)
 
     def get_detail(self, id):
-        url = self.url + "Patient" + f"/{id}"
-        data = requests.get(url)
-        return data.json()
+        return get_resource(self.resource_type, id, client=self.client)
