@@ -28,10 +28,11 @@ class UserAdmin(auth_admin.UserAdmin):
                     "is_superuser",
                     "groups",
                     "user_permissions",
+                    "client",
                 ),
             },
         ),
         (_("Important dates"), {"fields": ("last_login", "date_joined")}),
     )
-    list_display = ["username", "name", "is_superuser"]
+    list_display = ["username", "name", "is_superuser", "client"]
     search_fields = ["name"]
