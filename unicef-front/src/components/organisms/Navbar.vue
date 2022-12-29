@@ -11,7 +11,7 @@
   >
     <div class="flex items-center gap-2">
       <form @submit.prevent="search">
-        <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900">Search</label>
+        <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900">Procurar</label>
         <div class="relative">
           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
             <svg
@@ -29,13 +29,7 @@
               ></path>
             </svg>
           </div>
-          <input
-            type="search"
-            v-model="queryText"
-            class="block w-full rounded-lg border border-transparent bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 md:w-96"
-            placeholder="Search for appointments, patients etc"
-            required
-          />
+          <AutoComplete v-model="queryText" :suggestions="filteredResults" />
         </div>
       </form>
     </div>
@@ -48,14 +42,14 @@
             class="dark:focus:ring-offset-dark-eval-1 flex rounded-md border-2 border-transparent text-sm transition focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-1 focus:ring-offset-white"
           >
             <div class="flex flex-col items-end justify-center">
-              <p class="font-bold">Cody Simmmons</p>
-              <p class="text-sm text-gray-500">Nurse</p>
+              <p class="font-bold" v-if="loggedUserStore.item">{{ loggedUserStore.item.username }}</p>
+              <p class="text-sm text-gray-500">Enfermeiro</p>
             </div>
             <img class="mx-5 h-12 w-12 rounded-md object-cover" :src="userAvatar" alt="User Name" />
           </button>
         </template>
         <template #content>
-          <DropdownLink to="#" @click="logout">Log Out</DropdownLink>
+          <DropdownLink to="#" @click="logout">Sair</DropdownLink>
         </template>
       </Dropdown>
       <Button
@@ -122,57 +116,53 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
+import { ref, watch, computed } from 'vue'
+import { usePatientsStore } from '@/stores/patients'
+import { useLoggedUserStore } from '@/stores/loggedUser'
+const loggedUserStore = useLoggedUserStore()
+const patientsStore = usePatientsStore()
+
+const queryText = ref('')
+
+watch(queryText, async (newQueryText) => {
+  await patientsStore.searchPatients(newQueryText)
+})
 
 const router = useRouter()
 const { isFullscreen, toggle: toggleFullScreen } = useFullscreen()
-
-const queryText = ''
 
 const logout = async () => {
   const state = useStorage('app-store', { token: '' })
   try {
     const response = await axios.post(import.meta.env.VITE_AUTH_API_URL + 'logout/')
     state.value = null
-    successToast({ text: "You've successfully logged out." })
+    successToast({ text: "Você saiu com sucesso!" })
     router.replace({ name: 'Login' })
   } catch (err) {
     errorToast({ text: err.message })
   }
 }
 
-const search = async () => {
-  const state = useStorage('app-store', { token: '' })
-  try {
-    console.log(queryText)
-    const response = await axios.get('/api/pacients/', {
-      headers: {
-        'Content-type': 'application/json',
-        Authentication: `Bearer ${state.value.token}`,
-      },
-    })
-    console.log(response)
-  } catch (err) {
-    errorToast({ text: err.message })
+const filteredResults = computed(() => {
+  if (queryText.value === '') {
+    return []
   }
-}
 
+  let matches = 0
 
-const me = async () => {
-  const state = useStorage('app-store', { token: '' })
-  try {
-    const response = await axios.get('/dj-rest-auth/user/', {
-      headers: {
-        'Content-type': 'application/json',
-        Authentication: `${state.value.token}`,
-      },
-    })
-  } catch (err) {
-    errorToast({ text: err.message })
-  }
-}
+  return patientsStore.items.filter(patient => {
+    if ( (patient.name.join().toLowerCase().includes(queryText.value.toLowerCase()) ||
+         patient.id.toLowerCase().includes(queryText.value.toLowerCase()) )
+          && matches < 10 ) {
+      matches++
+      return patient
+    }
+  })
+})
 
-onMounted(() => {
+onMounted(async () => {
   document.addEventListener('scroll', handleScroll)
+  await loggedUserStore.fetchMe()
 })
 
 onUnmounted(() => {

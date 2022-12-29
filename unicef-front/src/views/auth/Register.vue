@@ -12,7 +12,7 @@
             withIcon
             id="username"
             type="text"
-            placeholder="Username"
+            placeholder="Nome de usuário"
             class="block w-full"
             v-model="registerForm.username"
             required
@@ -54,7 +54,7 @@
             id="password1"
             type="password"
             class="block w-full"
-            placeholder="Password"
+            placeholder="Senha"
             v-model="registerForm.password1"
             required
             autocomplete="new-password"
@@ -74,7 +74,7 @@
             id="password2"
             type="password"
             class="block w-full"
-            placeholder="Confirm Password"
+            placeholder="Confirmar senha"
             v-model="registerForm.password2"
             required
             autocomplete="new-password"
@@ -89,12 +89,12 @@
             <Checkbox name="terms" id="terms" v-model:checked="registerForm.terms" />
 
             <div class="ml-2">
-              I agree to the
+              Eu concordo com os
               <a target="_blank" href="#" class="text-sm text-blue-600 underline hover:text-blue-900"
-                >Terms of Service</a
+                >termos de serviços</a
               >
-              and
-              <a target="_blank" href="#" class="text-sm text-blue-600 underline hover:text-blue-900">Privacy Policy</a>
+              e
+              <a target="_blank" href="#" class="text-sm text-blue-600 underline hover:text-blue-900">politica de privacidade</a>
             </div>
           </div>
         </Label>
@@ -115,8 +115,8 @@
 
       <!-- Login link -->
       <p class="text-sm text-gray-600 dark:text-gray-400">
-        Already have an account?
-        <router-link :to="{ name: 'Login' }" class="text-blue-500 hover:underline">Login</router-link>
+        Já possui uma conta?
+        <router-link :to="{ name: 'Login' }" class="text-blue-500 hover:underline">Entrar</router-link>
       </p>
     </div>
   </form>

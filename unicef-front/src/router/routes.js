@@ -1,7 +1,3 @@
-// router.beforeEach((to, from, next) => {
-//   if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
-//   else next()
-// })
 import { useStorage } from '@vueuse/core'
 import { useRouter } from 'vue-router'
 import { errorToast, successToast } from '@/toast'
@@ -17,13 +13,24 @@ export default [
         name: 'Dashboard',
         component: () => import('@/views/Dashboard.vue'),
       },
+      {
+        path: '/patients/:id',
+        name: 'PatientDetails',
+        component: () => import('@/views/pages/PatientDetails.vue'),
+        props: true,
+      },
+      {
+        path: '/patients',
+        name: 'PatientDetailsNobody',
+        component: () => import('@/views/pages/PatientDetailsNobody.vue'),
+      },
     ],
     beforeEnter: (to, from) => {
       const state = useStorage('app-store', { token: '' })
       if (Boolean(state.value.token)) {
         return true
       }
-      errorToast({ text: 'Authenticated area please login first.' })
+      errorToast({ text: 'Área autenticada, faça o login primeiro.' })
       return { name: 'Login' }
     },
   },
@@ -55,7 +62,7 @@ export default [
       {
         name: 'ResetPassword',
         path: '/auth/reset-password/:uid/:token',
-        alias: '/rest-auth/password/reset/confirm/:uid/:token',
+        alias: '/auth/rest-auth/password/reset/confirm/:uid/:token',
         component: () => import('@/views/auth/ResetPassword.vue'),
         props: true,
       },
@@ -78,7 +85,7 @@ export default [
       }
 
       // @TODO: Check if the token is valid
-      successToast({ text: "You're already authenticated." })
+      successToast({ text: "Você já está autenticado." })
       return { name: 'Dashboard' }
     },
   },

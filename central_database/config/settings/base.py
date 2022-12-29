@@ -83,7 +83,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "central_database.users",
     "central_database.vaccines.apps.VaccinesConfig",
-    # Your stuff: custom apps go here
+    "central_database.customers",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -104,7 +104,6 @@ AUTHENTICATION_BACKENDS = [
 AUTH_USER_MODEL = "users.User"
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
 LOGIN_REDIRECT_URL = "users:redirect"
-
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
@@ -138,7 +137,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
-    # "django.middleware.csrf.CsrfViewMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.common.BrokenLinkEmailsMiddleware",
@@ -300,6 +299,7 @@ SOCIALACCOUNT_FORMS = {
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework.authentication.TokenAuthentication",
+        "config.custom_authentication.CsrfExemptSessionAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": (
         "rest_framework.permissions.IsAuthenticated",
@@ -337,3 +337,9 @@ LANGUAGES = (
 )
 
 REST_AUTH_PW_RESET_USE_SITES_DOMAIN = True
+USE_HEALTHCARE_API = env(
+    "USE_HEALTHCARE_API",
+    default=True,  # noqa
+)
+HEALTHCARE_API_PROJECT_ID = "ptm-gestao-di-dev"
+HEALTHCARE_API_PROJECT_LOCATION = "southamerica-east1"

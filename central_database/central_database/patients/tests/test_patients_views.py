@@ -23,7 +23,7 @@ class TestPatientViewSet(APITestCase):
         )
         response = self.client.get(reverse("api:patients-list"))
 
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
 
     @mock.patch(
         "central_database.patients.api.views.patient_resource.service.PatientService.get_all"  # noqa: E501
