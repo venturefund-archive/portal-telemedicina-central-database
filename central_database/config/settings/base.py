@@ -83,7 +83,7 @@ THIRD_PARTY_APPS = [
 LOCAL_APPS = [
     "central_database.users",
     "central_database.vaccines.apps.VaccinesConfig",
-    # Your stuff: custom apps go here
+    "central_database.customers",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -337,3 +337,9 @@ LANGUAGES = (
 )
 
 REST_AUTH_PW_RESET_USE_SITES_DOMAIN = True
+USE_HEALTHCARE_API = env(
+    "USE_HEALTHCARE_API",
+    default=True,  # noqa
+)
+HEALTHCARE_API_PROJECT_ID = "ptm-gestao-di-dev"
+HEALTHCARE_API_PROJECT_LOCATION = "southamerica-east1"
