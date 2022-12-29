@@ -2,9 +2,16 @@
   <div class="flex flex-col">
     <div class="sm:-mx-6 lg:-mx-5 px-3 py-2">
       <div class="inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="flex justify-end py-3">
+          <div class="px-3 py-2 text-neutral-500 flex items-center bg-neutral-200 rounded-md">
+            <span class="flex items-center px-2">Legendas:</span>
+            <span class="flex items-center px-2">Completo: <VaccineAlert status="1" class="scale-75 pl-2 pl-2" /></span>
+            <span class="flex items-center px-2">Alerta: <VaccineAlert status="3" class="scale-75 pl-2 pl-2" /></span>
+          </div>
+        </div>
             <table
-              class="table-fixed w-full text-left text-sm bg-white shadow-lg">
-              <thead class="bg-neutral-200 text-xs uppercase text-white dark:text-white">
+              class="table-fixed w-full text-left text-sm bg-white shadow-lg rounded">
+              <thead class="bg-neutral-200 text-xs uppercase text-white">
                 <tr>
                   <th scope="col" colspan="2" class="bg-blue-200 px-6 py-4 text-center text-gray-900">Vacinas</th>
                   <th scope="col" colspan="9" class="bg-blue-300 px-6 py-4 text-center">
@@ -22,8 +29,8 @@
                       <template #icon>
                         <SearchIcon aria-hidden="true" class="h-5 w-5" />
                       </template>
-                      <Input v-model="vaccineQuery" withIcon placeholder="Procurar por vacinas"
-                        class="lg:w-48 sm:w-20 flex font-normal rounded-md bg-gray-50 p-2 text-sm" />
+                      <Input v-model="vaccineQuery" withIcon placeholder="Pesquisar vacinas"
+                        class="lg:w-48 sm:w-20 flex font-normal rounded-md bg-gray-50 p-2 text-sm mx-auto" />
                     </InputIconWrapper>
                     <div class="py-3 text-neutral-500 text-center font-normal lowercase py-0.6">
                       <span v-if="vaccineQuery">

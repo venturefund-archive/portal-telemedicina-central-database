@@ -5,8 +5,8 @@
         <h2 class="text-xl font-semibold leading-tight">Dashboard</h2>
       </div>
       <div class="pl-5 pt-3">
-        <p class="font-bold" v-if="loggedUserStore.item">Bem-vindo, {{ loggedUserStore.item.username }}</p>
-        <span>Tenha um ótimo dia e um bom trabalho.</span>
+        <p class="font-semibold" v-if="loggedUserStore.item">Bem-vindo, {{ loggedUserStore.item.username }}</p>
+        <span class="text-neutral-500">Tenha um ótimo dia e um bom trabalho!</span>
       </div>
     </template>
 

@@ -5,12 +5,12 @@
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value);hideSuggestions = false"
       class="block w-full rounded-lg border border-transparent bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 md:w-96"
-      placeholder="Procure por pacientes, numero de documento etc"
+      placeholder="Pesquisar por pacientes, número de documento etc"
       required
     />
 
     <ul class="absolute w-full rounded bg-white p-2" v-if="suggestions.length && !hideSuggestions">
-      <li v-for="suggestion in asd" :key="suggestion.name" class="cursor-pointer hover:bg-neutral-200">
+      <li v-for="suggestion in filtedSuggestions" :key="suggestion.name" class="cursor-pointer hover:bg-neutral-100">
         <router-link
           :to="{ name: 'PatientDetails', params: { id: suggestion.id } }"
           class="hover:underline"
@@ -60,9 +60,9 @@ const props = defineProps({
   },
 })
 
-const asd = computed(() => {
-return props.suggestions.slice(0,5)
-} )
+const filtedSuggestions = computed(() => {
+  return props.suggestions.slice(0,5)
+})
 
 const hideSuggestions = ref(true)
 const target = ref(null)
