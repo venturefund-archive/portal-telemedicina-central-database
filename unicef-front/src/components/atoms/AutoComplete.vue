@@ -9,16 +9,16 @@
       required
     />
 
-    <ul class="absolute w-full rounded bg-white p-3" v-if="suggestions.length && !hideSuggestions">
-      <li v-for="suggestion in suggestions" :key="suggestion.name" class="cursor-pointer">
+    <ul class="absolute w-full rounded bg-white p-2" v-if="suggestions.length && !hideSuggestions">
+      <li v-for="suggestion in asd" :key="suggestion.name" class="cursor-pointer hover:bg-neutral-200">
         <router-link
           :to="{ name: 'PatientDetails', params: { id: suggestion.id } }"
           class="hover:underline"
           @click="hideSuggestions = true"
         >
-          <div class="flex items-center gap-4 p-4">
-            <img class="h-12 w-12 rounded-full" :src="suggestion.image" />
-            <span class="text-sm font-medium text-slate-900 dark:text-slate-200">{{ suggestion.name.join() }}</span>
+          <div class="flex items-center gap-4 px-2 py-2">
+            <img class="h-10 w-10 rounded-full bg-neutral-200 p-1" src="/avatar.png" />
+            <span class="text-sm font-medium text-slate-900 capitalize">{{ suggestion.name.join().toLowerCase() }}</span>
           </div>
         </router-link>
       </li>
@@ -59,6 +59,11 @@ const props = defineProps({
     },
   },
 })
+
+const asd = computed(() => {
+return props.suggestions.slice(0,5)
+} )
+
 const hideSuggestions = ref(true)
 const target = ref(null)
 

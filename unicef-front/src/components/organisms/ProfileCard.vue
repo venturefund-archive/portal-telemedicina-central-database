@@ -2,14 +2,14 @@
   <div class="mx-6 lg:w-[38rem] sm: rounded-xl border border-neutral-100 bg-gray-50">
     <div class="grid grid-cols-6 gap-y-2 p-5">
       <div>
-        <img src="https://picsum.photos/seed/2/200/200" class="max-w-20 max-h-20 rounded-full" />
+        <img src="/avatar.png" class="max-w-20 max-h-20 rounded-full bg-neutral-200 p-1" />
       </div>
 
       <div class="col-span-5 ml-4 md:col-span-4">
-        <p class="font-bold text-gray-600 pr-2">{{ patientsStore.item.name.join() }}</p>
+        <p class="font-bold text-gray-600 pr-2 capitalize">{{ patientsStore.item.name.join().toLowerCase() }}</p>
         <div class="text-gray-400">
           <p>Gênero: <span>{{ patientsStore.item.gender }}</span></p>
-          <p>Documento: <span>{{ patientsStore.item.id }}</span></p>
+          <p>Documento: <span>{{ patientsStore.item.document }}</span></p>
           <!--
           <p>
             Region: <span>{{ patientsStore.item.address[0].city }} / {{ patientsStore.item.address[0].state }}</span>
