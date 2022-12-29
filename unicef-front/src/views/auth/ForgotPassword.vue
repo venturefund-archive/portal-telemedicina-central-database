@@ -1,7 +1,7 @@
 <template>
   <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-    Forgot your password? No problem. Just let us know your email address and we will email you a password reset link
-    that will allow you to choose a new one.
+    Esqueceu sua senha? Sem problemas. Basta nos informar seu endereço de e-mail e enviaremos um e-mail com um link de redefinição de senha
+    que permitirá que você escolha um novo.
   </div>
 
   <form @submit.prevent="submit">
@@ -34,7 +34,7 @@
           v-slot="{ iconSizeClasses }"
         >
           <PaperAirplaneIcon aria-hidden="true" :class="iconSizeClasses" />
-          <span>Email Password Reset Link</span>
+          <span>Link de redefinição de senha de e-mail</span>
         </Button>
       </div>
     </div>

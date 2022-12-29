@@ -17,11 +17,13 @@ import { faWindowClose } from '@fortawesome/free-solid-svg-icons'
 import { messages } from 'vite-i18n-resources'
 // import axios from 'axios'
 
+const pinia = createPinia()
 const app = createApp(App)
 
 // // Allow axios in all components with this.$http.get
 // app.config.globalProperties.axios = axios;
 
+app.use(pinia)
 app.use(router)
 app.use(Toast, {
   hideProgressBar: true,
