@@ -124,9 +124,6 @@ const patientsStore = usePatientsStore()
 
 const queryText = ref('')
 
-watch(queryText, async (newQueryText) => {
-  await patientsStore.searchPatients(newQueryText)
-})
 
 const router = useRouter()
 const { isFullscreen, toggle: toggleFullScreen } = useFullscreen()
@@ -163,6 +160,7 @@ const filteredResults = computed(() => {
 onMounted(async () => {
   document.addEventListener('scroll', handleScroll)
   await loggedUserStore.fetchMe()
+  await patientsStore.searchPatients()
 })
 
 onUnmounted(() => {

@@ -1,11 +1,17 @@
 <template>
-  <!-- component -->
   <div class="flex flex-col">
     <div class="sm:-mx-6 lg:-mx-5 px-3 py-2">
       <div class="inline-block min-w-full sm:px-6 lg:px-8">
+        <div class="flex justify-end py-3">
+          <div class="px-3 py-2 text-neutral-500 flex items-center bg-neutral-200 rounded-md">
+            <span class="flex items-center px-2">Legendas:</span>
+            <span class="flex items-center px-2">Completo: <VaccineAlert status="1" class="scale-75 pl-2 pl-2" /></span>
+            <span class="flex items-center px-2">Alerta: <VaccineAlert status="3" class="scale-75 pl-2 pl-2" /></span>
+          </div>
+        </div>
             <table
-              class="table-fixed w-full text-left text-sm text-neutral-100 dark:text-neutral-100 bg-white shadow-lg">
-              <thead class="bg-neutral-200 text-xs uppercase text-white dark:text-white">
+              class="table-fixed w-full text-left text-sm bg-white shadow-lg rounded">
+              <thead class="bg-neutral-200 text-xs uppercase text-white">
                 <tr>
                   <th scope="col" colspan="2" class="bg-blue-200 px-6 py-4 text-center text-gray-900">Vacinas</th>
                   <th scope="col" colspan="9" class="bg-blue-300 px-6 py-4 text-center">
@@ -18,16 +24,21 @@
                   </th>
                 </tr>
                 <tr class="text-center">
-                  <th scope="col" colspan="2" class="text-gray-900 p-2 flex py-5">
+                  <th scope="col" colspan="2" class="text-gray-900 pt-2">
                     <InputIconWrapper>
                       <template #icon>
                         <SearchIcon aria-hidden="true" class="h-5 w-5" />
                       </template>
-                      <Input v-model="vaccineQuery" withIcon placeholder="Procurar por vacinas"
-                        class="lg:w-48 sm:w-20 flex font-normal rounded-md bg-gray-50 p-2 text-sm" />
+                      <Input v-model="vaccineQuery" withIcon placeholder="Pesquisar vacinas"
+                        class="lg:w-48 sm:w-20 flex font-normal rounded-md bg-gray-50 p-2 text-sm mx-auto" />
                     </InputIconWrapper>
+                    <div class="py-3 text-neutral-500 text-center font-normal lowercase py-0.6">
+                      <span v-if="vaccineQuery">
+                      {{ filteredVaccines.length }} resultados
+                      </span>
+                      <span v-else>{{ filteredVaccines.length }} Total de vacinas</span>
+                    </div>
                   </th>
-                  <th scope="col" class="text-gray-900"></th>
                   <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[0]) }"
                     class="px-6 py-4 text-gray-900">0 a 2</th>
                   <th scope="col" :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[1]) }"
@@ -91,6 +102,12 @@
                 </tr>
               </tbody>
             </table>
+            <div class="py-3 text-neutral-500">
+                <span v-if="vaccineQuery">
+                 Pesquisa por "{{ vaccineQuery }}" retornou {{ filteredVaccines.length }} vacinas.
+                </span>
+                <span v-else>{{ filteredVaccines.length }} Total de vacinas</span>
+              </div>
       </div>
     </div>
 
@@ -125,12 +142,25 @@ const vaccineQuery = ref('')
 const filteredVaccines = computed(() => {
   return vaccinesStore.items.filter(vaccine => {
     return (
-      vaccine.description.toLowerCase().includes(vaccineQuery.value.toLowerCase()) ||
-      vaccine.display.toLowerCase().includes(vaccineQuery.value.toLowerCase())
+      vaccine.system == 'BRI' && (
+        vaccine.description.toLowerCase().includes(vaccineQuery.value.toLowerCase()) ||
+        vaccine.display.toLowerCase().includes(vaccineQuery.value.toLowerCase())
+      )
     )
   })
 })
 const selectedVaccine = ref(filteredVaccines.value[0])
+
+const filteredDosesByVaccine = computed(() => {
+  return (vaccine) => dosesStore.items.filter(dose => {
+    return dose.vaccine == vaccine.id
+  })
+
+  //const orderedDoses = filteredDoses.sort((a, b) => {
+  //  return b.order - a.order;
+  //})
+  //return orderedDoses;
+})
 
 const key = ref(0)
 
@@ -152,16 +182,6 @@ const ranges = computed(() => [{ start: birthDate.value, end: add(birthDate.valu
 { start: add(birthDate.value, { years: 12, seconds: 1 }), end: add(birthDate.value, { years: 15 }) },
 ])
 
-const filteredDosesByVaccine = computed(() => {
-  return (vaccine) => dosesStore.items.filter(dose => {
-    return dose.vaccine == vaccine.id && vaccine.system == 'BRI'
-  })
-
-  //const orderedDoses = filteredDoses.sort((a, b) => {
-  //  return b.order - a.order;
-  //})
-  //return orderedDoses;
-})
 
 const addDose = () => {
   return console.log('dose adicionada')
