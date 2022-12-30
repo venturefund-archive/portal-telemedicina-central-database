@@ -137,8 +137,8 @@
           </thead>
           <tbody>
             <tr class="table-row border-b hover:bg-neutral-200" v-for="(vaccine, k) in filteredVaccines" :key="k">
-              <td colspan="2" class="truncate whitespace-nowrap px-6 py-4 text-sm font-medium capitalize text-gray-900">
-                {{ vaccine.display }} {{ vaccine.description }}
+              <td colspan="2" class="px-6 py-4 text-sm font-medium capitalize text-gray-900">
+                <div class="">{{ vaccine.display }} <span class="text-xs">{{ vaccine.description }}</span></div>
               </td>
               <td
                 :class="{
