@@ -6,7 +6,7 @@
       id="authentication-modal"
       tabindex="-1"
       aria-hidden="true"
-      class="fixed top-0 right-0 left-0 bottom-0 mx-auto z-50 h-modal w-full overflow-y-auto overflow-x-hidden p-4 md:inset-0 md:h-full"
+      class="fixed top-0 right-0 left-0 bottom-0 z-50 mx-auto h-modal w-full overflow-y-auto overflow-x-hidden p-4 md:inset-0 md:h-full"
     >
       <div class="relative h-full w-full max-w-md md:h-auto">
         <!-- Modal content -->
@@ -34,60 +34,60 @@
           <div class="py-6 px-6 lg:px-8">
             <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Vacina: BCGI</h3>
             <form class="space-y-6" action="#">
-                <div class="flex">
+              <div class="flex">
                 <div class="px-2">
-              <!-- Se for uma dose que esta faltando, ao clicar no checkbox, some o formulário -->
-              <div>
-                <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Dose</label>
-                <input
-                  class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
-                />
-              </div>
+                  <!-- Se for uma dose que esta faltando, ao clicar no checkbox, some o formulário -->
+                  <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Dose</label>
+                    <input
+                      class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
+                    />
+                  </div>
 
-              <div>
-                <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">CNES</label>
-                <input
-                  class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
-                />
-              </div>
-              <div>
-                <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Data</label>
-                <input
-                  class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
-                />
-              </div>
-              <div>
-                <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Lote</label>
-                <input
-                  class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
-                />
-              </div>
-            </div>
+                  <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">CNES</label>
+                    <input
+                      class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
+                    />
+                  </div>
+                  <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Data</label>
+                    <input
+                      class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
+                    />
+                  </div>
+                  <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Lote</label>
+                    <input
+                      class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
+                    />
+                  </div>
+                </div>
 
-            <div class="px-2">
-              <div>
-                <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Fabricante</label>
-                <input
-                  class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
-                />
+                <div class="px-2">
+                  <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Fabricante</label>
+                    <input
+                      class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
+                    />
+                  </div>
+                  <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Vacinador</label>
+                    <input
+                      class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
+                    />
+                  </div>
+                  <div>
+                    <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
+                      >Registro do profissional</label
+                    >
+                    <input
+                      class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
+                    />
+                  </div>
+                </div>
               </div>
-              <div>
-                <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white">Vacinador</label>
-                <input
-                  class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
-                />
-              </div>
-              <div>
-                <label class="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
-                  >Registro do profissional</label
-                >
-                <input
-                  class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-500 dark:bg-gray-600 dark:text-white dark:placeholder-gray-400"
-                />
-              </div>
-            </div>
-            </div>
-            <button
+              <button
                 type="submit"
                 class="w-full rounded-lg bg-blue-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >

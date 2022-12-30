@@ -6,7 +6,11 @@
       </template>
     </SidebarLink>
 
-    <SidebarLink title="Pacientes" :to="{ name: 'PatientDetailsNobody' }" :active="isCurrentRoute('PatientDetails') || isCurrentRoute('PatientDetailsNobody')">
+    <SidebarLink
+      title="Pacientes"
+      :to="{ name: 'PatientDetailsNobody' }"
+      :active="isCurrentRoute('PatientDetails') || isCurrentRoute('PatientDetailsNobody')"
+    >
       <template #icon>
         <UserGroupIcon class="h-6 w-6 flex-shrink-0" aria-hidden="true" />
       </template>

@@ -1,7 +1,6 @@
 <template>
   <form @submit.prevent="submit">
     <div class="grid gap-4">
-
       <div class="space-y-2">
         <Label for="password" value="New password" />
         <InputIconWrapper>
@@ -73,14 +72,15 @@ const submit = async () => {
   const state = useStorage('app-store', { token: '' })
   try {
     const response = await axios.post(
-      import.meta.env.VITE_AUTH_API_URL2 + `password/reset/confirm/${props.uid}/${props.token}/`, {
+      import.meta.env.VITE_AUTH_API_URL2 + `password/reset/confirm/${props.uid}/${props.token}/`,
+      {
         new_password1: resetPasswordForm.password,
         new_password2: resetPasswordForm.password_confirmation,
         uid: props.uid,
         token: props.token,
-      },
+      }
     )
-    successToast({ text:'Senha alterada com sucesso!' })
+    successToast({ text: 'Senha alterada com sucesso!' })
     router.replace({ name: 'Login' })
   } catch (err) {
     if (err.response.data.token) {

@@ -2,7 +2,7 @@
   <div class="flex flex-shrink-0 items-center justify-between px-3">
     <router-link to="/" class="inline-flex items-center gap-2">
       <span class="sr-only">Unicef</span>
-      <LogoFull class="pl-3 w-36" v-if="sidebarState.isOpen || sidebarState.isHovered" aria-hidden="true" />
+      <LogoFull class="w-36 pl-3" v-if="sidebarState.isOpen || sidebarState.isHovered" aria-hidden="true" />
       <Logo v-else aria-hidden="true" class="pl-3h-auto w-10" />
     </router-link>
 

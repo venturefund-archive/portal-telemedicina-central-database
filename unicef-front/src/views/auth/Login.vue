@@ -107,7 +107,7 @@ const login = async () => {
       return false
     }
     state.value.token = response.data.key
-    successToast({ text: "Você se conectou com sucesso." })
+    successToast({ text: 'Você se conectou com sucesso.' })
     router.replace({ name: 'Dashboard' })
   } catch (err) {
     if (err.response.data.non_field_errors) {

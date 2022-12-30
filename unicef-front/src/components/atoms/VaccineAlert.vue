@@ -1,47 +1,45 @@
 <template>
-    <Popover v-slot="{ open }" class="relative">
-      <PopoverButton :focus="false">
-        <div class="hover:scale-125">
-          <div v-if="1 == status" class="w-9 h-9 bg-lime-600 border border-lime-600 shadow-md rounded-full"></div>
+  <Popover v-slot="{ open }" class="relative">
+    <PopoverButton :focus="false">
+      <div class="hover:scale-125">
+        <div v-if="1 == status" class="h-9 w-9 rounded-full border border-lime-600 bg-lime-600 shadow-md"></div>
 
-          <span v-else-if="2 == status"
-                class="flex h-9 w-9">
-              <span class="animate-ping absolute inline-flex h-9 w-9 rounded-full bg-red-500 opacity-75"></span>
-              <span class="relative inline-flex rounded-full h-9 w-9 bg-red-500"></span>
-          </span>
+        <span v-else-if="2 == status" class="flex h-9 w-9">
+          <span class="absolute inline-flex h-9 w-9 animate-ping rounded-full bg-red-500 opacity-75"></span>
+          <span class="relative inline-flex h-9 w-9 rounded-full bg-red-500"></span>
+        </span>
 
-          <div v-else-if="3 == status" class="w-9 h-9 bg-red-500 border border-tranparent shadow-md rounded-full"></div>
-          <div v-else-if="4 == status" class="w-9 h-9 bg-neutral-200 border border-tranparent shadow-md rounded-full"></div>
-          <div v-else class=""></div>
-        </div>
-      </PopoverButton>
+        <div v-else-if="3 == status" class="border-tranparent h-9 w-9 rounded-full border bg-red-500 shadow-md"></div>
+        <div
+          v-else-if="4 == status"
+          class="border-tranparent h-9 w-9 rounded-full border bg-neutral-200 shadow-md"
+        ></div>
+        <div v-else class=""></div>
+      </div>
+    </PopoverButton>
 
-      <transition
-        enter-active-class="transition duration-200 ease-out"
-        enter-from-class="translate-y-1 opacity-0"
-        enter-to-class="translate-y-0 opacity-100"
-        leave-active-class="transition duration-150 ease-in"
-        leave-from-class="translate-y-0 opacity-100"
-        leave-to-class="translate-y-1 opacity-0"
-      >
+    <transition
+      enter-active-class="transition duration-200 ease-out"
+      enter-from-class="translate-y-1 opacity-0"
+      enter-to-class="translate-y-0 opacity-100"
+      leave-active-class="transition duration-150 ease-in"
+      leave-from-class="translate-y-0 opacity-100"
+      leave-to-class="translate-y-1 opacity-0"
+    >
       <div>
-      <PopoverOverlay class="fixed inset-0 bg-black opacity-30" />
+        <PopoverOverlay class="fixed inset-0 bg-black opacity-30" />
         <PopoverPanel
           class="absolute left-1/2 z-10 mt-3 w-auto max-w-sm transform-gpu px-4 sm:px-0 lg:max-w-3xl"
-          :class="[rangeIndex == 11 ? '-translate-x-48' : ((rangeIndex <= 1) ? '' : '-translate-x-48')]"
+          :class="[rangeIndex == 11 ? '-translate-x-48' : rangeIndex <= 1 ? '' : '-translate-x-48']"
         >
-          <div
-            class="overflow-hidden rounded-lg shadow-lg"
-          >
-          <slot />
+          <div class="overflow-hidden rounded-lg shadow-lg">
+            <slot />
           </div>
         </PopoverPanel>
       </div>
-      </transition>
-    </Popover>
-
+    </transition>
+  </Popover>
 </template>
-
 
 <script setup>
 import { onMounted, onUnmounted, reactive, ref } from 'vue'
