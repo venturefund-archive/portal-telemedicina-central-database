@@ -3,7 +3,7 @@
     <input
       :type="type"
       :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value);hideSuggestions = false"
+      @input="$emit('update:modelValue', $event.target.value); hideSuggestions = false"
       class="block w-full rounded-lg border border-transparent bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 md:w-96"
       placeholder="Pesquisar por pacientes, número de documento etc"
       required
@@ -18,7 +18,9 @@
         >
           <div class="flex items-center gap-4 px-2 py-2">
             <img class="h-10 w-10 rounded-full bg-neutral-200 p-1" src="/avatar.png" />
-            <span class="text-sm font-medium text-slate-900 capitalize">{{ suggestion.name.join().toLowerCase() }}</span>
+            <span class="text-sm font-medium capitalize text-slate-900">{{
+              suggestion.name.join().toLowerCase()
+            }}</span>
           </div>
         </router-link>
       </li>
@@ -61,13 +63,13 @@ const props = defineProps({
 })
 
 const filtedSuggestions = computed(() => {
-  return props.suggestions.slice(0,5)
+  return props.suggestions.slice(0, 5)
 })
 
 const hideSuggestions = ref(true)
 const target = ref(null)
 
-onClickOutside(target, (event) => hideSuggestions.value = true)
+onClickOutside(target, (event) => (hideSuggestions.value = true))
 
 // <AutoComplete v-model="queryText" :suggestions="filteredResultsBasic" @complete="search($event)" optionLabel="name" />
 </script>

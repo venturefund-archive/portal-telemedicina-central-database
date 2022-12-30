@@ -124,7 +124,6 @@ const patientsStore = usePatientsStore()
 
 const queryText = ref('')
 
-
 const router = useRouter()
 const { isFullscreen, toggle: toggleFullScreen } = useFullscreen()
 
@@ -133,7 +132,7 @@ const logout = async () => {
   try {
     const response = await axios.post(import.meta.env.VITE_AUTH_API_URL + 'logout/')
     state.value = null
-    successToast({ text: "Você saiu com sucesso!" })
+    successToast({ text: 'Você saiu com sucesso!' })
     router.replace({ name: 'Login' })
   } catch (err) {
     errorToast({ text: err.message })
@@ -147,10 +146,12 @@ const filteredResults = computed(() => {
 
   let matches = 0
 
-  return patientsStore.items.filter(patient => {
-    if ( (patient.name.join().toLowerCase().includes(queryText.value.toLowerCase()) ||
-         patient.id.toLowerCase().includes(queryText.value.toLowerCase()) )
-          && matches < 10 ) {
+  return patientsStore.items.filter((patient) => {
+    if (
+      (patient.name.join().toLowerCase().includes(queryText.value.toLowerCase()) ||
+        patient.id.toLowerCase().includes(queryText.value.toLowerCase())) &&
+      matches < 10
+    ) {
       matches++
       return patient
     }

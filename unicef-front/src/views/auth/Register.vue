@@ -94,7 +94,9 @@
                 >termos de serviços</a
               >
               e
-              <a target="_blank" href="#" class="text-sm text-blue-600 underline hover:text-blue-900">politica de privacidade</a>
+              <a target="_blank" href="#" class="text-sm text-blue-600 underline hover:text-blue-900"
+                >politica de privacidade</a
+              >
             </div>
           </div>
         </Label>
