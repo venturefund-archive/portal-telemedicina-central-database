@@ -22,8 +22,8 @@
           <p>
             Data de nascimento: <span>{{ patientsStore.item.birth_date }}</span>
           </p>
-          <p>
-            Estado civil: <span>{{ patientsStore.item.marital_status }}</span>
+          <p v-if="patientsStore.item.marital_status && patientsStore.item.marital_status.text">
+            Estado civil: <span>{{ patientsStore.item.marital_status.text }}</span>
           </p>
         </div>
       </div>

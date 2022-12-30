@@ -12,7 +12,7 @@
         <div v-else-if="3 == status" class="border-tranparent h-9 w-9 rounded-full border bg-red-500 shadow-md"></div>
         <div
           v-else-if="4 == status"
-          class="border-tranparent h-9 w-9 rounded-full border bg-neutral-200 shadow-md"
+          class="border-tranparent h-9 w-9 rounded-full border bg-blue-300 shadow-md"
         ></div>
         <div v-else class=""></div>
       </div>

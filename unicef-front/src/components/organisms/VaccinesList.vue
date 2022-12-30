@@ -4,12 +4,12 @@
       <div class="inline-block min-w-full sm:px-6 lg:px-8">
         <div class="flex justify-end py-3">
           <div class="flex items-center rounded-md bg-neutral-200 px-3 py-2 text-neutral-500">
-            <span class="flex items-center px-2">Legendas:</span>
-            <span class="flex items-center px-2">Completo: <VaccineAlert status="1" class="scale-75 pl-2 pl-2" /></span>
-            <span class="flex items-center px-2">Alerta: <VaccineAlert status="3" class="scale-75 pl-2 pl-2" /></span>
+            <span class="flex items-center px-2">Completo: <VaccineAlert :status="1" class="scale-75 pl-2 pl-2" /></span>
+            <span class="flex items-center px-2">Alerta: <VaccineAlert :status="3" class="scale-75 pl-2 pl-2" /></span>
+            <span class="flex items-center px-2">Recomendado: <VaccineAlert :status="4" class="scale-75 pl-2 pl-2" /></span>
           </div>
         </div>
-        <table class="w-full table-fixed rounded bg-white text-left text-sm shadow-lg">
+        <table class="w-full table-fixed rounded bg-neutral-50 text-left text-sm shadow-lg">
           <thead class="bg-neutral-200 text-xs uppercase text-white">
             <tr>
               <th scope="col" colspan="2" class="bg-blue-200 px-6 py-4 text-center text-gray-900">Vacinas</th>
@@ -148,11 +148,11 @@
                 v-for="(range, rangeIndex) in ranges"
                 :key="rangeIndex"
               >
+
                 <div v-for="(dose, dk) in filteredDosesByVaccine(vaccine)" :key="dk" class="text-center">
-                  <VaccineAlert
-                    :rangeIndex="rangeIndex"
-                    :status="1"
-                    v-if="
+
+
+                  <VaccineAlert v-if="
                       dose.is_completed &&
                       null != dose.maximum_recommended_age &&
                       isWithinInterval(add(birthDate, { months: dose.maximum_recommended_age }), {
@@ -160,9 +160,12 @@
                         end: range.end,
                       })
                     "
+                    :rangeIndex="rangeIndex"
+                    :status="1"
                   >
                     <VaccineAlertInfo :vaccine="vaccine" :dose="dose" />
                   </VaccineAlert>
+
                   <div v-else-if="dose.alerts.length > 0" v-for="(alert, ak) in dose.alerts" :key="ak">
                     <VaccineAlert
                       :rangeIndex="rangeIndex"
@@ -178,7 +181,24 @@
                       <VaccineAlertInfo :vaccine="vaccine" :dose="dose" />
                     </VaccineAlert>
                   </div>
+
+                  <VaccineAlert
+                      :rangeIndex="rangeIndex"
+                      :status="4"
+                      v-else-if="
+                        dose.alerts.length == 0 &&
+                        null != dose.maximum_recommended_age &&
+                        (Math.floor(dose.minimum_recommended_age/13) >= rangeIndex +1 || Math.floor(dose.maximum_recommended_age/13) <= rangeIndex +1) &&
+                        isWithinInterval(add(birthDate, { months: dose.maximum_recommended_age }), {
+                          start: range.start,
+                          end: range.end,
+                        })">
+                      <VaccineAlertInfo :vaccine="vaccine" :dose="dose" />
+                    </VaccineAlert>
+
+
                 </div>
+
               </td>
             </tr>
           </tbody>
