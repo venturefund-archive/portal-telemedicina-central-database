@@ -3,11 +3,13 @@
     <div class="relative bg-neutral-50 p-4">
       <div class="flex justify-between py-1">
         <p class="px-1 font-semibold">{{ props.vaccine.description }}</p>
-        <div v-if="dose.is_completed">
-          <CheckCircleIcon class="h-7 w-7 rounded-full bg-lime-600 text-white"></CheckCircleIcon>
-        </div>
-        <div class="py-1" v-if="!dose.is_completed">
-          <ExclamationCircleIcon class="h-7 w-7 rounded-full bg-red-500 text-white"></ExclamationCircleIcon>
+        <div v-if="!props.withoutDetails">
+          <div v-if="dose.is_completed">
+            <CheckCircleIcon class="h-7 w-7 rounded-full bg-lime-600 text-white"></CheckCircleIcon>
+          </div>
+          <div class="py-1" v-else>
+            <ExclamationCircleIcon class="h-7 w-7 rounded-full bg-red-500 text-white"></ExclamationCircleIcon>
+          </div>
         </div>
       </div>
 
@@ -37,6 +39,10 @@ import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/vue/outline'
 import { parseISO, formatRelative } from 'date-fns'
 
 const props = defineProps({
+  withoutDetails: {
+    type: Boolean,
+    default: false,
+  },
   vaccine: {
     type: Object,
     default: {},

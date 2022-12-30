@@ -193,7 +193,7 @@
                           start: range.start,
                           end: range.end,
                         })">
-                      <VaccineAlertInfo :vaccine="vaccine" :dose="dose" />
+                      <VaccineAlertInfo :vaccine="vaccine" :dose="dose" withoutDetails="true" />
                     </VaccineAlert>
 
 
