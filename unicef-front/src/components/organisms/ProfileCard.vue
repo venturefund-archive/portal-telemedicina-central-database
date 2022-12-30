@@ -9,7 +9,6 @@
         <p class="font-bold text-gray-600 pr-2 capitalize">{{ patientsStore.item.name.join().toLowerCase() }}</p>
         <div class="text-gray-400">
           <p>Gênero: <span>{{ patientsStore.item.gender }}</span></p>
-          <p>Documento: <span>{{ patientsStore.item.document }}</span></p>
           <!--
           <p>
             Region: <span>{{ patientsStore.item.address[0].city }} / {{ patientsStore.item.address[0].state }}</span>
