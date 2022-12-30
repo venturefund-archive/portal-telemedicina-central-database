@@ -9,7 +9,7 @@ class PatientsViewSet(ViewSet):
     def list(self, request):
         client_id = request.user.client_id
         client = Client.objects.get(id=client_id)
-        patients = patient_resource.Patient(client=client)
+        patients = patient_resource.Patient(id="?", client=client)
         data = patients.all
         return Response(data)
 

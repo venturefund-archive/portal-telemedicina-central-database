@@ -2,14 +2,14 @@ import central_database.integrations.fhir_api.patient as service
 
 
 class Patient:
-    def __init__(self, id=None, client=None):
+    def __init__(self, id, client=None):
         patient_service = service.PatientService(client)
-        if id:
+        if id and id != "?":
             self.detail = self._parse_patient_detail(
                 patient_service.get_detail(id)
             )  # noqa: E501
         else:
-            self.all = self._parse_all(patient_service.get_all())
+            self.all = self._parse_all(patient_service.get_all(id))
 
     def _parse_address(self, data):
         if "extension" in data:

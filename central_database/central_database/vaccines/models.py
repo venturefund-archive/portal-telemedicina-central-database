@@ -189,8 +189,8 @@ class VaccineStatus(CDModel, models.Model):
     vaccine_dose = models.ForeignKey(
         VaccineDose, on_delete=models.CASCADE
     )  # noqa: E501
-    patient_id = models.PositiveIntegerField(
-        help_text="Patient ID from FHIR."
+    patient_id = models.CharField(
+        max_length=255, help_text="Patient ID from FHIR."
     )  # noqa: E501
     completed = models.BooleanField(default=False)
 
@@ -207,7 +207,9 @@ class VaccineAlert(Alert, models.Model):
     """
 
     vaccine_dose = models.ForeignKey(VaccineDose, on_delete=models.CASCADE)
-    patient_id = models.PositiveIntegerField(help_text="Patient ID from FHIR.")
+    patient_id = models.CharField(
+        max_length=255, help_text="Patient ID from FHIR."
+    )  # noqa: E501
     alert_type = models.ForeignKey(
         VaccineAlertType,
         on_delete=models.CASCADE,
