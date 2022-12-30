@@ -6,8 +6,8 @@ class PatientService:
         self.resource_type = "Patient"
         self.client = client
 
-    def get_all(self):
-        return get_resource(self.resource_type, client=self.client)
+    def get_all(self, id):
+        return get_resource(self.resource_type, id, client=self.client)
 
     def get_detail(self, id):
         return get_resource(self.resource_type, id, client=self.client)

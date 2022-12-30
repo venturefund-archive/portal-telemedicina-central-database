@@ -37,12 +37,11 @@ def get_resource_from_healthcare_api(resource_type, resource_id, client):
     base_url = "https://healthcare.googleapis.com/v1"
     url = f"{base_url}/projects/{project_id}/locations/{location}"
 
-    resource_path = "{}/datasets/{}/fhirStores/{}/fhir/{}/".format(
-        url, dataset_id, fhir_store_id, resource_type
+    resource_path = "{}/datasets/{}/fhirStores/{}/fhir/{}/{}".format(
+        url, dataset_id, fhir_store_id, resource_type, resource_id
     )
-
-    if resource_id:
-        resource_path = resource_path + f"{resource_id}"
+    if resource_id == "?":
+        resource_path += "_count=1000"
 
     headers = {"Content-Type": "application/fhir+json;charset=utf-8"}
 
@@ -50,6 +49,19 @@ def get_resource_from_healthcare_api(resource_type, resource_id, client):
     response.raise_for_status()
 
     resource = response.json()
+
+    if resource_id == "?":
+        response_2 = session.get(resource["link"][1]["url"], headers=headers)
+        resource_2 = response_2.json()
+        resource_2_entries = resource_2.get("entry")
+
+        response_3 = session.get(resource_2["link"][1]["url"], headers=headers)
+        resource_3 = response_3.json()
+        resource_3_entries = resource_3.get("entry")
+        resource_temp_entries = resource_2_entries + resource_3_entries
+
+        resource["entry"] += resource_temp_entries
+
     return resource
 
 
