@@ -62,12 +62,12 @@ export default defineConfig({
     port: 3000,
     proxy: {
       "/api": {
-        target: "http://django:8000/api",
+        target: "http://localhost:8000/",
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
     },
   },
-  base: '/',
+  // base: '/',
 })
