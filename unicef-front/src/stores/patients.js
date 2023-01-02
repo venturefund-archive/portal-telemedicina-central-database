@@ -14,7 +14,7 @@ export const usePatientsStore = defineStore('patients', () => {
   async function fetchPatients() {
     const state = useStorage('app-store', { token: '' })
     try {
-      const response = await axios.get('/api/patients/', {
+      const response = await axios.get(import.meta.env.VITE_API_URL + '/api/patients/', {
         headers: {
           'Content-type': 'application/json',
           Authorization: `token ${state.value.token}`,
@@ -28,7 +28,7 @@ export const usePatientsStore = defineStore('patients', () => {
   async function fetchPatient(id) {
     const state = useStorage('app-store', { token: '' })
     try {
-      const response = await axios.get(`/api/patients/${id}/`, {
+      const response = await axios.get(import.meta.env.VITE_API_URL + `/api/patients/${id}/`, {
         headers: {
           'Content-type': 'application/json',
           Authorization: `token ${state.value.token}`,

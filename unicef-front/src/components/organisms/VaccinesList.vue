@@ -224,16 +224,7 @@ import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
 import { computed } from 'vue'
-import {
-  formatDistance,
-  parseISO,
-  formatISO9075,
-  add,
-  isWithinInterval,
-  differenceInMonths,
-  differenceInDays,
-  subDays,
-} from 'date-fns'
+import { formatDistance, parseISO, formatISO9075, add, isWithinInterval, differenceInMonths, differenceInDays, subDays } from 'date-fns'
 import { usePatientsStore } from '@/stores/patients'
 import { useDosesStore } from '@/stores/doses'
 import { useVaccinesStore } from '@/stores/vaccines'

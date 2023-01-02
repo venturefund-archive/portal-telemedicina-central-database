@@ -130,7 +130,7 @@ const { isFullscreen, toggle: toggleFullScreen } = useFullscreen()
 const logout = async () => {
   const state = useStorage('app-store', { token: '' })
   try {
-    const response = await axios.post(import.meta.env.VITE_AUTH_API_URL + 'logout/')
+    const response = await axios.post(import.meta.env.VITE_API_URL + '/api/dj-rest-auth/logout/')
     state.value = null
     successToast({ text: 'Você saiu com sucesso!' })
     router.replace({ name: 'Login' })
