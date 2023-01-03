@@ -145,3 +145,6 @@ c_adivisor
 open.sh
 data/synthetic/synthea/fhir/
 !deleted_immunizations.log
+poc/
+data/vaccine_codes
+credentials.json

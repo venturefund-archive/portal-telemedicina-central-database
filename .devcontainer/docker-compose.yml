@@ -49,6 +49,16 @@ services:
       - "8000:8000"
     command: /start
 
+  unicef-front:
+    build:
+      context: ../unicef-front
+      dockerfile: ./Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ../unicef-front:/app
+      - /app/node_modules/
+
   postgres:
     build:
       context: ../central_database

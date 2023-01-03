@@ -1,3 +1,5 @@
+from dj_rest_auth.registration.views import ConfirmEmailView, VerifyEmailView
+from dj_rest_auth.views import PasswordResetConfirmView
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -21,7 +23,27 @@ urlpatterns = [
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
     path("users/", include("central_database.users.urls", namespace="users")),
-    path("accounts/", include("allauth.urls")),
+    path("health/", include("central_database.health.urls")),  # noqa
+    path("api/dj-rest-auth/", include("dj_rest_auth.urls")),
+    path(
+        "api/dj-rest-auth/registration/account-confirm-email/<str:key>/",
+        ConfirmEmailView.as_view(),
+    ),
+    path(
+        "api/dj-rest-auth/registration/",
+        include("dj_rest_auth.registration.urls"),  # E501: noqa
+    ),
+    path(
+        "api/dj-rest-auth/account-confirm-email/",
+        VerifyEmailView.as_view(),
+        name="account_email_verification_sent",
+    ),
+    path(
+        "rest-auth/password/reset/confirm/<slug:uidb64>/<slug:token>/",
+        PasswordResetConfirmView.as_view(),
+        name="password_reset_confirm",
+    ),
+    path("auth/accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 if settings.DEBUG:

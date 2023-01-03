@@ -1,0 +1,2952 @@
+[
+    {
+        "model": "vaccines.vaccine",
+        "pk": 0,
+        "fields": {
+            "system": "BRI",
+            "code": 1,
+            "display": "IGTH",
+            "description": "Imunoglobulina anti tetânica"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 1,
+        "fields": {
+            "system": "BRI",
+            "code": 2,
+            "display": "SAT",
+            "description": "Soro tetânico"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 2,
+        "fields": {
+            "system": "BRI",
+            "code": 3,
+            "display": "SARC",
+            "description": "Soro aracnídico / Escorpiônico"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 3,
+        "fields": {
+            "system": "BRI",
+            "code": 4,
+            "display": "SESCOR",
+            "description": "Soro escorpiônico"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 4,
+        "fields": {
+            "system": "BRI",
+            "code": 5,
+            "display": "DT",
+            "description": "Dupla infantil"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 5,
+        "fields": {
+            "system": "BRI",
+            "code": 6,
+            "display": "SELAP",
+            "description": "Soro elapídico"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 6,
+        "fields": {
+            "system": "BRI",
+            "code": 7,
+            "display": "SARH",
+            "description": "Soro rábico humano"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 7,
+        "fields": {
+            "system": "BRI",
+            "code": 8,
+            "display": "SBOTR",
+            "description": "Soro botrópico"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 8,
+        "fields": {
+            "system": "BRI",
+            "code": 9,
+            "display": "HB",
+            "description": "Hepatite B"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 9,
+        "fields": {
+            "system": "BRI",
+            "code": 10,
+            "display": "SAD",
+            "description": "Soro diftérico"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 10,
+        "fields": {
+            "system": "BRI",
+            "code": 11,
+            "display": "SBOCR",
+            "description": "Soro botrópico/crotálico"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 11,
+        "fields": {
+            "system": "BRI",
+            "code": 12,
+            "display": "SBOLAQ",
+            "description": "Soro botrópico/laquético"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 12,
+        "fields": {
+            "system": "BRI",
+            "code": 13,
+            "display": "Meningo AC",
+            "description": "Meningocócica AC"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 13,
+        "fields": {
+            "system": "BRI",
+            "code": 14,
+            "display": "FA",
+            "description": "Febre amarela"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 14,
+        "fields": {
+            "system": "BRI",
+            "code": 15,
+            "display": "BCG",
+            "description": "BCG"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 15,
+        "fields": {
+            "system": "BRI",
+            "code": 16,
+            "display": "SCROT",
+            "description": "Soro crotálico"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 16,
+        "fields": {
+            "system": "BRI",
+            "code": 17,
+            "display": "Hib",
+            "description": "Haemophilus tipo b"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 17,
+        "fields": {
+            "system": "BRI",
+            "code": 18,
+            "display": "Embrião",
+            "description": "Raiva em cultivo celular (Embrião)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 18,
+        "fields": {
+            "system": "BRI",
+            "code": 19,
+            "display": "IGVZ",
+            "description": "Imunoglobulina anti varicela zoster"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 19,
+        "fields": {
+            "system": "BRI",
+            "code": 20,
+            "display": "IGHB",
+            "description": "Imunoglobulina anti hepatite B"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 20,
+        "fields": {
+            "system": "BRI",
+            "code": 21,
+            "display": "Pncc23V",
+            "description": "Pneumocócica 23V"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 21,
+        "fields": {
+            "system": "BRI",
+            "code": 22,
+            "display": "VIP",
+            "description": "Poliomielite inativada"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 22,
+        "fields": {
+            "system": "BRI",
+            "code": 23,
+            "display": "IGRH",
+            "description": "Imunoglobulina anti rábica"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 23,
+        "fields": {
+            "system": "BRI",
+            "code": 24,
+            "display": "SCR",
+            "description": "Tríplice viral"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 24,
+        "fields": {
+            "system": "BRI",
+            "code": 25,
+            "display": "dT",
+            "description": "Dupla adulto"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 25,
+        "fields": {
+            "system": "BRI",
+            "code": 26,
+            "display": "Pncc10V",
+            "description": "Pneumocócica 10V"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 26,
+        "fields": {
+            "system": "BRI",
+            "code": 28,
+            "display": "VOP",
+            "description": "Poliomielite oral (Bivalente)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 27,
+        "fields": {
+            "system": "BRI",
+            "code": 29,
+            "display": "PENTAinativada",
+            "description": "DTPa / Hib / Polio Inativa"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 28,
+        "fields": {
+            "system": "BRI",
+            "code": 30,
+            "display": "FTp",
+            "description": "Febre tifóide (polissacarídica)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 29,
+        "fields": {
+            "system": "BRI",
+            "code": 31,
+            "display": "SLOXO",
+            "description": "Soro loxoscélico"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 30,
+        "fields": {
+            "system": "BRI",
+            "code": 32,
+            "display": "SLONO",
+            "description": "Soro lonômico"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 31,
+        "fields": {
+            "system": "BRI",
+            "code": 33,
+            "display": "FLU3V",
+            "description": "Influenza Trivalente"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 32,
+        "fields": {
+            "system": "BRI",
+            "code": 34,
+            "display": "VARC",
+            "description": "Varicela(atenuada)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 33,
+        "fields": {
+            "system": "BRI",
+            "code": 35,
+            "display": "HA",
+            "description": "Hepatite A (CRIE)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 34,
+        "fields": {
+            "system": "BRI",
+            "code": 36,
+            "display": "SR",
+            "description": "Dupla viral"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 35,
+        "fields": {
+            "system": "BRI",
+            "code": 37,
+            "display": "Vero",
+            "description": "Raiva em cultivo celular Vero"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 36,
+        "fields": {
+            "system": "BRI",
+            "code": 38,
+            "display": "SBOTULTRI",
+            "description": "Soro botulínico trivalente"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 37,
+        "fields": {
+            "system": "BRI",
+            "code": 39,
+            "display": "Tetra",
+            "description": "DTP / Hib"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 38,
+        "fields": {
+            "system": "BRI",
+            "code": 41,
+            "display": "Men Conj C",
+            "description": "Meningocócica conjugada C"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 39,
+        "fields": {
+            "system": "BRI",
+            "code": 42,
+            "display": "Penta",
+            "description": "DTP/HB/Hib"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 40,
+        "fields": {
+            "system": "BRI",
+            "code": 43,
+            "display": "HEXA",
+            "description": "Hexavalente"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 41,
+        "fields": {
+            "system": "BRI",
+            "code": 44,
+            "display": "H1N1",
+            "description": "Influenza H1N1"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 42,
+        "fields": {
+            "system": "BRI",
+            "code": 45,
+            "display": "VRH",
+            "description": "Vacina rotavírus humano"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 43,
+        "fields": {
+            "system": "BRI",
+            "code": 46,
+            "display": "DTP",
+            "description": "Tríplice bacteriana"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 44,
+        "fields": {
+            "system": "BRI",
+            "code": 47,
+            "display": "DTPa",
+            "description": "Tríplice acelular infantil"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 45,
+        "fields": {
+            "system": "BRI",
+            "code": 51,
+            "display": "Fta",
+            "description": "Febre tifóide (atenuada)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 46,
+        "fields": {
+            "system": "BRI",
+            "code": 55,
+            "display": "HAped",
+            "description": "Hepatite A Pediátrica"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 47,
+        "fields": {
+            "system": "BRI",
+            "code": 56,
+            "display": "Tetra Viral",
+            "description": "Tetra Viral"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 48,
+        "fields": {
+            "system": "BRI",
+            "code": 57,
+            "display": "dTpa adulto",
+            "description": "Tríplice bacteriana acelular (adulto)- dTpa"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 49,
+        "fields": {
+            "system": "BRI",
+            "code": 58,
+            "display": "DTPaVIP",
+            "description": "Tríplice acelular / poliomelite inativada"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 50,
+        "fields": {
+            "system": "BRI",
+            "code": 59,
+            "display": "Pncc13V",
+            "description": "Pneumocócica 13V"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 51,
+        "fields": {
+            "system": "BRI",
+            "code": 60,
+            "display": "HPV",
+            "description": "HPV Bivalente"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 52,
+        "fields": {
+            "system": "BRI",
+            "code": 61,
+            "display": "TT",
+            "description": "Toxóide Tetânico"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 53,
+        "fields": {
+            "system": "BRI",
+            "code": 62,
+            "display": "HAeHBped",
+            "description": "Hepatite AeB (pediátrica)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 54,
+        "fields": {
+            "system": "BRI",
+            "code": 63,
+            "display": "HAeHB",
+            "description": "Hepatite AeB (uso adulto)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 55,
+        "fields": {
+            "system": "BRI",
+            "code": 64,
+            "display": "FLU ID",
+            "description": "Influenza ID"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 56,
+        "fields": {
+            "system": "BRI",
+            "code": 65,
+            "display": "ROTA penta",
+            "description": "Rotavírus pentavalente"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 57,
+        "fields": {
+            "system": "BRI",
+            "code": 66,
+            "display": "MEN B/C",
+            "description": "Meningocócica B / C"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 58,
+        "fields": {
+            "system": "BRI",
+            "code": 67,
+            "display": "HPV Quadri",
+            "description": "HPV Quadrivalente"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 59,
+        "fields": {
+            "system": "BRI",
+            "code": 69,
+            "display": "SBOTULBI",
+            "description": "Soro botulínico bivalente"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 60,
+        "fields": {
+            "system": "BRI",
+            "code": 70,
+            "display": "Sarampo",
+            "description": "Sarampo"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 61,
+        "fields": {
+            "system": "BRI",
+            "code": 71,
+            "display": "Rubéola",
+            "description": "Rubéola"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 62,
+        "fields": {
+            "system": "BRI",
+            "code": 72,
+            "display": "Gripe",
+            "description": "Gripe Sazonal"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 63,
+        "fields": {
+            "system": "BRI",
+            "code": 74,
+            "display": "Meningo ACW135Y",
+            "description": "Meningocócica ACWY"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 64,
+        "fields": {
+            "system": "BRI",
+            "code": 75,
+            "display": "Cólera",
+            "description": "Cólera oral"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 65,
+        "fields": {
+            "system": "BRI",
+            "code": 76,
+            "display": "VHZ",
+            "description": "Herpes Zoster"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 66,
+        "fields": {
+            "system": "BRI",
+            "code": 77,
+            "display": "FLU4V",
+            "description": "Influenza Tetravalente"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 67,
+        "fields": {
+            "system": "BRI",
+            "code": 78,
+            "display": "MEN B",
+            "description": "Meningocócica B"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 68,
+        "fields": {
+            "system": "BRI",
+            "code": 82,
+            "display": "Dengue",
+            "description": "Vacina Dengue 1, 2, 3 e 4 (recomb e atenuada)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 69,
+        "fields": {
+            "system": "BRI",
+            "code": 83,
+            "display": "HAadulto",
+            "description": "Vacina ads hepatite A (inativada, virossomal)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 70,
+        "fields": {
+            "system": "BRI",
+            "code": 84,
+            "display": "FA (0,1 ml)",
+            "description": "Febre Amarela - Dose fracionada (0,1 ml)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 71,
+        "fields": {
+            "system": "BRI",
+            "code": 85,
+            "display": "COV19-AZE",
+            "description": "Covid-19 - Covishield - Oxford/Astrazeneca"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 72,
+        "fields": {
+            "system": "BRI",
+            "code": 86,
+            "display": "COV19-VAC",
+            "description": "Covid-19 - Coronavac - Sinovac/Butantan"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 73,
+        "fields": {
+            "system": "BRI",
+            "code": 87,
+            "display": "COV19-PFZ",
+            "description": "Covid-19 - BNT162b2 - BioNTech/Fosun Pharma/Pfizer"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 74,
+        "fields": {
+            "system": "BRI",
+            "code": 88,
+            "display": "COV19-JAN",
+            "description": "Covid-19 - Ad26.COV2.S - Janssen-Cilag"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 75,
+        "fields": {
+            "system": "BRI",
+            "code": 89,
+            "display": "COVID-19 ASTRAZENECA - ChAdOx1-S",
+            "description": "Covid-19 - ASTRAZENECA - ChAdOx1-S, recombinante"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 76,
+        "fields": {
+            "system": "BRI",
+            "code": 95,
+            "display": "COVID-19 GAMALEYA - SPUTNIK V",
+            "description": "Covid-19 - GAMALEYA - SPUTNIK V recombinante"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 77,
+        "fields": {
+            "system": "BRI",
+            "code": 96,
+            "display": "COVID-19 BHARAT - COVAXIN",
+            "description": "Covid-19 - COVID-19 BHARAT - COVAXIN inativada"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 78,
+        "fields": {
+            "system": "BRI",
+            "code": 97,
+            "display": "COVID-19 MODERNA",
+            "description": "Covid-19 - MODERNA RNAm"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 79,
+        "fields": {
+            "system": "BRI",
+            "code": 98,
+            "display": "COVID-19 SINOVAC - CORONAVAC",
+            "description": "Covid-19 - SINOVAC - CORONAVAC inativada"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 80,
+        "fields": {
+            "system": "BRI",
+            "code": 99,
+            "display": "COV19-PFZ-Pediátrica",
+            "description": "Covid-19 - Pfizer (Comirnaty) - Pediátrica"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 81,
+        "fields": {
+            "system": "CVX",
+            "code": 54,
+            "display": "adenovirus, type 4",
+            "description": "adenovirus vaccine, type 4, live, oral"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 82,
+        "fields": {
+            "system": "CVX",
+            "code": 55,
+            "display": "adenovirus, type 7",
+            "description": "adenovirus vaccine, type 7, live, oral"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 83,
+        "fields": {
+            "system": "CVX",
+            "code": 82,
+            "display": "adenovirus, unspecified formulation",
+            "description": "adenovirus vaccine, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 84,
+        "fields": {
+            "system": "CVX",
+            "code": 24,
+            "display": "anthrax",
+            "description": "anthrax vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 85,
+        "fields": {
+            "system": "CVX",
+            "code": 19,
+            "display": "BCG",
+            "description": "Bacillus Calmette-Guerin vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 86,
+        "fields": {
+            "system": "CVX",
+            "code": 27,
+            "display": "botulinum antitoxin",
+            "description": "botulinum antitoxin"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 87,
+        "fields": {
+            "system": "CVX",
+            "code": 26,
+            "display": "cholera, unspecified formulation",
+            "description": "cholera vaccine, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 88,
+        "fields": {
+            "system": "CVX",
+            "code": 29,
+            "display": "CMVIG",
+            "description": "cytomegalovirus immune globulin, intravenous"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 89,
+        "fields": {
+            "system": "CVX",
+            "code": 56,
+            "display": "dengue fever",
+            "description": "dengue fever vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 90,
+        "fields": {
+            "system": "CVX",
+            "code": 12,
+            "display": "diphtheria antitoxin",
+            "description": "diphtheria antitoxin"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 91,
+        "fields": {
+            "system": "CVX",
+            "code": 28,
+            "display": "DT (pediatric)",
+            "description": "diphtheria and tetanus toxoids, adsorbed for pediatric use"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 92,
+        "fields": {
+            "system": "CVX",
+            "code": 20,
+            "display": "DTaP",
+            "description": "diphtheria, tetanus toxoids and acellular pertussis vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 93,
+        "fields": {
+            "system": "CVX",
+            "code": 106,
+            "display": "DTaP, 5 pertussis antigens",
+            "description": "diphtheria, tetanus toxoids and acellular pertussis vaccine, 5 pertussis antigens"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 94,
+        "fields": {
+            "system": "CVX",
+            "code": 107,
+            "display": "DTaP, unspecified formulation",
+            "description": "diphtheria, tetanus toxoids and acellular pertussis vaccine, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 95,
+        "fields": {
+            "system": "CVX",
+            "code": 110,
+            "display": "DTaP-Hep B-IPV",
+            "description": "DTaP-hepatitis B and poliovirus vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 96,
+        "fields": {
+            "system": "CVX",
+            "code": 50,
+            "display": "DTaP-Hib",
+            "description": "DTaP-Haemophilus influenzae type b conjugate vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 97,
+        "fields": {
+            "system": "CVX",
+            "code": 120,
+            "display": "DTaP-Hib-IPV",
+            "description": "diphtheria, tetanus toxoids and acellular pertussis vaccine, Haemophilus influenzae type b conjugate, and poliovirus vaccine, inactivated (DTaP-Hib-IPV)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 98,
+        "fields": {
+            "system": "CVX",
+            "code": 130,
+            "display": "DTaP-IPV",
+            "description": "Diphtheria, tetanus toxoids and acellular pertussis vaccine, and poliovirus vaccine, inactivated"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 99,
+        "fields": {
+            "system": "CVX",
+            "code": 1,
+            "display": "DTP",
+            "description": "diphtheria, tetanus toxoids and pertussis vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 100,
+        "fields": {
+            "system": "CVX",
+            "code": 22,
+            "display": "DTP-Hib",
+            "description": "DTP-Haemophilus influenzae type b conjugate vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 101,
+        "fields": {
+            "system": "CVX",
+            "code": 102,
+            "display": "DTP-Hib-Hep B",
+            "description": "DTP- Haemophilus influenzae type b conjugate and hepatitis b vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 102,
+        "fields": {
+            "system": "CVX",
+            "code": 57,
+            "display": "hantavirus",
+            "description": "hantavirus vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 103,
+        "fields": {
+            "system": "CVX",
+            "code": 52,
+            "display": "Hep A, adult",
+            "description": "hepatitis A vaccine, adult dosage"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 104,
+        "fields": {
+            "system": "CVX",
+            "code": 83,
+            "display": "Hep A, ped/adol, 2 dose",
+            "description": "hepatitis A vaccine, pediatric/adolescent dosage, 2 dose schedule"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 105,
+        "fields": {
+            "system": "CVX",
+            "code": 84,
+            "display": "Hep A, ped/adol, 3 dose",
+            "description": "hepatitis A vaccine, pediatric/adolescent dosage, 3 dose schedule"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 106,
+        "fields": {
+            "system": "CVX",
+            "code": 31,
+            "display": "Hep A, pediatric, unspecified formulation",
+            "description": "hepatitis A vaccine, pediatric dosage, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 107,
+        "fields": {
+            "system": "CVX",
+            "code": 85,
+            "display": "Hep A, unspecified formulation",
+            "description": "hepatitis A vaccine, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 108,
+        "fields": {
+            "system": "CVX",
+            "code": 104,
+            "display": "Hep A-Hep B",
+            "description": "hepatitis A and hepatitis B vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 109,
+        "fields": {
+            "system": "CVX",
+            "code": 30,
+            "display": "HBIG",
+            "description": "hepatitis B immune globulin"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 110,
+        "fields": {
+            "system": "CVX",
+            "code": 8,
+            "display": "Hep B, adolescent or pediatric",
+            "description": "hepatitis B vaccine, pediatric or pediatric/adolescent dosage"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 111,
+        "fields": {
+            "system": "CVX",
+            "code": 42,
+            "display": "Hep B, adolescent/high risk infant",
+            "description": "hepatitis B vaccine, adolescent/high risk infant dosage"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 112,
+        "fields": {
+            "system": "CVX",
+            "code": 43,
+            "display": "Hep B, adult",
+            "description": "hepatitis B vaccine, adult dosage"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 113,
+        "fields": {
+            "system": "CVX",
+            "code": 44,
+            "display": "Hep B, dialysis",
+            "description": "hepatitis B vaccine, dialysis patient dosage"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 114,
+        "fields": {
+            "system": "CVX",
+            "code": 45,
+            "display": "Hep B, unspecified formulation",
+            "description": "hepatitis B vaccine, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 115,
+        "fields": {
+            "system": "CVX",
+            "code": 58,
+            "display": "Hep C",
+            "description": "hepatitis C vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 116,
+        "fields": {
+            "system": "CVX",
+            "code": 59,
+            "display": "Hep E",
+            "description": "hepatitis E vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 117,
+        "fields": {
+            "system": "CVX",
+            "code": 60,
+            "display": "herpes simplex 2",
+            "description": "herpes simplex virus, type 2 vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 118,
+        "fields": {
+            "system": "CVX",
+            "code": 46,
+            "display": "Hib (PRP-D)",
+            "description": "Haemophilus influenzae type b vaccine, PRP-D conjugate"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 119,
+        "fields": {
+            "system": "CVX",
+            "code": 47,
+            "display": "Hib (HbOC)",
+            "description": "Haemophilus influenzae type b vaccine, HbOC conjugate"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 120,
+        "fields": {
+            "system": "CVX",
+            "code": 48,
+            "display": "Hib (PRP-T)",
+            "description": "Haemophilus influenzae type b vaccine, PRP-T conjugate"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 121,
+        "fields": {
+            "system": "CVX",
+            "code": 49,
+            "display": "Hib (PRP-OMP)",
+            "description": "Haemophilus influenzae type b vaccine, PRP-OMP conjugate"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 122,
+        "fields": {
+            "system": "CVX",
+            "code": 17,
+            "display": "Hib, unspecified formulation",
+            "description": "Haemophilus influenzae type b vaccine, conjugate unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 123,
+        "fields": {
+            "system": "CVX",
+            "code": 51,
+            "display": "Hib-Hep B",
+            "description": "Haemophilus influenzae type b conjugate and Hepatitis B vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 124,
+        "fields": {
+            "system": "CVX",
+            "code": 61,
+            "display": "HIV",
+            "description": "human immunodeficiency virus vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 125,
+        "fields": {
+            "system": "CVX",
+            "code": 118,
+            "display": "HPV, bivalent",
+            "description": "human papilloma virus vaccine, bivalent"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 126,
+        "fields": {
+            "system": "CVX",
+            "code": 62,
+            "display": "HPV, quadrivalent",
+            "description": "human papilloma virus vaccine, quadrivalent"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 127,
+        "fields": {
+            "system": "CVX",
+            "code": 86,
+            "display": "IG",
+            "description": "immune globulin, intramuscular"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 128,
+        "fields": {
+            "system": "CVX",
+            "code": 87,
+            "display": "IGIV",
+            "description": "immune globulin, intravenous"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 129,
+        "fields": {
+            "system": "CVX",
+            "code": 14,
+            "display": "IG, unspecified formulation",
+            "description": "immune globulin, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 130,
+        "fields": {
+            "system": "CVX",
+            "code": 111,
+            "display": "influenza, live, intranasal",
+            "description": "influenza virus vaccine, live, attenuated, for intranasal use"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 131,
+        "fields": {
+            "system": "CVX",
+            "code": 15,
+            "display": "influenza, split (incl. purified surface antigen)",
+            "description": "influenza virus vaccine, split virus (incl. purified surface antigen)-retired CODE"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 132,
+        "fields": {
+            "system": "CVX",
+            "code": 16,
+            "display": "influenza, whole",
+            "description": "influenza virus vaccine, whole virus"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 133,
+        "fields": {
+            "system": "CVX",
+            "code": 88,
+            "display": "influenza, unspecified formulation",
+            "description": "influenza virus vaccine, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 134,
+        "fields": {
+            "system": "CVX",
+            "code": 123,
+            "display": "influenza, H5N1-1203",
+            "description": "influenza virus vaccine, H5N1, A/Vietnam/1203/2004 (national stockpile)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 135,
+        "fields": {
+            "system": "CVX",
+            "code": 10,
+            "display": "IPV",
+            "description": "poliovirus vaccine, inactivated"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 136,
+        "fields": {
+            "system": "CVX",
+            "code": 2,
+            "display": "OPV",
+            "description": "trivalent poliovirus vaccine, live, oral"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 137,
+        "fields": {
+            "system": "CVX",
+            "code": 89,
+            "display": "polio, unspecified formulation",
+            "description": "poliovirus vaccine, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 138,
+        "fields": {
+            "system": "CVX",
+            "code": 39,
+            "display": "Japanese encephalitis SC",
+            "description": "Japanese Encephalitis Vaccine SC"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 139,
+        "fields": {
+            "system": "CVX",
+            "code": 63,
+            "display": "Junin virus",
+            "description": "Junin virus vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 140,
+        "fields": {
+            "system": "CVX",
+            "code": 64,
+            "display": "leishmaniasis",
+            "description": "leishmaniasis vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 141,
+        "fields": {
+            "system": "CVX",
+            "code": 65,
+            "display": "leprosy",
+            "description": "leprosy vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 142,
+        "fields": {
+            "system": "CVX",
+            "code": 66,
+            "display": "Lyme disease",
+            "description": "Lyme disease vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 143,
+        "fields": {
+            "system": "CVX",
+            "code": 3,
+            "display": "MMR",
+            "description": "measles, mumps and rubella virus vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 144,
+        "fields": {
+            "system": "CVX",
+            "code": 4,
+            "display": "M/R",
+            "description": "measles and rubella virus vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 145,
+        "fields": {
+            "system": "CVX",
+            "code": 94,
+            "display": "MMRV",
+            "description": "measles, mumps, rubella, and varicella virus vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 146,
+        "fields": {
+            "system": "CVX",
+            "code": 67,
+            "display": "malaria",
+            "description": "malaria vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 147,
+        "fields": {
+            "system": "CVX",
+            "code": 5,
+            "display": "measles",
+            "description": "measles virus vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 148,
+        "fields": {
+            "system": "CVX",
+            "code": 68,
+            "display": "melanoma",
+            "description": "melanoma vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 149,
+        "fields": {
+            "system": "CVX",
+            "code": 32,
+            "display": "meningococcal MPSV4",
+            "description": "meningococcal polysaccharide vaccine (MPSV4)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 150,
+        "fields": {
+            "system": "CVX",
+            "code": 103,
+            "display": "meningococcal C conjugate",
+            "description": "meningococcal C conjugate vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 151,
+        "fields": {
+            "system": "CVX",
+            "code": 114,
+            "display": "meningococcal MCV4P",
+            "description": "meningococcal polysaccharide (groups A, C, Y and W-135) diphtheria toxoid conjugate vaccine (MCV4P)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 152,
+        "fields": {
+            "system": "CVX",
+            "code": 108,
+            "display": "meningococcal ACWY, unspecified formulation",
+            "description": "meningococcal ACWY vaccine, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 153,
+        "fields": {
+            "system": "CVX",
+            "code": 7,
+            "display": "mumps",
+            "description": "mumps virus vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 154,
+        "fields": {
+            "system": "CVX",
+            "code": 69,
+            "display": "parainfluenza-3",
+            "description": "parainfluenza-3 virus vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 155,
+        "fields": {
+            "system": "CVX",
+            "code": 11,
+            "display": "pertussis",
+            "description": "pertussis vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 156,
+        "fields": {
+            "system": "CVX",
+            "code": 23,
+            "display": "plague",
+            "description": "plague vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 157,
+        "fields": {
+            "system": "CVX",
+            "code": 33,
+            "display": "pneumococcal polysaccharide PPV23",
+            "description": "pneumococcal polysaccharide vaccine, 23 valent"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 158,
+        "fields": {
+            "system": "CVX",
+            "code": 100,
+            "display": "pneumococcal conjugate PCV 7",
+            "description": "pneumococcal conjugate vaccine, 7 valent"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 159,
+        "fields": {
+            "system": "CVX",
+            "code": 109,
+            "display": "pneumococcal, unspecified formulation",
+            "description": "pneumococcal vaccine, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 160,
+        "fields": {
+            "system": "CVX",
+            "code": 70,
+            "display": "Q fever",
+            "description": "Q fever vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 161,
+        "fields": {
+            "system": "CVX",
+            "code": 18,
+            "display": "rabies, intramuscular injection",
+            "description": "rabies vaccine, for intramuscular injection RETIRED CODE"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 162,
+        "fields": {
+            "system": "CVX",
+            "code": 40,
+            "display": "rabies, intradermal injection",
+            "description": "rabies vaccine, for intradermal injection"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 163,
+        "fields": {
+            "system": "CVX",
+            "code": 90,
+            "display": "rabies, unspecified formulation",
+            "description": "rabies vaccine, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 164,
+        "fields": {
+            "system": "CVX",
+            "code": 72,
+            "display": "rheumatic fever",
+            "description": "rheumatic fever vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 165,
+        "fields": {
+            "system": "CVX",
+            "code": 73,
+            "display": "Rift Valley fever",
+            "description": "Rift Valley fever vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 166,
+        "fields": {
+            "system": "CVX",
+            "code": 34,
+            "display": "RIG",
+            "description": "rabies immune globulin"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 167,
+        "fields": {
+            "system": "CVX",
+            "code": 119,
+            "display": "rotavirus, monovalent",
+            "description": "rotavirus, live, monovalent vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 168,
+        "fields": {
+            "system": "CVX",
+            "code": 122,
+            "display": "rotavirus, unspecified formulation",
+            "description": "rotavirus vaccine, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 169,
+        "fields": {
+            "system": "CVX",
+            "code": 116,
+            "display": "rotavirus, pentavalent",
+            "description": "rotavirus, live, pentavalent vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 170,
+        "fields": {
+            "system": "CVX",
+            "code": 74,
+            "display": "rotavirus, tetravalent",
+            "description": "rotavirus, live, tetravalent vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 171,
+        "fields": {
+            "system": "CVX",
+            "code": 71,
+            "display": "RSV-IGIV",
+            "description": "respiratory syncytial virus immune globulin, intravenous"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 172,
+        "fields": {
+            "system": "CVX",
+            "code": 93,
+            "display": "RSV-MAb",
+            "description": "respiratory syncytial virus monoclonal antibody (palivizumab), intramuscular"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 173,
+        "fields": {
+            "system": "CVX",
+            "code": 6,
+            "display": "rubella",
+            "description": "rubella virus vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 174,
+        "fields": {
+            "system": "CVX",
+            "code": 38,
+            "display": "rubella/mumps",
+            "description": "rubella and mumps virus vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 175,
+        "fields": {
+            "system": "CVX",
+            "code": 76,
+            "display": "Staphylococcus bacterio lysate",
+            "description": "Staphylococcus bacteriophage lysate"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 176,
+        "fields": {
+            "system": "CVX",
+            "code": 113,
+            "display": "Td (adult), 5 Lf tetanus toxoid, preservative free, adsorbed",
+            "description": "tetanus and diphtheria toxoids, adsorbed, preservative free, for adult use (5 Lf of tetanus toxoid and 2 Lf of diphtheria toxoid)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 177,
+        "fields": {
+            "system": "CVX",
+            "code": 9,
+            "display": "Td (adult), 2 Lf tetanus toxoid, preservative free, adsorbed",
+            "description": "tetanus and diphtheria toxoids, adsorbed, preservative free, for adult use (2 Lf of tetanus toxoid and 2 Lf of diphtheria toxoid)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 178,
+        "fields": {
+            "system": "CVX",
+            "code": 115,
+            "display": "Tdap",
+            "description": "tetanus toxoid, reduced diphtheria toxoid, and acellular pertussis vaccine, adsorbed"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 179,
+        "fields": {
+            "system": "CVX",
+            "code": 35,
+            "display": "tetanus toxoid, adsorbed",
+            "description": "tetanus toxoid, adsorbed"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 180,
+        "fields": {
+            "system": "CVX",
+            "code": 112,
+            "display": "tetanus toxoid, unspecified formulation",
+            "description": "tetanus toxoid, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 181,
+        "fields": {
+            "system": "CVX",
+            "code": 77,
+            "display": "tick-borne encephalitis",
+            "description": "tick-borne encephalitis vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 182,
+        "fields": {
+            "system": "CVX",
+            "code": 13,
+            "display": "TIG",
+            "description": "tetanus immune globulin"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 183,
+        "fields": {
+            "system": "CVX",
+            "code": 95,
+            "display": "TST-OT tine test",
+            "description": "tuberculin skin test; old tuberculin, multipuncture device"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 184,
+        "fields": {
+            "system": "CVX",
+            "code": 96,
+            "display": "TST-PPD intradermal",
+            "description": "tuberculin skin test; purified protein derivative solution, intradermal"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 185,
+        "fields": {
+            "system": "CVX",
+            "code": 97,
+            "display": "TST-PPD tine test",
+            "description": "tuberculin skin test; purified protein derivative, multipuncture device"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 186,
+        "fields": {
+            "system": "CVX",
+            "code": 98,
+            "display": "TST, unspecified formulation",
+            "description": "tuberculin skin test; unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 187,
+        "fields": {
+            "system": "CVX",
+            "code": 78,
+            "display": "tularemia vaccine",
+            "description": "tularemia vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 188,
+        "fields": {
+            "system": "CVX",
+            "code": 91,
+            "display": "typhoid, unspecified formulation",
+            "description": "typhoid vaccine, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 189,
+        "fields": {
+            "system": "CVX",
+            "code": 25,
+            "display": "typhoid, oral",
+            "description": "typhoid vaccine, live, oral"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 190,
+        "fields": {
+            "system": "CVX",
+            "code": 41,
+            "display": "typhoid, parenteral",
+            "description": "typhoid vaccine, parenteral, other than acetone-killed, dried"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 191,
+        "fields": {
+            "system": "CVX",
+            "code": 53,
+            "display": "typhoid, parenteral, AKD (U.S. military)",
+            "description": "typhoid vaccine, parenteral, acetone-killed, dried (U.S. military)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 192,
+        "fields": {
+            "system": "CVX",
+            "code": 101,
+            "display": "typhoid, ViCPs",
+            "description": "typhoid Vi capsular polysaccharide vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 193,
+        "fields": {
+            "system": "CVX",
+            "code": 75,
+            "display": "vaccinia (smallpox)",
+            "description": "vaccinia (smallpox) vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 194,
+        "fields": {
+            "system": "CVX",
+            "code": 105,
+            "display": "vaccinia (smallpox) diluted",
+            "description": "vaccinia (smallpox) vaccine, diluted"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 195,
+        "fields": {
+            "system": "CVX",
+            "code": 79,
+            "display": "vaccinia immune globulin",
+            "description": "vaccinia immune globulin"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 196,
+        "fields": {
+            "system": "CVX",
+            "code": 21,
+            "display": "varicella",
+            "description": "varicella virus vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 197,
+        "fields": {
+            "system": "CVX",
+            "code": 81,
+            "display": "VEE, inactivated",
+            "description": "Venezuelan equine encephalitis, inactivated"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 198,
+        "fields": {
+            "system": "CVX",
+            "code": 80,
+            "display": "VEE, live",
+            "description": "Venezuelan equine encephalitis, live, attenuated"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 199,
+        "fields": {
+            "system": "CVX",
+            "code": 92,
+            "display": "VEE, unspecified formulation",
+            "description": "Venezuelan equine encephalitis vaccine, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 200,
+        "fields": {
+            "system": "CVX",
+            "code": 36,
+            "display": "VZIG",
+            "description": "varicella zoster immune globulin"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 201,
+        "fields": {
+            "system": "CVX",
+            "code": 117,
+            "display": "VZIG (IND)",
+            "description": "varicella zoster immune globulin (Investigational New Drug)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 202,
+        "fields": {
+            "system": "CVX",
+            "code": 37,
+            "display": "yellow fever",
+            "description": "yellow fever vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 203,
+        "fields": {
+            "system": "CVX",
+            "code": 121,
+            "display": "zoster live",
+            "description": "zoster vaccine, live"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 204,
+        "fields": {
+            "system": "CVX",
+            "code": 998,
+            "display": "no vaccine administered",
+            "description": "no vaccine administered"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 205,
+        "fields": {
+            "system": "CVX",
+            "code": 999,
+            "display": "unknown",
+            "description": "unknown vaccine or immune globulin"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 206,
+        "fields": {
+            "system": "CVX",
+            "code": 99,
+            "display": "RESERVED - do not use",
+            "description": "RESERVED - do not use"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 207,
+        "fields": {
+            "system": "CVX",
+            "code": 133,
+            "display": "Pneumococcal conjugate PCV 13",
+            "description": "pneumococcal conjugate vaccine, 13 valent"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 208,
+        "fields": {
+            "system": "CVX",
+            "code": 134,
+            "display": "Japanese Encephalitis IM",
+            "description": "Japanese Encephalitis vaccine for intramuscular administration"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 209,
+        "fields": {
+            "system": "CVX",
+            "code": 137,
+            "display": "HPV, unspecified formulation",
+            "description": "HPV, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 210,
+        "fields": {
+            "system": "CVX",
+            "code": 136,
+            "display": "Meningococcal MCV4O",
+            "description": "meningococcal oligosaccharide (groups A, C, Y and W-135) diphtheria toxoid conjugate vaccine (MCV4O)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 211,
+        "fields": {
+            "system": "CVX",
+            "code": 135,
+            "display": "Influenza, high dose seasonal",
+            "description": "influenza, high dose seasonal, preservative-free"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 212,
+        "fields": {
+            "system": "CVX",
+            "code": 131,
+            "display": "typhus, historical",
+            "description": "Historical record of a typhus vaccination"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 213,
+        "fields": {
+            "system": "CVX",
+            "code": 132,
+            "display": "DTaP-IPV-HIB-HEP B, historical",
+            "description": "Historical diphtheria and tetanus toxoids and acellular pertussis, poliovirus, Haemophilus b conjugate and hepatitis B (recombinant) vaccine."
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 214,
+        "fields": {
+            "system": "CVX",
+            "code": 128,
+            "display": "Novel Influenza-H1N1-09, all formulations",
+            "description": "Novel influenza-H1N1-09, all formulations"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 215,
+        "fields": {
+            "system": "CVX",
+            "code": 125,
+            "display": "Novel Influenza-H1N1-09, nasal",
+            "description": "Novel Influenza-H1N1-09, live virus for nasal administration"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 216,
+        "fields": {
+            "system": "CVX",
+            "code": 126,
+            "display": "Novel influenza-H1N1-09, preservative-free",
+            "description": "Novel influenza-H1N1-09, preservative-free, injectable"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 217,
+        "fields": {
+            "system": "CVX",
+            "code": 127,
+            "display": "Novel influenza-H1N1-09",
+            "description": "Novel influenza-H1N1-09, injectable"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 218,
+        "fields": {
+            "system": "CVX",
+            "code": 138,
+            "display": "Td (adult)",
+            "description": "tetanus and diphtheria toxoids, not adsorbed, for adult use"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 219,
+        "fields": {
+            "system": "CVX",
+            "code": 139,
+            "display": "Td(adult) unspecified formulation",
+            "description": "Td(adult) unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 220,
+        "fields": {
+            "system": "CVX",
+            "code": 140,
+            "display": "Influenza, seasonal, injectable, preservative free",
+            "description": "Influenza, seasonal, injectable, preservative free"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 221,
+        "fields": {
+            "system": "CVX",
+            "code": 129,
+            "display": "Japanese Encephalitis, unspecified formulation",
+            "description": "Japanese Encephalitis vaccine, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 222,
+        "fields": {
+            "system": "CVX",
+            "code": 141,
+            "display": "Influenza, seasonal, injectable",
+            "description": "Influenza, seasonal, injectable"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 223,
+        "fields": {
+            "system": "CVX",
+            "code": 142,
+            "display": "tetanus toxoid, not adsorbed",
+            "description": "tetanus toxoid, not adsorbed"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 224,
+        "fields": {
+            "system": "CVX",
+            "code": 143,
+            "display": "Adenovirus types 4 and 7",
+            "description": "Adenovirus, type 4 and type 7, live, oral"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 225,
+        "fields": {
+            "system": "CVX",
+            "code": 144,
+            "display": "influenza, seasonal, intradermal, preservative free",
+            "description": "seasonal influenza, intradermal, preservative free"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 226,
+        "fields": {
+            "system": "CVX",
+            "code": 145,
+            "display": "RSV-MAb (new)",
+            "description": "respiratory syncytial virus monoclonal antibody (motavizumab), intramuscular"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 227,
+        "fields": {
+            "system": "CVX",
+            "code": 146,
+            "display": "DTaP,IPV,Hib,HepB",
+            "description": "Diphtheria and Tetanus Toxoids and Acellular Pertussis Adsorbed, Inactivated Poliovirus, Haemophilus b Conjugate (Meningococcal Protein Conjugate), and Hepatitis B (Recombinant) Vaccine."
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 228,
+        "fields": {
+            "system": "CVX",
+            "code": 147,
+            "display": "meningococcal MCV4, unspecified formulation",
+            "description": "Meningococcal, MCV4, unspecified conjugate formulation(groups A, C, Y and W-135)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 229,
+        "fields": {
+            "system": "CVX",
+            "code": 148,
+            "display": "Meningococcal C/Y-HIB PRP",
+            "description": "Meningococcal Groups C and Y and Haemophilus b Tetanus Toxoid Conjugate Vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 230,
+        "fields": {
+            "system": "CVX",
+            "code": 149,
+            "display": "influenza, live, intranasal, quadrivalent",
+            "description": "influenza, live, intranasal, quadrivalent"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 231,
+        "fields": {
+            "system": "CVX",
+            "code": 150,
+            "display": "influenza, injectable, quadrivalent, preservative free",
+            "description": "Influenza, injectable, quadrivalent, preservative free"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 232,
+        "fields": {
+            "system": "CVX",
+            "code": 151,
+            "display": "influenza nasal, unspecified formulation",
+            "description": "influenza nasal, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 233,
+        "fields": {
+            "system": "CVX",
+            "code": 152,
+            "display": "Pneumococcal Conjugate, unspecified formulation",
+            "description": "Pneumococcal Conjugate, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 234,
+        "fields": {
+            "system": "CVX",
+            "code": 153,
+            "display": "Influenza, injectable, MDCK, preservative free",
+            "description": "Influenza, injectable, Madin Darby Canine Kidney, preservative free"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 235,
+        "fields": {
+            "system": "CVX",
+            "code": 154,
+            "display": "Hep A, IG",
+            "description": "Hepatitis A immune globulin"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 236,
+        "fields": {
+            "system": "CVX",
+            "code": 155,
+            "display": "influenza, recombinant, injectable, preservative free",
+            "description": "Seasonal, trivalent, recombinant, injectable influenza vaccine, preservative free"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 237,
+        "fields": {
+            "system": "CVX",
+            "code": 156,
+            "display": "Rho(D)-IG",
+            "description": "Rho(D) Immune globulin- IV or IM"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 238,
+        "fields": {
+            "system": "CVX",
+            "code": 157,
+            "display": "Rho(D) -IG IM",
+            "description": "Rho(D) Immune globulin - IM"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 239,
+        "fields": {
+            "system": "CVX",
+            "code": 158,
+            "display": "influenza, injectable, quadrivalent",
+            "description": "influenza, injectable, quadrivalent, contains preservative"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 240,
+        "fields": {
+            "system": "CVX",
+            "code": 159,
+            "display": "Rho(D) - Unspecified formulation",
+            "description": "Rho(D) Unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 241,
+        "fields": {
+            "system": "CVX",
+            "code": 160,
+            "display": "Influenza A monovalent (H5N1), ADJUVANTED-2013",
+            "description": "Influenza A monovalent (H5N1), adjuvanted, National stockpile 2013"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 242,
+        "fields": {
+            "system": "CVX",
+            "code": 801,
+            "display": "AS03 Adjuvant",
+            "description": "AS03 Adjuvant"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 243,
+        "fields": {
+            "system": "CVX",
+            "code": 161,
+            "display": "Influenza, injectable,quadrivalent, preservative free, pediatric",
+            "description": "Influenza, injectable,quadrivalent, preservative free, pediatric"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 244,
+        "fields": {
+            "system": "CVX",
+            "code": 162,
+            "display": "meningococcal B, recombinant",
+            "description": "meningococcal B vaccine, fully recombinant"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 245,
+        "fields": {
+            "system": "CVX",
+            "code": 163,
+            "display": "meningococcal B, OMV",
+            "description": "meningococcal B vaccine, recombinant, OMV, adjuvanted"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 246,
+        "fields": {
+            "system": "CVX",
+            "code": 164,
+            "display": "meningococcal B, unspecified",
+            "description": "meningococcal B, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 247,
+        "fields": {
+            "system": "CVX",
+            "code": 165,
+            "display": "HPV9",
+            "description": "Human Papillomavirus 9-valent vaccine"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 248,
+        "fields": {
+            "system": "CVX",
+            "code": 166,
+            "display": "influenza, intradermal, quadrivalent, preservative free",
+            "description": "influenza, intradermal, quadrivalent, preservative free, injectable"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 249,
+        "fields": {
+            "system": "CVX",
+            "code": 167,
+            "display": "meningococcal, unknown serogroups",
+            "description": "meningococcal vaccine of unknown formulation and unknown serogroups"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 250,
+        "fields": {
+            "system": "CVX",
+            "code": 168,
+            "display": "influenza, trivalent, adjuvanted",
+            "description": "Seasonal trivalent influenza vaccine, adjuvanted, preservative free"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 251,
+        "fields": {
+            "system": "CVX",
+            "code": 169,
+            "display": "Hep A, live attenuated",
+            "description": "Hep A, live attenuated-IM"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 252,
+        "fields": {
+            "system": "CVX",
+            "code": 170,
+            "display": "DTAP/IPV/HIB - non-US",
+            "description": "non-US diphtheria, tetanus toxoids and acellular pertussis vaccine, Haemophilus influenzae type b conjugate, and poliovirus vaccine, inactivated (DTaP-Hib-IPV)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 253,
+        "fields": {
+            "system": "CVX",
+            "code": 171,
+            "display": "Influenza, injectable, MDCK, preservative free, quadrivalent",
+            "description": "Influenza, injectable, Madin Darby Canine Kidney, preservative free, quadrivalent"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 254,
+        "fields": {
+            "system": "CVX",
+            "code": 172,
+            "display": "cholera, WC-rBS",
+            "description": "cholera, WC-rBS"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 255,
+        "fields": {
+            "system": "CVX",
+            "code": 173,
+            "display": "cholera, BivWC",
+            "description": "cholera, BivWC"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 256,
+        "fields": {
+            "system": "CVX",
+            "code": 174,
+            "display": "cholera, live attenuated",
+            "description": "cholera, live attenuated"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 257,
+        "fields": {
+            "system": "CVX",
+            "code": 175,
+            "display": "Rabies - IM Diploid cell culture",
+            "description": "Human Rabies vaccine from human diploid cell culture"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 258,
+        "fields": {
+            "system": "CVX",
+            "code": 176,
+            "display": "Rabies - IM fibroblast culture",
+            "description": "Human rabies vaccine from Chicken fibroblast culture"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 259,
+        "fields": {
+            "system": "CVX",
+            "code": 177,
+            "display": "PCV10",
+            "description": "pneumococcal conjugate vaccine, 10 valent"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 260,
+        "fields": {
+            "system": "CVX",
+            "code": 178,
+            "display": "OPV bivalent",
+            "description": "Non-US bivalent oral polio vaccine (types 1 and 3)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 261,
+        "fields": {
+            "system": "CVX",
+            "code": 179,
+            "display": "OPV ,monovalent, unspecified",
+            "description": "Non-US monovalent oral polio vaccine, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 262,
+        "fields": {
+            "system": "CVX",
+            "code": 180,
+            "display": "tetanus immune globulin",
+            "description": "tetanus immune globulin"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 263,
+        "fields": {
+            "system": "CVX",
+            "code": 181,
+            "display": "anthrax immune globulin",
+            "description": "anthrax immune globulin"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 264,
+        "fields": {
+            "system": "CVX",
+            "code": 182,
+            "display": "OPV, Unspecified",
+            "description": "Oral Polio Vaccine, Unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 265,
+        "fields": {
+            "system": "CVX",
+            "code": 183,
+            "display": "Yellow fever vaccine - alt",
+            "description": "Yellow fever vaccine alternative formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 266,
+        "fields": {
+            "system": "CVX",
+            "code": 184,
+            "display": "Yellow fever, unspecified formulation",
+            "description": "Yellow fever vaccine, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 267,
+        "fields": {
+            "system": "CVX",
+            "code": 185,
+            "display": "influenza, recombinant, quadrivalent,injectable, preservative free",
+            "description": "Seasonal, quadrivalent, recombinant, injectable influenza vaccine, preservative free"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 268,
+        "fields": {
+            "system": "CVX",
+            "code": 186,
+            "display": "Influenza, injectable, MDCK, quadrivalent, preservative",
+            "description": "Influenza, injectable, Madin Darby Canine Kidney, quadrivalent with preservative"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 269,
+        "fields": {
+            "system": "CVX",
+            "code": 187,
+            "display": "zoster recombinant",
+            "description": "zoster vaccine recombinant"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 270,
+        "fields": {
+            "system": "CVX",
+            "code": 188,
+            "display": "zoster, unspecified formulation",
+            "description": "zoster vaccine, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 271,
+        "fields": {
+            "system": "CVX",
+            "code": 189,
+            "display": "HepB-CpG",
+            "description": "Hepatitis B vaccine (recombinant), CpG adjuvanted"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 272,
+        "fields": {
+            "system": "CVX",
+            "code": 190,
+            "display": "Typhoid conjugate vaccine (TCV)",
+            "description": "Typhoid conjugate vaccine (non-US)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 273,
+        "fields": {
+            "system": "CVX",
+            "code": 191,
+            "display": "meningococcal A polysaccharide (non-US)",
+            "description": "meningococcal A polysaccharide vaccine (non-US)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 274,
+        "fields": {
+            "system": "CVX",
+            "code": 192,
+            "display": "meningococcal AC polysaccharide (non-US)",
+            "description": "meningococcal AC polysaccharide vaccine (non-US)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 275,
+        "fields": {
+            "system": "CVX",
+            "code": 193,
+            "display": "Hep A-Hep B, pediatric/adolescent",
+            "description": "hepatitis A and hepatitis B vaccine, pediatric/adolescent (non-US)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 276,
+        "fields": {
+            "system": "CVX",
+            "code": 194,
+            "display": "Influenza, Southern Hemisphere",
+            "description": "influenza, Southern Hemisphere, unspecified formulation"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 277,
+        "fields": {
+            "system": "CVX",
+            "code": 195,
+            "display": "DT, IPV adsorbed",
+            "description": "Diphtheria, Tetanus, Poliomyelitis adsorbed"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 278,
+        "fields": {
+            "system": "CVX",
+            "code": 196,
+            "display": "Td, adsorbed, preservative free, adult use, Lf unspecified",
+            "description": "tetanus and diphtheria toxoids, adsorbed, preservative free, for adult use, Lf unspecified"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 279,
+        "fields": {
+            "system": "CVX",
+            "code": 197,
+            "display": "influenza, high-dose, quadrivalent",
+            "description": "influenza, high-dose seasonal, quadrivalent, .7mL dose, preservative free"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 280,
+        "fields": {
+            "system": "CVX",
+            "code": 200,
+            "display": "influenza, Southern Hemisphere, pediatric, preservative free",
+            "description": "influenza, seasonal, Southern Hemisphere, quadrivalent, pediatric 0.25mL dose, preservative free"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 281,
+        "fields": {
+            "system": "CVX",
+            "code": 201,
+            "display": "influenza, Southern Hemisphere, preservative free",
+            "description": "influenza, seasonal, Southern Hemisphere, quadrivalent, 0.5mL dose, no preservative"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 282,
+        "fields": {
+            "system": "CVX",
+            "code": 202,
+            "display": "influenza, Southern Hemisphere, quadrivalent, with preservative",
+            "description": "influenza, seasonal, Southern Hemisphere, quadrivalent, 0.5mL dose, with preservative"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 283,
+        "fields": {
+            "system": "CVX",
+            "code": 198,
+            "display": "DTP-hepB-Hib Pentavalent Non-US",
+            "description": "Diphtheria, pertussis, tetanus, hepatitis B, Haemophilus Influenza Type b, (Pentavalent)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 284,
+        "fields": {
+            "system": "CVX",
+            "code": 203,
+            "display": "meningococcal polysaccharide (groups A, C, Y, W-135) TT conjugate",
+            "description": "meningococcal polysaccharide (groups A, C, Y, W-135) tetanus toxoid conjugate vaccine .5mL dose, preservative free"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 285,
+        "fields": {
+            "system": "CVX",
+            "code": 205,
+            "display": "Influenza vaccine, quadrivalent, adjuvanted",
+            "description": "influenza, seasonal vaccine, quadrivalent, adjuvanted, .5mL dose, preservative free"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 286,
+        "fields": {
+            "system": "CVX",
+            "code": 206,
+            "display": "Smallpox monkeypox vaccine (National Stockpile)",
+            "description": "smallpox monkeypox vaccine, live attenuated, preservative free (National Stockpile)"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 287,
+        "fields": {
+            "system": "CVX",
+            "code": 207,
+            "display": "COVID-19, mRNA, LNP-S, PF, 100 mcg/0.5 mL dose",
+            "description": "SARS-COV-2 (COVID-19) vaccine, mRNA, spike protein, LNP, preservative free, 100 mcg/0.5mL dose"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 288,
+        "fields": {
+            "system": "CVX",
+            "code": 208,
+            "display": "COVID-19, mRNA, LNP-S, PF, 30 mcg/0.3 mL dose",
+            "description": "SARS-COV-2 (COVID-19) vaccine, mRNA, spike protein, LNP, preservative free, 30 mcg/0.3mL dose"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 289,
+        "fields": {
+            "system": "CVX",
+            "code": 213,
+            "display": "SARS-COV-2 (COVID-19) vaccine, UNSPECIFIED",
+            "description": "SARS-COV-2 (COVID-19) vaccine, UNSPECIFIED"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 290,
+        "fields": {
+            "system": "CVX",
+            "code": 210,
+            "display": "COVID-19 vaccine, vector-nr, rS-ChAdOx1, PF, 0.5 mL",
+            "description": "SARS-COV-2 (COVID-19) vaccine, vector non-replicating, recombinant spike protein-ChAdOx1, preservative free, 0.5 mL"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 291,
+        "fields": {
+            "system": "CVX",
+            "code": 212,
+            "display": "COVID-19 vaccine, vector-nr, rS-Ad26, PF, 0.5 mL",
+            "description": "SARS-COV-2 (COVID-19) vaccine, vector non-replicating, recombinant spike protein-Ad26, preservative free, 0.5 ml"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 292,
+        "fields": {
+            "system": "CVX",
+            "code": 204,
+            "display": "Ebola Zaire vaccine, live, recombinant, 1mL dose",
+            "description": "Ebola Zaire vaccine, live, recombinant, 1mL dose"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 293,
+        "fields": {
+            "system": "CVX",
+            "code": 214,
+            "display": "Ebola, unspecified",
+            "description": "Ebola, unspecified"
+        }
+    },
+    {
+        "model": "vaccines.vaccine",
+        "pk": 294,
+        "fields": {
+            "system": "CVX",
+            "code": 211,
+            "display": "COVID-19 vaccine, Subunit, rS-nanoparticle+Matrix-M1 Adjuvant, PF, 0.5 mL",
+            "description": "SARS-COV-2 (COVID-19) vaccine, Subunit, recombinant spike protein-nanoparticle+Matrix-M1 Adjuvant, preservative free, 0.5mL per dose"
+        }
+    }
+]

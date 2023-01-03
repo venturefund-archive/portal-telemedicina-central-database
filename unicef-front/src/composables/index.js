@@ -1,0 +1,56 @@
+// import { useDark, useToggle } from '@vueuse/core'
+import { reactive, ref, getCurrentInstance } from 'vue'
+
+export const isDark = false
+// export const isDark = useDark()
+// export const toggleDarkMode = useToggle(isDark)
+
+// export function useHttp () {
+//   const vm = getCurrentInstance()
+//   console.log(vm)
+//   return vm.appContext.config.globalProperties.$http
+// }
+
+export const sidebarState = reactive({
+  isOpen: window.innerWidth > 1024,
+  isHovered: false,
+  handleHover(value) {
+    if (window.innerWidth < 1024) {
+      return
+    }
+    sidebarState.isHovered = value
+  },
+  handleWindowResize() {
+    if (window.innerWidth <= 1024) {
+      sidebarState.isOpen = false
+    } else {
+      sidebarState.isOpen = true
+    }
+  },
+})
+
+export const scrolling = reactive({
+  down: false,
+  up: false,
+})
+
+let lastScrollTop = 0
+
+export const handleScroll = () => {
+  let st = window.pageYOffset || document.documentElement.scrollTop
+  if (st > lastScrollTop) {
+    // downscroll
+    scrolling.down = true
+    scrolling.up = false
+  } else {
+    // upscroll
+    scrolling.down = false
+    scrolling.up = true
+    if (st == 0) {
+      //  reset
+      scrolling.down = false
+      scrolling.up = false
+    }
+  }
+  lastScrollTop = st <= 0 ? 0 : st // For Mobile or negative scrolling
+}

@@ -1,0 +1,23 @@
+FROM node:14.20-alpine as build-stage
+
+ARG VITE_MODE
+ENV VITE_MODE=$VITE_MODE
+
+WORKDIR /app
+
+COPY ./package.json /app
+COPY ./package-lock.json /app
+
+COPY . .
+
+RUN npm install
+
+RUN npm run build
+
+FROM bitnami/nginx:1.23-debian-11 as production-stage
+COPY --from=build-stage /app/dist /app
+COPY ./nginx/nginx.conf /opt/bitnami/nginx/conf/nginx.conf
+
+EXPOSE 8080
+
+CMD ["nginx", "-g", "daemon off;"]
