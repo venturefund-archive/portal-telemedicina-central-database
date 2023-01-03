@@ -20,7 +20,7 @@
           </p>
           -->
           <p>
-            Data de nascimento: <span>{{ patientsStore.item.birth_date }}</span>
+            Data de nascimento: <span>{{ format(birthDate, 'dd/MM/yyyy') }}</span>
           </p>
           <p v-if="patientsStore.item.marital_status && patientsStore.item.marital_status.text">
             Estado civil: <span>{{ patientsStore.item.marital_status.text }}</span>
@@ -45,7 +45,7 @@ import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
 import { usePatientsStore } from '@/stores/patients'
-import { parseISO, differenceInYears, setDefaultOptions } from 'date-fns'
+import { parseISO, differenceInYears, setDefaultOptions, format } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 const patientsStore = usePatientsStore()
 setDefaultOptions({ locale: ptBR })
