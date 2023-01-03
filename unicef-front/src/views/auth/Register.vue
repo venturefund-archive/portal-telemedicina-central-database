@@ -147,7 +147,7 @@ const registerForm = reactive({
 const register = async () => {
   const state = useStorage('app-store', { token: '' })
   try {
-    const response = await axios.post(import.meta.env.VITE_AUTH_API_URL + 'registration/', registerForm)
+    const response = await axios.post(import.meta.env.VITE_API_URL + '/api/dj-rest-auth/registration/', registerForm)
     successToast({ text: response.data.detail })
     router.replace({ name: 'VerifyEmail' })
   } catch (err) {

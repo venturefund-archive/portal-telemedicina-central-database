@@ -71,8 +71,7 @@ const resetPasswordForm = reactive({
 const submit = async () => {
   const state = useStorage('app-store', { token: '' })
   try {
-    const response = await axios.post(
-      import.meta.env.VITE_AUTH_API_URL2 + `password/reset/confirm/${props.uid}/${props.token}/`,
+    const response = await axios.post(`/rest-auth/password/reset/confirm/${props.uid}/${props.token}/`,
       {
         new_password1: resetPasswordForm.password,
         new_password2: resetPasswordForm.password_confirmation,

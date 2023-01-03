@@ -79,7 +79,7 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { onMounted, reactive } from 'vue'
 import InputIconWrapper from '@/components/InputIconWrapper.vue'
 import { MailIcon, LockClosedIcon, LoginIcon, UserIcon } from '@heroicons/vue/outline'
 // import { useHttp } from '@/composables
@@ -100,7 +100,7 @@ const loginForm = reactive({
 const login = async () => {
   const state = useStorage('app-store', { token: '' })
   try {
-    const response = await axios.post(import.meta.env.VITE_AUTH_API_URL + 'login/', loginForm)
+    const response = await axios.post(import.meta.env.VITE_API_URL + '/api/dj-rest-auth/login/', loginForm)
 
     if (response.data.non_field_errors) {
       errorToast({ text: err.message })

@@ -13,7 +13,7 @@ export const useDosesStore = defineStore('doses', () => {
   async function fetchDoses() {
     const state = useStorage('app-store', { token: '' })
     try {
-      const response = await axios.get(`/api/vaccines/doses?patient_id=${patientsStore.item.id}`, {
+      const response = await axios.get(import.meta.env.VITE_API_URL + `/api/vaccines/doses?patient_id=${patientsStore.item.id}`, {
         headers: {
           'Content-type': 'application/json',
           Authorization: `token ${state.value.token}`,
