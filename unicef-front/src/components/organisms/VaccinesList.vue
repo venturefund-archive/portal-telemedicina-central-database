@@ -241,10 +241,12 @@ const birthDate = computed(() => parseISO(patientsStore.item.birth_date))
 //const birthDateInMonthsFromNow = computed(() => differenceInMonths(birthDate, new Date()) )
 
 const vaccineQuery = ref('')
+
 const filteredVaccines = computed(() => {
   return vaccinesStore.items.filter((vaccine) => {
     return (
       vaccine.system == 'BRI' &&
+      dosesStore.items.map(e => e.vaccine).includes(vaccine.id) &&
       (vaccine.description.toLowerCase().includes(vaccineQuery.value.toLowerCase()) ||
         vaccine.display.toLowerCase().includes(vaccineQuery.value.toLowerCase()))
     )
