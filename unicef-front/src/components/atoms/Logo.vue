@@ -1,3 +1,3 @@
 <template>
-  <img src="@/assets/favicon.svg" alt="unicef logo" />
+  <img src="@/assets/favicon.png" alt="unicef logo" />
 </template>

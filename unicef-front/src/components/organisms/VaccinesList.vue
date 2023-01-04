@@ -224,7 +224,8 @@ import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
 import { computed } from 'vue'
-import { formatDistance, parseISO, formatISO9075, add, isWithinInterval, differenceInMonths, differenceInDays, subDays } from 'date-fns'
+import { formatDistance, parseISO, formatISO9075, add, isWithinInterval, differenceInMonths, differenceInDays, subDays, setDefaultOptions } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 import { usePatientsStore } from '@/stores/patients'
 import { useDosesStore } from '@/stores/doses'
 import { useVaccinesStore } from '@/stores/vaccines'
@@ -232,6 +233,7 @@ import VaccineAlert from '../atoms/VaccineAlert.vue'
 const patientsStore = usePatientsStore()
 const dosesStore = useDosesStore()
 const vaccinesStore = useVaccinesStore()
+setDefaultOptions({ locale: ptBR })
 
 const router = useRouter()
 
@@ -239,10 +241,12 @@ const birthDate = computed(() => parseISO(patientsStore.item.birth_date))
 //const birthDateInMonthsFromNow = computed(() => differenceInMonths(birthDate, new Date()) )
 
 const vaccineQuery = ref('')
+
 const filteredVaccines = computed(() => {
   return vaccinesStore.items.filter((vaccine) => {
     return (
       vaccine.system == 'BRI' &&
+      dosesStore.items.map(e => e.vaccine).includes(vaccine.id) &&
       (vaccine.description.toLowerCase().includes(vaccineQuery.value.toLowerCase()) ||
         vaccine.display.toLowerCase().includes(vaccineQuery.value.toLowerCase()))
     )
