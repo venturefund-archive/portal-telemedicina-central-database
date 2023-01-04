@@ -15,32 +15,29 @@
         </div>
       </div>
 
-      <div class="z-10 mx-auto flex w-full max-w-md items-center lg:w-2/6">
-        <div class="flex-1">
-          <div class="">
-            <div class="flex min-h-screen flex-col items-center justify-center gap-4 py-6">
-              <div class="-ml-10 flex-shrink-0">
-                <router-link to="/">
-                  <LogoFull class="h-16" />
-                  <span class="sr-only">Dashboard</span>
-                </router-link>
-              </div>
+      <div class="z-10 mx-auto flex flex-col w-full max-w-md items-center lg:w-2/6 min-h-screen">
+          <div class="flex justify-center pt-32">
 
-              <main class="flex w-full flex-1 items-center sm:max-w-md">
-                <div class="w-full overflow-hidden bg-white px-6 py-4 sm:rounded-lg">
-                  <router-view></router-view>
-                </div>
-              </main>
-
-              <!-- <PageFooter /> -->
+            <div class="-ml-10 flex-shrink-0">
+              <router-link to="/">
+                <LogoFull class="h-16" />
+                <span class="sr-only">Dashboard</span>
+              </router-link>
             </div>
 
-            <!-- <p class="mt-6 text-sm text-center text-gray-400">Ainda não esta cadastrado? <a href="#"
-                                class="text-blue-500 focus:outline-none focus:underline hover:underline">Cadastrar</a>.
-                        </p> -->
           </div>
+          <main class="flex w-full flex-1 items-center sm:max-w-md">
+            <div class="w-full overflow-hidden bg-white px-6 py-4 sm:rounded-lg">
+              <router-view></router-view>
+            </div>
+          </main>
+
+            <!-- <PageFooter /> -->
+
+          <!-- <p class="mt-6 text-sm text-center text-gray-400">Ainda não esta cadastrado? <a href="#"
+                              class="text-blue-500 focus:outline-none focus:underline hover:underline">Cadastrar</a>.
+                      </p> -->
         </div>
-      </div>
     </div>
   </div>
 </template>

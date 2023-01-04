@@ -1,3 +1,3 @@
 <template>
-  <img src="@/assets/logo-full.svg" alt="unicef logo" />
+  <img src="@/assets/portal_logo.png" alt="unicef logo" />
 </template>
