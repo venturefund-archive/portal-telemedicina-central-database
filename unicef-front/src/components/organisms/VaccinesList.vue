@@ -1,9 +1,9 @@
 <template>
   <div class="flex flex-col">
-    <div class="flex justify-between px-2">
-      <ProfileCard :id="id" />
-      <div class="flex">
-        <div class="flex place-items-end">
+    <div class="flex flex-col sm:flex-row justify-between px-2">
+      <ProfileCard :id="id" class="sm:w-2/3 md:w-fu" />
+      <div class="flex pl-2 justify-end">
+        <div class="flex place-items-end pt-5 md:mt-0">
           <div class="flex flex-col items-end md:flex-row md:items-center rounded-md bg-neutral-200 px-3 py-2 text-neutral-500">
             <span class="flex items-center px-2">Completo: <VaccineAlert :status="1" class="scale-75 pl-2 pl-2" /></span>
             <span class="flex items-center px-2">Alerta: <VaccineAlert :status="3" class="scale-75 pl-2 pl-2" /></span>

@@ -80,7 +80,7 @@
   <!-- Mobile bottom bar -->
   <div
     :class="[
-      'dark:bg-dark-eval-1 fixed inset-x-0 bottom-0 flex items-center justify-between bg-white px-4 py-4 transition-transform duration-500 sm:px-6 md:hidden',
+      'dark:bg-dark-eval-1 fixed z-10 inset-x-0 bottom-0 flex items-center justify-between bg-white px-4 py-4 transition-transform duration-500 sm:px-6 md:hidden',
       {
         'translate-y-full': scrolling.down,
         'translate-y-0': scrolling.up,
