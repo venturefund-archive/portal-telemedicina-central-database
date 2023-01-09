@@ -1,18 +1,23 @@
 <template>
   <div class="flex flex-col">
-    <div class="px-3 py-2 sm:-mx-6 lg:-mx-5">
-      <div class="inline-block min-w-full sm:px-6 lg:px-8">
-        <div class="flex justify-end py-3">
-          <div class="flex items-center rounded-md bg-neutral-200 px-3 py-2 text-neutral-500">
+    <div class="flex justify-between px-2">
+      <ProfileCard :id="id" />
+      <div class="flex">
+        <div class="flex place-items-end">
+          <div class="flex flex-col items-end md:flex-row md:items-center rounded-md bg-neutral-200 px-3 py-2 text-neutral-500">
             <span class="flex items-center px-2">Completo: <VaccineAlert :status="1" class="scale-75 pl-2 pl-2" /></span>
             <span class="flex items-center px-2">Alerta: <VaccineAlert :status="3" class="scale-75 pl-2 pl-2" /></span>
             <span class="flex items-center px-2">Recomendado: <VaccineAlert :status="4" class="scale-75 pl-2 pl-2" /></span>
           </div>
         </div>
-        <table class="w-full table-fixed rounded bg-neutral-50 text-left text-sm shadow-lg">
-          <thead class="bg-neutral-200 text-xs uppercase text-white">
+      </div>
+    </div>
+    <div class="py-2">
+      <div class="overflow-auto px-2 pt-2 pb-52">
+        <table class="table-auto md:table-fixed lg:table-fixed w-full bg-neutral-50 text-left rounded-md shadow tracking-wider">
+          <thead class="bg-neutral-200 text-white">
             <tr>
-              <th scope="col" colspan="2" class="bg-blue-200 px-6 py-4 text-center text-gray-900">Vacinas</th>
+              <th scope="col" colspan="2" class="bg-blue-200 px-6 py-4 text-center text-gray-900 uppercase w-80">Vacinas</th>
               <th scope="col" colspan="9" class="bg-blue-300 px-6 py-4 text-center">
                 <span class="rounded-t-xl border border-transparent bg-neutral-500 p-2 font-semibold text-white"
                   >Meses</span
@@ -25,121 +30,121 @@
               </th>
             </tr>
             <tr class="text-center">
-              <th scope="col" colspan="2" class="pt-2 text-gray-900">
+              <th scope="col" colspan="2" class="pt-2 text-gray-900 whitespace-nowrap px-2.5">
                 <InputIconWrapper>
-                  <template #icon>
-                    <SearchIcon aria-hidden="true" class="h-5 w-5" />
-                  </template>
                   <Input
                     v-model="vaccineQuery"
-                    withIcon
                     placeholder="Pesquisar vacinas"
-                    class="mx-auto flex rounded-md bg-gray-50 p-2 text-sm font-normal sm:w-20 lg:w-48"
+                    withIcon
+                    class="shadow focus:shadow-none rounded-md bg-gray-50 w-full"
                   />
                 </InputIconWrapper>
-                <div class="py-0.6 py-3 text-center font-normal lowercase text-neutral-500">
-                  <span v-if="vaccineQuery"> {{ filteredVaccines.length }} resultados </span>
-                  <span v-else>{{ filteredVaccines.length }} Total de vacinas</span>
+                <div class="py-0.6 py-3 text-center font-normal text-neutral-500 text-sm">
+                  Total de
+                  <span v-if="filteredVaccines.length == 1"><span class="font-semibold">{{ filteredVaccines.length }}</span> vacina</span>
+                  <span v-else-if="filteredVaccines.length == 0"><span class="font-semibold">{{ filteredVaccines.length }}</span> vacinas</span>
+                  <span v-else><span class="font-semibold">{{ filteredVaccines.length }}</span> vacinas</span>
                 </div>
               </th>
               <th
                 scope="col"
                 :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[0]) }"
-                class="px-6 py-4 text-gray-900"
+                class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 0 a 2
               </th>
               <th
                 scope="col"
                 :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[1]) }"
-                class="px-6 py-4 text-gray-900"
+                class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 3
               </th>
               <th
                 scope="col"
                 :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[2]) }"
-                class="px-6 py-4 text-gray-900"
+                class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 4
               </th>
               <th
                 scope="col"
                 :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[3]) }"
-                class="px-6 py-4 text-gray-900"
+                class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 5
               </th>
               <th
                 scope="col"
                 :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[4]) }"
-                class="px-6 py-4 text-gray-900"
+                class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 6
               </th>
               <th
                 scope="col"
                 :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[5]) }"
-                class="px-6 py-4 text-gray-900"
+                class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 7 a 11
               </th>
               <th
                 scope="col"
                 :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[6]) }"
-                class="px-6 py-4 text-gray-900"
+                class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 12
               </th>
               <th
                 scope="col"
                 :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[7]) }"
-                class="px-6 py-4 text-gray-900"
+                class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 15
               </th>
               <th
                 scope="col"
                 :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[8]) }"
-                class="px-6 py-4 text-gray-900"
+                class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 18
               </th>
               <th
                 scope="col"
                 :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[9]) }"
-                class="px-6 py-4 text-gray-900"
+                class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 1 a 5
               </th>
               <th
                 scope="col"
                 :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[10]) }"
-                class="px-6 py-4 text-gray-900"
+                class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 5 a 10
               </th>
               <th
                 scope="col"
                 :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[11]) }"
-                class="px-6 py-4 text-gray-900"
+                class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 10 a 12
               </th>
               <th
                 scope="col"
                 :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[12]) }"
-                class="px-6 py-4 text-gray-900"
+                class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 12 a 15
               </th>
             </tr>
           </thead>
-          <tbody>
-            <tr class="table-row border-b hover:bg-neutral-200" v-for="(vaccine, k) in filteredVaccines" :key="k">
-              <td colspan="2" class="px-6 py-4 text-sm font-medium capitalize text-gray-900">
-                <div class="">{{ vaccine.display }} <span class="text-xs">{{ vaccine.description }}</span></div>
+          <tbody class="divide-y divide-gray-100">
+            <tr class="hover:bg-neutral-200" v-for="(vaccine, k) in filteredVaccines" :key="k">
+              <td colspan="2" class="px-6 py-4 font-medium text-gray-900">
+                <span class="">{{ vaccine.display }}</span> <span class="">{{ vaccine.description }}</span>
               </td>
+
               <td
                 :class="{
                   'col-birth box-border border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[rangeIndex]),
@@ -167,6 +172,7 @@
                   </VaccineAlert>
 
                   <div v-else-if="dose.alerts.length > 0" v-for="(alert, ak) in dose.alerts" :key="ak">
+
                     <VaccineAlert
                       :rangeIndex="rangeIndex"
                       :status="2"
@@ -193,7 +199,7 @@
                           start: range.start,
                           end: range.end,
                         })">
-                      <VaccineAlertInfo :vaccine="vaccine" :dose="dose" withoutDetails="true" />
+                      <VaccineAlertInfo :vaccine="vaccine" :dose="dose" :withoutDetails="true" />
                     </VaccineAlert>
 
 
@@ -203,11 +209,10 @@
             </tr>
           </tbody>
         </table>
-        <div class="py-3 text-neutral-500">
-          <span v-if="vaccineQuery">
-            Pesquisa por "{{ vaccineQuery }}" retornou {{ filteredVaccines.length }} vacinas.
+        <div class="py-3 text-neutral-400 grid justify-items-end">
+          <span>
+            Gerado dia {{ format(new Date(), 'dd/MM/yyyy kk:mm') }}
           </span>
-          <span v-else>{{ filteredVaccines.length }} Total de vacinas</span>
         </div>
       </div>
     </div>
@@ -224,7 +229,7 @@ import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
 import { computed } from 'vue'
-import { formatDistance, parseISO, formatISO9075, add, isWithinInterval, differenceInMonths, differenceInDays, subDays, setDefaultOptions } from 'date-fns'
+import { formatDistance, format, parseISO, formatISO9075, add, isWithinInterval, differenceInMonths, differenceInDays, subDays, setDefaultOptions } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { usePatientsStore } from '@/stores/patients'
 import { useDosesStore } from '@/stores/doses'
@@ -310,9 +315,5 @@ watch(
 <style scoped>
 .table-row:hover > td:not(.col-birth) {
   @apply border-none;
-}
-
-.table-row td:not(:nth-child(1)):not(.col-birth) {
-  @apply border-x;
 }
 </style>

@@ -9,8 +9,8 @@
   </header>
 
   <!-- Page Content -->
-  <main class="flex" :class="{ 'mt-6': !$slots.header }">
-    <div class="grid gap-6 px-4 sm:px-6">
+  <main class="w-full" :class="{ 'mt-2': !$slots.header }">
+    <div class="px-5 lg:px-8">
       <slot />
     </div>
   </main>

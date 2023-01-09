@@ -1,11 +1,11 @@
 <template>
-  <div class="sm: mx-6 rounded-xl border border-neutral-100 bg-gray-50 lg:w-[38rem]">
+  <div class="rounded-xl border border-neutral-100 bg-gray-50 lg:w-[38rem]">
     <div class="grid grid-cols-6 gap-y-2 p-5">
       <div>
         <img src="/avatar.png" class="max-w-20 max-h-20 rounded-full bg-neutral-200 p-1" />
       </div>
 
-      <div class="col-span-5 ml-4 md:col-span-4">
+      <div class="col-span-5 ml-4 md:col-span-4 tracking-wide">
         <p class="pr-2 font-bold capitalize text-gray-600">{{ patientsStore.item.name.join().toLowerCase() }}</p>
         <div class="text-gray-400">
           <p>
