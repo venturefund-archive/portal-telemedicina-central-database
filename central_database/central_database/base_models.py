@@ -29,6 +29,8 @@ class AlertType(models.Model):
     Base abstract class for all AlertType. Changes here affect all models.
     """
 
+    history = HistoricalRecords(inherit=True)
+
     class Meta:
         abstract = True
 
