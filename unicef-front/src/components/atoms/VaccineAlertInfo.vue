@@ -36,7 +36,9 @@ import { onMounted, onUnmounted, ref } from 'vue'
 import PerfectScrollbar from 'perfect-scrollbar'
 import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/vue/outline'
 
-import { parseISO, formatRelative } from 'date-fns'
+import { parseISO, formatRelative, setDefaultOptions } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
+setDefaultOptions({ locale: ptBR })
 
 const props = defineProps({
   withoutDetails: {

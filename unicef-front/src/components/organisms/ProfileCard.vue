@@ -9,7 +9,7 @@
         <p class="pr-2 font-bold capitalize text-gray-600">{{ patientsStore.item.name.join().toLowerCase() }}</p>
         <div class="text-gray-400">
           <p>
-            Gênero: <span>{{ patientsStore.item.gender }}</span>
+            Gênero: <span>{{ 'male' == patientsStore.item.gender ? 'Masculino' : 'Feminino' }}</span>
           </p>
           <!--
           <p>
@@ -20,7 +20,7 @@
           </p>
           -->
           <p>
-            Data de nascimento: <span>{{ patientsStore.item.birth_date }}</span>
+            Data de nascimento: <span>{{ format(birthDate, 'dd/MM/yyyy') }}</span>
           </p>
           <p v-if="patientsStore.item.marital_status && patientsStore.item.marital_status.text">
             Estado civil: <span>{{ patientsStore.item.marital_status.text }}</span>
@@ -44,10 +44,11 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
-
-import { parseISO, differenceInYears } from 'date-fns'
 import { usePatientsStore } from '@/stores/patients'
+import { parseISO, differenceInYears, setDefaultOptions, format } from 'date-fns'
+import { ptBR } from 'date-fns/locale'
 const patientsStore = usePatientsStore()
+setDefaultOptions({ locale: ptBR })
 
 const router = useRouter()
 
