@@ -135,4 +135,4 @@ FHIR_API_PORT = "8080"
 
 CENTRAL_DATABASE_PATH = "central_database/central_database"
 
-LOGIN_URL = "https://gestao-di.ptmdev.com.br/"
+LOGIN_URL = env("LOGIN_URL")
