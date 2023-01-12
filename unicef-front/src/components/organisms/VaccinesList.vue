@@ -1,5 +1,12 @@
 <template>
-  <div class="flex flex-col">
+  <transition name="fade" mode="out-in">
+  <div class="flex justify-center h-96" v-if="loggedUserStore.isLoading || vaccinesStore.items.length == 0" >
+    <svg class="animate-spin text-blue-600 -ml-1 mr-3 w-20 w-20 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+    </svg>
+  </div>
+  <div class="flex flex-col" v-else>
     <div class="flex flex-col sm:flex-row justify-between px-2">
       <ProfileCard :id="id" class="sm:w-2/3 md:w-fu" />
       <div class="flex pl-2 justify-end">
@@ -30,7 +37,7 @@
               </th>
             </tr>
             <tr class="text-center">
-              <th scope="col" colspan="2" class="pt-2 text-gray-900 whitespace-nowrap px-2.5">
+              <th scope="col" colspan="2" class="pt-2 text-gray-900 whitespace-nowrap px-2.5 font-normal">
                 <InputIconWrapper>
                   <Input
                     v-model="vaccineQuery"
@@ -217,6 +224,7 @@
       </div>
     </div>
   </div>
+  </transition>
 </template>
 
 <script setup>
@@ -234,10 +242,12 @@ import { ptBR } from 'date-fns/locale'
 import { usePatientsStore } from '@/stores/patients'
 import { useDosesStore } from '@/stores/doses'
 import { useVaccinesStore } from '@/stores/vaccines'
+import { useLoggedUserStore } from '@/stores/loggedUser'
 import VaccineAlert from '../atoms/VaccineAlert.vue'
 const patientsStore = usePatientsStore()
 const dosesStore = useDosesStore()
 const vaccinesStore = useVaccinesStore()
+const loggedUserStore = useLoggedUserStore()
 setDefaultOptions({ locale: ptBR })
 
 const router = useRouter()
@@ -302,18 +312,21 @@ const props = defineProps({
     default: '0',
   },
 })
-
-watch(
-  () => props.id,
-  async () => {
-    await vaccinesStore.fetchVaccines()
-  },
-  { immediate: true }
-)
 </script>
 
 <style scoped>
 .table-row:hover > td:not(.col-birth) {
   @apply border-none;
 }
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 </style>
