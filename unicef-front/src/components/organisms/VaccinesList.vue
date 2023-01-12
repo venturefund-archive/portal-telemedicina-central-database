@@ -274,7 +274,7 @@ const totalAlerts = computed(() => {
 })
 
 const orderedVaccinesByDoseAlerts = computed(() => {
-  return filteredVaccines.value.sort((a, b) => totalAlerts(b) - totalAlerts(a));
+  return filteredVaccines.value.sort((a, b) => totalAlerts.value(b) - totalAlerts.value(a));
 });
 
 
