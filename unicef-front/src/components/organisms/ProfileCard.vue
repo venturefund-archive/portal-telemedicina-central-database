@@ -29,7 +29,7 @@
       </div>
       <div class="col-start-2 ml-4 flex md:col-start-auto md:ml-0 md:justify-end">
         <p class="h-fit rounded-lg bg-sky-200 py-1 px-3 text-sm font-bold text-sky-600">
-          Idade: {{ differenceInYears(new Date(), birthDate) }}
+          {{ formatedAge }}
         </p>
       </div>
     </div>
@@ -45,14 +45,35 @@ import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
 import { usePatientsStore } from '@/stores/patients'
-import { parseISO, differenceInYears, setDefaultOptions, format } from 'date-fns'
+import { parseISO, differenceInYears, setDefaultOptions, format, differenceInMonths, differenceInDays, addDays, addMonths } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 const patientsStore = usePatientsStore()
 setDefaultOptions({ locale: ptBR })
 
 const router = useRouter()
 
+
 const birthDate = computed(() => parseISO(patientsStore.item.birth_date))
+
+const formatedAge = computed(() => {
+  const birthDateInYears = differenceInYears(addMonths(new Date(), 1), birthDate.value)
+  if (1 == birthDateInYears) {
+    return '1 ano'
+  } else if (0 == birthDateInYears) {
+    const birthDateInMonths = differenceInMonths(addMonths(new Date(), 1), birthDate.value)
+    const birthDateInDays = differenceInDays(addMonths(new Date(), 1), birthDate.value)
+    if (1 == birthDateInMonths) {
+      return '1 mês'
+    }else if (0 == birthDateInMonths) {
+      if (1 == birthDateInDays){
+        return '1 dia'
+      }
+      return birthDateInDays + ' dias'
+    }
+    return birthDateInMonths + ' meses'
+  }
+  return birthDateInYears + ' anos'
+})
 
 const props = defineProps({
   id: {

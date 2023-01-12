@@ -147,7 +147,7 @@
             </tr>
           </thead>
           <tbody class="divide-y divide-gray-100">
-            <tr class="hover:bg-neutral-200" v-for="(vaccine, k) in filteredVaccines" :key="k">
+            <tr class="hover:bg-neutral-200" v-for="(vaccine, k) in orderedVaccinesByDoseAlerts" :key="k">
               <td colspan="2" class="px-6 py-4 font-medium text-gray-900">
                 <span class="">{{ vaccine.display }}</span> <span class="">{{ vaccine.description }}</span>
               </td>
@@ -268,6 +268,15 @@ const filteredVaccines = computed(() => {
   })
 })
 const selectedVaccine = ref(filteredVaccines.value[0])
+
+const totalAlerts = computed(() => {
+  return (vaccine) => filteredDosesByVaccine.value(vaccine).map(d => d.alerts.length).reduce((total, current)=>  total + current)
+})
+
+const orderedVaccinesByDoseAlerts = computed(() => {
+  return filteredVaccines.value.sort((a, b) => totalAlerts(b) - totalAlerts(a));
+});
+
 
 const filteredDosesByVaccine = computed(() => {
   return (vaccine) =>
