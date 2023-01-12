@@ -17,12 +17,12 @@ import django
 
 if os.getenv("READTHEDOCS", default=False) == "True":
     sys.path.insert(0, os.path.abspath(".."))
-    
+
     # added at 2023-01-12 trying to fix readthedocs build
-    from django.conf import settings
-    settings.configure()
+    # from django.conf import settings
+    # settings.configure()
     # end try
-    
+
     os.environ["DJANGO_READ_DOT_ENV_FILE"] = "True"
     os.environ["USE_DOCKER"] = "no"
 else:
