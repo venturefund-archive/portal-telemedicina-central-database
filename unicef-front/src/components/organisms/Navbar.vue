@@ -49,7 +49,7 @@
           </button>
         </template>
         <template #content>
-          <DropdownLink to="#" @click="logout">Sair</DropdownLink>
+          <DropdownLink to="#">Configurações</DropdownLink>
         </template>
       </Dropdown>
       <Button
@@ -69,10 +69,10 @@
         @click="logout"
         v-slot="{ iconSizeClasses }"
         class="hidden md:inline-flex"
-        srText="Sair"
+        srText="Configurações"
       >
         <LogoutIcon v-show="!isFullscreen" aria-hidden="true" :class="iconSizeClasses" />
-        <LogoutIcon v-show="isFullscreen" aria-hidden="true" :class="iconSizeClasses" />
+        <LogoutIcon @click="logout" v-show="isFullscreen" aria-hidden="true" :class="iconSizeClasses" />
       </Button>
     </div>
   </nav>
