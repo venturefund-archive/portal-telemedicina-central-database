@@ -9,6 +9,6 @@ build:
 python:
   version: 3.9
   install:
-    - requirements: docs/requirement.txt
+    - requirements: docs/requirements.txt
   
 
