@@ -5,10 +5,9 @@ sphinx:
 
 build:
   image: testing
+  tools:
+    python: "3.10"
 
 python:
-  version: 3.9
   install:
     - requirements: central_database/docs/requirements.txt
-  
-
