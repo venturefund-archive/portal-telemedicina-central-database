@@ -1,21 +1,15 @@
 version: 2
 
-
-
+sphinx:
+  configuration: docs/conf.py
 
 build:
   image: testing
 
 python:
   version: 3.9
-  
-jobs:
-   post_create_enviroment:
-      - pip install poetry
-      - poetry config virtualenvs.create false
-      - poetry install --with docs
-sphinx:
-  configuration: docs/conf.py
+  install:
+    - requirements: docs/local.txt
   
   
 
