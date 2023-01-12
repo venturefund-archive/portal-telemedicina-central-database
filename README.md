@@ -1,4 +1,6 @@
 # SMART CHILD DEVELOPMENT ANALYZER
+[![Documentation Status](https://readthedocs.org/projects/central-database/badge/?version=latest)](https://central-database.readthedocs.io/en/latest/?badge=latest)
+
 
 ## About
 
