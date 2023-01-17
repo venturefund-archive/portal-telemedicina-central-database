@@ -20,25 +20,26 @@ const loggedUserStore = useLoggedUserStore()
 const patientsStore = usePatientsStore()
 const vaccinesStore = useVaccinesStore()
 const router = useRouter()
+import { useDosesStore } from '@/stores/doses'
+const dosesStore = useDosesStore()
 
 const props = defineProps({
   id: {
     type: String,
-    default: '0',
+    default: '',
   },
 })
 
 watch(
   () => props.id,
   async (id) => {
-    if (props.id != 0) {
-      loggedUserStore.isLoading = true
-      const [vaccineResponse, patientResponse] = await Promise.all([
-        patientsStore.fetchPatient(props.id),
-        vaccinesStore.fetchVaccines()
-      ])
-      loggedUserStore.isLoading = false
-    }
+    loggedUserStore.isLoading = true
+    const [vaccineResponse, patientResponse] = await Promise.all([
+      patientsStore.fetchPatient(props.id),
+      vaccinesStore.fetchVaccines(),
+    ])
+    await dosesStore.fetchDoses()
+    loggedUserStore.isLoading = false
   },
   { immediate: true }
 )
