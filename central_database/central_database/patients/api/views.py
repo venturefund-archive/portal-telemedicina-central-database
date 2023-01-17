@@ -1,3 +1,4 @@
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from rest_framework.viewsets import ViewSet
 
@@ -8,14 +9,24 @@ from central_database.customers.models import Client
 class PatientsViewSet(ViewSet):
     def list(self, request):
         client_id = request.user.client_id
-        client = Client.objects.get(id=client_id)
-        patients = patient_resource.Patient(id="?", client=client)
+        client = Client.objects.filter(id=client_id)
+        if not client:
+            raise PermissionDenied(
+                "You do not have permission to access the records. \
+                Please refer to your administrator."
+            )
+        patients = patient_resource.Patient(id="?", client=client.first())
         data = patients.all
         return Response(data)
 
     def retrieve(self, request, pk=None):
         client_id = request.user.client_id
-        client = Client.objects.get(id=client_id)
-        patient = patient_resource.Patient(id=pk, client=client)
+        client = Client.objects.filter(id=client_id)
+        if not client:
+            raise PermissionDenied(
+                "You do not have permission to access the records.  \
+                Please refer to your administrator."
+            )
+        patient = patient_resource.Patient(id=pk, client=client.first())
         data = patient.detail
         return Response(data)
