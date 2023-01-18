@@ -1,11 +1,11 @@
 <template>
-  <div class="sm: mx-6 rounded-xl border border-neutral-100 bg-gray-50 lg:w-[38rem]">
+  <div class="rounded-xl border border-neutral-100 bg-gray-50 lg:w-[38rem]">
     <div class="grid grid-cols-6 gap-y-2 p-5">
       <div>
         <img src="/avatar.png" class="max-w-20 max-h-20 rounded-full bg-neutral-200 p-1" />
       </div>
 
-      <div class="col-span-5 ml-4 md:col-span-4">
+      <div class="col-span-5 ml-4 md:col-span-4 tracking-wide">
         <p class="pr-2 font-bold capitalize text-gray-600">{{ patientsStore.item.name.join().toLowerCase() }}</p>
         <div class="text-gray-400">
           <p>
@@ -28,8 +28,8 @@
         </div>
       </div>
       <div class="col-start-2 ml-4 flex md:col-start-auto md:ml-0 md:justify-end">
-        <p class="h-fit w-fit rounded-lg bg-sky-200 py-1 px-3 text-sm font-bold text-sky-600">
-          Idade: {{ differenceInYears(new Date(), birthDate) }}
+        <p class="h-fit rounded-lg bg-sky-200 py-1 px-3 text-sm font-bold text-sky-600">
+          {{ formatedAge }}
         </p>
       </div>
     </div>
@@ -45,14 +45,35 @@ import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
 import { usePatientsStore } from '@/stores/patients'
-import { parseISO, differenceInYears, setDefaultOptions, format } from 'date-fns'
+import { parseISO, differenceInYears, setDefaultOptions, format, differenceInMonths, differenceInDays, addDays, addMonths } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 const patientsStore = usePatientsStore()
 setDefaultOptions({ locale: ptBR })
 
 const router = useRouter()
 
+
 const birthDate = computed(() => parseISO(patientsStore.item.birth_date))
+
+const formatedAge = computed(() => {
+  const birthDateInYears = differenceInYears(addMonths(new Date(), 1), birthDate.value)
+  if (1 == birthDateInYears) {
+    return '1 ano'
+  } else if (0 == birthDateInYears) {
+    const birthDateInMonths = differenceInMonths(addMonths(new Date(), 1), birthDate.value)
+    const birthDateInDays = differenceInDays(addMonths(new Date(), 1), birthDate.value)
+    if (1 == birthDateInMonths) {
+      return '1 mês'
+    }else if (0 == birthDateInMonths) {
+      if (1 == birthDateInDays){
+        return '1 dia'
+      }
+      return birthDateInDays + ' dias'
+    }
+    return birthDateInMonths + ' meses'
+  }
+  return birthDateInYears + ' anos'
+})
 
 const props = defineProps({
   id: {

@@ -1,11 +1,10 @@
 <template>
   <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-    Obrigado por inscrever-se! Antes de começar, você poderia verificar seu endereço de e-mail clicando no link que
-    acabamos de enviado por e-mail para você? Se você não recebeu o e-mail, teremos o prazer de lhe enviar outro.
+    Obrigado por inscrever-se! Sua solicitação esta em análise. Enviaremos um email notificando a liberação de sua conta para uso.
   </div>
 
   <div class="mb-4 text-sm font-medium text-green-600" v-if="verificationLinkSent">
-    Um novo link de verificação foi enviado para o endereço de e-mail que você forneceu durante o registro.
+    Sua solicitação esta em análise. Enviaremos um email notificando a liberação de sua conta para uso.
   </div>
 
   <form @submit.prevent="submit">

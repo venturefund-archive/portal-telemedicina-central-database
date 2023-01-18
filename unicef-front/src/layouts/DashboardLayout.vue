@@ -14,7 +14,15 @@
     >
       <Navbar />
 
-      <router-view></router-view>
+      <router-view v-slot="{ Component, route }">
+        <transition name="fade" mode="out-in">
+          <div :key="route.name">
+            <component :is="Component"></component>
+          </div>
+        </transition>
+      </router-view>
+
+
 
       <PageFooter />
     </div>
@@ -24,3 +32,16 @@
 <script setup>
 import { sidebarState } from '@/composables'
 </script>
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+
+</style>
