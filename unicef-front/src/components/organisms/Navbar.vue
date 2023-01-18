@@ -9,8 +9,8 @@
       },
     ]"
   >
-    <div class="flex items-center gap-2">
-      <form @submit.prevent="search">
+    <div class="flex items-center pr-5 grow">
+      <form @submit.prevent="search" class="w-full lg:w-1/2">
         <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900">Procurar</label>
         <div class="relative">
           <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
@@ -49,7 +49,7 @@
           </button>
         </template>
         <template #content>
-          <DropdownLink to="#" @click="logout">Sair</DropdownLink>
+          <DropdownLink to="#">Configurações</DropdownLink>
         </template>
       </Dropdown>
       <Button
@@ -58,10 +58,21 @@
         @click="toggleFullScreen"
         v-slot="{ iconSizeClasses }"
         class="hidden md:inline-flex"
-        srText="Toggle dark mode"
+        srText="Toggle fullscreen mode"
       >
         <ArrowsExpandIcon v-show="!isFullscreen" aria-hidden="true" :class="iconSizeClasses" />
         <ArrowsInnerIcon v-show="isFullscreen" aria-hidden="true" :class="iconSizeClasses" />
+      </Button>
+      <Button
+        iconOnly
+        variant="secondary"
+        @click="logout"
+        v-slot="{ iconSizeClasses }"
+        class="hidden md:inline-flex"
+        srText="Configurações"
+      >
+        <LogoutIcon v-show="!isFullscreen" aria-hidden="true" :class="iconSizeClasses" />
+        <LogoutIcon @click="logout" v-show="isFullscreen" aria-hidden="true" :class="iconSizeClasses" />
       </Button>
     </div>
   </nav>
@@ -69,20 +80,16 @@
   <!-- Mobile bottom bar -->
   <div
     :class="[
-      'dark:bg-dark-eval-1 fixed inset-x-0 bottom-0 flex items-center justify-between bg-white px-4 py-4 transition-transform duration-500 sm:px-6 md:hidden',
+      'dark:bg-dark-eval-1 fixed z-10 inset-x-0 bottom-0 flex items-center justify-between bg-white px-4 py-4 transition-transform duration-500 sm:px-6 md:hidden',
       {
         'translate-y-full': scrolling.down,
         'translate-y-0': scrolling.up,
       },
     ]"
   >
-    <Button iconOnly variant="secondary" v-slot="{ iconSizeClasses }" srText="Search">
-      <SearchIcon aria-hidden="true" :class="iconSizeClasses" />
-    </Button>
-
     <router-link to="/">
       <Logo class="h-10 w-10" />
-      <span class="sr-only">unicef</span>
+      <span class="sr-only">UNICEF</span>
     </router-link>
 
     <Button
@@ -102,7 +109,7 @@
 <script setup>
 import { onMounted, onUnmounted, reactive } from 'vue'
 import { useFullscreen } from '@vueuse/core'
-import { SunIcon, MoonIcon, SearchIcon, MenuIcon, XIcon, ArrowsExpandIcon } from '@heroicons/vue/outline'
+import { SunIcon, MoonIcon, SearchIcon, LogoutIcon, MenuIcon, XIcon, ArrowsExpandIcon } from '@heroicons/vue/outline'
 import {
   handleScroll,
   isDark,
