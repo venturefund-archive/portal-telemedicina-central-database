@@ -3,10 +3,6 @@ import { onMounted, onUnmounted, reactive, ref } from 'vue'
 import { useStorage } from '@vueuse/core'
 import axios from 'axios'
 import { errorToast, successToast } from '@/toast'
-import { usePatientsStore } from '@/stores/patients'
-import { useDosesStore } from '@/stores/doses'
-const dosesStore = useDosesStore()
-const patientsStore = usePatientsStore()
 
 export const useVaccinesStore = defineStore('vaccines', () => {
   const items = ref([])
@@ -22,7 +18,6 @@ export const useVaccinesStore = defineStore('vaccines', () => {
         },
       })
       this.items = response.data
-      await dosesStore.fetchDoses()
     } catch (err) {
       errorToast({ text: err.message })
     }

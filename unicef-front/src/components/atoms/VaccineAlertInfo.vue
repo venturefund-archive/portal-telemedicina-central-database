@@ -1,44 +1,44 @@
 <template>
   <div class="min-w-96 text-lg font-normal">
     <div class="relative bg-neutral-50 p-4">
-      <div class="flex justify-between py-1">
-        <p class="px-1 font-semibold">{{ props.vaccine.description }}</p>
-        <div v-if="!props.withoutDetails">
-          <div v-if="dose.is_completed">
-            <CheckCircleIcon class="h-7 w-7 rounded-full bg-lime-600 text-white"></CheckCircleIcon>
+      <div class="flex items-center justify-between pt-1 pb-2.5">
+        <div class="flex">
+          <div v-if="!props.withoutDetails">
+            <CheckCircleIcon class="h-7 w-7 rounded-full bg-lime-600 text-white" v-if="dose.is_completed" />
+            <ExclamationCircleIcon class="h-7 w-7 rounded-full bg-red-500 text-white" v-else />
           </div>
-          <div class="py-1" v-else>
-            <ExclamationCircleIcon class="h-7 w-7 rounded-full bg-red-500 text-white"></ExclamationCircleIcon>
-          </div>
+          <p class="font-semibold px-2 tracking-wider">{{ props.vaccine.description }}</p>
         </div>
+        <span class="uppercase p-1.5 text-sm bg-green-200 text-green-800 rounded-lg bg-opacity-50">Dose <span class="font-semibold">#{{ props.dose.dose_order }}</span></span>
       </div>
-
-      <p class="">
-        Dose <span class="font-semibold">#{{ props.dose.dose_order }} </span>
-      </p>
-      Idade: {{ props.dose.maximum_recommended_age }} meses <br />
-      Gênero: {{ props.dose.gender_recommendation }}<br />
+      <p>Idade recomendada: {{ formatDuration({ months: props.dose.maximum_recommended_age }) }}</p>
+      <p>Gênero: {{ props.dose.gender_recommendation }}</p>
     </div>
-    <div class="bg-neutral-200 p-4 font-normal">
+    <div class="bg-neutral-200 p-4 font-normal" v-if="props.dose.alerts.length > 0">
       <p class="font-semibold">Alerts</p>
       <div v-for="(alert, k) in props.dose.alerts" :key="k">
         Id: {{ alert.id }} <br />
-        Tipo de alert: {{ alert.alert_type }}<br />
+        Tipo de alerta: {{ alert.alert_type }}<br />
         Criado em: {{ formatRelative(parseISO(alert.created_at), new Date()) }}
       </div>
-      Total: {{ props.dose.alerts.length }} alertas
+      <span>Total: {{ props.dose.alerts.length }} alertas</span>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref, computed } from 'vue'
 import PerfectScrollbar from 'perfect-scrollbar'
 import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/vue/outline'
-
-import { parseISO, formatRelative, setDefaultOptions } from 'date-fns'
+import { usePatientsStore } from '@/stores/patients'
+import { parseISO, formatRelative, formatDuration, add, setDefaultOptions, differenceInMonths } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 setDefaultOptions({ locale: ptBR })
+const patientsStore = usePatientsStore()
+
+const birthDate = ref(parseISO(patientsStore.item.birth_date))
+const recommendedDate = ref(add(birthDate.value, { months: props.dose.maximum_recommended_age }))
+
 
 const props = defineProps({
   withoutDetails: {

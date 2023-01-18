@@ -18,6 +18,8 @@
             required
             autofocus
             autocomplete="username"
+            autocapitalize="none"
+            autocorrect="off"
           />
         </InputIconWrapper>
       </div>

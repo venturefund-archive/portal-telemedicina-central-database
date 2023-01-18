@@ -22,6 +22,8 @@
             v-model="loginForm.username"
             autofocus
             autocomplete="username"
+            autocapitalize="none"
+            autocorrect="off"
           />
         </InputIconWrapper>
       </div>

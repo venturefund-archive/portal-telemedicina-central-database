@@ -5,7 +5,7 @@
       'focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white',
       {
         'px-4': !withIcon,
-        'pl-11 pr-4': withIcon,
+        'pl-8 pr-2': withIcon,
       },
     ]"
     :value="modelValue"
