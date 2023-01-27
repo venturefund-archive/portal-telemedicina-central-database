@@ -35,6 +35,8 @@ django.setup()
 
 project = "Central Database"
 copyright = """2022, Josué Silveira,
+project = "Child Development Analyzer"
+copyright = """2022, Guilherme Negrini, Josué Silveira,
 Nicholas Drabowski, Rodrigo Polverari"""
 author = "Josué Silveira, Nicholas Drabowski, Rodrigo Polverari"
 
