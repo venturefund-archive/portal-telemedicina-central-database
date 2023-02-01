@@ -1,7 +1,11 @@
 from django.shortcuts import render  # noqa: F401
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
 
+from central_database.permissions_manager.rest_api.permission_classes import (
+    permission_class_assembler,
+)
 from central_database.vaccines.api.serializers import (
     VaccineDosesSerializer,
     VaccineSerializer,
@@ -12,6 +16,15 @@ from central_database.vaccines.models import Vaccine, VaccineDose
 class VaccineDosesViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
 
     serializer_class = VaccineDosesSerializer
+    permission_classes = [
+        IsAuthenticated,
+        permission_class_assembler(
+            permissions_to_check={
+                "list": ["vaccines.view_vaccinedose"],
+                "retrieve": ["vaccines.view_vaccinedose"],
+            }
+        ),
+    ]
 
     def get_queryset(self):
         return VaccineDose.objects.all()
@@ -27,6 +40,15 @@ class VaccineDosesViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
 class VaccineViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
 
     serializer_class = VaccineSerializer
+    permission_classes = [
+        IsAuthenticated,
+        permission_class_assembler(
+            permissions_to_check={
+                "list": ["vaccines.view_vaccine"],
+                "retrieve": ["vaccines.view_vaccine"],
+            }
+        ),
+    ]
 
     def get_queryset(self):
         return Vaccine.objects.all()

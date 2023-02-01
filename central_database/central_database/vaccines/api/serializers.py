@@ -1,9 +1,14 @@
 from rest_framework import serializers
 
+from central_database.permissions_manager.rest_api.mixins import (
+    PermissionSerializerMixin,
+)
 from central_database.vaccines.models import Vaccine, VaccineAlert, VaccineDose
 
 
-class VaccineSerializer(serializers.ModelSerializer):
+class VaccineSerializer(
+    PermissionSerializerMixin, serializers.ModelSerializer
+):  # noqa: E501
     class Meta:
         model = Vaccine
         fields = "__all__"
@@ -15,7 +20,9 @@ class VaccineAlertSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class VaccineDosesSerializer(serializers.ModelSerializer):
+class VaccineDosesSerializer(
+    PermissionSerializerMixin, serializers.ModelSerializer
+):  # noqa: E501
     alerts = serializers.SerializerMethodField()
     is_completed = serializers.SerializerMethodField(method_name="get_status")
 
