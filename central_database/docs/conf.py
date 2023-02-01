@@ -28,9 +28,9 @@ django.setup()
 # -- Project information -----------------------------------------------------
 
 project = "Central Database"
-copyright = """2022, Guilherme Negrini,
+copyright = """2022, Josué Silveira,
 Nicholas Drabowski, Rodrigo Polverari"""
-author = "Guilherme Negrini, Nicholas Drabowski, Rodrigo Polverari"
+author = "Josué Silveira, Nicholas Drabowski, Rodrigo Polverari"
 
 
 # -- General configuration ---------------------------------------------------

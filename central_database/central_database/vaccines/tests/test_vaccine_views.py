@@ -4,6 +4,8 @@ import urllib
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
+from central_database.customers.factories import ClientFactory
+from central_database.permissions_manager.models import Role
 from central_database.users.tests.factories import UserFactory
 from central_database.vaccines.tests.factories import (
     VaccineAlertFactory,
@@ -21,6 +23,9 @@ def build_url_with_query_params(reverse_string, query_params):
 class TestVaccineDoseViewSet(APITestCase):
     def setUp(self):
         self.user = UserFactory()
+        base_role = Role.objects.get(slug="healthcare-manager")
+        role = base_role.create_role_from_base_role(client=ClientFactory())
+        role.assign_to_user(self.user)
 
     def test_it_requires_authentication(self):
         response = self.client.get(reverse("api:vaccine-doses-list"))
