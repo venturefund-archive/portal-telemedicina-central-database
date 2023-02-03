@@ -97,6 +97,16 @@ class Role(models.Model):
         return None
 
     @staticmethod
+    def make_valid_duplicate(original):
+        permissions = original.permissions.all()
+        duplicate = original
+        duplicate.pk = None
+        duplicate.save()
+        duplicate.assign_permission(permissions)
+        duplicate.refresh_from_db()
+        return duplicate
+
+    @staticmethod
     def get_base_role(slug: str) -> Role:
         return Role.objects.filter(client__isnull=True).get(slug=slug)
 
@@ -112,7 +122,6 @@ class Role(models.Model):
             slug=slug, name=name, client=None
         )
 
-        # This way it raises error in case a codename is invalid
         permissions: QuerySet[Permission] = Permission.objects.filter(
             codename__in=permissions_codenames
         )
