@@ -360,7 +360,7 @@ python-versions = "*"
 
 [[package]]
 name = "dj-rest-auth"
-version = "2.2.6"
+version = "2.2.7"
 description = "Authentication and Registration in Django Rest Framework"
 category = "main"
 optional = false
@@ -371,7 +371,7 @@ Django = ">=2.0"
 djangorestframework = ">=3.7.0"
 
 [package.extras]
-with_social = ["django-allauth (>=0.40.0,<0.51.0)"]
+with_social = ["django-allauth (>=0.40.0,<0.53.0)"]
 
 [[package]]
 name = "django"
@@ -1553,6 +1553,14 @@ python-versions = ">=3.6,<4"
 pyasn1 = ">=0.1.3"
 
 [[package]]
+name = "rules"
+version = "3.3"
+description = "Awesome Django authorization, without the database"
+category = "main"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "sentry-sdk"
 version = "1.6.0"
 description = "Python client for Sentry (https://sentry.io)"
@@ -2059,7 +2067,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "60704954001888246cd3eefe14bbe54dd5665b05bf315b55c81d2d367b14ca07"
+content-hash = "392ba491475ae51e6cfb177d7cce7496c058ffe1ba514bb947384147ce3c2a9d"
 
 [metadata.files]
 alabaster = [
@@ -2347,7 +2355,7 @@ distlib = [
     {file = "distlib-0.3.5.tar.gz", hash = "sha256:a7f75737c70be3b25e2bee06288cec4e4c221de18455b2dd037fe2a795cab2fe"},
 ]
 dj-rest-auth = [
-    {file = "dj-rest-auth-2.2.6.tar.gz", hash = "sha256:653f5eecdd96699768a80fd8439de70a3bb17280101b0d25001ffae5ea7b4dc6"},
+    {file = "dj-rest-auth-2.2.7.tar.gz", hash = "sha256:911bcf377df68c958a7f534def7715b61f3d887a46fbb53ca7666244b7c0b143"},
 ]
 django = [
     {file = "Django-3.2.14-py3-none-any.whl", hash = "sha256:a8681e098fa60f7c33a4b628d6fcd3fe983a0939ff1301ecacac21d0b38bad56"},
@@ -3016,6 +3024,10 @@ requests-oauthlib = [
 rsa = [
     {file = "rsa-4.9-py3-none-any.whl", hash = "sha256:90260d9058e514786967344d0ef75fa8727eed8a7d2e43ce9f4bcf1b536174f7"},
     {file = "rsa-4.9.tar.gz", hash = "sha256:e38464a49c6c85d7f1351b0126661487a7e0a14a50f1675ec50eb34d4f20ef21"},
+]
+rules = [
+    {file = "rules-3.3-py2.py3-none-any.whl", hash = "sha256:12c8bbab5f54560e68528fcca7abc0e162c35ac882e3cc0daed40ac49c963070"},
+    {file = "rules-3.3.tar.gz", hash = "sha256:bf7bea8b724b73c36a622714c1b3557620c187a2ee05321a2ac8ab7472dc4464"},
 ]
 sentry-sdk = [
     {file = "sentry-sdk-1.6.0.tar.gz", hash = "sha256:b82ad57306d5546713f15d5d70daea0408cf7f998c7566db16e0e6257e51e561"},

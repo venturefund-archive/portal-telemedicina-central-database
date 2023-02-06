@@ -79,12 +79,15 @@ THIRD_PARTY_APPS = [
     "corsheaders",
     "drf_spectacular",
     "simple_history",
+    "rules.apps.AutodiscoverRulesConfig",
 ]
 
 LOCAL_APPS = [
     "central_database.users",
     "central_database.vaccines.apps.VaccinesConfig",
+    "central_database.permissions_manager",
     "central_database.customers",
+    "central_database.patients",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -303,9 +306,6 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.TokenAuthentication",
         "config.custom_authentication.CsrfExemptSessionAuthentication",
     ),
-    "DEFAULT_PERMISSION_CLASSES": (
-        "rest_framework.permissions.IsAuthenticated",
-    ),  # noqa
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
