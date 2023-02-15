@@ -50,38 +50,39 @@ def get_resource_from_healthcare_api(resource_type, resource_id, client):
 
     resource = response.json()
 
-    has_next_relation = any(
-        link_dict["relation"] == "next" for link_dict in resource["link"]
-    )  # noqa: E501
-
-    if resource_id == "?" and has_next_relation:
-        next_url_1 = next(
-            (
-                link_dict["url"]
-                for link_dict in resource["link"]
-                if link_dict["relation"] == "next"
-            ),
-            None,
+    if resource_id == "?":
+        has_next_relation = any(
+            link_dict["relation"] == "next" for link_dict in resource["link"]
         )  # noqa: E501
 
-        response_2 = session.get(next_url_1, headers=headers)
-        resource_2 = response_2.json()
-        resource_2_entries = resource_2.get("entry")
+        if has_next_relation:
+            next_url_1 = next(
+                (
+                    link_dict["url"]
+                    for link_dict in resource["link"]
+                    if link_dict["relation"] == "next"
+                ),
+                None,
+            )  # noqa: E501
 
-        next_url_2 = next(
-            (
-                link_dict["url"]
-                for link_dict in resource_2["link"]
-                if link_dict["relation"] == "next"
-            ),
-            None,
-        )  # noqa: E501
-        response_3 = session.get(next_url_2, headers=headers)
-        resource_3 = response_3.json()
-        resource_3_entries = resource_3.get("entry")
-        resource_temp_entries = resource_2_entries + resource_3_entries
+            response_2 = session.get(next_url_1, headers=headers)
+            resource_2 = response_2.json()
+            resource_2_entries = resource_2.get("entry")
 
-        resource["entry"] += resource_temp_entries
+            next_url_2 = next(
+                (
+                    link_dict["url"]
+                    for link_dict in resource_2["link"]
+                    if link_dict["relation"] == "next"
+                ),
+                None,
+            )  # noqa: E501
+            response_3 = session.get(next_url_2, headers=headers)
+            resource_3 = response_3.json()
+            resource_3_entries = resource_3.get("entry")
+            resource_temp_entries = resource_2_entries + resource_3_entries
+
+            resource["entry"] += resource_temp_entries
 
     return resource
 
