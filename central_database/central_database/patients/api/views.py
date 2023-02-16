@@ -26,7 +26,14 @@ class PatientsViewSet(ViewSet):
         client = Client.objects.filter(id=client_id)
         patients = patient_resource.Patient(id="?", client=client.first())
         data = patients.all
-        return Response(data)
+        sorted_data = sorted(
+            data,
+            key=lambda x: (
+                x["number_of_alerts_by_protocol"] is None,
+                x["number_of_alerts_by_protocol"],
+            ),
+        )
+        return Response(sorted_data)
 
     def retrieve(self, request, pk=None):
         client_id = request.user.client_id
