@@ -24,6 +24,12 @@ export default [
         name: 'PatientDetailsNobody',
         component: () => import('@/views/pages/PatientDetailsNobody.vue'),
       },
+      {
+        path: '/map',
+        name: 'Map',
+        component: () => import('@/views/pages/Map.vue'),
+        props: true,
+      },
     ],
     beforeEnter: (to, from) => {
       const state = useStorage('app-store', { token: '' })

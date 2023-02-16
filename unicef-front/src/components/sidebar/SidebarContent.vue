@@ -15,13 +15,23 @@
         <UserGroupIcon class="h-6 w-6 flex-shrink-0" aria-hidden="true" />
       </template>
     </SidebarLink>
+
+    <SidebarLink
+      title="Mapa"
+      :to="{ name: 'Map' }"
+      :active="isCurrentRoute('map') || isCurrentRoute('Map')"
+    >
+      <template #icon>
+        <MapIcon class="h-6 w-6 flex-shrink-0" aria-hidden="true" />
+      </template>
+    </SidebarLink>
   </PerfectScrollbar>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router'
 import { TemplateIcon } from '@/components/icons/outline'
-import { ShieldCheckIcon, DocumentIcon, UserGroupIcon } from '@heroicons/vue/outline'
+import { ShieldCheckIcon, DocumentIcon, UserGroupIcon, MapIcon } from '@heroicons/vue/outline'
 import SidebarCollapsible from '@/components/sidebar/SidebarCollapsible.vue'
 import SidebarCollapsibleItem from '@/components/sidebar/SidebarCollapsibleItem.vue'
 
