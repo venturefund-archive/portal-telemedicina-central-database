@@ -5,6 +5,7 @@ from .models import (  # noqa
     VaccineAlert,
     VaccineAlertType,
     VaccineDose,
+    VaccineProtocol,
     VaccineStatus,
 )
 
@@ -68,4 +69,11 @@ class VaccineAlertAdmin(admin.ModelAdmin):
 class VaccineStatusAdmin(admin.ModelAdmin):
     list_display = ("vaccine_dose", "patient_id", "completed")
     list_filter = ("vaccine_dose", "patient_id", "completed")
+    ordering = ["id"]
+
+
+@admin.register(VaccineProtocol)
+class VaccineProtocolAdmin(admin.ModelAdmin):
+    list_display = ("id",)
+    list_filter = ("vaccine_doses",)
     ordering = ["id"]
