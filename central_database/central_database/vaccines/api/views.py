@@ -8,9 +8,14 @@ from central_database.permissions_manager.rest_api.permission_classes import (
 )
 from central_database.vaccines.api.serializers import (
     VaccineDosesSerializer,
+    VaccineProtocolSerializer,
     VaccineSerializer,
 )
-from central_database.vaccines.models import Vaccine, VaccineDose
+from central_database.vaccines.models import (  # noqa: E501
+    Vaccine,
+    VaccineDose,
+    VaccineProtocol,
+)
 
 
 class VaccineDosesViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
@@ -52,3 +57,10 @@ class VaccineViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
 
     def get_queryset(self):
         return Vaccine.objects.all()
+
+
+class VaccineProtocolMetricsViewSet(GenericViewSet, RetrieveModelMixin):
+    serializer_class = VaccineProtocolSerializer
+
+    def get_queryset(self):
+        return VaccineProtocol.objects.all()

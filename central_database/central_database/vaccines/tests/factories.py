@@ -5,6 +5,7 @@ from central_database.vaccines.models import (
     VaccineAlert,
     VaccineAlertType,
     VaccineDose,
+    VaccineProtocol,
     VaccineStatus,
 )
 
@@ -59,3 +60,19 @@ class VaccineStatusFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = VaccineStatus
+
+
+class VaccineProtocolFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = VaccineProtocol
+
+    @factory.post_generation
+    def vaccine_doses(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if extracted:
+            # A list of groups were passed in, use them
+            for vaccine_dose in extracted:
+                self.vaccine_doses.add(vaccine_dose)
