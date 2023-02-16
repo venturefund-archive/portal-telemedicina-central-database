@@ -5,6 +5,7 @@ from central_database.patients.api.views import PatientsViewSet
 from central_database.users.api.views import UserViewSet
 from central_database.vaccines.api.views import (  # noqa: E501
     VaccineDosesViewSet,
+    VaccineProtocolMetricsViewSet,
     VaccineViewSet,
 )
 
@@ -13,7 +14,11 @@ if settings.DEBUG:
 else:
     router = SimpleRouter()
 
-
+router.register(
+    "vaccine-protocol/metrics",
+    VaccineProtocolMetricsViewSet,
+    basename="vaccine-alerts-count",
+)
 router.register("patients", PatientsViewSet, basename="patients")
 router.register("users", UserViewSet)
 router.register(
