@@ -1,12 +1,13 @@
 version: 2
 
 sphinx:
-  configuration: docs/conf.py
+  configuration: central_database/docs/conf.py
 
 build:
   image: testing
+  tools:
+    python: "3.10"
 
 python:
-  version: 3.9
   install:
-    - requirements: requirements/local.txt
+    - requirements: central_database/docs/requirements.txt
