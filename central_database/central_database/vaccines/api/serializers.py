@@ -67,6 +67,7 @@ class VaccineProtocolSerializer(
 ):  # noqa: E501
     vaccine_doses = VaccineDosesSerializer(many=True)
     completed_doses_count = serializers.SerializerMethodField()
+    completed_doses_percentage = serializers.SerializerMethodField()
     alert_doses_count = serializers.SerializerMethodField()
     expected_doses_count = serializers.SerializerMethodField()
 
@@ -76,6 +77,7 @@ class VaccineProtocolSerializer(
             "id",
             "vaccine_doses",
             "completed_doses_count",
+            "completed_doses_percentage",
             "alert_doses_count",
             "expected_doses_count",
         ]
@@ -95,6 +97,22 @@ class VaccineProtocolSerializer(
         )  # noqa: E501
         return completed_doses_count + alert_doses_count
 
+    def get_completed_doses_percentage(self, vaccine_protocol_instance):
+        completed_doses_count = self.get_completed_doses_count(
+            vaccine_protocol_instance
+        )
+        expected_doses_count = self.get_expected_doses_count(
+            vaccine_protocol_instance
+        )  # noqa: E501
+        try:
+            completed_doses_percentage = (
+                completed_doses_count / expected_doses_count
+            ) * 100
+        except ZeroDivisionError:
+            completed_doses_percentage = 0
+
+        return completed_doses_percentage
+
     def to_representation(self, instance):
         data = super().to_representation(instance)
         vaccine_doses = data.get("vaccine_doses", [])
@@ -107,6 +125,14 @@ class VaccineProtocolSerializer(
             completed_amount = VaccineStatus.get_completed_count_by_dose(
                 dose=vaccine_dose["id"]
             )
+            expected_amount = vaccine_dose_alerts_count + completed_amount
+            try:
+                completed_dose_percentage = (
+                    completed_amount / expected_amount
+                ) * 100  # noqa: E501
+            except ZeroDivisionError:
+                completed_dose_percentage = 0
+
             vaccine_dose = {
                 "id": vaccine_dose["id"],
                 "vaccine": vaccine_dose["vaccine"],
@@ -114,6 +140,7 @@ class VaccineProtocolSerializer(
                 "gender_recommendation": vaccine_dose["gender_recommendation"],
                 "alerts_count": vaccine_dose_alerts_count,
                 "completed_amount": completed_amount,
+                "completed_percentage": completed_dose_percentage,
             }
             serialized_vaccine_doses.append(vaccine_dose)
 
