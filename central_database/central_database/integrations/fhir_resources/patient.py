@@ -46,7 +46,7 @@ class Patient:
     def _parse_initial_data(self, data):
         return {
             "id": data["id"],
-            "number_of_alerts_by_protocol": self.alerts.get(data["id"], None),
+            "number_of_alerts_by_protocol": self.alerts.get(data["id"], 0),
             "name": [
                 self._parse_name(name) for name in data.get("name", None)
             ],  # noqa: E501
