@@ -159,6 +159,13 @@ class VaccineDose(CDModel, models.Model):
             vaccine_dose=self.id, patient_id=patient_id
         )  # noqa: E501
 
+    def alerts_count(self):
+        return self.vaccine_alerts.count()
+
+    @staticmethod
+    def get_alerts_count_by_dose(dose_id):
+        return VaccineDose.objects.get(id=dose_id).alerts_count()
+
 
 class VaccineAlertType(AlertType, models.Model):
     """
@@ -200,13 +207,21 @@ class VaccineStatus(CDModel, models.Model):
     def __str__(self):
         return f"Vaccine dose {self.vaccine_dose} for patient {self.patient_id} has completion status: {self.completed}."  # noqa: E501
 
+    @staticmethod
+    def get_completed_count_by_dose(dose):
+        return VaccineStatus.objects.filter(
+            vaccine_dose=dose, completed=True
+        ).count()  # noqa: E501
+
 
 class VaccineAlert(Alert, models.Model):
     """
     This class is used to represent a Vaccine alert.
     """
 
-    vaccine_dose = models.ForeignKey(VaccineDose, on_delete=models.CASCADE)
+    vaccine_dose = models.ForeignKey(
+        VaccineDose, related_name="vaccine_alerts", on_delete=models.CASCADE
+    )
     patient_id = models.CharField(
         max_length=255, help_text="Patient ID from FHIR."
     )  # noqa: E501
@@ -222,7 +237,7 @@ class VaccineAlert(Alert, models.Model):
 
     class Meta:
         indexes = [
-            models.Index(fields=["patient_id"]),
+            models.Index(fields=["patient_id", "vaccine_dose"]),
             models.Index(fields=["alert_type"]),
             models.Index(fields=["created_at"]),
         ]
@@ -250,3 +265,57 @@ class VaccineAlert(Alert, models.Model):
 
     def __str__(self):
         return f"Vaccine dose {self.vaccine_dose} for patient {self.patient_id} has alert: {self.alert_type}."  # noqa: E501
+
+    @staticmethod
+    def get_number_of_alerts_by_patient(patient_id, vaccine_dose):
+        return VaccineAlert.objects.filter(
+            patient_id=patient_id, vaccine_dose=vaccine_dose, active=True
+        ).count()
+
+    @staticmethod
+    def get_alerts_by_doses(vaccine_doses):
+        return VaccineAlert.objects.filter(vaccine_dose__in=vaccine_doses)
+
+
+class VaccineProtocol(models.Model):
+    vaccine_doses = models.ManyToManyField(VaccineDose)
+    name = models.CharField(max_length=255, help_text="Protocol Name")
+    description = models.CharField(max_length=100)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=["name"]),
+        ]
+
+    def __str__(self):
+        return f"Vaccine Protocol: {self.name}"
+
+    @staticmethod
+    def get_vaccine_protocol_by_client(client_id=None):
+        if not client_id:
+            return VaccineProtocol.objects.prefetch_related(
+                "vaccine_doses__vaccine_alerts"
+            ).first()
+
+    def get_number_of_doses_with_alerts_by_patient(self):
+        vaccine_doses = self.vaccine_doses.all().values_list("id", flat=True)
+
+        alerts = (
+            VaccineAlert.get_alerts_by_doses(vaccine_doses)
+            .values("patient_id")
+            .annotate(number_of_alerts=models.Count("patient_id"))
+        )
+        alerts_dict = {
+            item["patient_id"]: item["number_of_alerts"] for item in alerts
+        }  # noqa: E501
+        return alerts_dict
+
+    def get_total_amount_of_completed_doses(self):
+        return VaccineStatus.objects.filter(
+            vaccine_dose__in=self.vaccine_doses.all(), completed=True
+        ).count()
+
+    def get_total_amount_of_alert_doses(self):
+        return VaccineAlert.objects.filter(
+            vaccine_dose__in=self.vaccine_doses.all()
+        ).count()
