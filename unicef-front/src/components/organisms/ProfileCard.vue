@@ -56,12 +56,12 @@ const router = useRouter()
 const birthDate = computed(() => parseISO(patientsStore.item.birth_date))
 
 const formatedAge = computed(() => {
-  const birthDateInYears = differenceInYears(addMonths(new Date(), 1), birthDate.value)
+  const birthDateInYears = differenceInYears(new Date(), birthDate.value)
   if (1 == birthDateInYears) {
     return '1 ano'
   } else if (0 == birthDateInYears) {
-    const birthDateInMonths = differenceInMonths(addMonths(new Date(), 1), birthDate.value)
-    const birthDateInDays = differenceInDays(addMonths(new Date(), 1), birthDate.value)
+    const birthDateInMonths = differenceInMonths(new Date(), birthDate.value)
+    const birthDateInDays = differenceInDays(new Date(), birthDate.value)
     if (1 == birthDateInMonths) {
       return '1 mês'
     }else if (0 == birthDateInMonths) {
