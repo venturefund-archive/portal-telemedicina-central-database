@@ -2,12 +2,15 @@ from rest_framework.test import APITestCase
 
 from central_database.vaccines.api.serializers import (
     VaccineDosesSerializer,
+    VaccineProtocolSerializer,
     VaccineSerializer,
 )
 from central_database.vaccines.tests.factories import (  # noqa: E501
     VaccineAlertFactory,
+    VaccineAlertTypeFactory,
     VaccineDoseFactory,
     VaccineFactory,
+    VaccineProtocolFactory,
 )
 
 
@@ -99,3 +102,82 @@ class TestVaccineDoseSerializer(APITestCase):
             serialized_vaccine_dose["alerts"][0]["alert_type"],
             alert.alert_type.id,  # noqa: E501
         )
+
+
+class TestVaccineProtocolSerializer(APITestCase):
+    def test_it_serializes_vaccine_protocol_with_metrics(self):
+        self.vaccine_dose_1 = VaccineDoseFactory(
+            minimum_recommended_age=1,
+            maximum_recommended_age=2,
+        )
+        self.vaccine_dose_2 = VaccineDoseFactory(
+            minimum_recommended_age=1,
+            maximum_recommended_age=2,
+        )
+        self.vaccine_dose_3 = VaccineDoseFactory(
+            minimum_recommended_age=1,
+            maximum_recommended_age=2,
+        )
+        self.vaccine_dose_4 = VaccineDoseFactory(
+            minimum_recommended_age=1,
+            maximum_recommended_age=2,
+        )
+
+        self.vaccine_alert_type = VaccineAlertTypeFactory()
+        self.vaccine_alert_1 = VaccineAlertFactory(
+            vaccine_dose=self.vaccine_dose_1,
+            alert_type=self.vaccine_alert_type,  # noqa: E501
+        )
+        self.vaccine_alert_2 = VaccineAlertFactory(
+            vaccine_dose=self.vaccine_dose_2,
+            alert_type=self.vaccine_alert_type,  # noqa: E501
+        )
+        self.vaccine_alert_3 = VaccineAlertFactory(
+            vaccine_dose=self.vaccine_dose_2,
+            alert_type=self.vaccine_alert_type,  # noqa: E501
+        )
+        self.vaccine_alert_4 = VaccineAlertFactory(
+            vaccine_dose=self.vaccine_dose_3,
+            alert_type=self.vaccine_alert_type,  # noqa: E501
+        )
+
+        self.protocol = VaccineProtocolFactory(
+            vaccine_doses=[self.vaccine_dose_1, self.vaccine_dose_2]
+        )
+        serialized_vaccine_protocol = VaccineProtocolSerializer(
+            self.protocol
+        ).data  # noqa: E501
+
+        self.assertEqual(
+            serialized_vaccine_protocol["vaccine_doses"],
+            [
+                {
+                    "id": self.vaccine_dose_1.id,
+                    "vaccine": self.vaccine_dose_1.vaccine.id,
+                    "dose_order": self.vaccine_dose_1.dose_order,
+                    "gender_recommendation": self.vaccine_dose_1.gender_recommendation,  # noqa: E501
+                    "alerts_count": 1,
+                    "completed_amount": 0,
+                    "completed_percentage": 0,
+                },
+                {
+                    "id": self.vaccine_dose_2.id,
+                    "vaccine": self.vaccine_dose_2.vaccine.id,
+                    "dose_order": self.vaccine_dose_2.dose_order,
+                    "gender_recommendation": self.vaccine_dose_2.gender_recommendation,  # noqa: E501
+                    "alerts_count": 2,
+                    "completed_amount": 0,
+                    "completed_percentage": 0,
+                },
+            ],
+        )  # noqa: E501
+        self.assertEqual(
+            serialized_vaccine_protocol["completed_doses_count"], 0
+        )  # noqa: E501
+        self.assertEqual(
+            serialized_vaccine_protocol["completed_doses_percentage"], 0
+        )  # noqa: E501
+        self.assertEqual(serialized_vaccine_protocol["alert_doses_count"], 3)
+        self.assertEqual(
+            serialized_vaccine_protocol["expected_doses_count"], 3
+        )  # noqa: E501

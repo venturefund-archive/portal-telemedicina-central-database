@@ -34,10 +34,10 @@ watch(
   () => props.id,
   async (id) => {
     loggedUserStore.isLoading = true
-    const [vaccineResponse, patientResponse] = await Promise.all([
-      patientsStore.fetchPatient(props.id),
-      vaccinesStore.fetchVaccines(),
-    ])
+    const patientResponse = await patientsStore.fetchPatient(props.id)
+    if (0 == vaccinesStore.items.length) {
+      const vaccineResponse = await vaccinesStore.fetchVaccines()
+    }
     await dosesStore.fetchDoses()
     loggedUserStore.isLoading = false
   },
