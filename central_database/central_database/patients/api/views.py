@@ -28,10 +28,8 @@ class PatientsViewSet(ViewSet):
         data = patients.all
         sorted_data = sorted(
             data,
-            key=lambda x: (
-                x["number_of_alerts_by_protocol"] is None,
-                x["number_of_alerts_by_protocol"],
-            ),
+            key=lambda x: (x["number_of_alerts_by_protocol"],),
+            reverse=True,  # noqa: E501
         )
         return Response(sorted_data)
 
