@@ -153,7 +153,10 @@ class TestVaccineProtocolSerializer(APITestCase):
             [
                 {
                     "id": self.vaccine_dose_1.id,
-                    "vaccine": self.vaccine_dose_1.vaccine.id,
+                    "vaccine": {
+                        "id": self.vaccine_dose_1.vaccine.id,
+                        "name": self.vaccine_dose_1.vaccine.display,
+                    },
                     "dose_order": self.vaccine_dose_1.dose_order,
                     "gender_recommendation": self.vaccine_dose_1.gender_recommendation,  # noqa: E501
                     "alerts_count": 1,
@@ -162,7 +165,10 @@ class TestVaccineProtocolSerializer(APITestCase):
                 },
                 {
                     "id": self.vaccine_dose_2.id,
-                    "vaccine": self.vaccine_dose_2.vaccine.id,
+                    "vaccine": {
+                        "id": self.vaccine_dose_2.vaccine.id,
+                        "name": self.vaccine_dose_2.vaccine.display,
+                    },
                     "dose_order": self.vaccine_dose_2.dose_order,
                     "gender_recommendation": self.vaccine_dose_2.gender_recommendation,  # noqa: E501
                     "alerts_count": 2,
