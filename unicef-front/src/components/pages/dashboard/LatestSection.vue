@@ -28,7 +28,7 @@
             <span class="text-sm"> <span class="font-semibold">{{ current }} / {{ patientsStore.items.length / pageSize
             }}</span> páginas</span>
             <span class="text-xs text-neutral-400 py-2"><span class="font-semibold">{{ patientsStore.items.length
-            }}</span> pacientes com alertas</span>
+            }}</span> pacientes total</span>
           </div>
 
           <div>
