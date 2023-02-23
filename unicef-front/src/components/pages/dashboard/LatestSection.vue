@@ -6,7 +6,7 @@
         <div class="mt-4 flex items-center justify-between" v-for="(patient, index) in paginated" :key="index">
           <div class="flex items-center gap-2 flex-auto">
             <span class="hidden text-xs text-gray-500 align-baseline">{{ indexStart + ++index }}.</span>
-            <img class="h-10 w-10 rounded-md object-cover" src="/avatar.png" />
+            <img class="h-10 w-10 p-1 rounded-md object-cover rounded-full bg-neutral-200" src="/avatar.png" />
             <div>
               <h5 class="text-sm text-gray-600 dark:text-gray-300">
                 <router-link :to="{ name: 'PatientDetails', params: { id: patient.id } }" class="hover:underline">{{
