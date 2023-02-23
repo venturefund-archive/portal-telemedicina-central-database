@@ -27,8 +27,8 @@
                 </svg>
               </div>
               <InputIconWrapper>
-                <Input
-                  v-on:update:message="updateQuery = $event"
+                <input
+                  @input="$emit('update:query', $event.target.value)"
                   placeholder="Pesquisar"
                   withIcon
                   class="block w-full rounded-lg border border-transparent bg-gray-50 p-4 pl-10 text-sm text-gray-900 "
@@ -48,9 +48,8 @@
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { DotsHorizontalIcon } from '@heroicons/vue/outline'
-import {ref} from 'vue'
+import { ref } from 'vue'
 
-//const emit = defineEmits(['click', 'update:query'])
 const props = defineProps({
   noHeader: {
     type: Boolean,
@@ -62,16 +61,8 @@ const props = defineProps({
     default: 'bg-white',
   },
 
-  title: String,
-
-  query: {
-    type: String,
-    required: false,
-  },
+  title: String
 })
 
 const localQuery = ref(props.query)
-const updateQuery = () => {
-  $emit('update:query', localQuery.value)
-}
 </script>
