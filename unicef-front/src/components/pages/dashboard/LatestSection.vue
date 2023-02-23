@@ -25,9 +25,11 @@
             </Button>
           </div>
           <div class="flex flex-col items-center">
-            <span class="text-sm" v-if="0 != totalPages"><span class="font-semibold">{{ current }} / {{ totalPages }}</span> páginas</span>
+            <span class="text-sm" v-if="0 != totalPages">
+              <span class="font-semibold">{{ current }} / {{ totalPages }}</span> página<span v-if="totalPages > 1">s</span></span>
             <span v-else>Nenhum resultado encontrado</span>
-            <span class="text-xs text-neutral-400">Total de <span class="font-semibold">{{ patientsStore.items.length
+            <span class="text-xs text-neutral-400">
+              <span class="font-semibold">{{ filteredPatients.length }}</span> resultado<span v-if="filteredPatients.length > 1">s</span> do total de <span class="font-semibold">{{ patientsStore.items.length
             }}</span> pacientes</span>
           </div>
 
