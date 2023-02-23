@@ -26,12 +26,14 @@
                   ></path>
                 </svg>
               </div>
-              <input
-                type="search"
-                class="block w-full rounded-lg border border-transparent bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-                placeholder="Pesquisar"
-                required
-              />
+              <InputIconWrapper>
+                <Input
+                  v-on:update:message="updateQuery = $event"
+                  placeholder="Pesquisar vacinas"
+                  withIcon
+                  class="block w-full rounded-lg border border-transparent bg-gray-50 p-4 pl-10 text-sm text-gray-900 "
+                />
+              </InputIconWrapper>
             </div>
           </form>
         </div>
@@ -46,7 +48,9 @@
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { DotsHorizontalIcon } from '@heroicons/vue/outline'
+import {ref} from 'vue'
 
+//const emit = defineEmits(['click', 'update:query'])
 const props = defineProps({
   noHeader: {
     type: Boolean,
@@ -59,5 +63,15 @@ const props = defineProps({
   },
 
   title: String,
+
+  query: {
+    type: String,
+    required: false,
+  },
 })
+
+const localQuery = ref(props.query)
+const updateQuery = () => {
+  $emit('update:query', localQuery.value)
+}
 </script>

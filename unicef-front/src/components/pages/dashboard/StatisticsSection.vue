@@ -6,18 +6,15 @@
         <CheckCircleIcon aria-hidden="true" class="h-12 w-12 text-white" />
       </template>
     </QuickStatisticsCard>
-
-    <QuickStatisticsCard title="Vacinas 1" :result="protocolStore.item.completed_doses_percentage + `%`" class="bg-yellow-400">
-      <template #icon="{ sizeClasses }">
-        <CalendarIcon aria-hidden="true" class="h-12 w-12 text-white" />
-      </template>
-    </QuickStatisticsCard>
-
-    <QuickStatisticsCard title="Vacinas 2" :result="protocolStore.item.alert_doses_count + `%`" class="bg-blue-500">
-      <template #icon="{ sizeClasses }">
-        <CalendarIcon aria-hidden="true" class="h-12 w-12 text-white" />
-      </template>
-    </QuickStatisticsCard>
+    <div v-for="(dose, k) in protocolStore.item.vaccine_doses" :key="k">
+      <QuickStatisticsCard class="bg-blue-500"
+                           :title="dose.vaccine.name"
+                           :result="`${dose.completed_percentage} %`">
+        <template #icon="{ sizeClasses }">
+          <CheckCircleIcon aria-hidden="true" class="h-12 w-12 text-white" />
+        </template>
+      </QuickStatisticsCard>
+    </div>
 
     <QuickStatisticsCard title="Total de alertas" :result="protocolStore.item.expected_doses_count" class="bg-red-500">
       <template #icon="{ sizeClasses }">
@@ -28,7 +25,7 @@
 </template>
 
 <script setup>
-import {CheckCircleIcon, CalendarIcon, ExclamationCircleIcon } from '@heroicons/vue/solid'
+import {CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/vue/solid'
 import { useProtocolStore } from '@/stores/protocol'
 import { onMounted, onUpdated, reactive, ref } from 'vue'
 import axios from 'axios'
@@ -38,6 +35,6 @@ const protocolStore = useProtocolStore()
 const router = useRouter()
 
 onMounted(async () => {
-  await protocolStore.fetchProtocol(2)
+  await protocolStore.fetchProtocol(1)
 })
 </script>
