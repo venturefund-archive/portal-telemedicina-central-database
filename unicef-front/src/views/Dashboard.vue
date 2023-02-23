@@ -15,7 +15,6 @@
 
     <!-- Latest users section -->
     <LatestSection class="lg:my-4" />
-
   </PageWrapper>
 </template>
 

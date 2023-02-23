@@ -1,45 +1,45 @@
 <template>
-  <section class="" v-if="paginated">
-    <BaseCard title="Total de alertas por paciente" :actions="[{ title: 'View', to: '#' }]"
-      @update:query="patientQuery = $event">
+  <section class="grid grid-cols-1 gap-6  place-content-center pt-5 md:pt-0 lg:pt-0">
+    <div class="grid grid-cols-1 gap-6" v-if="paginated">
+      <BaseCard title="Total de alertas por paciente" :actions="[{ title: 'View', to: '#' }]" @update:query="patientQuery = $event">
 
-      <div class="mt-4 flex items-center justify-between" v-for="(patient, index) in paginated" :key="index">
-        <div class="flex items-center gap-2 flex-auto">
-          <span class="hidden text-xs text-gray-500 align-baseline">{{ indexStart + ++index }}.</span>
-          <img class="h-10 w-10 p-1 rounded-md object-cover rounded-full bg-neutral-200" src="/avatar.png" />
+        <div class="mt-4 flex items-center justify-between" v-for="(patient, index) in paginated" :key="index">
+          <div class="flex items-center gap-2 flex-auto">
+            <span class="hidden text-xs text-gray-500 align-baseline">{{ indexStart + ++index }}.</span>
+            <img class="h-10 w-10 p-1 rounded-md object-cover rounded-full bg-neutral-200" src="/avatar.png" />
+            <div>
+              <h5 class="text-sm text-gray-600 dark:text-gray-300">
+                <router-link :to="{ name: 'PatientDetails', params: { id: patient.id } }" class="hover:underline">{{
+                  patient.name.join() }}</router-link>
+              </h5>
+            </div>
+          </div>
+          <span class="flex-none pr-14">{{ patient.number_of_alerts_by_protocol }}</span>
+        </div>
+
+        <div class="flex justify-between pt-3 pb-2">
           <div>
-            <h5 class="text-sm text-gray-600 dark:text-gray-300">
-              <router-link :to="{ name: 'PatientDetails', params: { id: patient.id } }" class="hover:underline">{{
-                patient.name.join() }}</router-link>
-            </h5>
+            <Button :disabled="isFirstPage" size="sm" iconOnly variant="secondary" v-slot="{ iconSizeClasses }"
+              @click="prev">
+              <ArrowLeftIcon aria-hidden="true" :class="iconSizeClasses" />
+            </Button>
+          </div>
+          <div class="flex flex-col items-center">
+            <span class="text-sm" v-if="0 != totalPages"><span class="font-semibold">{{ current }} / {{ totalPages }}</span> páginas</span>
+            <span v-else>Nenhum resultado encontrado</span>
+            <span class="text-xs text-neutral-400">Total de <span class="font-semibold">{{ patientsStore.items.length
+            }}</span> pacientes</span>
+          </div>
+
+          <div>
+            <Button :disabled="isLastPage" size="sm" iconOnly variant="secondary" v-slot="{ iconSizeClasses }"
+              @click="next()">
+              <ArrowRightIcon aria-hidden="true" :class="iconSizeClasses" />
+            </Button>
           </div>
         </div>
-        <span class="flex-none pr-14">{{ patient.number_of_alerts_by_protocol }}</span>
-      </div>
-
-      <div class="flex justify-between pt-3 pb-2">
-        <div>
-          <Button :disabled="isFirstPage" size="sm" iconOnly variant="secondary" v-slot="{ iconSizeClasses }"
-            @click="prev">
-            <ArrowLeftIcon aria-hidden="true" :class="iconSizeClasses" />
-          </Button>
-        </div>
-        <div class="flex flex-col items-center">
-          <span class="text-sm" v-if="0 != totalPages"><span class="font-semibold">{{ current }} / {{ totalPages }}</span>
-            páginas</span>
-          <span v-else>Nenhum resultado encontrado</span>
-          <span class="text-xs text-neutral-400">Total de <span class="font-semibold">{{ patientsStore.items.length
-          }}</span> pacientes</span>
-        </div>
-
-        <div>
-          <Button :disabled="isLastPage" size="sm" iconOnly variant="secondary" v-slot="{ iconSizeClasses }"
-            @click="next()">
-            <ArrowRightIcon aria-hidden="true" :class="iconSizeClasses" />
-          </Button>
-        </div>
-      </div>
-    </BaseCard>
+      </BaseCard>
+    </div>
   </section>
 </template>
 
