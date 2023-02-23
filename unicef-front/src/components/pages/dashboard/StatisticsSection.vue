@@ -9,7 +9,7 @@
     <div v-for="(dose, k) in protocolStore.item.vaccine_doses" :key="k">
       <QuickStatisticsCard class="bg-blue-500"
                            :title="dose.vaccine.name"
-                           :result="`${dose.completed_percentage} %`">
+                           :result="`${dose.completed_percentage}%`">
         <template #icon="{ sizeClasses }">
           <CheckCircleIcon aria-hidden="true" class="h-12 w-12 text-white" />
         </template>
