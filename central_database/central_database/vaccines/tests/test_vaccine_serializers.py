@@ -158,6 +158,7 @@ class TestVaccineProtocolSerializer(APITestCase):
                     "gender_recommendation": self.vaccine_dose_1.gender_recommendation,  # noqa: E501
                     "alerts_count": 1,
                     "completed_amount": 0,
+                    "completed_percentage": 0,
                 },
                 {
                     "id": self.vaccine_dose_2.id,
@@ -166,11 +167,15 @@ class TestVaccineProtocolSerializer(APITestCase):
                     "gender_recommendation": self.vaccine_dose_2.gender_recommendation,  # noqa: E501
                     "alerts_count": 2,
                     "completed_amount": 0,
+                    "completed_percentage": 0,
                 },
             ],
         )  # noqa: E501
         self.assertEqual(
             serialized_vaccine_protocol["completed_doses_count"], 0
+        )  # noqa: E501
+        self.assertEqual(
+            serialized_vaccine_protocol["completed_doses_percentage"], 0
         )  # noqa: E501
         self.assertEqual(serialized_vaccine_protocol["alert_doses_count"], 3)
         self.assertEqual(
