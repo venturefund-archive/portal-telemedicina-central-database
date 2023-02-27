@@ -8,9 +8,9 @@
             <span class="hidden text-xs text-gray-500 align-baseline">{{ indexStart + ++index }}.</span>
             <img class="h-10 w-10 p-1 rounded-md object-cover rounded-full bg-neutral-200" src="/avatar.png" />
             <div>
-              <h5 class="text-sm text-gray-600 dark:text-gray-300">
+              <h5 class="text-sm text-gray-600 dark:text-gray-300 font-medium capitalize">
                 <router-link :to="{ name: 'PatientDetails', params: { id: patient.id } }" class="hover:underline">{{
-                  patient.name.join() }}</router-link>
+                  patient.name.join().toLowerCase() }}</router-link>
               </h5>
             </div>
           </div>
