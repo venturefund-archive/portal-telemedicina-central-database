@@ -113,10 +113,13 @@ const login = async () => {
     router.replace({ name: 'Dashboard' })
   } catch (err) {
     if (err.response.data.non_field_errors) {
-      errorToast({ text: err.response.data.non_field_errors.join(', ') })
+      errorToast({ text: "Usuário em fase de aprovação ou Usuário em análise" })
       return false
     }
-    errorToast({ text: err.message })
+    if (err.response.data.username) {
+      errorToast({ text: 'username: ' + err.response.data.username.join(', ') })
+      return false
+    }
   }
 }
 </script>

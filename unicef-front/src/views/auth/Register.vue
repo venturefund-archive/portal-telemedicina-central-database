@@ -154,15 +154,19 @@ const register = async () => {
     router.replace({ name: 'VerifyEmail' })
   } catch (err) {
     if (err.response.data.username) {
-      errorToast({ text: 'Username ' + err.response.data.username.join(', ') })
+      errorToast({ text: 'Username: ' + err.response.data.username.join(', ') })
+      return false
+    }
+    if (err.response.data.email) {
+      errorToast({ text: 'Email: ' + err.response.data.email.join(', ') })
       return false
     }
     if (err.response.data.password1) {
-      errorToast({ text: 'Password1 ' + err.response.data.password1.join(', ') })
+      errorToast({ text: 'Password1: ' + err.response.data.password1.join(', ') })
       return false
     }
     if (err.response.data.password2) {
-      errorToast({ text: 'Password2 ' + err.response.data.password2.join(', ') })
+      errorToast({ text: 'Password2: ' + err.response.data.password2.join(', ') })
       return false
     }
     if (err.response.data.non_field_errors) {
