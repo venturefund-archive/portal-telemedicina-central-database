@@ -111,7 +111,7 @@ class VaccineProtocolSerializer(
         except ZeroDivisionError:
             completed_doses_percentage = 0
 
-        return completed_doses_percentage
+        return round(completed_doses_percentage, 2)
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -146,7 +146,7 @@ class VaccineProtocolSerializer(
                 "gender_recommendation": vaccine_dose["gender_recommendation"],
                 "alerts_count": vaccine_dose_alerts_count,
                 "completed_amount": completed_amount,
-                "completed_percentage": completed_dose_percentage,
+                "completed_percentage": round(completed_dose_percentage, 2),
             }
             serialized_vaccine_doses.append(vaccine_dose)
 
