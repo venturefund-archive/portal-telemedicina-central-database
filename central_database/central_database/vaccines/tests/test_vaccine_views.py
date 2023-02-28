@@ -1,6 +1,7 @@
 import json
 import urllib
 
+from rest_framework import status
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
@@ -9,8 +10,10 @@ from central_database.permissions_manager.models import Role
 from central_database.users.tests.factories import UserFactory
 from central_database.vaccines.tests.factories import (
     VaccineAlertFactory,
+    VaccineAlertTypeFactory,
     VaccineDoseFactory,
     VaccineFactory,
+    VaccineProtocolFactory,
 )
 
 
@@ -88,3 +91,93 @@ class TestVaccineDoseViewSet(APITestCase):
         self.assertEqual(len(data), 2)
         alerts = data[0].get("alerts")
         self.assertEqual(len(alerts), 1)
+
+
+class VaccineAlertsCountTestCase(APITestCase):
+    def setUp(self):
+        self.user = UserFactory()
+        self.vaccine_dose_1 = VaccineDoseFactory(
+            minimum_recommended_age=1,
+            maximum_recommended_age=2,
+        )
+        self.vaccine_dose_2 = VaccineDoseFactory(
+            minimum_recommended_age=1,
+            maximum_recommended_age=2,
+        )
+        self.vaccine_dose_3 = VaccineDoseFactory(
+            minimum_recommended_age=1,
+            maximum_recommended_age=2,
+        )
+        self.vaccine_dose_4 = VaccineDoseFactory(
+            minimum_recommended_age=1,
+            maximum_recommended_age=2,
+        )
+
+        self.vaccine_alert_type = VaccineAlertTypeFactory()
+        self.vaccine_alert_1 = VaccineAlertFactory(
+            vaccine_dose=self.vaccine_dose_1,
+            alert_type=self.vaccine_alert_type,  # noqa: E501
+        )
+        self.vaccine_alert_2 = VaccineAlertFactory(
+            vaccine_dose=self.vaccine_dose_2,
+            alert_type=self.vaccine_alert_type,  # noqa: E501
+        )
+        self.vaccine_alert_3 = VaccineAlertFactory(
+            vaccine_dose=self.vaccine_dose_2,
+            alert_type=self.vaccine_alert_type,  # noqa: E501
+        )
+        self.vaccine_alert_4 = VaccineAlertFactory(
+            vaccine_dose=self.vaccine_dose_3,
+            alert_type=self.vaccine_alert_type,  # noqa: E501
+        )
+
+        self.protocol = VaccineProtocolFactory(
+            vaccine_doses=[self.vaccine_dose_1, self.vaccine_dose_2]
+        )
+
+    def test_retrieve_alerts_count(self):
+        url = reverse(
+            "api:vaccine-alerts-count-detail", kwargs={"pk": self.protocol.id}
+        )
+        self.client.force_authenticate(self.user)
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        print(response.data)
+        self.assertEqual(
+            response.data,
+            {
+                "id": self.protocol.id,
+                "vaccine_doses": [
+                    {
+                        "id": self.vaccine_dose_1.id,
+                        "vaccine": {
+                            "id": self.vaccine_dose_1.vaccine.id,
+                            "name": self.vaccine_dose_1.vaccine.display,
+                        },
+                        "dose_order": self.vaccine_dose_1.dose_order,
+                        "gender_recommendation": self.vaccine_dose_1.gender_recommendation,  # noqa: E501
+                        "alerts_count": 1,
+                        "completed_amount": 0,
+                        "completed_percentage": 0,
+                    },
+                    {
+                        "id": self.vaccine_dose_2.id,
+                        "vaccine": {
+                            "id": self.vaccine_dose_2.vaccine.id,
+                            "name": self.vaccine_dose_2.vaccine.display,
+                        },
+                        "dose_order": self.vaccine_dose_2.dose_order,
+                        "gender_recommendation": self.vaccine_dose_2.gender_recommendation,  # noqa: E501
+                        "alerts_count": 2,
+                        "completed_amount": 0,
+                        "completed_percentage": 0,
+                    },
+                ],
+                "completed_doses_count": 0,
+                "completed_doses_percentage": 0,
+                "alert_doses_count": 3,
+                "expected_doses_count": 3,
+                "permissions": {},
+            },
+        )

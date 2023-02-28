@@ -6,6 +6,7 @@ from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 
 from central_database.users.tests.factories import UserFactory
+from central_database.vaccines.tests.factories import VaccineProtocolFactory
 
 
 class TestPatientViewSet(APITestCase):
@@ -29,6 +30,7 @@ class TestPatientViewSet(APITestCase):
         "central_database.patients.api.views.patient_resource.service.PatientService.get_all"  # noqa: E501
     )
     def test_it_lists_patients(self, mock_get):
+        VaccineProtocolFactory()
         mock_get.return_value = json.load(
             open(
                 f"{settings.CENTRAL_DATABASE_PATH}/patients/tests/fixtures/all_patients_fhir_responses.json"  # noqa: E501

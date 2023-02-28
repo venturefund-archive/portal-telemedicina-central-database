@@ -1,4 +1,5 @@
 import central_database.integrations.fhir_api.patient as service
+from central_database.vaccines.models import VaccineProtocol
 
 
 class Patient:
@@ -9,6 +10,10 @@ class Patient:
                 patient_service.get_detail(id)
             )  # noqa: E501
         else:
+            self.protocol = VaccineProtocol.get_vaccine_protocol_by_client()
+            self.alerts = (
+                self.protocol.get_number_of_doses_with_alerts_by_patient()
+            )  # noqa: E501
             self.all = self._parse_all(patient_service.get_all(id))
 
     def _parse_address(self, data):
@@ -41,6 +46,7 @@ class Patient:
     def _parse_initial_data(self, data):
         return {
             "id": data["id"],
+            "number_of_alerts_by_protocol": self.alerts.get(data["id"], 0),
             "name": [
                 self._parse_name(name) for name in data.get("name", None)
             ],  # noqa: E501

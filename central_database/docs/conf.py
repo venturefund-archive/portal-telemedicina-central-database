@@ -17,6 +17,12 @@ import django
 
 if os.getenv("READTHEDOCS", default=False) == "True":
     sys.path.insert(0, os.path.abspath(".."))
+
+    # added at 2023-01-12 trying to fix readthedocs build
+    # from django.conf import settings
+    # settings.configure()
+    # end try
+
     os.environ["DJANGO_READ_DOT_ENV_FILE"] = "True"
     os.environ["USE_DOCKER"] = "no"
 else:
@@ -29,6 +35,8 @@ django.setup()
 
 project = "Central Database"
 copyright = """2022, Josué Silveira,
+project = "Child Development Analyzer"
+copyright = """2022, Guilherme Negrini, Josué Silveira,
 Nicholas Drabowski, Rodrigo Polverari"""
 author = "Josué Silveira, Nicholas Drabowski, Rodrigo Polverari"
 

@@ -58,14 +58,14 @@
                 :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[0]) }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
-                0 a 2
+                0 a 1
               </th>
               <th
                 scope="col"
                 :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[1]) }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
-                3
+                2 a 3
               </th>
               <th
                 scope="col"
@@ -293,11 +293,11 @@ const filteredDosesByVaccine = computed(() => {
 const key = ref(0)
 
 const ranges = computed(() => [
-  { start: birthDate.value, end: add(birthDate.value, { months: 2 }) }, //ao nascer
+  { start: birthDate.value, end: add(birthDate.value, { months: 1 }) }, //ao nascer
+  { start: add(birthDate.value, { months: 1, seconds: 1 }), end: add(birthDate.value, { months: 2 }) },
   { start: add(birthDate.value, { months: 2, seconds: 1 }), end: add(birthDate.value, { months: 3 }) },
   { start: add(birthDate.value, { months: 3, seconds: 1 }), end: add(birthDate.value, { months: 4 }) },
-  { start: add(birthDate.value, { months: 4, seconds: 1 }), end: add(birthDate.value, { months: 5 }) },
-  { start: add(birthDate.value, { months: 5, seconds: 1 }), end: add(birthDate.value, { months: 6 }) },
+  { start: add(birthDate.value, { months: 4, seconds: 1 }), end: add(birthDate.value, { months: 6 }) },
 
   { start: add(birthDate.value, { months: 6, seconds: 1 }), end: add(birthDate.value, { months: 11 }) },
   { start: add(birthDate.value, { months: 11, seconds: 1 }), end: add(birthDate.value, { months: 12 }) },
