@@ -26,12 +26,14 @@
                   ></path>
                 </svg>
               </div>
-              <input
-                type="search"
-                class="block w-full rounded-lg border border-transparent bg-gray-50 p-4 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-                placeholder="Pesquisar"
-                required
-              />
+              <InputIconWrapper>
+                <input
+                  @input="$emit('update:query', $event.target.value)"
+                  placeholder="Pesquisar"
+                  withIcon
+                  class="block w-full rounded-lg border border-transparent bg-gray-50 p-4 pl-10 text-sm text-gray-900 "
+                />
+              </InputIconWrapper>
             </div>
           </form>
         </div>
@@ -46,6 +48,7 @@
 <script setup>
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { DotsHorizontalIcon } from '@heroicons/vue/outline'
+import { ref } from 'vue'
 
 const props = defineProps({
   noHeader: {
@@ -58,6 +61,8 @@ const props = defineProps({
     default: 'bg-white',
   },
 
-  title: String,
+  title: String
 })
+
+const localQuery = ref(props.query)
 </script>

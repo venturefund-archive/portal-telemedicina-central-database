@@ -36,22 +36,18 @@
 
     <div class="flex items-center gap-2">
       <!-- Dropdwon -->
-      <Dropdown align="right" width="48">
-        <template #trigger>
+      <div>
+        <div>
           <button
             class="dark:focus:ring-offset-dark-eval-1 flex rounded-md border-2 border-transparent text-sm transition focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-1 focus:ring-offset-white"
           >
             <div class="flex flex-col items-end justify-center">
               <p class="font-bold" v-if="loggedUserStore.item">{{ loggedUserStore.item.username }}</p>
-              <p class="text-sm text-gray-500">Enfermeiro</p>
             </div>
             <img class="mx-5 h-12 w-12 rounded-md object-cover" :src="userAvatar" alt="User Name" />
           </button>
-        </template>
-        <template #content>
-          <DropdownLink to="#">Configurações</DropdownLink>
-        </template>
-      </Dropdown>
+        </div>
+      </div>
       <Button
         iconOnly
         variant="secondary"
