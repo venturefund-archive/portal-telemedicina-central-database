@@ -1,3 +1,5 @@
+from datetime import date, datetime
+
 import central_database.integrations.fhir_api.patient as service
 from central_database.vaccines.models import VaccineProtocol
 
@@ -28,6 +30,13 @@ class Patient:
     def _parse_name(self, data):
         return " ".join(data.get("given")) + " " + data.get("family")
 
+    def _calculate_age_in_days(self, birthdate):
+        birthdate = datetime.strptime(birthdate, "%Y-%m-%d").date()
+        today = date.today()
+
+        age = today - birthdate
+        return age.days
+
     def _parse_patient_detail(self, data):
         return {
             "id": data.get("id", None),
@@ -50,6 +59,7 @@ class Patient:
             "name": [
                 self._parse_name(name) for name in data.get("name", None)
             ],  # noqa: E501
+            "age_in_days": self._calculate_age_in_days(data.get("birthDate")),
         }
 
     def _parse_all(self, data):
