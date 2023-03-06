@@ -16,7 +16,7 @@
       </QuickStatisticsCard>
     </div>
 
-    <QuickStatisticsCard title="Total de alertas" :result="protocolStore.item.expected_doses_count" class="bg-red-500">
+    <QuickStatisticsCard title="Total de alertas" :result="protocolStore.item.alert_doses_count" class="bg-red-500">
       <template #icon="{ sizeClasses }">
         <ExclamationCircleIcon aria-hidden="true" class="h-12 w-12 text-white" />
       </template>

@@ -1,7 +1,6 @@
 <template>
   <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-    Obrigado por inscrever-se! Sua solicitação esta em análise. Enviaremos um email notificando a liberação de sua conta para uso.
-  </div>
+    Obrigado por inscrever-se! Sua solicitação esta em análise. Aguarde a liberação de sua conta para uso.  </div>
 
   <div class="mb-4 text-sm font-medium text-green-600" v-if="verificationLinkSent">
     Sua solicitação esta em análise. Enviaremos um email notificando a liberação de sua conta para uso.
