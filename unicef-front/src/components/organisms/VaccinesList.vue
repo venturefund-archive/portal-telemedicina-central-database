@@ -25,7 +25,7 @@
           <thead class="bg-neutral-200 text-white">
             <tr>
               <th scope="col" colspan="2" class="bg-blue-200 px-6 py-4 text-center text-gray-900 uppercase w-80">Vacinas</th>
-              <th scope="col" colspan="9" class="bg-blue-300 px-6 py-4 text-center">
+              <th scope="col" colspan="10" class="bg-blue-300 px-6 py-4 text-center">
                 <span class="rounded-t-xl border border-transparent bg-neutral-500 p-2 font-semibold text-white"
                   >Meses</span
                 >
@@ -55,94 +55,103 @@
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[0]) }"
+                :class="{ 'border-x-2 border-sky-500': isWithinIntervalRounded(0) }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
-                0 a 2
+                0
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[1]) }"
+                :class="{ 'border-x-2 border-sky-500': isWithinIntervalRounded(1) }"
+                class="px-6 py-4 text-gray-900 whitespace-nowrap"
+              >
+                2
+              </th>
+              <th
+                scope="col"
+                :class="{ 'border-x-2 border-sky-500': isWithinIntervalRounded(2) }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 3
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[2]) }"
+                :class="{ 'border-x-2 border-sky-500': isWithinIntervalRounded(3) }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 4
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[3]) }"
+                :class="{ 'border-x-2 border-sky-500': isWithinIntervalRounded(4) }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 5
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[4]) }"
+                :class="{ 'border-x-2 border-sky-500': isWithinIntervalRounded(5) }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 6
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[5]) }"
+                :class="{ 'border-x-2 border-sky-500': isWithinIntervalRounded(6) }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
-                7 a 11
+                7
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[6]) }"
+                :class="{ 'border-x-2 border-sky-500': isWithinIntervalRounded(7) }"
+                class="px-6 py-4 text-gray-900 whitespace-nowrap"
+              >
+                9
+              </th>
+              <th
+                scope="col"
+                :class="{ 'border-x-2 border-sky-500': isWithinIntervalRounded(8) }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 12
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[7]) }"
+                :class="{ 'border-x-2 border-sky-500': isWithinIntervalRounded(9) }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 15
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[8]) }"
+                :class="{ 'border-x-2 border-sky-500': isWithinIntervalRounded(10) }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
-                18
+                4
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[9]) }"
+                :class="{ 'border-x-2 border-sky-500': isWithinIntervalRounded(11) }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
-                1 a 5
+                5
               </th>
+
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[10]) }"
+                :class="{ 'border-x-2 border-sky-500': isWithinIntervalRounded(11) }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
-                5 a 10
+                9
               </th>
+
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[11]) }"
+                :class="{ 'border-x-2 border-sky-500': isWithinIntervalRounded(11) }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
-                10 a 12
-              </th>
-              <th
-                scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[12]) }"
-                class="px-6 py-4 text-gray-900 whitespace-nowrap"
-              >
-                12 a 15
+                14
               </th>
             </tr>
           </thead>
@@ -154,7 +163,7 @@
 
               <td
                 :class="{
-                  'col-birth box-border border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[rangeIndex]),
+                  'col-birth box-border border-x-2 border-sky-500': isWithinIntervalRounded(rangeIndex),
                 }"
                 class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"
                 v-for="(range, rangeIndex) in ranges"
@@ -237,7 +246,7 @@ import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
 import { computed } from 'vue'
-import { formatDistance, format, parseISO, formatISO9075, add, isWithinInterval, differenceInMonths, differenceInDays, subDays, setDefaultOptions } from 'date-fns'
+import { formatDistance, format, parseISO, formatISO9075, add, isWithinInterval, differenceInYears, differenceInMonths, differenceInDays, subDays, setDefaultOptions } from 'date-fns'
 import { ptBR } from 'date-fns/locale'
 import { usePatientsStore } from '@/stores/patients'
 import { useDosesStore } from '@/stores/doses'
@@ -256,6 +265,7 @@ const birthDate = computed(() => parseISO(patientsStore.item.birth_date))
 //const birthDateInMonthsFromNow = computed(() => differenceInMonths(birthDate, new Date()) )
 
 const vaccineQuery = ref('')
+const flag = ref(false)
 
 const filteredVaccines = computed(() => {
   return vaccinesStore.items.filter((vaccine) => {
@@ -293,23 +303,33 @@ const filteredDosesByVaccine = computed(() => {
 const key = ref(0)
 
 const ranges = computed(() => [
-  { start: birthDate.value, end: add(birthDate.value, { months: 2 }) }, //ao nascer
+  { start: birthDate.value, end: add(birthDate.value, { months: 0 }) }, //ao nascer
+  { start: add(birthDate.value, { months: 0 , seconds: 1 }), end: add(birthDate.value, { months: 2  }) },
   { start: add(birthDate.value, { months: 2, seconds: 1 }), end: add(birthDate.value, { months: 3 }) },
-  { start: add(birthDate.value, { months: 3, seconds: 1 }), end: add(birthDate.value, { months: 4 }) },
+  { start: add(birthDate.value, { months: 3, seconds: 1 }), end: add(birthDate.value, { months: 4}) },
   { start: add(birthDate.value, { months: 4, seconds: 1 }), end: add(birthDate.value, { months: 5 }) },
+
   { start: add(birthDate.value, { months: 5, seconds: 1 }), end: add(birthDate.value, { months: 6 }) },
+  { start: add(birthDate.value, { months: 6, seconds: 1 }), end: add(birthDate.value, { months: 7 }) },
+  { start: add(birthDate.value, { months: 7, seconds: 1 }), end: add(birthDate.value, { months: 9 }) },
 
-  { start: add(birthDate.value, { months: 6, seconds: 1 }), end: add(birthDate.value, { months: 11 }) },
-  { start: add(birthDate.value, { months: 11, seconds: 1 }), end: add(birthDate.value, { months: 12 }) },
+  { start: add(birthDate.value, { months: 9, seconds: 1 }), end: add(birthDate.value, { months: 12 }) },
+
   { start: add(birthDate.value, { months: 12, seconds: 1 }), end: add(birthDate.value, { months: 15 }) },
-
-  { start: add(birthDate.value, { months: 15, seconds: 1 }), end: add(birthDate.value, { months: 18 }) },
-
-  { start: add(birthDate.value, { months: 18, seconds: 1 }), end: add(birthDate.value, { years: 6 }) },
-  { start: add(birthDate.value, { years: 6, seconds: 1 }), end: add(birthDate.value, { years: 10 }) },
-  { start: add(birthDate.value, { years: 10, seconds: 1 }), end: add(birthDate.value, { years: 12 }) },
-  { start: add(birthDate.value, { years: 12, seconds: 1 }), end: add(birthDate.value, { years: 15 }) },
+  { start: add(birthDate.value, { months: 15, seconds: 1 }), end: add(birthDate.value, { months: 48 }) },
+  { start: add(birthDate.value, { months: 48, seconds: 1 }), end: add(birthDate.value, { months: 60 }) },
+  { start: add(birthDate.value, { months: 60, seconds: 1 }), end: add(birthDate.value, { months: 108 }) },
+  { start: add(birthDate.value, { months: 108, seconds: 1 }), end: add(birthDate.value, { months: 168 }) },
 ])
+
+const isWithinIntervalRounded = computed(() => {
+  return (index) => {
+    return isWithinInterval(new Date(), {
+      start: ranges.value[index].start,
+      end: ranges.value[index].end
+    })
+  }
+})
 
 const addDose = () => {
   return console.log('dose adicionada')
