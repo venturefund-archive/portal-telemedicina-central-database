@@ -1,5 +1,6 @@
 import factory.fuzzy
 
+from central_database.customers.factories import ClientFactory
 from central_database.vaccines.models import (
     Vaccine,
     VaccineAlert,
@@ -48,6 +49,7 @@ class VaccineAlertFactory(factory.django.DjangoModelFactory):
     vaccine_dose = factory.SubFactory(VaccineDoseFactory)
     patient_id = factory.Faker("pyint")
     alert_type = factory.SubFactory(VaccineAlertTypeFactory)
+    client = factory.SubFactory(ClientFactory)
 
     class Meta:
         model = VaccineAlert
@@ -57,6 +59,7 @@ class VaccineStatusFactory(factory.django.DjangoModelFactory):
     vaccine_dose = factory.SubFactory(VaccineDoseFactory)
     patient_id = factory.Faker("pyint")
     completed = factory.Faker("boolean")
+    client = factory.SubFactory(ClientFactory)
 
     class Meta:
         model = VaccineStatus

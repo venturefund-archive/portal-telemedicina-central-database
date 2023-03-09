@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 from central_database.base_models import Alert, AlertType, CDModel
+from central_database.customers.models import Client
 
 
 class Vaccine(CDModel, models.Model):
@@ -199,6 +200,7 @@ class VaccineStatus(CDModel, models.Model):
     patient_id = models.CharField(
         max_length=255, help_text="Patient ID from FHIR."
     )  # noqa: E501
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
     completed = models.BooleanField(default=False)
 
     class Meta:
@@ -225,6 +227,7 @@ class VaccineAlert(Alert, models.Model):
     patient_id = models.CharField(
         max_length=255, help_text="Patient ID from FHIR."
     )  # noqa: E501
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
     alert_type = models.ForeignKey(
         VaccineAlertType,
         on_delete=models.CASCADE,
