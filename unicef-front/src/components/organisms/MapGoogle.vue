@@ -24,6 +24,12 @@
         <!-- First pattern: Here you have access to the API and map instance.
           "ready" is a boolean that indicates when the Google Maps script
           has been loaded and the api and map instance are ready to be used -->
+
+          <Polygon :options="rectangle1"/>
+          <Polygon :options="rectangle2"/>
+          <Polygon :options="rectangle3"/>
+          <Polygon :options="rectangle4"/>
+
         <CustomMarker v-if="userLocation" :options="{
                                   anchorPoint: 'LEFT_CENTER',
                                   position: userLocation,
@@ -240,7 +246,7 @@
 
 <script setup>
 import { defineComponent, reactive, computed, onBeforeUpdate, onMounted, watch, ref } from 'vue'
-import { GoogleMap, Marker, CustomMarker, MarkerCluster, InfoWindow } from 'vue3-google-map'
+import { GoogleMap, Marker, CustomMarker, MarkerCluster, InfoWindow, Polygon } from 'vue3-google-map'
 import { useGeolocation } from '@/composables/useGeolocation'
 import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue'
 
@@ -261,7 +267,7 @@ const editForm = reactive({
 })
 
 const mapRef = ref(null)
-const center = ref(null)
+//const center = ref(null)
 const address = ref()
 const geocoder = ref(null)
 const map = ref(null)
@@ -282,6 +288,64 @@ const customClusterIcon = ref({
 })
 const movingIndex = ref(null)
 
+const center = ref({ lat: -22.748950, lng: -50.572530 })
+const rectangle1Coords = ref([
+  { lat: -22.742, lng: -50.577 },
+  { lat: -22.738, lng: -50.577 },
+  { lat: -22.738, lng: -50.572 },
+  { lat: -22.742, lng: -50.572 }
+])
+const rectangle2Coords = ref([
+  { lat: -22.749, lng: -50.572 },
+  { lat: -22.745, lng: -50.572 },
+  { lat: -22.745, lng: -50.567 },
+  { lat: -22.749, lng: -50.567 }
+])
+const rectangle3Coords = ref([
+  { lat: -22.747, lng: -50.585 },
+  { lat: -22.743, lng: -50.585 },
+  { lat: -22.743, lng: -50.580 },
+  { lat: -22.747, lng: -50.580 }
+])
+const rectangle4Coords = ref([
+  { lat: -22.754, lng: -50.580 },
+  { lat: -22.750, lng: -50.580 },
+  { lat: -22.750, lng: -50.575 },
+  { lat: -22.754, lng: -50.575 }
+])
+
+const rectangle1 = ref({
+  paths: rectangle1Coords,
+  strokeColor: '#FF0000',
+  strokeOpacity: 0.8,
+  strokeWeight: 2,
+  fillColor: '#FF0000',
+  fillOpacity: 0.35,
+})
+const rectangle2 = ref({
+  paths: rectangle2Coords,
+  strokeColor: '#FF0000',
+  strokeOpacity: 0.8,
+  strokeWeight: 2,
+  fillColor: '#FF0000',
+  fillOpacity: 0.35,
+})
+const rectangle3 = ref({
+  paths: rectangle3Coords,
+  strokeColor: '#FF0000',
+  strokeOpacity: 0.8,
+  strokeWeight: 2,
+  fillColor: '#FF0000',
+  fillOpacity: 0.35,
+})
+const rectangle4 = ref({
+  paths: rectangle4Coords,
+  strokeColor: '#FF0000',
+  strokeOpacity: 0.8,
+  strokeWeight: 2,
+  fillColor: '#FF0000',
+  fillOpacity: 0.35,
+})
 const searchAddress = () => {
   //center.value = { lat: -22.749940, lng: -50.576540 }
   geocodeAddress(geocoder.value, map.value)
