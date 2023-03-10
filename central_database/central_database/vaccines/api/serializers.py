@@ -111,7 +111,7 @@ class VaccineProtocolSerializer(
         except ZeroDivisionError:
             completed_doses_percentage = 0
 
-        return completed_doses_percentage
+        return round(completed_doses_percentage, 2)
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
@@ -133,14 +133,20 @@ class VaccineProtocolSerializer(
             except ZeroDivisionError:
                 completed_dose_percentage = 0
 
+            vaccine_name = Vaccine.objects.get(
+                id=vaccine_dose["vaccine"]
+            ).display  # noqa: E501
             vaccine_dose = {
                 "id": vaccine_dose["id"],
-                "vaccine": vaccine_dose["vaccine"],
+                "vaccine": {
+                    "id": vaccine_dose["vaccine"],
+                    "name": vaccine_name,
+                },  # noqa: E501
                 "dose_order": vaccine_dose["dose_order"],
                 "gender_recommendation": vaccine_dose["gender_recommendation"],
                 "alerts_count": vaccine_dose_alerts_count,
                 "completed_amount": completed_amount,
-                "completed_percentage": completed_dose_percentage,
+                "completed_percentage": round(completed_dose_percentage, 2),
             }
             serialized_vaccine_doses.append(vaccine_dose)
 

@@ -26,7 +26,7 @@ const dosesStore = useDosesStore()
 const props = defineProps({
   id: {
     type: String,
-    default: '',
+    default: '1',
   },
 })
 

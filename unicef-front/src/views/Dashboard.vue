@@ -15,12 +15,6 @@
 
     <!-- Latest users section -->
     <LatestSection class="lg:my-4" />
-
-    <!-- Latest vaccines section -->
-    <div class="flex">
-      <h4 class="text-lg font-medium">Marcos do desenvolvimento infantil</h4>
-      <span class="px-3 text-xs">0 a 15 anos</span>
-    </div>
   </PageWrapper>
 </template>
 

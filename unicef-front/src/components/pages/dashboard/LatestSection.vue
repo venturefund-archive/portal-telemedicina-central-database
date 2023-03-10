@@ -1,38 +1,96 @@
 <template>
-  <section class="grid grid-cols-1 gap-6 lg:grid-cols-2">
-    <h2 class="sr-only">Pacientes e escala</h2>
+  <section class="grid grid-cols-1 gap-6  place-content-center pt-5 md:pt-0 lg:pt-0">
+    <div class="grid grid-cols-1 gap-6" v-if="paginated">
+      <BaseCard title="Total de alertas por paciente" :actions="[{ title: 'View', to: '#' }]" @update:query="patientQuery = $event">
 
-    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-1">
-      <BaseCard title="Pacientes em espera" :actions="[{ title: 'View', to: '#' }]">
-        <div class="mt-4 flex items-center justify-between" v-for="i in 4" :key="i">
-          <div class="flex items-center gap-2">
-            <img class="h-10 w-10 rounded-md object-cover" src="https://placekitten.com/200/300" />
+        <div class="mt-4 flex items-center justify-between" v-for="(patient, index) in paginated" :key="index">
+          <div class="flex items-center gap-2 flex-auto">
+            <span class="hidden text-xs text-gray-500 align-baseline">{{ indexStart + ++index }}.</span>
+            <img class="h-10 w-10 p-1 rounded-md object-cover rounded-full bg-neutral-200" src="/avatar.png" />
             <div>
-              <h5 class="text-sm text-gray-600 dark:text-gray-300">Name</h5>
-              <p class="text-sm text-gray-400 dark:text-gray-500">email@example.com</p>
+              <h5 class="text-sm text-gray-600 dark:text-gray-300 font-medium capitalize">
+                <router-link :to="{ name: 'PatientDetails', params: { id: patient.id } }" class="hover:underline">{{
+                  patient.name.join().toLowerCase() }}</router-link>
+              </h5>
             </div>
           </div>
-          <Button size="sm" iconOnly variant="secondary" v-slot="{ iconSizeClasses }">
-            <DotsVerticalIcon aria-hidden="true" :class="iconSizeClasses" />
-            <span class="sr-only">Ações</span>
-          </Button>
+          <span class="flex-none pr-14">{{ patient.number_of_alerts_by_protocol }}</span>
+        </div>
+
+        <div class="flex justify-between pt-3 pb-2">
+          <div>
+            <Button :disabled="isFirstPage" size="sm" iconOnly variant="secondary" v-slot="{ iconSizeClasses }"
+              @click="prev">
+              <ArrowLeftIcon aria-hidden="true" :class="iconSizeClasses" />
+            </Button>
+          </div>
+          <div class="flex flex-col items-center">
+            <span class="text-sm" v-if="0 != totalPages">
+              <span class="font-semibold">{{ current }} / {{ totalPages }}</span> página<span v-if="totalPages > 1">s</span></span>
+            <span v-else>Nenhum resultado encontrado</span>
+            <span class="text-xs text-neutral-400">
+              <span class="font-semibold">{{ filteredPatients.length }}</span> resultado<span v-if="filteredPatients.length > 1">s</span> do total de <span class="font-semibold">{{ patientsStore.items.length
+            }}</span> pacientes</span>
+          </div>
+
+          <div>
+            <Button :disabled="isLastPage" size="sm" iconOnly variant="secondary" v-slot="{ iconSizeClasses }"
+              @click="next()">
+              <ArrowRightIcon aria-hidden="true" :class="iconSizeClasses" />
+            </Button>
+          </div>
         </div>
       </BaseCard>
     </div>
-
-    <BaseCard title="Escala do dia">
-      <div class="mt-4 flex items-center justify-between" v-for="i in 4" :key="i">
-        <div class="flex items-center gap-2">
-          <div>
-            <h5 class="text-sm text-gray-600 dark:text-gray-300">10:30</h5>
-            <p class="text-sm text-gray-400 dark:text-gray-500">20 Mar 2020</p>
-          </div>
-        </div>
-      </div>
-    </BaseCard>
   </section>
 </template>
 
 <script setup>
-import { DotsVerticalIcon, PlusCircleIcon, MinusCircleIcon } from '@heroicons/vue/outline'
+import { onMounted, onUpdated, reactive, ref, computed } from 'vue'
+import { DotsVerticalIcon, ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/solid'
+import { useRouter } from 'vue-router'
+import { usePatientsStore } from '@/stores/patients'
+import { useLoggedUserStore } from '@/stores/loggedUser'
+const loggedUserStore = useLoggedUserStore()
+const patientsStore = usePatientsStore()
+const router = useRouter()
+
+const patientQuery = ref('')
+const current = ref(1)
+const pageSize = ref(5)
+const isLastPage = computed(() => (current.value + 1 >= totalPages.value + 1))
+const isFirstPage = computed(() => (current.value == 1))
+const indexStart = computed(() => (current.value - 1) * pageSize.value)
+const indexEnd = computed(() => indexStart.value + pageSize.value)
+const filteredPatients = computed(() => {
+  return patientsStore.items.filter((patient) => {
+    return patient.name.join().toLowerCase().includes(patientQuery.value.toLowerCase())
+  })
+})
+const totalPages = computed(() => Math.ceil(filteredPatients.value.length / pageSize.value))
+const paginated = computed(() => filteredPatients.value.slice(indexStart.value, indexEnd.value))
+
+function prev() {
+  if (isFirstPage.value) {
+    return
+  }
+  current.value--
+}
+function next() {
+  if (isLastPage.value) {
+    return
+  }
+  current.value++
+}
+
+const props = defineProps({
+  id: {
+    type: String,
+    default: '',
+  },
+})
+
+onMounted(async () => {
+  await patientsStore.fetchPatients()
+})
 </script>
