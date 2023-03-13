@@ -6,13 +6,13 @@
       <div class="relative">
         <div class="absolute">
           <div class="">
-            <h1 class="my-2 text-2xl font-bold text-gray-800">Ops! Something went wrong...</h1>
-            <p class="my-2 text-gray-800">Sorry about that! Please visit our hompage to get where you need to go.</p>
+            <h1 class="my-2 text-2xl font-bold text-gray-800">{{ $t('dashboard.ops-something-went-wrong') }}</h1>
+            <p class="my-2 text-gray-800">{{ $t('dashboard.sorry') }}</p>
             <div class="mt-10 flex justify-center">
               <a
                 href="/"
                 class="md my-2 rounded border bg-blue-600 py-4 px-8 text-center text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-opacity-50 sm:w-full lg:w-auto"
-                >Take me there!</a
+                >{{ $t('dashboard.take-me-there') }}</a
               >
             </div>
           </div>

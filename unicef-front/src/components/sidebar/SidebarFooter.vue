@@ -1,4 +1,5 @@
 <template>
+  <LanguageSwitcher />
   <div class="flex-shrink-0 px-3 lg:hidden">
     <Button
       iconOnly
