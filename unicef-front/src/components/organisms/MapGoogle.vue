@@ -1,23 +1,45 @@
 <template>
-  <form @submit.prevent="searchAddress" class="w-full md:flex md:justify-center pb-5">
-    <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900">Procurar</label>
-    <div class="relative">
-      <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-        <svg class="h-5 w-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+  <div>
+    <div class="bg-white rounded shadow-md grid grid-cols-1 md:grid-cols-5 gap-5 items-center w-full md:w-1/2 p-1">
+  <div class="col-span-3">
+    <form @submit.prevent="searchAddress" class="flex items-center w-full">
+      <label for="default-search" class="sr-only text-sm font-medium text-gray-900">Procurar</label>
+      <div class="relative flex items-center w-full p-2">
+        <svg class="h-5 w-5 text-gray-500 dark:text-gray-400 absolute left-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
         </svg>
+        <input placeholder="Pesquisar no mapa" class="bg-neutral-100 py-3 px-7 mr-1 w-full rounded-md focus:ring-blue-500 focus:border-blue-500" />
+        <button type="submit" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-colors duration-300 ease-in-out">Pesquisar</button>
       </div>
-      <div class="flex">
-        <input placeholder="Pesquisar no mapa"
-          class="block w-full px-5 rounded-lg border border-transparent focus:shadow-none bg-gray-50 py-4.5 pl-10 text-gray-900 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-          v-model="address" />
-        <Button type="submit" class="mx-5 justify-center">Pesquisar</Button>
-      </div>
+    </form>
+  </div>
+
+  <div class="mt-4 md:mt-0">
+    <button @click="showList = !showList" class="relative z-10 flex flex-col items-center px-4 py-2 text-gray-500 bg-primary rounded-md">
+      <UsersIcon title="População" class="h-8 w-8 text-blue-500"/>
+      <span class="mt-1">População</span>
+    </button>
+    <ul v-if="showList" class="absolute z-20 mt-4 rounded-md shadow-md bg-white" style="margin-top: -2rem;">
+      <li v-for="item in items" :class="{ 'font-bold': item === selectedItem }" class="px-4 py-2 font-normal cursor-pointer hover:bg-gray-100" :key="item" @click="onItemClick(item)">
+        {{ item }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="mt-4 md:mt-0">
+    <div class="inline-block align-middle mr-2 select-none transition duration-200 ease-in relative w-10">
+      <input type="checkbox" name="toggle" id="toggle" class="absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer toggle-checkbox" v-model="isActive" />
+      <label for="toggle" class="block h-6 rounded-full bg-gray-300 cursor-pointer toggle-label" :class="{'bg-red-500': isActive, 'border-red-500': isActive}"></label>
     </div>
-  </form>
-  <div class="flex justify-center">
+    <label for="toggle" class="text-gray-500">Alertas</label>
+  </div>
+</div>
+
+
+
+
+
+  <div class="flex justify-start shadow md:w-1/2">
     <GoogleMap :api-key="GOOGLE_MAP_API_KEY" style="width: 100%; height: 700px" :center="center" :zoom="14"
       ref="mapRef">
       <template #default="{ ready, api, map, mapTilesLoaded }">
@@ -36,7 +58,6 @@
                                 }">👩 User Position</CustomMarker>
         <MarkerCluster>
           <Marker v-for="(location, i) in locations" :key="i" :ref="el => { markers[i] = el }" :options="{ position: location, draggable: isDraggable(i), icon: customMarkerIcon }" @dragend="handleMarkerDrag($event, i)">
-            <span>{{ isDraggable(i) }}</span>
             <Teleport to=".notification-space">
               <Popover v-slot="{ open }" class="">
                 <transition
@@ -242,6 +263,63 @@
       </template>
     </GoogleMap>
   </div>
+
+  <!-- Notification icon -->
+  <div class="relative">
+  <button @click="isModalOpen = true" class="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-red-500 hover:bg-red-600">
+    <BellIcon title="População" class="h-8 w-8 text-white hover:text-gray-50" />
+  </button>
+  <div v-if="isModalOpen" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white rounded-md p-6 max-w-md w-full mx-auto relative">
+      <button @click="isModalOpen = false" class="absolute top-2 right-2 text-gray-500">
+        <XIcon class="h-6 w-6"/>
+      </button>
+      <h2 class="text-xl font-semibold mb-4">Cities in Brazil</h2>
+      <input type="text" v-model="searchQuery" placeholder="Search city" class="border border-gray-300 rounded-md px-3 py-2 w-full mb-4"/>
+      <ul class="divide-y divide-gray-200">
+        <li v-for="city in filteredCities" :key="city.name" class="py-3">
+          <h3 class="font-bold mb-1">{{ city.name }}</h3>
+          <p class="text-sm">{{ city.age }} years old</p>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+     <!-- People with vaccines delayed -->
+  <div class="bg-white w-full md:w-1/2 p-4 rounded">
+    <h2 class="font-bold text-lg mb-4">Pessoas em atraso</h2>
+    <div class="flex items-center">
+  <div class=" flex gap-2">
+    <button class=" border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white py-1 px-4 rounded-md text-sm">CPFS</button>
+    <button class=" border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white py-1 px-4 rounded-md text-sm">Bairro</button>
+  </div>
+  <div class="mt-4 md:mt-0 flex items-center">
+    <button @click="showList = !showList" class="relative z-10 flex flex-col items-center px-4 py-2 text-gray-500 bg-primary rounded-md">
+      <UsersIcon title="População" class="h-6 w-6 text-blue-500"/>
+    </button>
+    <ul v-if="showList" class="absolute z-20 mt-4 rounded-md shadow-md bg-white" style="margin-top: -2rem;">
+      <li v-for="item in items" :class="{ 'font-bold': item === selectedItem }" class="px-4 py-2 font-normal cursor-pointer hover:bg-gray-100" :key="item" @click="">
+        {{ item }}
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+
+    <ul>
+      <li v-for="person in people" :key="person.id" class="flex justify-between items-center border-b-2 border-gray-200 py-2">
+        <div class="flex-grow">
+          <h3 class="font-bold text-base">{{ person.name }}</h3>
+          <p class="text-xs">{{ person.birthday }}</p>
+        </div>
+        <button class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-4 rounded-md text-sm">Details</button>
+      </li>
+    </ul>
+  </div>
+</div>
 </template>
 
 <script setup>
@@ -249,11 +327,11 @@ import { defineComponent, reactive, computed, onBeforeUpdate, onMounted, watch, 
 import { GoogleMap, Marker, CustomMarker, MarkerCluster, InfoWindow, Polygon } from 'vue3-google-map'
 import { useGeolocation } from '@/composables/useGeolocation'
 import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue'
-
-import { HandIcon, PencilIcon } from '@heroicons/vue/outline'
+import { HandIcon, PencilIcon, UsersIcon, BellIcon, XIcon } from '@heroicons/vue/solid'
 import { useRouter } from 'vue-router'
 import { usePatientsStore } from '@/stores/patients'
 const patientsStore = usePatientsStore()
+
 
 const router = useRouter()
 
@@ -266,11 +344,17 @@ const editForm = reactive({
   processing: false,
 })
 
+
+const showList = ref(false);
+const items = ['Todos', 'Gestantes','Puérperas', 'Recém-nascidos', 'Primeira infância', 'Segunda infância', 'Terceira Infância','Adolescência'];
+
 const mapRef = ref(null)
 //const center = ref(null)
 const address = ref()
 const geocoder = ref(null)
 const map = ref(null)
+const isActive = ref(false);
+const selectedItem = ref(null);
 const GOOGLE_MAP_API_KEY = ref(import.meta.env.VITE_GOOGLE_MAP_API_KEY)
 const customMarkerIcon = ref({
   url: 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png',
@@ -279,6 +363,41 @@ const customMarkerIcon = ref({
     height: 40
   },
 })
+const asd = ref( {
+      showList: false,
+      items: ['Item 1', 'Item 2', 'Item 3'] // Substitua com o seu array de strings
+  })
+
+  const people = [
+    { id: 1, name: 'John Doe', birthday: 'Jan 1st, 1980' },
+    { id: 2, name: 'Jane Smith', birthday: 'Feb 14th, 1995' },
+    { id: 3, name: 'Bob Johnson', birthday: 'Dec 31st, 1975' },
+  ];
+
+
+  const cities = [
+  { name: 'São Paulo', age: 467 },
+  { name: 'Rio de Janeiro', age: 456 },
+  { name: 'Belo Horizonte', age: 124 },
+  { name: 'Brasília', age: 61 },
+  { name: 'Salvador', age: 472 }
+]
+
+const isModalOpen = ref(false)
+const searchQuery = ref('')
+
+const filteredCities = computed(() => {
+  if (!searchQuery.value) {
+    return cities
+  }
+  const normalizedSearch = searchQuery.value.trim().toLowerCase()
+  return cities.filter(city => {
+    const normalizedCity = city.name.toLowerCase()
+    return normalizedCity.includes(normalizedSearch)
+  })
+})
+
+
 const customClusterIcon = ref({
   url: 'https://i.ibb.co/sQWvRnX/ssss.png',
   scaledSize: {
@@ -381,6 +500,14 @@ onBeforeUpdate(() => {
   markers.value = []
 })
 
+function onItemClick(item) {
+  selectedItem.value = item;
+  console.log(`Item clicado: ${item}`);
+}
+
+const populationGroup = reactive([
+
+])
 // Third pattern: watch for "ready" then do something with the API or map instance
 watch(() => mapRef.value?.ready, (ready) => {
   if (!ready) return
@@ -427,11 +554,41 @@ const userLocation = computed(() => ({
 </script>
 
 <style type="text/css">
+.container {
+  padding: 5px;
+}
+
+.list {
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.list-item {
+  cursor: pointer;
+}
+
 .edit-panel {
   position: fixed;
   left: 50%;
   top: 0;
   width: 380px;
   margin: 150px 0 0 -190px; /* Apply negative top and left margins to center the element */
+}
+
+.toggle-checkbox:checked {
+  @apply: right-0 border-blue-400;
+  right: 0;
+  border-color: blue;
+}
+.toggle-checkbox:checked + .toggle-label {
+  @apply: bg-blue-400;
+  background-color: blue;
+}
+
+@media (min-width: 768px) {
+  .w-1\\/2 {
+    width: 50%;
+  }
 }
 </style>
