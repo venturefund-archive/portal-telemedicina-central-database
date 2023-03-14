@@ -360,7 +360,7 @@ python-versions = "*"
 
 [[package]]
 name = "dj-rest-auth"
-version = "2.2.7"
+version = "2.2.8"
 description = "Authentication and Registration in Django Rest Framework"
 category = "main"
 optional = false
@@ -488,6 +488,17 @@ python-versions = ">=3.6"
 
 [package.dependencies]
 Django = ">=2.2"
+
+[[package]]
+name = "django-filter"
+version = "22.1"
+description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+Django = ">=3.2"
 
 [[package]]
 name = "django-model-utils"
@@ -2067,7 +2078,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "392ba491475ae51e6cfb177d7cce7496c058ffe1ba514bb947384147ce3c2a9d"
+content-hash = "fe93daefa7e0ed23cfbe06ed4581cf4ec4c8a5f8542bbb42cc81a54a8bf15c39"
 
 [metadata.files]
 alabaster = [
@@ -2355,7 +2366,7 @@ distlib = [
     {file = "distlib-0.3.5.tar.gz", hash = "sha256:a7f75737c70be3b25e2bee06288cec4e4c221de18455b2dd037fe2a795cab2fe"},
 ]
 dj-rest-auth = [
-    {file = "dj-rest-auth-2.2.7.tar.gz", hash = "sha256:911bcf377df68c958a7f534def7715b61f3d887a46fbb53ca7666244b7c0b143"},
+    {file = "dj-rest-auth-2.2.8.tar.gz", hash = "sha256:9fb3492888185ede8b2064ad6803120c7b0b83ab08e2347a02e9b44282374242"},
 ]
 django = [
     {file = "Django-3.2.14-py3-none-any.whl", hash = "sha256:a8681e098fa60f7c33a4b628d6fcd3fe983a0939ff1301ecacac21d0b38bad56"},
@@ -2391,6 +2402,10 @@ django-environ = [
 django-extensions = [
     {file = "django-extensions-3.1.5.tar.gz", hash = "sha256:28e1e1bf49f0e00307ba574d645b0af3564c981a6dfc87209d48cb98f77d0b1a"},
     {file = "django_extensions-3.1.5-py3-none-any.whl", hash = "sha256:9238b9e016bb0009d621e05cf56ea8ce5cce9b32e91ad2026996a7377ca28069"},
+]
+django-filter = [
+    {file = "django-filter-22.1.tar.gz", hash = "sha256:ed473b76e84f7e83b2511bb2050c3efb36d135207d0128dfe3ae4b36e3594ba5"},
+    {file = "django_filter-22.1-py3-none-any.whl", hash = "sha256:ed429e34760127e3520a67f415bec4c905d4649fbe45d0d6da37e6ff5e0287eb"},
 ]
 django-model-utils = [
     {file = "django-model-utils-4.2.0.tar.gz", hash = "sha256:e7a95e102f9c9653427eadab980d5d59e1dea972913b9c9e01ac37f86bba0ddf"},
