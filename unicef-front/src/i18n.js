@@ -2,17 +2,18 @@ import { createI18n } from "vue3-i18n"
 import { messages } from "vite-i18n-resources"
 import { useStorage } from '@vueuse/core'
 import { setDefaultOptions } from 'date-fns'
-import { ptBR, enUS } from 'date-fns/locale'
+import { ptBR, enUS, es } from 'date-fns/locale'
 
 const appDefaultLang = 'pt'
 
 const state = useStorage('app-store', { lang: appDefaultLang })
-setDefaultOptions({ locale: appDefaultLang == state.value.lang ? ptBR : enUS || ptBR })
+const locale = appDefaultLang == state.value.lang ? ptBR : 'es' == state.value.lang ? es : enUS || ptBR
+setDefaultOptions({ locale })
 
 const i18n = createI18n({
   legacy: false,
-  locale: appDefaultLang == state.value.lang ? appDefaultLang : 'en',
-  fallbackLocale: appDefaultLang == state.value.lang ? appDefaultLang : 'en',
+  locale: appDefaultLang == state.value.lang ? appDefaultLang : 'es' == state.value.lang ? 'es'  : 'en',
+  fallbackLocale: appDefaultLang == state.value.lang ? appDefaultLang : 'es' == state.value.lang ? 'es': 'en',
   globalInjection: true,
   silentTranslationWarn: true,
   messages

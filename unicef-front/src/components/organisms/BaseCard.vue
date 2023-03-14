@@ -27,7 +27,10 @@
                 </svg>
               </div>
               <InputIconWrapper>
-                <input
+                <template #icon>
+                  <SearchIcon aria-hidden="true" class="h-5 w-5" />
+                </template>
+                <Input
                   @input="$emit('update:query', $event.target.value)"
                   :placeholder="$t('dashboard.search')"
                   withIcon
@@ -46,7 +49,7 @@
 </template>
 
 <script setup>
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+import { SearchIcon } from '@heroicons/vue/outline'
 import { DotsHorizontalIcon } from '@heroicons/vue/outline'
 import { ref } from 'vue'
 

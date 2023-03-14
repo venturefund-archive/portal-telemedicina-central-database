@@ -9,9 +9,6 @@
   "forgot-your-password-text": "Esqueceu sua senha? Sem problemas. Basta nos informar seu endereço de e-mail e enviaremos um e-mail com um link de redefinição de senha que permitirá que você escolha um novo.",
   "new-password": "New password",
   "not-have-an-account-yet": "Ainda não tem uma conta?",
-  "nt-details": {
-    "dose": ""
-  },
   "password": "Password",
   "password-change-confirm-text": "Esta é uma área segura do aplicativo. Por favor, confirme sua senha antes de continuar.",
   "password-changed-successfully": "Senha alterada com sucesso!",

@@ -14,6 +14,13 @@
               :class="i18n.getLocale() == 'pt' ? 'grayscale-0' : 'grayscale hover:grayscale-0'"
                 src="https://flagicons.lipis.dev/flags/4x3/br.svg" />
         </button>
+          <button
+                  @click="setLocale('es')"
+                  class="inline-flex hover:border-trasparent border-neutral-400 shadow-lg border rounded">
+            <img class="w-10 cursor-pointer rounded"
+                :class="i18n.getLocale() == 'es' ? 'grayscale-0' : 'grayscale hover:grayscale-0'"
+                  src="https://flagicons.lipis.dev/flags/4x3/es.svg" />
+          </button>
     </div>
 </template>
 
