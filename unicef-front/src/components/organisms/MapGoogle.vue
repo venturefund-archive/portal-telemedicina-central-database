@@ -1,5 +1,68 @@
 <template>
   <div>
+
+    <!-- Notification icon -->
+    <div class="relative flex justify-end">
+  <button @click="isModalOpen = true" class="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-red-500 hover:bg-red-600">
+    <BellIcon title="População" class="h-8 w-8 text-white hover:text-gray-50" />
+  </button>
+  <transition name="slide-in">
+  <div v-if="isModalOpen" class="fixed inset-0 z-50 overflow-y-auto">
+    <div class="flex items-center justify-end h-screen/2">
+      <div class="fixed top-0 left-1/2 transform -translate-x-1/2 h-full w-1/2 flex justify-center flex-col p-6 max-w-md mx-auto relative bg-white rounded-md shadow-lg z-50">
+        <button @click="isModalOpen = false" class="absolute top-2 right-2 text-gray-500">
+          <XIcon class="h-6 w-6"/>
+        </button>
+        <h2 class="text-xl font-semibold mb-4">Cities in Brazil</h2>
+        <input type="text" v-model="searchQuery" placeholder="Search city" class="border border-gray-300 rounded-md px-3 py-2 w-full mb-4"/>
+        <ul class="divide-y divide-gray-200">
+          <li v-for="city in filteredCities" :key="city.name" class="py-3">
+            <h3 class="font-bold mb-1">{{ city.name }}</h3>
+            <p class="text-sm">{{ city.age }} years old</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="fixed inset-0 z-40 bg-gray-900 bg-opacity-10 backdrop-blur"></div>
+  </div>
+</transition>
+
+</div>
+
+
+
+     <!-- People with vaccines delayed -->
+     <div class="bg-white w-full md:w-1/2 h-full p-4 rounded float-right ga">
+  <h2 class="font-bold text-lg mb-4">Pessoas em atraso</h2>
+  <div class="flex items-center">
+    <div class="flex gap-2">
+      <button class="border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white py-1 px-4 rounded-md text-sm">CPFS</button>
+      <button class="border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white py-1 px-4 rounded-md text-sm">Bairro</button>
+    </div>
+    <div class="mt-4 md:mt-0 flex items-center">
+      <button @click="showList = !showList" class="relative z-10 flex flex-col items-center px-4 py-2 text-gray-500 bg-primary rounded-md">
+        <UsersIcon title="População" class="h-6 w-6 text-blue-500"/>
+      </button>
+      <ul v-if="showList" class="absolute z-20 mt-4 rounded-md shadow-md bg-white" style="margin-top: -2rem;">
+        <li v-for="item in items" :class="{ 'font-bold': item === selectedItem }" class="px-4 py-2 font-normal cursor-pointer hover:bg-gray-100" :key="item" @click="">
+          {{ item }}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+
+    <ul>
+      <li v-for="person in people" :key="person.id" class="flex justify-between items-center border-b-2 border-gray-200 py-2">
+        <div class="flex-grow">
+          <h3 class="font-bold text-base">{{ person.name }}</h3>
+          <p class="text-xs">{{ person.birthday }}</p>
+        </div>
+        <button class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-4 rounded-md text-sm">Details</button>
+      </li>
+    </ul>
+  </div>
+
     <div class="bg-white rounded shadow-md grid grid-cols-1 md:grid-cols-5 gap-5 items-center w-full md:w-1/2 p-1">
   <div class="col-span-3">
     <form @submit.prevent="searchAddress" class="flex items-center w-full">
@@ -34,11 +97,6 @@
     <label for="toggle" class="text-gray-500">Alertas</label>
   </div>
 </div>
-
-
-
-
-
   <div class="flex justify-start shadow md:w-1/2">
     <GoogleMap :api-key="GOOGLE_MAP_API_KEY" style="width: 100%; height: 700px" :center="center" :zoom="14"
       ref="mapRef">
@@ -264,61 +322,6 @@
     </GoogleMap>
   </div>
 
-  <!-- Notification icon -->
-  <div class="relative">
-  <button @click="isModalOpen = true" class="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-red-500 hover:bg-red-600">
-    <BellIcon title="População" class="h-8 w-8 text-white hover:text-gray-50" />
-  </button>
-  <div v-if="isModalOpen" class="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center">
-    <div class="bg-white rounded-md p-6 max-w-md w-full mx-auto relative">
-      <button @click="isModalOpen = false" class="absolute top-2 right-2 text-gray-500">
-        <XIcon class="h-6 w-6"/>
-      </button>
-      <h2 class="text-xl font-semibold mb-4">Cities in Brazil</h2>
-      <input type="text" v-model="searchQuery" placeholder="Search city" class="border border-gray-300 rounded-md px-3 py-2 w-full mb-4"/>
-      <ul class="divide-y divide-gray-200">
-        <li v-for="city in filteredCities" :key="city.name" class="py-3">
-          <h3 class="font-bold mb-1">{{ city.name }}</h3>
-          <p class="text-sm">{{ city.age }} years old</p>
-        </li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-
-     <!-- People with vaccines delayed -->
-  <div class="bg-white w-full md:w-1/2 p-4 rounded">
-    <h2 class="font-bold text-lg mb-4">Pessoas em atraso</h2>
-    <div class="flex items-center">
-  <div class=" flex gap-2">
-    <button class=" border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white py-1 px-4 rounded-md text-sm">CPFS</button>
-    <button class=" border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white py-1 px-4 rounded-md text-sm">Bairro</button>
-  </div>
-  <div class="mt-4 md:mt-0 flex items-center">
-    <button @click="showList = !showList" class="relative z-10 flex flex-col items-center px-4 py-2 text-gray-500 bg-primary rounded-md">
-      <UsersIcon title="População" class="h-6 w-6 text-blue-500"/>
-    </button>
-    <ul v-if="showList" class="absolute z-20 mt-4 rounded-md shadow-md bg-white" style="margin-top: -2rem;">
-      <li v-for="item in items" :class="{ 'font-bold': item === selectedItem }" class="px-4 py-2 font-normal cursor-pointer hover:bg-gray-100" :key="item" @click="">
-        {{ item }}
-      </li>
-    </ul>
-  </div>
-</div>
-
-
-
-    <ul>
-      <li v-for="person in people" :key="person.id" class="flex justify-between items-center border-b-2 border-gray-200 py-2">
-        <div class="flex-grow">
-          <h3 class="font-bold text-base">{{ person.name }}</h3>
-          <p class="text-xs">{{ person.birthday }}</p>
-        </div>
-        <button class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-4 rounded-md text-sm">Details</button>
-      </li>
-    </ul>
-  </div>
 </div>
 </template>
 
@@ -591,4 +594,14 @@ const userLocation = computed(() => ({
     width: 50%;
   }
 }
+
+.slide-in-enter-active,
+  .slide-in-leave-active {
+    transition: all 0.3s ease;
+  }
+
+  .slide-in-enter,
+  .slide-in-leave-to {
+    transform: translateX(100%);
+  }
 </style>

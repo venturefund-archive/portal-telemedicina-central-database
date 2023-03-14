@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper title="Mapa de pacientes com dose atrasada">
+  <PageWrapper title="Mapa do Gestor">
     <MapGoogle />
   </PageWrapper>
 </template>
