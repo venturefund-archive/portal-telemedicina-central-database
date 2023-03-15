@@ -40,6 +40,7 @@ dj-rest-auth = {extras = ["with-social"], version = "^2.2.5"}
 google-auth = "^2.15.0"
 django-simple-history = "^3.2.0"
 rules = "^3.3"
+django-filter = "^22.1"
 
 
 [tool.poetry.dev-dependencies]
