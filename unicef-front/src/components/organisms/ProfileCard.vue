@@ -9,7 +9,7 @@
         <p class="pr-2 font-bold capitalize text-gray-600">{{ patientsStore.item.name.join().toLowerCase() }}</p>
         <div class="text-gray-400">
           <p>
-            Gênero: <span>{{ 'male' == patientsStore.item.gender ? 'Masculino' : 'Feminino' }}</span>
+            {{ $t('patient-details.genre') }} <span>{{ 'male' == patientsStore.item.gender ? 'Masculino' : 'Feminino' }}</span>
           </p>
           <!--
           <p>
@@ -20,15 +20,15 @@
           </p>
           -->
           <p>
-            Data de nascimento: <span>{{ format(birthDate, 'dd/MM/yyyy') }}</span>
+            {{ $t('patient-details.date-of-birth') }} <span>{{ format(birthDate, 'dd/MM/yyyy') }}</span>
           </p>
           <p v-if="patientsStore.item.marital_status && patientsStore.item.marital_status.text">
-            Estado civil: <span>{{ patientsStore.item.marital_status.text }}</span>
+            {{ $t('patient-details.civil-status') }} <span>{{ patientsStore.item.marital_status.text }}</span>
           </p>
         </div>
       </div>
       <div class="col-start-2 ml-4 flex md:col-start-auto md:ml-0 md:justify-end">
-        <p class="h-fit rounded-lg bg-sky-200 py-1 px-3 text-sm font-bold text-sky-600">
+        <p class="h-fit rounded-lg bg-sky-200 py-1 px-3 text-sm font-bold text-sky-600 lowercase">
           {{ formatedAge }}
         </p>
       </div>
@@ -46,27 +46,25 @@ import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
 import { usePatientsStore } from '@/stores/patients'
 import { parseISO, differenceInYears, setDefaultOptions, format, differenceInMonths, differenceInDays, addDays, addMonths } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+import { useI18n } from "vue3-i18n";
+const { t } = useI18n()
 const patientsStore = usePatientsStore()
-setDefaultOptions({ locale: ptBR })
-
 const router = useRouter()
-
 
 const birthDate = computed(() => parseISO(patientsStore.item.birth_date))
 
 const formatedAge = computed(() => {
   const birthDateInYears = differenceInYears(new Date(), birthDate.value)
   if (1 == birthDateInYears) {
-    return '1 ano'
+    return '1 ' + t('patient-details.year')
   } else if (0 == birthDateInYears) {
     const birthDateInMonths = differenceInMonths(new Date(), birthDate.value)
     const birthDateInDays = differenceInDays(new Date(), birthDate.value)
     if (1 == birthDateInMonths) {
-      return '1 mês'
+      return '1 ' + t('patient-details.month')
     }else if (0 == birthDateInMonths) {
       if (1 == birthDateInDays){
-        return '1 dia'
+        return '1 ' + t('patient-details.day')
       }
       return birthDateInDays + ' dias'
     }

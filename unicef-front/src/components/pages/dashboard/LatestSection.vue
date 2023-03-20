@@ -1,7 +1,7 @@
 <template>
   <section class="grid grid-cols-1 gap-6  place-content-center pt-5 md:pt-0 lg:pt-0">
     <div class="grid grid-cols-1 gap-6" v-if="paginated">
-      <BaseCard title="Total de alertas por paciente" :actions="[{ title: 'View', to: '#' }]" @update:query="patientQuery = $event">
+      <BaseCard :title="$t('dashboard.total-alerts-per-patient')" :actions="[{ title: 'View', to: '#' }]" @update:query="patientQuery = $event">
 
         <div class="mt-4 flex items-center justify-between" v-for="(patient, index) in paginated" :key="index">
           <div class="flex items-center gap-2 flex-auto">
@@ -26,11 +26,11 @@
           </div>
           <div class="flex flex-col items-center">
             <span class="text-sm" v-if="0 != totalPages">
-              <span class="font-semibold">{{ current }} / {{ totalPages }}</span> página<span v-if="totalPages > 1">s</span></span>
-            <span v-else>Nenhum resultado encontrado</span>
-            <span class="text-xs text-neutral-400">
-              <span class="font-semibold">{{ filteredPatients.length }}</span> resultado<span v-if="filteredPatients.length > 1">s</span> do total de <span class="font-semibold">{{ patientsStore.items.length
-            }}</span> pacientes</span>
+              <span class="font-semibold">{{ current }} / {{ totalPages }}</span> {{ $t('dashboard.page') }}<span v-if="totalPages > 1">s</span></span>
+            <span v-else>{{ $t('dashboard.no-results-found') }}</span>
+            <span class="text-xs text-neutral-400 lowercase">
+              <span class="font-semibold">{{ filteredPatients.length }}</span> {{ $t('dashboard.result') }}<span v-if="filteredPatients.length > 1">s</span> {{ $t('dashboard.of-total-of') }} <span class="font-semibold">{{ patientsStore.items.length
+            }}</span> {{ $t('dashboard.patients') }}</span>
           </div>
 
           <div>

@@ -1,9 +1,9 @@
 <template>
   <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-    Obrigado por inscrever-se! Sua solicitação esta em análise. Aguarde a liberação de sua conta para uso.  </div>
+    {{ $t('auth.thanks-text') }}  </div>
 
   <div class="mb-4 text-sm font-medium text-green-600" v-if="verificationLinkSent">
-    Sua solicitação esta em análise. Enviaremos um email notificando a liberação de sua conta para uso.
+    {{ $t('auth.request-text') }}
   </div>
 
   <form @submit.prevent="submit">
@@ -17,7 +17,7 @@
         method="post"
         as="button"
         class="text-sm text-blue-600 hover:underline dark:text-blue-400"
-        >Voltar</router-link
+        >{{ $t('auth.back') }}</router-link
       >
     </div>
   </form>

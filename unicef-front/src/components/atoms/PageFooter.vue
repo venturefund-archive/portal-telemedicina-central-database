@@ -5,10 +5,10 @@
         &#169;
         <span>{{ new Date().getFullYear() }}</span> <a href="https://portaltelemedicina.com.br/" target="_blank"
                                                        class="text-blue-600 hover:underline"
-      >Portal Telemedicina</a>. Todos os direitos reservados.
+      >Portal Telemedicina</a>. {{ $t('dashboard.all-rights-reserved') }}
       </p>
       <p class="flex items-center gap-1 text-sm">
-        <span>Distribuído por UNICEF</span>
+        <span>{{ $t('dashboard.distributed-by-unicef') }}</span>
       </p>
     </div>
     <div class="flex w-full px-10 py-4 lg:flex-row lg:justify-end text-gray-400 dark:text-gray-400">

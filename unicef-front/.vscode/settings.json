@@ -1,0 +1,41 @@
+{
+  "i18n-ally.localesPaths": [
+    "src/locales"
+  ],
+  "i18n-ally.namespace": true,
+  "i18n-ally.pathMatcher": "{namespaces}.{locale}.json",
+  "i18n-ally.keystyle": "nested",
+  "i18n-ally.editor.preferEditor": true,
+  "i18n-ally.sortKeys": true,
+  "i18n-ally.keepFulfilled": true,
+  "i18n-ally.enabledFrameworks": [
+    "vue"
+  ],
+  "i18n-ally.sourceLanguage": "pt",
+  "i18n-ally.displayLanguage": "pt",
+  "i18n-ally.enabledParsers": [
+    "js",
+    "json",
+    "ts",
+    "pot",
+  ],
+  // Enables hard-coded strings detection automatically whenever opening supported a file
+  "i18n-ally.extract.autoDetect": true,
+
+  // Make sure that particular refactoring templates would be picked up be the bulk extraction depending on the context
+  "i18n-ally.refactor.templates": [
+    {
+      // affect scope (optional)
+      // see https://github.com/lokalise/i18n-ally/blob/master/src/core/types.ts#L156-L156
+      "source": "html-attribute",
+      // accept globs, resolved to project root (optional)
+      "include": [
+        "src/**/*.{vue,ts,js}",
+        "index.html"
+      ],
+      "exclude": [
+        "src/config/**"
+      ]
+    },
+  ]
+}

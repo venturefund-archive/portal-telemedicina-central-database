@@ -12,7 +12,7 @@
             withIcon
             id="username"
             type="text"
-            placeholder="Nome de usuário"
+            :placeholder="$t('auth.username')"
             class="block w-full"
             v-model="registerForm.username"
             required
@@ -26,7 +26,7 @@
 
       <!-- Email input -->
       <div class="space-y-2">
-        <Label for="email" value="E-mail" />
+        <Label for="email" :value="$t('auth.e-mail')" />
         <InputIconWrapper>
           <template #icon>
             <MailIcon aria-hidden="true" class="h-5 w-5" />
@@ -36,17 +36,16 @@
             id="email"
             type="email"
             class="block w-full"
-            placeholder="E-mail"
+            :placeholder="$t('auth.e-mail')"
             v-model="registerForm.email"
             required
-            autocomplete="username"
           />
         </InputIconWrapper>
       </div>
 
       <!-- Password input -->
       <div class="space-y-2">
-        <Label for="password1" value="Password" />
+        <Label for="password1" :value="$t('auth.password')" />
         <InputIconWrapper>
           <template #icon>
             <LockClosedIcon aria-hidden="true" class="h-5 w-5" />
@@ -56,7 +55,7 @@
             id="password1"
             type="password"
             class="block w-full"
-            placeholder="Senha"
+            :placeholder="$t('auth.password')"
             v-model="registerForm.password1"
             required
             autocomplete="new-password"
@@ -66,7 +65,7 @@
 
       <!-- Password confirmation input -->
       <div class="space-y-2">
-        <Label for="password2" value="Confirm Password" />
+        <Label for="password2" :value="$t('auth.confirm-password')" />
         <InputIconWrapper>
           <template #icon>
             <LockClosedIcon aria-hidden="true" class="h-5 w-5" />
@@ -76,7 +75,7 @@
             id="password2"
             type="password"
             class="block w-full"
-            placeholder="Confirmar senha"
+            :placeholder="$t('auth.confirm-password')"
             v-model="registerForm.password2"
             required
             autocomplete="new-password"
@@ -91,13 +90,13 @@
             <Checkbox name="terms" id="terms" v-model:checked="registerForm.terms" />
 
             <div class="ml-2">
-              Eu concordo com os
+              {{ $t('auth.terms1') }}
               <a target="_blank" href="#" class="text-sm text-blue-600 underline hover:text-blue-900"
-                >termos de serviços</a
+                >{{ $t('auth.terms2') }}</a
               >
-              e
+              {{ $t('auth.terms3') }}
               <a target="_blank" href="#" class="text-sm text-blue-600 underline hover:text-blue-900"
-                >politica de privacidade</a
+                >{{ $t('auth.terms4') }}</a
               >
             </div>
           </div>
@@ -113,14 +112,14 @@
           v-slot="{ iconSizeClasses }"
         >
           <UserAddIcon aria-hidden="true" :class="iconSizeClasses" />
-          <span>Register</span>
+          <span>{{ $t('auth.register') }}</span>
         </Button>
       </div>
 
       <!-- Login link -->
       <p class="text-sm text-gray-600 dark:text-gray-400">
-        Já possui uma conta?
-        <router-link :to="{ name: 'Login' }" class="text-blue-500 hover:underline">Entrar</router-link>
+        {{ $t('auth.already-have-an-account') }}
+        <router-link :to="{ name: 'Login' }" class="text-blue-500 hover:underline">{{ $t('auth.enter') }}</router-link>
       </p>
     </div>
   </form>
@@ -128,6 +127,7 @@
 
 <script setup>
 import { reactive } from 'vue'
+import { UserAddIcon } from '@heroicons/vue/outline'
 import InputIconWrapper from '@/components/InputIconWrapper.vue'
 import { MailIcon, LockClosedIcon, LoginIcon, UserIcon } from '@heroicons/vue/outline'
 import axios from 'axios'
