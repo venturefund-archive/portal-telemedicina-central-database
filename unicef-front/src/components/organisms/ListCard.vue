@@ -11,7 +11,7 @@
         <UsersIcon title="População" class="h-6 w-6 text-blue-500"/>
         <span class="text-xs">População</span>
       </button>
-      <ul v-if="showList" class="absolute z-20 mt-4 rounded-md shadow-md bg-white" style="margin-top: -2rem;">
+      <ul v-if="showList" class="absolute z-20 rounded-md shadow-md bg-white mt-96">
         <li v-for="item in items" :class="{ 'font-bold': item === selectedItem }" class="px-4 py-2 font-normal cursor-pointer hover:bg-gray-100" :key="item" @click="">
           {{ item }}
         </li>

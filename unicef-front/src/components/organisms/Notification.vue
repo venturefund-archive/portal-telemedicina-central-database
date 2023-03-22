@@ -1,6 +1,6 @@
 <template>
         <div class="relative flex justify-end">
-  <button @click="isModalOpen = true" class="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-red-500 hover:bg-red-600">
+  <button @click="isModalOpen = true" class="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-red-500 hover:bg-red-600">
     <BellIcon title="População" class="h-8 w-8 text-white hover:text-gray-50" />
   </button>
   <transition name="slide-in">
