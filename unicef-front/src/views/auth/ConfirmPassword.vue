@@ -1,12 +1,12 @@
 <template>
   <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-    Esta é uma área segura do aplicativo. Por favor, confirme sua senha antes de continuar.
+    {{ $t('auth.password-change-confirm-text') }}
   </div>
 
   <form @submit.prevent="submit">
     <div class="grid gap-4">
       <div class="space-y-2">
-        <Label for="password" value="Password" />
+        <Label for="password" :value="$t('auth.password')" />
         <InputIconWrapper>
           <template #icon>
             <LockClosedIcon aria-hidden="true" class="h-5 w-5" />
@@ -16,7 +16,7 @@
             id="password"
             type="password"
             class="block w-full"
-            placeholder="Password"
+            :placeholder="$t('auth.password')"
             v-model="confirmPasswordForm.password"
             required
             autocomplete="current-password"

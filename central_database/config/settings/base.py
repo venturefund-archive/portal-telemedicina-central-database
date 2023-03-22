@@ -80,6 +80,7 @@ THIRD_PARTY_APPS = [
     "drf_spectacular",
     "simple_history",
     "rules.apps.AutodiscoverRulesConfig",
+    "django_filters",
 ]
 
 LOCAL_APPS = [

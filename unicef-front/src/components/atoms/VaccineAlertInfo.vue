@@ -9,10 +9,10 @@
           </div>
           <p class="font-semibold px-2 tracking-wider">{{ props.vaccine.description }}</p>
         </div>
-        <span class="uppercase p-1.5 text-sm bg-green-200 text-green-800 rounded-lg bg-opacity-50">Dose <span class="font-semibold">#{{ props.dose.dose_order }}</span></span>
+        <span class="uppercase p-1.5 text-sm bg-green-200 text-green-800 rounded-lg bg-opacity-50">{{ $t('patient-details.dose') }} <span class="font-semibold">#{{ props.dose.dose_order }}</span></span>
       </div>
-      <p>Idade recomendada: {{ formatDuration({ months: props.dose.maximum_recommended_age }) }}</p>
-      <p>Gênero: {{ props.dose.gender_recommendation }}</p>
+      <p>{{ $t('patient-details.recommended') }}: {{ formatDuration({ months: props.dose.maximum_recommended_age }) }}</p>
+      <p>{{ $t('patient-details.gender') }}: {{ props.dose.gender_recommendation }}</p>
     </div>
     <div class="bg-neutral-200 p-4 font-normal" v-if="props.dose.alerts.length > 0">
       <p class="font-semibold">Alerts</p>
@@ -32,8 +32,6 @@ import PerfectScrollbar from 'perfect-scrollbar'
 import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/vue/outline'
 import { usePatientsStore } from '@/stores/patients'
 import { parseISO, formatRelative, formatDuration, add, setDefaultOptions, differenceInMonths } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
-setDefaultOptions({ locale: ptBR })
 const patientsStore = usePatientsStore()
 
 const birthDate = ref(parseISO(patientsStore.item.birth_date))

@@ -7,7 +7,7 @@
     </SidebarLink>
 
     <SidebarLink
-      title="Pacientes"
+      :title="$t('dashboard.patients')"
       :to="{ name: 'PatientDetailsNobody' }"
       :active="isCurrentRoute('PatientDetails') || isCurrentRoute('PatientDetailsNobody')"
     >
