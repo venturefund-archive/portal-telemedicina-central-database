@@ -1,5 +1,11 @@
 <template>
   <PageWrapper title="Mapa do Gestor">
+    <div class="pb-10">
+    <Notification />
+  </div>
+    <div class="pl-10">
+    <ListCard/>
+  </div>
     <MapGoogle />
   </PageWrapper>
 </template>

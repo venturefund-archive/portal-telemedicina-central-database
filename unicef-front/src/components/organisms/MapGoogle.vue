@@ -1,68 +1,6 @@
 <template>
   <div>
-
-    <!-- Notification icon -->
-    <div class="relative flex justify-end">
-  <button @click="isModalOpen = true" class="relative z-10 flex items-center justify-center w-10 h-10 rounded-full bg-red-500 hover:bg-red-600">
-    <BellIcon title="População" class="h-8 w-8 text-white hover:text-gray-50" />
-  </button>
-  <transition name="slide-in">
-  <div v-if="isModalOpen" class="fixed inset-0 z-50 overflow-y-auto">
-    <div class="flex items-center justify-end h-screen/2">
-      <div class="fixed top-0 left-1/2 transform -translate-x-1/2 h-full w-1/2 flex justify-center flex-col p-6 max-w-md mx-auto relative bg-white rounded-md shadow-lg z-50">
-        <button @click="isModalOpen = false" class="absolute top-2 right-2 text-gray-500">
-          <XIcon class="h-6 w-6"/>
-        </button>
-        <h2 class="text-xl font-semibold mb-4">Cities in Brazil</h2>
-        <input type="text" v-model="searchQuery" placeholder="Search city" class="border border-gray-300 rounded-md px-3 py-2 w-full mb-4"/>
-        <ul class="divide-y divide-gray-200">
-          <li v-for="city in filteredCities" :key="city.name" class="py-3">
-            <h3 class="font-bold mb-1">{{ city.name }}</h3>
-            <p class="text-sm">{{ city.age }} years old</p>
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div class="fixed inset-0 z-40 bg-gray-900 bg-opacity-10 backdrop-blur"></div>
-  </div>
-</transition>
-
-</div>
-
-
-
      <!-- People with vaccines delayed -->
-     <div class="bg-white w-full md:w-1/2 h-full p-4 rounded float-right ga">
-  <h2 class="font-bold text-lg mb-4">Pessoas em atraso</h2>
-  <div class="flex items-center">
-    <div class="flex gap-2">
-      <button class="border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white py-1 px-4 rounded-md text-sm">CPFS</button>
-      <button class="border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white py-1 px-4 rounded-md text-sm">Bairro</button>
-    </div>
-    <div class="mt-4 md:mt-0 flex items-center">
-      <button @click="showList = !showList" class="relative z-10 flex flex-col items-center px-4 py-2 text-gray-500 bg-primary rounded-md">
-        <UsersIcon title="População" class="h-6 w-6 text-blue-500"/>
-      </button>
-      <ul v-if="showList" class="absolute z-20 mt-4 rounded-md shadow-md bg-white" style="margin-top: -2rem;">
-        <li v-for="item in items" :class="{ 'font-bold': item === selectedItem }" class="px-4 py-2 font-normal cursor-pointer hover:bg-gray-100" :key="item" @click="">
-          {{ item }}
-        </li>
-      </ul>
-    </div>
-  </div>
-
-
-    <ul>
-      <li v-for="person in people" :key="person.id" class="flex justify-between items-center border-b-2 border-gray-200 py-2">
-        <div class="flex-grow">
-          <h3 class="font-bold text-base">{{ person.name }}</h3>
-          <p class="text-xs">{{ person.birthday }}</p>
-        </div>
-        <button class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-4 rounded-md text-sm">Details</button>
-      </li>
-    </ul>
-  </div>
-
     <div class="bg-white rounded shadow-md grid grid-cols-1 md:grid-cols-5 gap-5 items-center w-full md:w-1/2 p-1">
   <div class="col-span-3">
     <form @submit.prevent="searchAddress" class="flex items-center w-full">
@@ -98,17 +36,14 @@
   </div>
 </div>
   <div class="flex justify-start shadow md:w-1/2">
-    <GoogleMap :api-key="GOOGLE_MAP_API_KEY" style="width: 100%; height: 700px" :center="center" :zoom="14"
+    <GoogleMap :api-key="GOOGLE_MAP_API_KEY" style="width: 100%; height: 700px" id="map" :center="center" :zoom="14" :libraries="['drawing']"
       ref="mapRef">
       <template #default="{ ready, api, map, mapTilesLoaded }">
         <!-- First pattern: Here you have access to the API and map instance.
           "ready" is a boolean that indicates when the Google Maps script
           has been loaded and the api and map instance are ready to be used -->
 
-          <Polygon :options="rectangle1"/>
-          <Polygon :options="rectangle2"/>
-          <Polygon :options="rectangle3"/>
-          <Polygon :options="rectangle4"/>
+          <Polygon :options="rectangle"/>
 
         <CustomMarker v-if="userLocation" :options="{
                                   anchorPoint: 'LEFT_CENTER',
@@ -326,7 +261,7 @@
 </template>
 
 <script setup>
-import { defineComponent, reactive, computed, onBeforeUpdate, onMounted, watch, ref } from 'vue'
+import { defineComponent, reactive, computed, onBeforeUpdate, onMounted, watch, ref, onUnmounted } from 'vue'
 import { GoogleMap, Marker, CustomMarker, MarkerCluster, InfoWindow, Polygon } from 'vue3-google-map'
 import { useGeolocation } from '@/composables/useGeolocation'
 import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue'
@@ -351,13 +286,33 @@ const editForm = reactive({
 const showList = ref(false);
 const items = ['Todos', 'Gestantes','Puérperas', 'Recém-nascidos', 'Primeira infância', 'Segunda infância', 'Terceira Infância','Adolescência'];
 
+const handleClickOutside = (event) => {
+  if (!event.target.closest('.mt-4')) {
+    showList.value = false;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside);
+})
+
+
 const mapRef = ref(null)
-//const center = ref(null)
 const address = ref()
 const geocoder = ref(null)
 const map = ref(null)
-const isActive = ref(false);
-const selectedItem = ref(null);
+const isActive = ref(false)
+const polygon1 = ref(null)
+const selectedItem = ref(null)
+const drawingManager = ref(null)
+const movingIndex = ref(null)
+const center = ref({ lat: -22.748950, lng: -50.572530 })
+const isModalOpen = ref(false)
+const searchQuery = ref('')
 const GOOGLE_MAP_API_KEY = ref(import.meta.env.VITE_GOOGLE_MAP_API_KEY)
 const customMarkerIcon = ref({
   url: 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png',
@@ -366,40 +321,22 @@ const customMarkerIcon = ref({
     height: 40
   },
 })
+
+
 const asd = ref( {
       showList: false,
       items: ['Item 1', 'Item 2', 'Item 3'] // Substitua com o seu array de strings
   })
-
   const people = [
     { id: 1, name: 'John Doe', birthday: 'Jan 1st, 1980' },
     { id: 2, name: 'Jane Smith', birthday: 'Feb 14th, 1995' },
     { id: 3, name: 'Bob Johnson', birthday: 'Dec 31st, 1975' },
   ];
 
-
-  const cities = [
-  { name: 'São Paulo', age: 467 },
-  { name: 'Rio de Janeiro', age: 456 },
-  { name: 'Belo Horizonte', age: 124 },
-  { name: 'Brasília', age: 61 },
-  { name: 'Salvador', age: 472 }
-]
-
-const isModalOpen = ref(false)
-const searchQuery = ref('')
-
-const filteredCities = computed(() => {
-  if (!searchQuery.value) {
-    return cities
-  }
-  const normalizedSearch = searchQuery.value.trim().toLowerCase()
-  return cities.filter(city => {
-    const normalizedCity = city.name.toLowerCase()
-    return normalizedCity.includes(normalizedSearch)
-  })
-})
-
+function onItemClick(item) {
+  selectedItem.value = item;
+  console.log(`Item clicado: ${item}`)
+}
 
 const customClusterIcon = ref({
   url: 'https://i.ibb.co/sQWvRnX/ssss.png',
@@ -408,66 +345,17 @@ const customClusterIcon = ref({
     height: 50
   }
 })
-const movingIndex = ref(null)
 
-const center = ref({ lat: -22.748950, lng: -50.572530 })
-const rectangle1Coords = ref([
-  { lat: -22.742, lng: -50.577 },
-  { lat: -22.738, lng: -50.577 },
-  { lat: -22.738, lng: -50.572 },
-  { lat: -22.742, lng: -50.572 }
-])
-const rectangle2Coords = ref([
-  { lat: -22.749, lng: -50.572 },
-  { lat: -22.745, lng: -50.572 },
-  { lat: -22.745, lng: -50.567 },
-  { lat: -22.749, lng: -50.567 }
-])
-const rectangle3Coords = ref([
-  { lat: -22.747, lng: -50.585 },
-  { lat: -22.743, lng: -50.585 },
-  { lat: -22.743, lng: -50.580 },
-  { lat: -22.747, lng: -50.580 }
-])
-const rectangle4Coords = ref([
-  { lat: -22.754, lng: -50.580 },
-  { lat: -22.750, lng: -50.580 },
-  { lat: -22.750, lng: -50.575 },
-  { lat: -22.754, lng: -50.575 }
-])
+const rectangle = ref({
+  paths: [],
+  strokeColor: '#FF0000',
+  strokeOpacity: 0.8,
+  strokeWeight: 2,
+  fillColor: '#FF0000',
+  fillOpacity: 0.35,
+  editable: true
+})
 
-const rectangle1 = ref({
-  paths: rectangle1Coords,
-  strokeColor: '#FF0000',
-  strokeOpacity: 0.8,
-  strokeWeight: 2,
-  fillColor: '#FF0000',
-  fillOpacity: 0.35,
-})
-const rectangle2 = ref({
-  paths: rectangle2Coords,
-  strokeColor: '#FF0000',
-  strokeOpacity: 0.8,
-  strokeWeight: 2,
-  fillColor: '#FF0000',
-  fillOpacity: 0.35,
-})
-const rectangle3 = ref({
-  paths: rectangle3Coords,
-  strokeColor: '#FF0000',
-  strokeOpacity: 0.8,
-  strokeWeight: 2,
-  fillColor: '#FF0000',
-  fillOpacity: 0.35,
-})
-const rectangle4 = ref({
-  paths: rectangle4Coords,
-  strokeColor: '#FF0000',
-  strokeOpacity: 0.8,
-  strokeWeight: 2,
-  fillColor: '#FF0000',
-  fillOpacity: 0.35,
-})
 const searchAddress = () => {
   //center.value = { lat: -22.749940, lng: -50.576540 }
   geocodeAddress(geocoder.value, map.value)
@@ -503,15 +391,7 @@ onBeforeUpdate(() => {
   markers.value = []
 })
 
-function onItemClick(item) {
-  selectedItem.value = item;
-  console.log(`Item clicado: ${item}`);
-}
-
-const populationGroup = reactive([
-
-])
-// Third pattern: watch for "ready" then do something with the API or map instance
+// Third pattern: watc'h for "ready" then do something with the API or map instance
 watch(() => mapRef.value?.ready, (ready) => {
   if (!ready) return
   map.value = mapRef.value.map
@@ -519,6 +399,30 @@ watch(() => mapRef.value?.ready, (ready) => {
 
   // do something with the api using `mapRef.value.api`
   // or with the map instance using `mapRef.value.map`
+  // const mapp = new google.maps.Map(document.getElementById('map'))
+  //console.log(mapRef.value.map)
+
+  drawingManager.value = new google.maps.drawing.DrawingManager({
+      drawingMode: google.maps.drawing.OverlayType.POLYGON,
+      drawingControl: true,
+      drawingControlOptions: {
+        position: google.maps.ControlPosition.TOP_CENTER,
+        drawingModes: ['polygon']
+      },
+      polygonOptions: rectangle.value
+  })
+
+  // // Set the drawing manager to draw on the map instance
+  drawingManager.value.setMap(mapRef.value.map)
+
+  // // Add an event listener for when the user finishes drawing a polygon
+  google.maps.event.addListener(drawingManager.value, 'overlaycomplete', (event) => {
+    if (event.type === google.maps.drawing.OverlayType.POLYGON) {
+      // Set the polygon1 ref to the newly-drawn polygon
+      polygon1.value = event.overlay
+    }
+  })
+
 })
 
 const geocodeAddress = (geocoder, resultsMap) => {
@@ -604,4 +508,8 @@ const userLocation = computed(() => ({
   .slide-in-leave-to {
     transform: translateX(100%);
   }
+
+div:first-of-type > div.gmnoprint[role=menubar] {
+  scale: 200%;
+}
 </style>
