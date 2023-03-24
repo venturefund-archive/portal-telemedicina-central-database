@@ -28,13 +28,16 @@
             <img class="h-10 w-10 p-1 rounded-md object-cover rounded-full bg-neutral-200" src="/avatar.png" />
             <div>
               <h5 class="text-sm text-gray-600 dark:text-gray-300 font-medium capitalize">
-                <router-link :to="{ name: 'PatientDetails', params: { id: patient.id } }" class="hover:underline">{{
-                  patient.name.join().toLowerCase() }}</router-link>
+                <span>{{patient.name.join().toLowerCase() }}</span>
               </h5>
             </div>
           </div>
-          <div v-if="patient.number_of_alerts_by_protocol > 0 && patient.number_of_alerts_by_protocol != null">
+          <div>
+            <div v-if="patient.number_of_alerts_by_protocol != false">
           <span class="flex-none pr-14">{{ patient.number_of_alerts_by_protocol }}</span>
+        </div>
+        <button class="border border-1 border-blue-500 rounded text-blue-500 hover:bg-blue-500 hover:text-white py-2 px-2 text-sm rounded cursor-pointer">Detalhes</button>
+
         </div>
         </div>
 
@@ -79,7 +82,7 @@ const router = useRouter()
 
 const patientQuery = ref('')
 const current = ref(1)
-const pageSize = ref(8)
+const pageSize = ref(9)
 const isLastPage = computed(() => (current.value + 1 >= totalPages.value + 1))
 const isFirstPage = computed(() => (current.value == 1))
 const indexStart = computed(() => (current.value - 1) * pageSize.value)

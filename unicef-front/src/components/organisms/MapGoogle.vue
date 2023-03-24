@@ -9,9 +9,7 @@
         <svg class="h-5 w-5 text-gray-500 dark:text-gray-400 absolute left-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
         </svg>
-        <input placeholder="Pesquisar no mapa" class="bg-neutral-100 py-3 px-7 mr-1 w-full rounded-md focus:ring-blue-500 focus:border-blue-500" />
-        <button type="submit" class="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-colors duration-300 ease-in-out">Pesquisar</button>
-      </div>
+        <input placeholder="Pesquisar no mapa" class="bg-neutral-100 py-3 px-7 mr-1 w-full rounded-md focus:ring-blue-500 focus:border-blue-500" />      </div>
     </form>
   </div>
 
@@ -291,8 +289,6 @@ const customMarkerIcon = ref({
   },
 })
 
-
-
 const editForm = reactive({
   username: '',
   email: '',
@@ -301,7 +297,6 @@ const editForm = reactive({
   terms: false,
   processing: false,
 })
-
 
 const showList = ref(false);
 const items = ['Todos', 'Gestantes','Puérperas', 'Recém-nascidos', 'Primeira infância', 'Segunda infância', 'Terceira Infância','Adolescência'];
