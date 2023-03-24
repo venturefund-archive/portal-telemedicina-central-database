@@ -31,7 +31,7 @@
       </ul>
     </div>
   </div>
-  <div class="fixed inset-0 z-40 bg-gray-900 bg-opacity-25"></div>
+  <div class="fixed inset-0 z-40 bg-gray-900 bg-opacity-25" @click="isModalOpen = false"></div>
 </div>
 </transition>
 </div>
