@@ -3,7 +3,7 @@
     <div class="grid grid-cols-1 gap-6" v-if="paginated">
       <BaseCard :title="$t('dashboard.total-alerts-per-patient')" :actions="[{ title: 'View', to: '#' }]" @update:query="patientQuery = $event">
 
-        <div class="mt-4 flex items-center justify-between" v-for="(patient, index) in paginated" :key="index">
+        <div class="mt-4 flex items-center justify-between hover:bg-gray-100 hover:rounded px-2 py-1" v-for="(patient, index) in paginated" :key="index">
           <div class="flex items-center gap-2 flex-auto">
             <span class="hidden text-xs text-gray-500 align-baseline">{{ indexStart + ++index }}.</span>
             <img class="h-10 w-10 p-1 rounded-md object-cover rounded-full bg-neutral-200" src="/avatar.png" />

@@ -269,9 +269,29 @@ import { HandIcon, PencilIcon, UsersIcon, BellIcon, XIcon } from '@heroicons/vue
 import { useRouter } from 'vue-router'
 import { usePatientsStore } from '@/stores/patients'
 const patientsStore = usePatientsStore()
-
-
 const router = useRouter()
+const mapRef = ref(null)
+const address = ref()
+const geocoder = ref(null)
+const map = ref(null)
+const isActive = ref(false)
+const polygon1 = ref(null)
+const selectedItem = ref(null)
+const drawingManager = ref(null)
+const movingIndex = ref(null)
+const center = ref({ lat: -22.748950, lng: -50.572530 })
+const isModalOpen = ref(false)
+const searchQuery = ref('')
+const GOOGLE_MAP_API_KEY = ref(import.meta.env.VITE_GOOGLE_MAP_API_KEY)
+const customMarkerIcon = ref({
+  url: 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png',
+  scaledSize: {
+    width: 40,
+    height: 40
+  },
+})
+
+
 
 const editForm = reactive({
   username: '',
@@ -300,38 +320,6 @@ onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside);
 })
 
-
-const mapRef = ref(null)
-const address = ref()
-const geocoder = ref(null)
-const map = ref(null)
-const isActive = ref(false)
-const polygon1 = ref(null)
-const selectedItem = ref(null)
-const drawingManager = ref(null)
-const movingIndex = ref(null)
-const center = ref({ lat: -22.748950, lng: -50.572530 })
-const isModalOpen = ref(false)
-const searchQuery = ref('')
-const GOOGLE_MAP_API_KEY = ref(import.meta.env.VITE_GOOGLE_MAP_API_KEY)
-const customMarkerIcon = ref({
-  url: 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png',
-  scaledSize: {
-    width: 40,
-    height: 40
-  },
-})
-
-
-const asd = ref( {
-      showList: false,
-      items: ['Item 1', 'Item 2', 'Item 3'] // Substitua com o seu array de strings
-  })
-  const people = [
-    { id: 1, name: 'John Doe', birthday: 'Jan 1st, 1980' },
-    { id: 2, name: 'Jane Smith', birthday: 'Feb 14th, 1995' },
-    { id: 3, name: 'Bob Johnson', birthday: 'Dec 31st, 1975' },
-  ];
 
 function onItemClick(item) {
   selectedItem.value = item;

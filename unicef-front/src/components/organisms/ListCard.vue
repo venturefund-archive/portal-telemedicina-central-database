@@ -19,35 +19,108 @@
     </div>
   </div>
 
+  <div class="grid grid-cols-1 gap-6" v-if="paginated">
+      <div @update:query="patientQuery = $event">
 
-    <ul>
-      <li v-for="person in peopleList" :key="person.id" class="flex justify-between items-center border-b-2 border-gray-200 py-2">
-        <div class="flex-grow">
-          <h3 class="font-bold text-base">{{ person.name }}</h3>
-          <p class="text-xs">{{ person.birthday }}</p>
+        <div class="mt-4 flex items-center justify-between hover:bg-gray-100 hover:rounded px-2 py-1" v-for="(patient, index) in paginated" :key="index">
+          <div class="flex items-center gap-2 flex-auto">
+            <span class="hidden text-xs text-gray-500 align-baseline">{{ indexStart + ++index }}.</span>
+            <img class="h-10 w-10 p-1 rounded-md object-cover rounded-full bg-neutral-200" src="/avatar.png" />
+            <div>
+              <h5 class="text-sm text-gray-600 dark:text-gray-300 font-medium capitalize">
+                <router-link :to="{ name: 'PatientDetails', params: { id: patient.id } }" class="hover:underline">{{
+                  patient.name.join().toLowerCase() }}</router-link>
+              </h5>
+            </div>
+          </div>
+          <div v-if="patient.number_of_alerts_by_protocol > 0 && patient.number_of_alerts_by_protocol != null">
+          <span class="flex-none pr-14">{{ patient.number_of_alerts_by_protocol }}</span>
         </div>
-        <button class="bg-blue-500 hover:bg-blue-600 text-white py-1 px-4 rounded-md text-sm">Details</button>
-      </li>
-    </ul>
+        </div>
+
+        <div class="flex justify-between pt-3 pb-2">
+          <div>
+            <Button :disabled="isFirstPage" size="sm" iconOnly variant="secondary" v-slot="{ iconSizeClasses }"
+              @click="prev">
+              <ArrowLeftIcon aria-hidden="true" :class="iconSizeClasses" />
+            </Button>
+          </div>
+          <div class="flex flex-col items-center">
+            <span class="text-sm" v-if="0 != totalPages">
+              <span class="font-semibold">{{ current }} / {{ totalPages }}</span> {{ $t('dashboard.page') }}<span v-if="totalPages > 1">s</span></span>
+            <span v-else>{{ $t('dashboard.no-results-found') }}</span>
+            <span class="text-xs text-neutral-400 lowercase">
+              <span class="font-semibold">{{ filteredPatients.length }}</span> {{ $t('dashboard.result') }}<span v-if="filteredPatients.length > 1">s</span> {{ $t('dashboard.of-total-of') }} <span class="font-semibold">{{ patientsStore.items.length
+            }}</span> {{ $t('dashboard.patients') }}</span>
+          </div>
+
+          <div>
+            <Button :disabled="isLastPage" size="sm" iconOnly variant="secondary" v-slot="{ iconSizeClasses }"
+              @click="next()">
+              <ArrowRightIcon aria-hidden="true" :class="iconSizeClasses" />
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 </template>
 
 <script setup>
 import { defineComponent, reactive, computed, onBeforeUpdate, onMounted, watch, ref, onUnmounted } from 'vue'
-import { HandIcon, PencilIcon, UsersIcon, BellIcon, XIcon } from '@heroicons/vue/solid'
-const isModalOpen = ref(false)
-const selectedItem = ref(null)
+import { HandIcon, PencilIcon, UsersIcon, ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/solid'
+import { useRouter } from 'vue-router'
+import { usePatientsStore } from '@/stores/patients'
+import { useLoggedUserStore } from '@/stores/loggedUser'
+const loggedUserStore = useLoggedUserStore()
+const patientsStore = usePatientsStore()
+const router = useRouter()
+
+const patientQuery = ref('')
+const current = ref(1)
+const pageSize = ref(8)
+const isLastPage = computed(() => (current.value + 1 >= totalPages.value + 1))
+const isFirstPage = computed(() => (current.value == 1))
+const indexStart = computed(() => (current.value - 1) * pageSize.value)
+const indexEnd = computed(() => indexStart.value + pageSize.value)
+const filteredPatients = computed(() => {
+  return patientsStore.items.filter((patient) => {
+    return patient.name.join().toLowerCase().includes(patientQuery.value.toLowerCase())
+  })
+})
+const totalPages = computed(() => Math.ceil(filteredPatients.value.length / pageSize.value))
+const paginated = computed(() => filteredPatients.value.slice(indexStart.value, indexEnd.value))
+
+function prev() {
+  if (isFirstPage.value) {
+    return
+  }
+  current.value--
+}
+function next() {
+  if (isLastPage.value) {
+    return
+  }
+  current.value++
+}
+
+const props = defineProps({
+  id: {
+    type: String,
+    default: '',
+  },
+})
+
+onMounted(async () => {
+  await patientsStore.fetchPatients()
+})
 
 const handleClickOutside = (event) => {
   if (!event.target.closest('.mt-4')) {
     showList.value = false;
   }
 };
-
-onMounted(() => {
-  document.addEventListener('click', handleClickOutside);
-});
 
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside);
@@ -61,16 +134,6 @@ function onItemClick(item) {
 const showList = ref(false);
 const items = ['Todos', 'Gestantes','Puérperas', 'Recém-nascidos', 'Primeira infância', 'Segunda infância', 'Terceira Infância','Adolescência'];
 
-const asd = ref( {
-      showList: false,
-      items: ['Item 1', 'Item 2', 'Item 3'] // Substitua com o seu array de strings
-  })
-
-  const peopleList = [
-    { id: 1, name: 'John Doe', birthday: 'Jan 1st, 1980' },
-    { id: 2, name: 'Jane Smith', birthday: 'Feb 14th, 1995' },
-    { id: 3, name: 'Bob Johnson', birthday: 'Dec 31st, 1975' },
-  ];
 
 </script>
 <style>
