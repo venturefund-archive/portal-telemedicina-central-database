@@ -26,7 +26,7 @@
             <h3 class="font-bold mb-1">{{ city.name }}</h3>
             <p class="text-xs text-neutral-500">{{ city.age }} </p>
           </div>
-          <button @click="showDetails(city)" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-2 rounded cursor-pointer">Notificar</button>
+          <button @click="showDetails(city)" class="bg-red-500 hover:bg-red-700 text-white py-2 px-2 font-semibold rounded cursor-pointer text-sm">Notificar</button>
         </li>
       </ul>
     </div>

@@ -1,10 +1,10 @@
 <template>
     <div class="bg-white w-full md:w-1/2 h-full p-4 rounded float-right ga">
-  <h2 class="font-bold text-lg mb-4">Pessoas em atraso</h2>
+  <h2 class="font-bold text-lg mb-4">Pacientes com doses atrasadas</h2>
   <div class="flex items-center">
     <div class="flex gap-2">
-      <button class="border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white py-1 px-4 rounded-md text-sm">CPFS</button>
-      <button class="border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white py-1 px-4 rounded-md text-sm">Bairro</button>
+      <button class="border border-blue-600 text-blue-500 hover:bg-blue-500 hover:text-white py-1 px-4 rounded-md text-sm">CPFS</button>
+      <button class="border border-blue-600 text-blue-500 hover:bg-blue-500 hover:text-white py-1 px-4 rounded-md text-sm">Bairro</button>
     </div>
     <div class="mt-4 md:mt-0 flex items-center">
       <button @click="showList = !showList" class="relative z-10 flex flex-col items-center px-4 py-2 text-gray-500 bg-primary rounded-md">
