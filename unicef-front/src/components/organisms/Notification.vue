@@ -1,17 +1,17 @@
 <template>
-        <div class="relative flex justify-end">
+        <div class="relative flex justify-end px-5 -py-10" style="position: absolute; top:14%; right: 0; width: 200px;">
   <button @click="isModalOpen = true" class="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-red-500 hover:bg-red-600">
     <BellIcon title="População" class="h-8 w-8 text-white hover:text-gray-50" />
   </button>
   <transition name="slide-in">
     <div v-if="isModalOpen" class="fixed inset-0 z-50 overflow-y-auto">
-  <div class="flex items-center h-screen">
-    <div class="fixed top-0 left-1/2 transform -translate-x-1/2 h-full w-1/2 flex justify-center flex-col p-6 max-w-md mx-auto relative bg-white rounded-md shadow-lg z-50">
+  <div class="flex h-screen">
+    <div class="fixed top-0 left-1/2 transform -translate-x-1/2 h-full w-1/2 flex flex-col p-6 max-w-md mx-auto relative bg-white rounded-md shadow-lg z-50">
       <button @click="isModalOpen = false" class="absolute top-2 right-2 text-gray-500">
         <XIcon class="h-6 w-6 hover:text-blue-500 cursor-pointer"/>
       </button>
       <h2 class="text-xl font-semibold mb-4">Alertas</h2>
-      <div class="flex items-center w-full">
+      <div class="flex w-full">
         <label for="default-search" class="sr-only text-sm font-medium text-gray-900">Procurar</label>
         <div class="relative flex items-center w-full p-2">
           <svg class="h-5 w-5 text-gray-500 dark:text-gray-400 absolute left-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

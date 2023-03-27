@@ -1,6 +1,6 @@
 <template>
-    <div class="bg-white w-full md:w-1/2 h-full p-4 rounded float-right ga">
-  <h2 class="font-bold text-lg mb-4">Pacientes com doses atrasadas</h2>
+    <div class="bg-white w-full md:w-1/2 h-full p-4 rounded float-right">
+  <h2 class="text-lg mb-4">Pacientes com doses atrasadas</h2>
   <div class="flex items-center">
     <div class="flex gap-2">
       <button class="border border-blue-600 text-blue-500 hover:bg-blue-500 hover:text-white py-1 px-4 rounded-md text-sm">CPFS</button>
