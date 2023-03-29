@@ -1,4 +1,5 @@
 from django.shortcuts import render  # noqa: F401
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
@@ -6,6 +7,7 @@ from rest_framework.viewsets import GenericViewSet
 from central_database.permissions_manager.rest_api.permission_classes import (
     permission_class_assembler,
 )
+from central_database.vaccines.api.filters import VaccineFilterSet
 from central_database.vaccines.api.serializers import (
     VaccineDosesSerializer,
     VaccineProtocolSerializer,
@@ -44,6 +46,8 @@ class VaccineDosesViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
 
 class VaccineViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
 
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = VaccineFilterSet
     serializer_class = VaccineSerializer
     permission_classes = [
         IsAuthenticated,

@@ -85,7 +85,7 @@ export default [
       }
 
       // @TODO: Check if the token is valid
-      successToast({ text: 'Você já está autenticado.' })
+      // successToast({ text: 'Você já está autenticado.' })
       return { name: 'Dashboard' }
     },
   },

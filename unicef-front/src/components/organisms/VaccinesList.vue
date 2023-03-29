@@ -12,9 +12,9 @@
       <div class="flex pl-2 justify-end">
         <div class="flex place-items-end pt-5 md:mt-0">
           <div class="flex flex-col items-end md:flex-row md:items-center rounded-md bg-neutral-200 px-3 py-2 text-neutral-500">
-            <span class="flex items-center px-2">Completo: <VaccineAlert :status="1" class="scale-75 pl-2 pl-2" /></span>
-            <span class="flex items-center px-2">Alerta: <VaccineAlert :status="3" class="scale-75 pl-2 pl-2" /></span>
-            <span class="flex items-center px-2">Recomendado: <VaccineAlert :status="4" class="scale-75 pl-2 pl-2" /></span>
+            <span class="flex items-center px-2">{{ $t('patient-details.complete') }}: <VaccineAlert :status="1" class="scale-75 pl-2" /></span>
+            <span class="flex items-center px-2">{{ $t('patient-details.alert') }}: <VaccineAlert :status="3" class="scale-75 pl-2" /></span>
+            <span class="flex items-center px-2">{{ $t('patient-details.recommended') }}: <VaccineAlert :status="4" class="scale-75 pl-2" /></span>
           </div>
         </div>
       </div>
@@ -27,30 +27,35 @@
               <th scope="col" colspan="2" class="bg-blue-200 px-6 py-4 text-center text-gray-900 uppercase w-80">Vacinas</th>
               <th scope="col" colspan="10" class="bg-blue-300 px-6 py-4 text-center">
                 <span class="rounded-t-xl border border-transparent bg-neutral-500 p-2 font-semibold text-white"
-                  >Meses</span
+                  >{{ $t('patient-details.months') }}</span
                 >
               </th>
               <th scope="col" colspan="4" class="bg-blue-400 px-6 py-4 text-center text-gray-900">
                 <span class="rounded-t-xl border border-transparent bg-neutral-500 p-2 font-semibold text-white"
-                  >Anos</span
+                  >{{ $t('patient-details.years') }}</span
                 >
               </th>
             </tr>
             <tr class="text-center">
               <th scope="col" colspan="2" class="pt-2 text-gray-900 whitespace-nowrap px-2.5 font-normal">
                 <InputIconWrapper>
+                  <template #icon>
+                    <SearchIcon aria-hidden="true" class="h-5 w-5" />
+                  </template>
                   <Input
                     v-model="vaccineQuery"
-                    placeholder="Pesquisar vacinas"
+                    :placeholder="$t('patient-details.search-vaccines')"
                     withIcon
                     class="shadow focus:shadow-none rounded-md bg-gray-50 w-full"
                   />
                 </InputIconWrapper>
                 <div class="py-0.6 py-3 text-center font-normal text-neutral-500 text-sm">
-                  Total de
-                  <span v-if="filteredVaccines.length == 1"><span class="font-semibold">{{ filteredVaccines.length }}</span> vacina</span>
-                  <span v-else-if="filteredVaccines.length == 0"><span class="font-semibold">{{ filteredVaccines.length }}</span> vacinas</span>
-                  <span v-else><span class="font-semibold">{{ filteredVaccines.length }}</span> vacinas</span>
+                  {{ $t('patient-details.total-of') }}
+                  <span class="lowercase">
+                    <span v-if="filteredVaccines.length == 1"><span class="font-semibold">{{ filteredVaccines.length }}</span> vacina{{ $t('patient-details.vaccine') }}</span>
+                    <span v-else-if="filteredVaccines.length == 0"><span class="font-semibold">{{ filteredVaccines.length }}</span> {{ $t('patient-details.vaccines') }}</span>
+                    <span v-else><span class="font-semibold">{{ filteredVaccines.length }}</span> {{ $t('patient-details.vaccines') }}</span>
+                  </span>
                 </div>
               </th>
               <th
@@ -227,7 +232,7 @@
         </table>
         <div class="py-3 text-neutral-400 grid justify-items-end">
           <span>
-            Gerado dia {{ format(new Date(), 'dd/MM/yyyy kk:mm') }}
+            {{ $t('patient-details.generated-date', [format(new Date(), 'dd/MM/yyyy kk:mm')]) }}
           </span>
         </div>
       </div>
@@ -257,7 +262,6 @@ const patientsStore = usePatientsStore()
 const dosesStore = useDosesStore()
 const vaccinesStore = useVaccinesStore()
 const loggedUserStore = useLoggedUserStore()
-setDefaultOptions({ locale: ptBR })
 
 const router = useRouter()
 

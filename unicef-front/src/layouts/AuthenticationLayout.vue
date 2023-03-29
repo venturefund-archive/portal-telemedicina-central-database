@@ -29,6 +29,7 @@
           <main class="flex w-full flex-1 items-center sm:max-w-md">
             <div class="w-full overflow-hidden bg-white px-6 py-4 sm:rounded-lg">
               <router-view></router-view>
+              <LanguageSwitcher class="pt-4" />
             </div>
           </main>
 
