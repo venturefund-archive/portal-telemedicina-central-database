@@ -9,7 +9,7 @@
         <svg class="h-5 w-5 text-gray-500 dark:text-gray-400 absolute left-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
         </svg>
-        <input placeholder="Pesquisar no mapa" class="bg-neutral-100 py-3 px-7 mr-1 w-full rounded-md focus:ring-blue-500 focus:border-blue-500" />      </div>
+        <input placeholder="Pesquisar no mapa" v-model="geocoderQuery" class="bg-neutral-100 py-3 px-7 mr-1 w-full rounded-md focus:ring-blue-500 focus:border-blue-500" />      </div>
     </form>
   </div>
 
@@ -269,7 +269,6 @@ import { usePatientsStore } from '@/stores/patients'
 const patientsStore = usePatientsStore()
 const router = useRouter()
 const mapRef = ref(null)
-const address = ref()
 const geocoder = ref(null)
 const map = ref(null)
 const isActive = ref(false)
@@ -339,8 +338,10 @@ const rectangle = ref({
   editable: true
 })
 
+const geocoderQuery = ref('')
 const searchAddress = () => {
   //center.value = { lat: -22.749940, lng: -50.576540 }
+
   geocodeAddress(geocoder.value, map.value)
 }
 
@@ -409,7 +410,7 @@ watch(() => mapRef.value?.ready, (ready) => {
 })
 
 const geocodeAddress = (geocoder, resultsMap) => {
-  geocoder.geocode({ 'address': address.value }, function (results, status) {
+  geocoder.geocode({ 'address': geocoderQuery.value }, function (results, status) {
     if (status === 'OK') {
       resultsMap.setCenter(results[0].geometry.location)
       //const marker = new google.maps.Marker({
