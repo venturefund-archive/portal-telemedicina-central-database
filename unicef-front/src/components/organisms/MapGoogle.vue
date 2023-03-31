@@ -266,6 +266,7 @@ import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessu
 import { HandIcon, PencilIcon, UsersIcon, BellIcon, XIcon } from '@heroicons/vue/solid'
 import { useRouter } from 'vue-router'
 import { usePatientsStore } from '@/stores/patients'
+import { useStorage } from '@vueuse/core'
 const patientsStore = usePatientsStore()
 const router = useRouter()
 const mapRef = ref(null)
@@ -404,6 +405,25 @@ watch(() => mapRef.value?.ready, (ready) => {
     if (event.type === google.maps.drawing.OverlayType.POLYGON) {
       // Set the polygon1 ref to the newly-drawn polygon
       polygon1.value = event.overlay
+
+      // Get the coordinates of the polygon vertices
+      const polygonCoords = []
+      const path = event.overlay.getPath()
+      for (let i = 0; i < path.getLength(); i++) {
+        const latLng = path.getAt(i)
+        polygonCoords.push({ lat: latLng.lat(), lng: latLng.lng() })
+      }
+
+      // Save the polygon coordinates in JSON format
+      const polygonData = { polygon: polygonCoords }
+
+      // we can use ajax or fetch here to save the polygon data on server
+      // for now using localstore
+      const state = useStorage('app-store', { polygons: [] })
+      if(undefined == state.value.polygons) {
+        state.value.polygons = []
+      }
+      state.value.polygons.push(polygonData)
     }
   })
 
