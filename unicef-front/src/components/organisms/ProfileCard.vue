@@ -66,11 +66,11 @@ const formatedAge = computed(() => {
       if (1 == ageInDays){
         return '1 ' + t('patient-details.day')
       }
-      return ageInDays + ' ' + t('patient-details.day') + 's'
+      return ageInDays + ' ' + t('patient-details.days')
     }
-    return ageInMonths + ' ' + t('patient-details.month') + 's'
+    return ageInMonths + ' ' + t('patient-details.months')
   }
-  return ageInYears + ' ' + t('patient-details.year') + 's'
+  return ageInYears + ' ' + t('patient-details.years')
 })
 
 const props = defineProps({
