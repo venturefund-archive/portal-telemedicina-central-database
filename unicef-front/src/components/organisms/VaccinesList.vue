@@ -60,98 +60,98 @@
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(startOfMonth(new Date()), ranges[0]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 0 && ageInMonths < 2 }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 0
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(startOfMonth(new Date()), ranges[1]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 2 && ageInMonths < 3}"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 2
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(startOfMonth(new Date()), ranges[2]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 3 && ageInMonths < 4}"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 3
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(startOfMonth(new Date()), ranges[3]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 4 && ageInMonths < 5}"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 4
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(startOfMonth(new Date()), ranges[4]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 5 && ageInMonths < 6}"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 5
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(startOfMonth(new Date()), ranges[5]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 6 && ageInMonths < 7}"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 6
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(startOfMonth(new Date()), ranges[6]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 7 && ageInMonths < 9}"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 7
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(startOfMonth(new Date()), ranges[7]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 9 && ageInMonths < 12}"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 9
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(startOfMonth(new Date()), ranges[8]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 12 && ageInMonths < 15}"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 12
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(startOfMonth(new Date()), ranges[9]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 15 && ageInMonths < 48}"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 15
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(startOfMonth(new Date()), ranges[10]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 48 && ageInMonths < 60 }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 4
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(startOfMonth(new Date()), ranges[11]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 60 && ageInMonths < 108 }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 5
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(startOfMonth(new Date()), ranges[12]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 108 && ageInMonths < 168 }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 9
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(startOfMonth(new Date()), ranges[13]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 168 && ageInMonths < 200 }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 14
@@ -166,13 +166,12 @@
 
               <td
                 :class="{
-                  'col-birth box-border border-x-2 border-sky-500': isWithinInterval(startOfMonth(new Date()), ranges[rangeIndex]),
+                  'col-birth box-border border-x-2 border-sky-500': ageInMonths >= monthRanges[rangeIndex].start && ageInMonths < monthRanges[rangeIndex].end,
                 }"
                 class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"
                 v-for="(range, rangeIndex) in ranges"
                 :key="rangeIndex"
               >
-
                 <div v-for="(dose, dk) in filteredDosesByVaccine(vaccine)" :key="dk" class="text-center">
 
 
@@ -264,6 +263,7 @@ const router = useRouter()
 
 const birthDate = computed(() => parseISO(patientsStore.item.birth_date))
 //const birthDateInMonthsFromNow = computed(() => differenceInMonths(birthDate, new Date()) )
+const ageInMonths = computed(() => differenceInMonths(new Date(), birthDate.value))
 
 const vaccineQuery = ref('')
 
@@ -302,25 +302,46 @@ const filteredDosesByVaccine = computed(() => {
 
 const key = ref(0)
 
+const monthRanges = computed(() => [
+  { start: 0, end: 2 },
+  { start: 2, end: 3 },
+  { start: 3, end: 4 },
+  { start: 4, end: 5 },
+
+  { start: 5, end: 6 },
+  { start: 6, end: 7 },
+  { start: 7, end: 9 },
+
+  { start: 9, end: 12 },
+
+  { start: 12, end: 15},
+
+  { start: 15, end: 48 },
+  { start: 48, end: 60 },
+  { start: 60, end: 108 },
+  { start: 108, end: 168 },
+  { start: 168, end: 200 },
+])
+
 const ranges = computed(() => [
   { start: birthDate.value, end: add(birthDate.value, { months: 0 }) }, //ao nascer
-  { start: add(birthDate.value, { months: 0 , seconds: 1 }), end: add(birthDate.value, { months: 2  }) },
-  { start: add(birthDate.value, { months: 2, seconds: 1 }), end: add(birthDate.value, { months: 3 }) },
-  { start: add(birthDate.value, { months: 3, seconds: 1 }), end: add(birthDate.value, { months: 4}) },
-  { start: add(birthDate.value, { months: 4, seconds: 1 }), end: add(birthDate.value, { months: 5 }) },
+  { start: add(birthDate.value, { months: 0  }), end: add(birthDate.value, { months: 2  }) },
+  { start: add(birthDate.value, { months: 2 }), end: add(birthDate.value, { months: 3 }) },
+  { start: add(birthDate.value, { months: 3 }), end: add(birthDate.value, { months: 4}) },
+  { start: add(birthDate.value, { months: 4 }), end: add(birthDate.value, { months: 5 }) },
 
-  { start: add(birthDate.value, { months: 5, seconds: 1 }), end: add(birthDate.value, { months: 6 }) },
-  { start: add(birthDate.value, { months: 6, seconds: 1 }), end: add(birthDate.value, { months: 7 }) },
-  { start: add(birthDate.value, { months: 7, seconds: 1 }), end: add(birthDate.value, { months: 9 }) },
+  { start: add(birthDate.value, { months: 5 }), end: add(birthDate.value, { months: 6 }) },
+  { start: add(birthDate.value, { months: 6 }), end: add(birthDate.value, { months: 7 }) },
+  { start: add(birthDate.value, { months: 7 }), end: add(birthDate.value, { months: 9 }) },
 
-  { start: add(birthDate.value, { months: 9, seconds: 1 }), end: add(birthDate.value, { months: 12 }) },
+  { start: add(birthDate.value, { months: 9 }), end: add(birthDate.value, { months: 12 }) },
 
-  { start: add(birthDate.value, { months: 12, seconds: 1 }), end: add(birthDate.value, { months: 15 }) },
+  { start: add(birthDate.value, { months: 12 }), end: add(birthDate.value, { months: 15 }) },
 
-  { start: add(birthDate.value, { months: 15, seconds: 1 }), end: add(birthDate.value, { years: 4 }) },
-  { start: add(birthDate.value, { years: 4, seconds: 1 }), end: add(birthDate.value, { years: 5 }) },
-  { start: add(birthDate.value, { years: 5, seconds: 1 }), end: add(birthDate.value, { years: 9 }) },
-  { start: add(birthDate.value, { years: 9, seconds: 1 }), end: add(birthDate.value, { years: 14 }) },
+  { start: add(birthDate.value, { months: 15 }), end: add(birthDate.value, { months: 48 }) },
+  { start: add(birthDate.value, { months: 48 }), end: add(birthDate.value, { months: 60 }) },
+  { start: add(birthDate.value, { months: 60 }), end: add(birthDate.value, { months: 108 }) },
+  { start: add(birthDate.value, { months: 108 }), end: add(birthDate.value, { months: 168 }) },
 ])
 
 const addDose = () => {
