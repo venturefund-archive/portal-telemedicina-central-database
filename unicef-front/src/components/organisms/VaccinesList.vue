@@ -325,23 +325,23 @@ const monthRanges = computed(() => [
 
 const ranges = computed(() => [
   { start: birthDate.value, end: add(birthDate.value, { months: 0 }) }, //ao nascer
-  { start: add(birthDate.value, { months: 0  }), end: add(birthDate.value, { months: 2  }) },
-  { start: add(birthDate.value, { months: 2 }), end: add(birthDate.value, { months: 3 }) },
-  { start: add(birthDate.value, { months: 3 }), end: add(birthDate.value, { months: 4}) },
-  { start: add(birthDate.value, { months: 4 }), end: add(birthDate.value, { months: 5 }) },
+  { start: add(birthDate.value, { months: 0, seconds: 1 }), end: add(birthDate.value, { months: 2  }) },
+  { start: add(birthDate.value, { months: 2, seconds: 1 }), end: add(birthDate.value, { months: 3 }) },
+  { start: add(birthDate.value, { months: 3, seconds: 1 }), end: add(birthDate.value, { months: 4}) },
+  { start: add(birthDate.value, { months: 4, seconds: 1 }), end: add(birthDate.value, { months: 5 }) },
 
-  { start: add(birthDate.value, { months: 5 }), end: add(birthDate.value, { months: 6 }) },
-  { start: add(birthDate.value, { months: 6 }), end: add(birthDate.value, { months: 7 }) },
-  { start: add(birthDate.value, { months: 7 }), end: add(birthDate.value, { months: 9 }) },
+  { start: add(birthDate.value, { months: 5, seconds: 1 }), end: add(birthDate.value, { months: 6 }) },
+  { start: add(birthDate.value, { months: 6, seconds: 1 }), end: add(birthDate.value, { months: 7 }) },
+  { start: add(birthDate.value, { months: 7, seconds: 1 }), end: add(birthDate.value, { months: 9 }) },
 
-  { start: add(birthDate.value, { months: 9 }), end: add(birthDate.value, { months: 12 }) },
+  { start: add(birthDate.value, { months: 9, seconds: 1 }), end: add(birthDate.value, { months: 12 }) },
 
-  { start: add(birthDate.value, { months: 12 }), end: add(birthDate.value, { months: 15 }) },
+  { start: add(birthDate.value, { months: 12, seconds: 1 }), end: add(birthDate.value, { months: 15 }) },
 
-  { start: add(birthDate.value, { months: 15 }), end: add(birthDate.value, { months: 48 }) },
-  { start: add(birthDate.value, { months: 48 }), end: add(birthDate.value, { months: 60 }) },
-  { start: add(birthDate.value, { months: 60 }), end: add(birthDate.value, { months: 108 }) },
-  { start: add(birthDate.value, { months: 108 }), end: add(birthDate.value, { months: 168 }) },
+  { start: add(birthDate.value, { months: 15, seconds: 1 }), end: add(birthDate.value, { months: 48 }) },
+  { start: add(birthDate.value, { months: 48, seconds: 1 }), end: add(birthDate.value, { months: 60 }) },
+  { start: add(birthDate.value, { months: 60, seconds: 1 }), end: add(birthDate.value, { months: 108 }) },
+  { start: add(birthDate.value, { months: 108, seconds: 1 }), end: add(birthDate.value, { months: 168 }) },
 ])
 
 const addDose = () => {
