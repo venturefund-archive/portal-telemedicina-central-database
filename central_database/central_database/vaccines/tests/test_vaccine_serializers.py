@@ -144,6 +144,7 @@ class TestVaccineProtocolSerializer(APITestCase):
         self.protocol = VaccineProtocolFactory(
             vaccine_doses=[self.vaccine_dose_1, self.vaccine_dose_2]
         )
+
         serialized_vaccine_protocol = VaccineProtocolSerializer(
             self.protocol
         ).data  # noqa: E501

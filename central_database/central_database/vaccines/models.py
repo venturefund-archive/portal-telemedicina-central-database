@@ -4,6 +4,10 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 from central_database.base_models import Alert, AlertType, CDModel
+from central_database.customers.models import Client
+from central_database.vaccines.indicators.previne.core import (
+    calculate_immunization_indicator,
+)
 
 
 class Vaccine(CDModel, models.Model):
@@ -279,16 +283,21 @@ class VaccineAlert(Alert, models.Model):
 
 class VaccineProtocol(models.Model):
     vaccine_doses = models.ManyToManyField(VaccineDose)
-    name = models.CharField(max_length=255, help_text="Protocol Name")
     description = models.CharField(max_length=100)
+
+    PREVINE = "Previne"
+    PROTOCOL_CHOICES = [(PREVINE, "Previne")]
+    protocol_type = models.CharField(
+        max_length=255, choices=PROTOCOL_CHOICES, default="Previne"
+    )
 
     class Meta:
         indexes = [
-            models.Index(fields=["name"]),
+            models.Index(fields=["protocol_type"]),
         ]
 
     def __str__(self):
-        return f"Vaccine Protocol: {self.name}"
+        return f"Vaccine Protocol: {self.description}"
 
     @staticmethod
     def get_vaccine_protocol_by_client(client_id=None):
@@ -319,3 +328,37 @@ class VaccineProtocol(models.Model):
         return VaccineAlert.objects.filter(
             vaccine_dose__in=self.vaccine_doses.all()
         ).count()
+
+
+class VaccineProtocolClient(CDModel):
+    client = models.ForeignKey(Client, on_delete=models.PROTECT)
+    protocol = models.ForeignKey(VaccineProtocol, on_delete=models.PROTECT)
+
+    class Meta:
+        indexes = [models.Index(fields=["client"]), models.Index(fields=["protocol"])]
+
+    def __str__(self):
+        return f"Vaccine Protocol Client: {self.client} - {self.protocol.description}"
+
+    def _get_patients_with_full_protocol(self):
+        if self.protocol.protocol_type == VaccineProtocol.PREVINE:
+            vaccine_doses_count = self.protocol.vaccine_doses.count()
+            patients_with_completed_doses = (
+                VaccineStatus.objects.filter(
+                    completed=True, vaccine_dose__in=self.protocol.vaccine_doses.all()
+                )
+                .values("patient_id")
+                .annotate(num_completed=models.Count("id"))
+                .filter(num_completed=vaccine_doses_count)
+                .values_list("patient_id", flat=True)
+            )
+
+            return patients_with_completed_doses
+        return None
+
+    def get_immunization_indicator(self):
+        patients_with_completed_doses = self._get_patients_with_full_protocol()
+        indicator_result = calculate_immunization_indicator(
+            self.client, patients_with_completed_doses
+        )
+        return indicator_result

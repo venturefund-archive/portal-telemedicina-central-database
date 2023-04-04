@@ -19,5 +19,8 @@
             "fileMatch": ["*.fhir.json"],
             "url": "./fhir.schema.json"
         }
+    ],
+    "cSpell.words": [
+        "PREVINE"
     ]
 }

@@ -8,15 +8,19 @@ from google.auth.transport import requests as google_requests
 fhir_url = f"http://{settings.FHIR_API_HOST}:{settings.FHIR_API_PORT}/fhir/"
 
 
-def get_resource(resource_type, resource_id=None, client=None):
+def get_resource(resource_type, resource_id=None, client=None, query_parameters=None):
     if settings.USE_HEALTHCARE_API:
         return get_resource_from_healthcare_api(
-            resource_type, resource_id, client
+            resource_type, resource_id, client, query_parameters
         )  # E501: noqa
-    return get_resource_from_default_fhir_store(resource_type, resource_id)
+    return get_resource_from_default_fhir_store(
+        resource_type, resource_id, query_parameters
+    )
 
 
-def get_resource_from_healthcare_api(resource_type, resource_id, client):
+def get_resource_from_healthcare_api(
+    resource_type, resource_id, client, query_parameters
+):
     project_id = settings.HEALTHCARE_API_PROJECT_ID
     location = settings.HEALTHCARE_API_PROJECT_LOCATION
     dataset_id = client.dataset_id
@@ -41,6 +45,14 @@ def get_resource_from_healthcare_api(resource_type, resource_id, client):
         url, dataset_id, fhir_store_id, resource_type, resource_id
     )
     if resource_id == "?":
+        if query_parameters:
+            for key, value in query_parameters.items():
+                if isinstance(value, list):
+                    for item in value:
+                        resource_path += f"{key}={item}&"
+                else:
+                    resource_path += f"{key}={value}&"
+
         resource_path += "_count=1000"
 
     headers = {"Content-Type": "application/fhir+json;charset=utf-8"}
@@ -87,7 +99,7 @@ def get_resource_from_healthcare_api(resource_type, resource_id, client):
     return resource
 
 
-def get_resource_from_default_fhir_store(resource_type, resource_id):
+def get_resource_from_default_fhir_store(resource_type, resource_id, query_parameters):
     url = fhir_url + resource_type
     if resource_id:
         url = url + f"/{resource_id}"

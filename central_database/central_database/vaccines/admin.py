@@ -1,11 +1,12 @@
 from django.contrib import admin
 
-from .models import (  # noqa
+from .models import VaccineAlertType  # noqa
+from .models import (
     Vaccine,
     VaccineAlert,
-    VaccineAlertType,
     VaccineDose,
     VaccineProtocol,
+    VaccineProtocolClient,
     VaccineStatus,
 )
 
@@ -76,4 +77,11 @@ class VaccineStatusAdmin(admin.ModelAdmin):
 class VaccineProtocolAdmin(admin.ModelAdmin):
     list_display = ("id",)
     list_filter = ("vaccine_doses",)
+    ordering = ["id"]
+
+
+@admin.register(VaccineProtocolClient)
+class VaccineProtocolClientAdmin(admin.ModelAdmin):
+    list_display = ("id",)
+    list_filter = ("protocol", "client")
     ordering = ["id"]

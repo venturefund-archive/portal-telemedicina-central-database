@@ -1,18 +1,20 @@
 from datetime import date, datetime
 
 import central_database.integrations.fhir_api.patient as service
-from central_database.vaccines.models import VaccineProtocol
+import central_database.vaccines.models as vaccine_models
 
 
 class Patient:
-    def __init__(self, id, client=None):
-        patient_service = service.PatientService(client)
+    def __init__(self, id, client=None, query_parameters=None):
+        patient_service = service.PatientService(client, query_parameters)
         if id and id != "?":
             self.detail = self._parse_patient_detail(
                 patient_service.get_detail(id)
             )  # noqa: E501
         else:
-            self.protocol = VaccineProtocol.get_vaccine_protocol_by_client()
+            self.protocol = (
+                vaccine_models.VaccineProtocol.get_vaccine_protocol_by_client()
+            )
             self.alerts = (
                 self.protocol.get_number_of_doses_with_alerts_by_patient()
             )  # noqa: E501

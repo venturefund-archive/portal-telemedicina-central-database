@@ -1,11 +1,13 @@
 import factory.fuzzy
 
+from central_database.customers.factories import ClientFactory
 from central_database.vaccines.models import (
     Vaccine,
     VaccineAlert,
     VaccineAlertType,
     VaccineDose,
     VaccineProtocol,
+    VaccineProtocolClient,
     VaccineStatus,
 )
 
@@ -76,3 +78,11 @@ class VaccineProtocolFactory(factory.django.DjangoModelFactory):
             # A list of groups were passed in, use them
             for vaccine_dose in extracted:
                 self.vaccine_doses.add(vaccine_dose)
+
+
+class VaccineProtocolClientFactory(factory.django.DjangoModelFactory):
+    client = factory.SubFactory(ClientFactory)
+    protocol = factory.SubFactory(VaccineProtocolFactory)
+
+    class Meta:
+        model = VaccineProtocolClient
