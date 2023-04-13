@@ -3,7 +3,7 @@ from datetime import date
 from central_database.integrations.fhir_resources.patient import Patient
 
 
-def patient_with_twelve_months_in_quarter(client, reference_date_for_quarter=None):
+def patient_with_twelve_months_in_quarter(client, reference_date_for_quarter):
     reference_date = reference_date_for_quarter
     if not reference_date_for_quarter:
         reference_date = date.today()
@@ -72,8 +72,12 @@ def calculate_denominator(client):
     return denominator
 
 
-def calculate_immunization_indicator(client, patients_with_completed_doses):
-    patients_in_current_quarter = patient_with_twelve_months_in_quarter(client)
+def calculate_immunization_indicator(
+    client, patients_with_completed_doses, ref_date
+):  # noqa: E501
+    patients_in_current_quarter = patient_with_twelve_months_in_quarter(
+        client, ref_date
+    )
 
     numerator = number_of_patients_with_completed_doses_in_quarter(
         patients_in_current_quarter, patients_with_completed_doses

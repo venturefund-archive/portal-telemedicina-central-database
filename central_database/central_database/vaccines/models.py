@@ -335,17 +335,21 @@ class VaccineProtocolClient(CDModel):
     protocol = models.ForeignKey(VaccineProtocol, on_delete=models.PROTECT)
 
     class Meta:
-        indexes = [models.Index(fields=["client"]), models.Index(fields=["protocol"])]
+        indexes = [
+            models.Index(fields=["client"]),
+            models.Index(fields=["protocol"]),
+        ]  # noqa: E501
 
     def __str__(self):
-        return f"Vaccine Protocol Client: {self.client} - {self.protocol.description}"
+        return f"Vaccine Protocol Client: {self.client} - {self.protocol.description}"  # noqa: E501
 
     def _get_patients_with_full_protocol(self):
         if self.protocol.protocol_type == VaccineProtocol.PREVINE:
             vaccine_doses_count = self.protocol.vaccine_doses.count()
             patients_with_completed_doses = (
                 VaccineStatus.objects.filter(
-                    completed=True, vaccine_dose__in=self.protocol.vaccine_doses.all()
+                    completed=True,
+                    vaccine_dose__in=self.protocol.vaccine_doses.all(),  # noqa: E501
                 )
                 .values("patient_id")
                 .annotate(num_completed=models.Count("id"))
@@ -356,9 +360,9 @@ class VaccineProtocolClient(CDModel):
             return patients_with_completed_doses
         return None
 
-    def get_immunization_indicator(self):
+    def get_immunization_indicator(self, ref_date=None):
         patients_with_completed_doses = self._get_patients_with_full_protocol()
         indicator_result = calculate_immunization_indicator(
-            self.client, patients_with_completed_doses
+            self.client, patients_with_completed_doses, ref_date
         )
         return indicator_result
