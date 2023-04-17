@@ -1,15 +1,14 @@
 <template>
     <div class="bg-white w-full md:w-1/2 h-full p-4 rounded float-right">
-  <h2 class="text-lg mb-4">Pacientes com doses atrasadas</h2>
+  <h2 class="text-lg mb-4">{{ $t('manager.patients-delayed') }}</h2>
   <div class="flex items-center">
     <div class="flex gap-2">
-      <button class="border border-blue-600 text-blue-500 hover:bg-blue-500 hover:text-white py-1 px-4 rounded-md text-sm">CPFS</button>
-      <button class="border border-blue-600 text-blue-500 hover:bg-blue-500 hover:text-white py-1 px-4 rounded-md text-sm">Bairro</button>
+      <button class="border border-green-500 text-green-500 hover:bg-green-500 hover:text-white py-1 px-4 rounded-md text-sm">CPFS</button>
+      <button class="border border-green-500 text-green-500 hover:bg-green-500 hover:text-white py-1 px-4 rounded-md text-sm">{{ $t('manager.district') }}</button>
     </div>
     <div class="mt-4 md:mt-0 flex items-center">
       <button @click="showList = !showList" class="relative z-10 flex flex-col items-center px-4 py-2 text-gray-500 bg-primary rounded-md">
-        <UsersIcon title="População" class="h-6 w-6 text-blue-500"/>
-        <span class="text-xs">População</span>
+        <UsersIcon title="População" class="h-6 w-6 text-green-500"/>
       </button>
       <ul v-if="showList" class="absolute z-20 rounded-md shadow-md bg-white mt-96">
         <li v-for="item in items" :class="{ 'font-bold': item === selectedItem }" class="px-4 py-2 font-normal cursor-pointer hover:bg-gray-100" :key="item" @click="">
@@ -34,9 +33,9 @@
           </div>
           <div>
             <div v-if="patient.number_of_alerts_by_protocol != false">
-          <span class="flex-none pr-14">{{ patient.number_of_alerts_by_protocol }}</span>
+          <!-- <span class="flex-none pr-14">{{ patient.number_of_alerts_by_protocol }}</span> -->
         </div>
-        <button class="border border-1 border-blue-500 rounded text-blue-500 hover:bg-blue-500 hover:text-white py-2 px-2 text-sm rounded cursor-pointer">Detalhes</button>
+        <button class="border border-1 border-green-500 rounded text-green-500 hover:bg-green-500 hover:text-white py-2 px-2 text-sm rounded cursor-pointer">{{ $t('manager.details') }}</button>
 
         </div>
         </div>

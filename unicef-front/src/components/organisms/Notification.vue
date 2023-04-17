@@ -1,5 +1,5 @@
 <template>
-        <div class="relative flex justify-end px-5 -py-10" style="position: absolute; top:14%; right: 0; width: 200px;">
+        <div class="relative flex justify-end px-5" style="position: absolute; top:10%; right: 0; width: 200px;">
   <button @click="isModalOpen = true" class="relative z-10 flex items-center justify-center w-12 h-12 rounded-full bg-red-500 hover:bg-red-600">
     <BellIcon title="População" class="h-8 w-8 text-white hover:text-gray-50" />
   </button>

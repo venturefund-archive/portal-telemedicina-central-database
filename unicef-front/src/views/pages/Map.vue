@@ -1,7 +1,7 @@
 <template>
-  <PageWrapper title="Mapa do Gestor">
+  <PageWrapper>
     <div class="pb-10">
-    <Notification />
+    <!-- <Notification /> -->
   </div>
     <div class="pl-10">
     <ListCard/>
