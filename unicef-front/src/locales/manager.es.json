@@ -1,7 +1,9 @@
 {
-  "search-map": "",
-  "alerts": "",
-  "population": "",
-  "patients-delayed": "",
-  "details": ""
+  "search-map": "buscar en el mapa",
+  "alerts": "Alertas",
+  "population": "Población",
+  "patients-delayed": "Pacientes con dosis retrasadas",
+  "details": "Detalles",
+  "district": "El barrio",
+  "save":"Guardar editar"
 }
