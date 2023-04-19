@@ -54,23 +54,23 @@ const router = useRouter()
 const birthDate = computed(() => parseISO(patientsStore.item.birth_date))
 
 const formatedAge = computed(() => {
-  const birthDateInYears = differenceInYears(new Date(), birthDate.value)
-  if (1 == birthDateInYears) {
+  const ageInYears = differenceInYears(new Date(), birthDate.value)
+  if (1 == ageInYears) {
     return '1 ' + t('patient-details.year')
-  } else if (0 == birthDateInYears) {
-    const birthDateInMonths = differenceInMonths(new Date(), birthDate.value)
-    const birthDateInDays = differenceInDays(new Date(), birthDate.value)
-    if (1 == birthDateInMonths) {
+  } else if (0 == ageInYears) {
+    const ageInMonths = differenceInMonths(new Date(), birthDate.value)
+    const ageInDays = differenceInDays(new Date(), birthDate.value)
+    if (1 == ageInMonths) {
       return '1 ' + t('patient-details.month')
-    }else if (0 == birthDateInMonths) {
-      if (1 == birthDateInDays){
+    } else if (0 == ageInMonths) {
+      if (1 == ageInDays){
         return '1 ' + t('patient-details.day')
       }
-      return birthDateInDays + ' dias'
+      return ageInDays + ' ' + t('patient-details.days')
     }
-    return birthDateInMonths + ' meses'
+    return ageInMonths + ' ' + t('patient-details.months')
   }
-  return birthDateInYears + ' anos'
+  return ageInYears + ' ' + t('patient-details.years')
 })
 
 const props = defineProps({
