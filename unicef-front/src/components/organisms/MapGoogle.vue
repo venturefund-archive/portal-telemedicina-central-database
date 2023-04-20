@@ -213,14 +213,14 @@ const isModalOpen = ref(false)
 const searchQuery = ref('')
 const GOOGLE_MAP_API_KEY = ref(import.meta.env.VITE_GOOGLE_MAP_API_KEY)
 const customMarkerIcon = ref({
-  url: 'public/marker1.png',
+  url: 'marker1.png',
   scaledSize: {
     width: 40,
     height: 50
   },
 })
 const customMarkerIcon2 = ref({
-  url: 'public/marker2.png',
+  url: 'marker2.png',
   scaledSize: {
     width: 40,
     height: 50
