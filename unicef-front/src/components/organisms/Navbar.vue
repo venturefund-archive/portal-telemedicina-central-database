@@ -51,10 +51,10 @@
         variant="secondary"
         @click="logout"
         v-slot="{ iconSizeClasses }"
-        class="hidden md:inline-flex "
+        class="hidden md:inline-flex"
         srText="Configurações"
       >
-        <LogoutIcon v-show="!isFullscreen" aria-hidden="true" :class="iconSizeClasses" />
+        <LogoutIcon v-show="!isFullscreen" aria-hidden="true" :class="iconSizeClasses" class="text-blue-500" />
         <LogoutIcon @click="logout" v-show="isFullscreen" aria-hidden="true" :class="iconSizeClasses" />
       </Button>
     </div>

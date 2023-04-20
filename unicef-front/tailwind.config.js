@@ -12,6 +12,9 @@ module.exports = {
         'gray': {
           400: '#B0B0B0',
         },
+        'blue': {
+          500: '#009FE3',
+        },
         // ...
       },
       fontFamily: {
