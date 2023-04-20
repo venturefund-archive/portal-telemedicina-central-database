@@ -2,26 +2,28 @@
   <div>
   <p class="text-lg mb-4 font-semibold text-gray-700">{{ $t('manager.patients-delayed') }}</p>
     <div class="border border-1 border-gray-200 rounded w-full  shadow p-4 rounded float-right">
-  <div class="flex items-center">
-    <div class="flex">
-  <button class="border border-1 border-gray-300  hover:border-green-500 hover:text-green-500 py-2 px-4 rounded-l-md bg-transparent text-sm">CPFS</button>
-  <button class="border border-1 border-gray-300  hover:border-green-500 hover:text-green-500 py-2 px-4 rounded-r-md bg-transparent text-sm">{{ $t('manager.district') }}</button>
-</div>
+    <div class="flex justify-between">
+      <div class="flex">
+        <button class="border border-1 border-gray-300  hover:border-green-500 hover:text-green-500 py-2 px-4 rounded-l-md bg-transparent text-sm">CPFS</button>
+        <button class="border border-1 border-gray-300  hover:border-green-500 hover:text-green-500 py-2 px-4 rounded-r-md bg-transparent text-sm">{{ $t('manager.district') }}</button>
 
+        <button @click="showList = !showList" class="relative z-10 flex flex-col items-center py-2 px-4 text-gray-500 bg-primary rounded-md">
+          <UsersIcon title="População" class="h-6 w-6 text-green-500"/>
+        </button>
+        <ul v-if="showList" class="absolute z-20 rounded-md shadow-md bg-white mt-12 ml-40">
+          <li v-for="item in items" :class="{ 'font-bold': item === selectedItem }" class="py-2 px-4 font-normal cursor-pointer hover:bg-gray-100" :key="item" @click="">
+            {{ item }}
+          </li>
+        </ul>
+      </div>
 
-    <div class="mt-4 md:mt-0 flex items-center">
-      <button @click="showList = !showList" class="relative z-10 flex flex-col items-center px-4 py-2 text-gray-500 bg-primary rounded-md">
-        <UsersIcon title="População" class="h-6 w-6 text-green-500"/>
-      </button>
-      <ul v-if="showList" class="absolute z-20 rounded-md shadow-md bg-white mt-96">
-        <li v-for="item in items" :class="{ 'font-bold': item === selectedItem }" class="px-4 py-2 font-normal cursor-pointer hover:bg-gray-100" :key="item" @click="">
-          {{ item }}
-        </li>
-      </ul>
+      <div class="flex items-baseline py-2">
+          <ShareIcon title="share" class="h-6 w-6 text-gray-400 hover:text-green-500 cursor-pointer mx-4"></ShareIcon>
+          <DownloadIcon title="download" class="h-6 w-6 text-gray-400 hover:text-green-500 cursor-pointer"></DownloadIcon>
+      </div>
     </div>
-  </div>
 
-  <div class="grid grid-cols-1 gap-2" v-if="paginated">
+  <div class="grid grid-cols-1 gap-2 py-5" v-if="paginated">
       <div @update:query="patientQuery = $event">
 
         <div class="mt-4 flex items-center justify-between hover:bg-gray-100 hover:rounded px-2 py-1 border-b-2 border-gray-200" v-for="(patient, index) in paginated" :key="index">          <div class="flex items-center gap-2 flex-auto">
@@ -37,7 +39,7 @@
             <div v-if="patient.number_of_alerts_by_protocol != false">
           <!-- <span class="flex-none pr-14">{{ patient.number_of_alerts_by_protocol }}</span> -->
         </div>
-        <button class="border border-1 border-green-500 rounded text-green-500 hover:bg-green-500 hover:text-white py-2 px-2 text-sm rounded cursor-pointer">{{ $t('manager.details') }}</button>
+        <button class="border border-1 border-green-500 rounded text-green-500 hover:bg-green-500 hover:text-white py-2 px-4 font-normal text-sm rounded cursor-pointer">{{ $t('manager.details') }}</button>
 
         </div>
         </div>
@@ -74,7 +76,7 @@
 
 <script setup>
 import { defineComponent, reactive, computed, onBeforeUpdate, onMounted, watch, ref, onUnmounted } from 'vue'
-import { HandIcon, PencilIcon, UsersIcon, ArrowLeftIcon, ArrowRightIcon } from '@heroicons/vue/solid'
+import { HandIcon, PencilIcon, UsersIcon, ArrowLeftIcon, ArrowRightIcon, DownloadIcon, ShareIcon } from '@heroicons/vue/solid'
 import { useRouter } from 'vue-router'
 import { usePatientsStore } from '@/stores/patients'
 import { useLoggedUserStore } from '@/stores/loggedUser'

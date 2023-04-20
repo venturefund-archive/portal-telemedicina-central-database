@@ -9,9 +9,11 @@ module.exports = {
         'green': {
           500: '#009334',
         },
+        'gray': {
+          400: '#B0B0B0',
+        },
         // ...
       },
-
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
       },
