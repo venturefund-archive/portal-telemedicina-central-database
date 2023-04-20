@@ -1,6 +1,6 @@
 <template>
   <div>
-  <p class="text-lg mb-4 font-semibold text-gray-700">{{ $t('manager.patients-delayed') }}</p>
+  <p class="text-xl mb-4 font-semibold text-gray-700">{{ $t('manager.patients-delayed') }}</p>
     <div class="border border-1 border-gray-200 rounded w-full  shadow p-4 rounded float-right">
     <div class="flex justify-between">
       <div class="flex">
