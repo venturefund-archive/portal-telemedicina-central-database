@@ -1,12 +1,14 @@
 <template>
   <div>
+    <p class="text-lg mb-4 font-semibold text-gray-700">Mapa vacinal</p>
+  <div>
      <!-- People with vaccines delayed -->
-    <div class="bg-white rounded shadow-md grid grid-cols-1 md:grid-cols-5 gap-2 items-center w-full md:w-1/2 p-2">
+    <div class="bg-gray-50 rounded shadow-xl grid grid-cols-1 md:grid-cols-5 gap-2 items-center w-full  p-2">
   <div class="col-span-3 px-3">
     <form @submit.prevent="searchAddress" class="flex items-center w-full">
       <label for="default-search" class="sr-only text-sm font-medium text-gray-900">Procurar</label>
       <div class="relative flex items-center w-full">
-        <svg class="h-5 w-5 text-gray-500 dark:text-gray-400 absolute left-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <svg class="h-5 w-5 text-gray-500 absolute left-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
         </svg>
         <input :placeholder="$t('manager.search-map')" v-model="geocoderQuery" class="bg-white py-3 px-10 mr-1 w-full rounded-md border border-2 shadow-sm" />      </div>
@@ -14,7 +16,7 @@
   </div>
 
   <div class="mt-4 md:mt-0">
-    <button @click="showList = !showList" class="relative z-10 flex flex-col items-center py-2 text-gray-500 bg-primary rounded-md">
+    <button @click="showList = !showList" class="relative z-10 flex flex-col items-center py-2 text-gray-500 rounded-md">
       <UsersIcon title="População" class="h-6 w-6 text-green-500"/>
       <span class="py-1 text-sm">{{ $t('manager.population') }}</span>
     </button>
@@ -34,22 +36,14 @@
   </div>
 </div>
  <!-- Map content -->
-  <div class="flex justify-start shadow md:w-1/2">
-    <GoogleMap :api-key="GOOGLE_MAP_API_KEY" style="width: 100%; height: 700px" id="map" :center="center" :zoom="14" :libraries="['drawing']"
+  <div class="flex justify-start shadow">
+    <GoogleMap :api-key="GOOGLE_MAP_API_KEY" style="width: 100%; height: 780px" id="map" :center="center" :zoom="14" :libraries="['drawing']"
       ref="mapRef">
       <template #default="{ ready, api, map, mapTilesLoaded }">
         <!-- First pattern: Here you have access to the API and map instance.
           "ready" is a boolean that indicates when the Google Maps script
           has been loaded and the api and map instance are ready to be used -->
-          <Polygon v-for="(location, k) in polygons" :key="k" :options="customPolygons(k)" />
-          <Polygon :options="rectangle" />
-
-        <CustomMarker v-if="userLocation" :options="{
-                                  anchorPoint: 'LEFT_CENTER',
-                                  position: userLocation,
-                                }">👩 User Position</CustomMarker>
         <MarkerCluster>
-
           <div
             v-for="(location, i) in locations"
 
@@ -155,7 +149,7 @@
                     <div id="content">
                       <div id="bodyContent" class="p-1">
                         <div class="flex flex-col justify-between p-5 bg-white rounded-2xl">
-                          <p class="font-semibold text-xl tracking-wider py-3">Gael henrique szmodic lopes</p>
+                          <p class="font-semibold text-xl tracking-wider py-3">qwe</p>
                           <hr class="border border-1 border-dashed border-gray-300"/>
                           <!-- <ProfileCard v-if="patientsStore.item" :id="patientsStore.item.id" class="my-3" /> -->
                           <div class="flex justify-between py-5">
@@ -220,6 +214,7 @@
                           </Button>
                         </div>
 </div>
+</div>
 </template>
 
 <script setup>
@@ -246,17 +241,17 @@ const isModalOpen = ref(false)
 const searchQuery = ref('')
 const GOOGLE_MAP_API_KEY = ref(import.meta.env.VITE_GOOGLE_MAP_API_KEY)
 const customMarkerIcon = ref({
-  url: 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-alt-512.png',
+  url: 'public/marker1.png',
   scaledSize: {
     width: 40,
-    height: 40
+    height:50
   },
 })
 const customMarkerIcon2 = ref({
-  url: 'https://cdn4.iconfinder.com/data/icons/small-n-flat/24/user-512.png',
+  url: 'public/marker2.png',
   scaledSize: {
     width: 40,
-    height: 40
+    height: 50
   },
 })
 
@@ -278,9 +273,12 @@ const handleClickOutside = (event) => {
   }
 };
 
-onMounted(() => {
+onMounted(async () => {
+  await patientsStore.fetchPatients()
   document.addEventListener('click', handleClickOutside);
-});
+})
+
+
 
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside);
@@ -382,10 +380,8 @@ function loadPolygons() {
   if(undefined == state.value.polygons) {
     state.value.polygons = []
   }
-  let polygonData = state.value.polygons
-
-  if (polygonData) {
-    polygonData.forEach(function(polygonCoordinates) {
+  if (state.value.polygons) {
+    state.value.polygons.forEach(function(polygonCoordinates) {
       const polygon = new google.maps.Polygon({
         paths: polygonCoordinates,
         fillColor: '#ffff00',
@@ -413,7 +409,7 @@ watch(() => mapRef.value?.ready, (ready) => {
   //console.log(mapRef.value.map)
 
   drawingManager.value = new google.maps.drawing.DrawingManager({
-      drawingMode: null,
+      drawingMode: google.maps.drawing.OverlayType.POLYGON,
       drawingControl: true,
       drawingControlOptions: {
         position: google.maps.ControlPosition.TOP_CENTER,
@@ -439,7 +435,34 @@ console.log(polygonData.value)
       const polygon = event.overlay
       polygons.value.push(polygon)
 
-      savePolygons()
+      google.maps.event.addListener(polygon, 'click', function(event) {
+        // destaca o polígono
+        polygon.setOptions({
+          fillColor: '#FFFF00', // altera a cor do preenchimento para amarelo
+          strokeColor: '#FF0000' // altera a cor da borda para vermelho
+        });
+        var paths = polygon.getPaths();
+        var confirmed = confirm('Tem certeza que deseja excluir todos os pontos do polígono?');
+        if (confirmed) {
+          paths.forEach(function(path) {
+            path.forEach(function(point) {
+              var marker = point.marker;
+              if (marker) {
+                marker.setMap(null);
+              }
+            });
+          });
+          polygon.setPaths([]);
+          savePolygons()
+        } else {
+          // o usuário cancelou a exclusão, restaure as cores do polígono
+          polygon.setOptions({
+            fillColor: '#0000FF', // altera a cor do preenchimento para azul
+            strokeColor: '#FF0000' // altera a cor da borda para vermelho
+          });
+        }
+      });
+
     }
   })
 

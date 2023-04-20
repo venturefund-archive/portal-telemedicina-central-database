@@ -5,8 +5,15 @@ module.exports = {
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}', './node_modules/flowbite/**/*.js'],
   theme: {
     extend: {
+      colors: {
+        'green': {
+          500: '#009334',
+        },
+        // ...
+      },
+
       fontFamily: {
-        sans: ['Inter', ...defaultTheme.fontFamily.sans],
+        roboto: ['Roboto', 'sans-serif'],
       },
       boxShadow: {
         't-lg':

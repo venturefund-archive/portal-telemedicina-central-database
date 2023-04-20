@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-100 text-gray-900">
+  <div class="min-h-screen bg-white text-gray-900">
     <Sidebar />
 
     <div

@@ -1,11 +1,14 @@
 <template>
-    <div class="bg-white w-full md:w-1/2 h-full p-4 rounded float-right">
-  <h2 class="text-lg mb-4">{{ $t('manager.patients-delayed') }}</h2>
+  <div>
+  <p class="text-lg mb-4 font-semibold text-gray-700">{{ $t('manager.patients-delayed') }}</p>
+    <div class="border border-1 border-gray-200 rounded w-full  shadow p-4 rounded float-right">
   <div class="flex items-center">
-    <div class="flex gap-2">
-      <button class="border border-green-500 text-green-500 hover:bg-green-500 hover:text-white py-1 px-4 rounded-md text-sm">CPFS</button>
-      <button class="border border-green-500 text-green-500 hover:bg-green-500 hover:text-white py-1 px-4 rounded-md text-sm">{{ $t('manager.district') }}</button>
-    </div>
+    <div class="flex">
+  <button class="border border-1 border-gray-300  hover:border-green-500 hover:text-green-500 py-2 px-4 rounded-l-md bg-transparent text-sm">CPFS</button>
+  <button class="border border-1 border-gray-300  hover:border-green-500 hover:text-green-500 py-2 px-4 rounded-r-md bg-transparent text-sm">{{ $t('manager.district') }}</button>
+</div>
+
+
     <div class="mt-4 md:mt-0 flex items-center">
       <button @click="showList = !showList" class="relative z-10 flex flex-col items-center px-4 py-2 text-gray-500 bg-primary rounded-md">
         <UsersIcon title="População" class="h-6 w-6 text-green-500"/>
@@ -18,17 +21,16 @@
     </div>
   </div>
 
-  <div class="grid grid-cols-1 gap-6" v-if="paginated">
+  <div class="grid grid-cols-1 gap-2" v-if="paginated">
       <div @update:query="patientQuery = $event">
 
-        <div class="mt-4 flex items-center justify-between hover:bg-gray-100 hover:rounded px-2 py-1" v-for="(patient, index) in paginated" :key="index">
-          <div class="flex items-center gap-2 flex-auto">
+        <div class="mt-4 flex items-center justify-between hover:bg-gray-100 hover:rounded px-2 py-1 border-b-2 border-gray-200" v-for="(patient, index) in paginated" :key="index">          <div class="flex items-center gap-2 flex-auto">
             <span class="hidden text-xs text-gray-500 align-baseline">{{ indexStart + ++index }}.</span>
-            <img class="h-10 w-10 p-1 rounded-md object-cover rounded-full bg-neutral-200" src="/avatar.png" />
             <div>
-              <h5 class="text-sm text-gray-600 dark:text-gray-300 font-medium capitalize">
-                <span>{{patient.name.join().toLowerCase() }}</span>
-              </h5>
+              <div>
+                <p class="text-lg font-semibold capitalize">{{patient.name.join().toLowerCase() }}</p>
+              </div>
+              <span class="text-gray-500 text-sm"> Street xxx, district xxx </span>
             </div>
           </div>
           <div>
@@ -40,7 +42,7 @@
         </div>
         </div>
 
-        <div class="flex justify-between pt-3 pb-2">
+        <div class="flex justify-between pt-10 pb-2">
           <div>
             <Button :disabled="isFirstPage" size="sm" iconOnly variant="secondary" v-slot="{ iconSizeClasses }"
               @click="prev">
@@ -65,6 +67,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 
 </template>
