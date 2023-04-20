@@ -14,5 +14,7 @@
   "total-alerts-per-patient": "Total alerts per patient",
   "vaccines": "vaccines",
   "welcome": "Have a great day and a good job!",
-  "years": "years"
+  "years": "years",
+  "dashboard": "Dashboard",
+  "map": "Map"
 }

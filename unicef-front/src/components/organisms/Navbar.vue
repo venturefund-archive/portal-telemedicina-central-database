@@ -2,7 +2,7 @@
   <nav
     aria-label="secondary"
     :class="[
-      'dark:bg-dark-eval-1 sticky top-0 z-10 flex items-center justify-between bg-white px-6 py-4 transition-transform duration-500',
+      'sticky top-0 z-10 flex items-center justify-between shadow-md bg-white px-6 py-4 transition-transform duration-500',
       {
         '-translate-y-full': scrolling.down,
         'translate-y-0': scrolling.up,
@@ -54,7 +54,7 @@
         class="hidden md:inline-flex"
         srText="Configurações"
       >
-        <LogoutIcon v-show="!isFullscreen" aria-hidden="true" :class="iconSizeClasses" />
+        <LogoutIcon v-show="!isFullscreen" aria-hidden="true" :class="iconSizeClasses" class="text-blue-500" />
         <LogoutIcon @click="logout" v-show="isFullscreen" aria-hidden="true" :class="iconSizeClasses" />
       </Button>
     </div>

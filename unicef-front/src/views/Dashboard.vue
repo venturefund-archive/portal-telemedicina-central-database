@@ -1,9 +1,6 @@
 <template>
   <PageWrapper>
     <template #header>
-      <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <h2 class="text-xl font-semibold leading-tight">Dashboard</h2>
-      </div>
       <div class="pl-5 pt-3">
         <p class="font-semibold" v-if="loggedUserStore.item">{{ $t('dashboard.greetings', { name: loggedUserStore.item.username }) }}</p>
         <span class="text-neutral-500">{{ $t('dashboard.welcome') }}</span>
