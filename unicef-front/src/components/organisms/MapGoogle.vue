@@ -3,7 +3,7 @@
     <p class="text-xl mb-4 font-semibold text-gray-700">{{$t('manager.vaccination-map')}}</p>
     <div>
       <!-- People with vaccines delayed -->
-      <div class="flex flex-col sm:flex-row items-center justify-between space-x-4 bg-gray-50 px-5 shadow-xl">
+      <div class="flex flex-col sm:flex-row items-center justify-between space-x-4 bg-gray-50 px-5 shadow-xl rounded border border-1 border-gray-50 shadow-t-lg shadow-r-lg shadow-l-lg shadow-b-lg ">
                         <div class="">
           <form @submit.prevent="searchAddress" class="flex items-center w-full">
             <label for="default-search" class="sr-only text-sm font-medium text-gray-900">Procurar</label>
@@ -51,7 +51,7 @@
         </div>
       </div>
       <!-- Map content -->
-      <div class="flex justify-start shadow">
+      <div class="flex justify-start shadow border border-1 shadow-b-lg shadow-r-lg shadow-l-lg">
         <GoogleMap :api-key="GOOGLE_MAP_API_KEY" style="width: 100%; height: 800px;" id="map" :center="center" :zoom="14"
           :libraries="['drawing']" ref="mapRef">
           <template #default="{ ready, api, map, mapTilesLoaded }">
