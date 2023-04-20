@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p class="text-lg mb-4 font-semibold text-gray-700">Mapa vacinal</p>
+    <p class="text-lg mb-4 font-semibold text-gray-700">{{$t('manager.vaccination-map')}}</p>
     <div>
       <!-- People with vaccines delayed -->
       <div class="flex flex-col sm:flex-row items-center justify-between space-x-4 bg-gray-50 px-5 shadow-xl">

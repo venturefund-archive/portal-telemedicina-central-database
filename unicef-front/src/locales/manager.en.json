@@ -5,5 +5,6 @@
   "patients-delayed": "Patients with delayed doses",
   "details": "Details",
   "district": "District",
-  "save":"Save edit"
+  "save":"Save edit",
+  "vaccination-map":"Vaccination coverage map"
 }
