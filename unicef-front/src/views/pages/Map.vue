@@ -2,7 +2,7 @@
   <PageWrapper>
     <div class="pb-10">
   <div class="flex flex-col md:flex-row justify-center items-baseline pt-10">
-    <div class="md:flex-1" style="margin-left: 10px;">
+    <div class="md:flex-1">
       <MapGoogle />
     </div>
     <div class="md:w-1/3">
