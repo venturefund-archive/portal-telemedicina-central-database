@@ -7,7 +7,7 @@
         <button class="border border-1 border-gray-300  hover:border-green-500 hover:text-green-500 py-2 px-4 rounded-l-md bg-transparent text-sm">CPFS</button>
         <button class="border border-1 border-gray-300  hover:border-green-500 hover:text-green-500 py-2 px-4 rounded-r-md bg-transparent text-sm">{{ $t('manager.district') }}</button>
 
-        <button @click="showList = !showList" class="relative z-10 flex flex-col items-center py-2 px-4 text-gray-500 bg-primary rounded-md">
+        <button @click="showList = !showList" class="relative z-5 flex flex-col items-center py-2 px-4 text-gray-500 bg-primary rounded-md">
           <UsersIcon title="População" class="h-6 w-6 text-green-500"/>
         </button>
         <ul v-if="showList" class="absolute z-20 rounded-md shadow-md bg-white mt-12 ml-40">
@@ -29,9 +29,9 @@
         <div class="mt-4 flex items-center justify-between hover:bg-gray-100 hover:rounded px-2 py-1 border-b-2 border-gray-200" v-for="(patient, index) in paginated" :key="index">          <div class="flex items-center gap-2 flex-auto">
             <span class="hidden text-xs text-gray-500 align-baseline">{{ indexStart + ++index }}.</span>
             <div>
-              <div>
+                <router-link :to="{ name: 'PatientDetails', params: { id: patient.id } }">
                 <p class="text-lg font-semibold capitalize">{{patient.name.join().toLowerCase() }}</p>
-              </div>
+              </router-link>
               <span class="text-gray-500 text-sm"> Street xxx, district xxx </span>
             </div>
           </div>

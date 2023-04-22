@@ -1,13 +1,19 @@
 <template>
-  <section class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 place-content-center" v-if="protocolStore.item">
-    <h2 class="sr-only">{{ $t('dashboard.completed-doses') }}</h2>
-    <QuickStatisticsCard :title="$t('dashboard.completed-doses')" :result="protocolStore.item.completed_doses_percentage + `%`" class="bg-green-500">
+  <section class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4  place-content-center" v-if="protocolStore.item">
+    <QuickStatisticsCard :title="$t('dashboard.total-alerts')" :result="protocolStore.item.alert_doses_count" class="bg-red-500 col-span-1  ">
+      <template #icon="{ sizeClasses }">
+        <ExclamationCircleIcon aria-hidden="true" class="h-12 w-12 text-white" />
+      </template>
+    </QuickStatisticsCard>
+
+    <QuickStatisticsCard :title="$t('dashboard.completed-doses')" :result="protocolStore.item.completed_doses_percentage + `%`" class="bg-yellow-500">
       <template #icon="{ sizeClasses }">
         <CheckCircleIcon aria-hidden="true" class="h-12 w-12 text-white" />
       </template>
     </QuickStatisticsCard>
     <div v-for="(dose, k) in protocolStore.item.vaccine_doses" :key="k">
-      <QuickStatisticsCard class="bg-blue-500"
+      <QuickStatisticsCard
+                           :class="{ 'bg-blue-500': (k == 0), 'bg-[#7A6EFE]': (k > 0)}"
                            :title="dose.vaccine.name"
                            :result="`${dose.completed_percentage}%`">
         <template #icon="{ sizeClasses }">
@@ -15,12 +21,6 @@
         </template>
       </QuickStatisticsCard>
     </div>
-
-    <QuickStatisticsCard :title="$t('dashboard.total-alerts')" :result="protocolStore.item.alert_doses_count" class="bg-red-500">
-      <template #icon="{ sizeClasses }">
-        <ExclamationCircleIcon aria-hidden="true" class="h-12 w-12 text-white" />
-      </template>
-    </QuickStatisticsCard>
   </section>
 </template>
 

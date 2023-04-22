@@ -3,11 +3,11 @@
     v-if="href"
     :href="href"
     :class="[
-      'flex items-center gap-2 rounded-md p-2 no-underline transition-colors hover:no-underline',
+      'flex items-center flex-col gap-2 rounded-md p-2 no-underline transition-colors hover:no-underline',
       {
-        'dark:hover:bg-dark-eval-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:hover:text-gray-300':
+        'text-white bg-blue-500':
           !active,
-        'bg-blue-500 text-white shadow-lg hover:bg-blue-600': active,
+        ' text-white shadow bg-blue-660': active,
       },
     ]"
   >
@@ -21,11 +21,11 @@
     v-else-if="to"
     :to="to"
     :class="[
-      'flex items-center gap-2 rounded-md p-2 no-underline transition-colors hover:no-underline',
+      'flex items-center flex-col gap-2 rounded-md p-2 no-underline transition-colors hover:no-underline',
       {
-        'dark:hover:bg-dark-eval-2 text-gray-500 hover:bg-gray-100 hover:text-gray-700 dark:hover:text-gray-300':
+        'text-white bg-blue-500':
           !active,
-        'bg-blue-500 text-white shadow-lg hover:bg-blue-600': active,
+        ' text-white shadow bg-blue-660': active,
       },
     ]"
   >
@@ -41,9 +41,9 @@
     :class="[
       'flex w-full items-center gap-2 rounded-md p-2 transition-colors',
       {
-        'dark:hover:bg-dark-eval-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 dark:hover:text-gray-300':
+        'text-white bg-blue-500':
           !active,
-        'bg-blue-500 text-white shadow-lg hover:bg-blue-600': active,
+        ' text-white shadow bg-blue-660': active,
       },
     ]"
   >
