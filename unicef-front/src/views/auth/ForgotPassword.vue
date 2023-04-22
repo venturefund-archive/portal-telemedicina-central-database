@@ -28,7 +28,7 @@
       <div>
         <Button
           type="submit"
-          class="w-full justify-center gap-2"
+          class="w-full justify-center gap-2 rounded-full"
           :disabled="forgotPasswordForm.processing"
           v-slot="{ iconSizeClasses }"
         >

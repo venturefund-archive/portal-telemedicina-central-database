@@ -20,7 +20,7 @@
 
             <div class="-ml-10 flex-shrink-0">
               <router-link to="/">
-                <LogoFull class="h-16" />
+                <img src="@/assets/portal_logo.png" alt="unicef logo" class="h-16" />
                 <span class="sr-only">Dashboard</span>
               </router-link>
             </div>
