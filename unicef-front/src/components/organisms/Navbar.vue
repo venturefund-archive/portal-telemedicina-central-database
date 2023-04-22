@@ -2,7 +2,7 @@
   <nav
     aria-label="secondary"
     :class="[
-      'sticky top-0 z-10 flex items-center justify-between shadow-md bg-white px-6 py-4 transition-transform duration-500',
+      'sticky top-0 z-10 flex items-center justify-between shadow-md bg-white py-4 px-5 transition-transform duration-500',
       {
         '-translate-y-full': scrolling.down,
         'translate-y-0': scrolling.up,
@@ -22,6 +22,9 @@
     </div>
 
     <div class="flex items-center gap-2">
+      <div class="px-10">
+      <LanguageSwitcher/>
+    </div>
       <!-- Dropdwon -->
       <div>
         <div>
@@ -29,11 +32,14 @@
             class="dark:focus:ring-offset-dark-eval-1 flex rounded-md border-2 border-transparent text-sm transition focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-1 focus:ring-offset-white"
           >
             <div class="flex flex-col items-end justify-center">
-              <p class="font-bold" v-if="loggedUserStore.item">{{ loggedUserStore.item.username }}</p>
+              <p class="font-normal" v-if="loggedUserStore.item">{{ loggedUserStore.item.username }}</p>
             </div>
             <img class="mx-5 h-12 w-12 rounded-md object-cover" :src="userAvatar" alt="User Name" />
           </button>
         </div>
+      </div>
+      <div>
+        <div class="inline-flex items-center justify-center gap-2 border-gray-100 border border-r-1 border-l-0 border-t-transparent border-b-transparent py-5 px-4"> </div>
       </div>
       <Button
         iconOnly
@@ -62,8 +68,9 @@
 
   <!-- Mobile bottom bar -->
   <div
+  class="block sm:hidden"
     :class="[
-      'dark:bg-dark-eval-1 fixed z-10 inset-x-0 bottom-0 flex items-center justify-between bg-white px-4 py-4 transition-transform duration-500 sm:px-6 md:hidden',
+      'dark:bg-dark-eval-1 fixed z-10 inset-x-0 bottom-0 flex items-center justify-between bg-blue-500 px-4 py-4 transition-transform duration-500 sm:px-6 md:hidden',
       {
         'translate-y-full': scrolling.down,
         'translate-y-0': scrolling.up,
@@ -71,13 +78,15 @@
     ]"
   >
     <router-link to="/">
-      <Logo class="h-10 w-10" />
+      <Logo class="h-10" />
       <span class="sr-only">UNICEF</span>
     </router-link>
+    <SidebarContent />
 
     <Button
       iconOnly
       variant="secondary"
+      v-if="!sidebarState.isOpen"
       @click="sidebarState.isOpen = !sidebarState.isOpen"
       v-slot="{ iconSizeClasses }"
       class="md:hidden"

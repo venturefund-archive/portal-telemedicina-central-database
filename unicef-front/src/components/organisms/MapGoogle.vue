@@ -128,11 +128,13 @@
                         <div id="content">
                           <div id="bodyContent" class="p-1">
                             <div class="flex flex-col justify-between p-5 bg-white rounded-2xl">
+                              <router-link v-if="patientsStore.items[i]" :to="{ name: 'PatientDetails', params: { id: patientsStore.items[i].id } }">
                               <p class="font-semibold text-xl tracking-wider py-3 capitalize">{{ patientsStore.items[i] &&
                                 patientsStore.items[i].name.join().toLowerCase() }}</p>
+                                </router-link>
                               <hr class="border border-1 border-dashed border-gray-300" />
-                              <span>{{ patientsStore.items[i] && patientsStore.items[i].number_of_alerts_by_protocol > 0 ?
-                                'Com alertas' : 'Sem alertas' }}</span>
+                              <!-- <span>{{ patientsStore.items[i] && patientsStore.items[i].number_of_alerts_by_protocol > 0 ?
+                                'Com alertas' : 'Sem alertas' }}</span> -->
                               <div class="flex justify-between py-5">
                                 <p
                                   class=" text-sm font-normal text-black rounded-full bg-gray-100 px-3 py-1 justify-center">
@@ -300,29 +302,29 @@ const searchAddress = () => {
 }
 
 const query = ref('')
-center.value = { lat: -22.749940, lng: -50.576540 }
+center.value = { lat: -4.269812, lng: -41.789923 }
 
 const locations = reactive([
-  { lat: -22.748950, lng: -50.572530, alert: false },
-  { lat: -22.745940, lng: -50.572340, alert: true },
-  { lat: -22.760056, lng: -50.558621, alert: true },
-  { lat: -22.757021, lng: -50.579959, alert: true },
-  { lat: -22.756089, lng: -50.562418, alert: true },
-  { lat: -22.73381, lng: -50.591306, alert: true },
-  { lat: -22.757763, lng: -50.560793, alert: true },
-  { lat: -22.757763, lng: -50.560793, alert: true },
-  { lat: -22.764058, lng: -50.585821, alert: false },
-  { lat: -22.760445, lng: -50.557518, alert: true },
-  { lat: -22.74422, lng: -50.590802, alert: true },
-  { lat: -22.768082, lng: -50.591269, alert: true },
-  { lat: -22.759996, lng: -50.563568, alert: true },
-  { lat: -22.761008, lng: -50.558037, alert: true },
-  { lat: -22.751903, lng: -50.565151, alert: true },
-  { lat: -22.741797, lng: -50.580932, alert: true },
-  { lat: -22.755052, lng: -50.563009, alert: false },
-  { lat: -22.734258, lng: -50.557362, alert: true },
-  { lat: -22.73349, lng: -50.562948, alert: true },
-  { lat: -22.741799, lng: -50.579565, alert: true },
+  { lat: -4.270790, lng: -41.786670, alert: false },
+  { lat: -4.267780, lng: -41.786480, alert: false },
+  { lat: -4.281896, lng: -41.772761, alert: false },
+  { lat: -4.278861, lng: -41.794099, alert: false },
+  { lat: -4.277929, lng: -41.776558, alert: true },
+  { lat: -4.255650, lng: -41.805445, alert: true },
+  { lat: -4.279603, lng: -41.775932, alert: true },
+  { lat: -4.279603, lng: -41.775932, alert: true },
+  { lat: -4.285898, lng: -41.800961, alert: false },
+  { lat: -4.282285, lng: -41.772658, alert: false },
+  { lat: -4.266060, lng: -41.806942, alert: false },
+  { lat: -4.289922, lng: -41.807408, alert: true },
+  { lat: -4.281836, lng: -41.779707, alert: true },
+  { lat: -4.282848, lng: -41.774176, alert: true },
+  { lat: -4.273743, lng: -41.781290, alert: false },
+  { lat: -4.263637, lng: -41.797071, alert: true },
+  { lat: -4.276892, lng: -41.779148, alert: false },
+  { lat: -4.256098, lng: -41.773501, alert: false },
+  { lat: -4.255330, lng: -41.779087, alert: true },
+  { lat: -4.263637, lng: -41.795704, alert: true },
 ])
 const markers = ref([])
 onBeforeUpdate(() => {

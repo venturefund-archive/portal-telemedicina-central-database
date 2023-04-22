@@ -1,5 +1,5 @@
 <template>
-  <PerfectScrollbar tagname="nav" aria-label="main" class="relative flex max-h-full flex-1 flex-col gap-4 px-3">
+  <PerfectScrollbar tagname="nav" aria-label="main" class="relative flex max-h-full flex-1 flex-row md:flex-col gap-4 px-3">
     <SidebarLink :title="$t('dashboard.dashboard')" :to="{ name: 'Dashboard' }" :active="isCurrentRoute('Dashboard')">
       <template #icon>
         <TemplateIcon class="h-6 w-6 flex-shrink-0" aria-hidden="true" />
@@ -27,14 +27,42 @@
       </template>
     </SidebarLink>
   </PerfectScrollbar>
+
+  <Button
+    iconOnly
+    variant="secondary"
+    class="w-10 mx-auto opacity-80 bg-white"
+    v-slot="{ iconSizeClasses }"
+    v-show="sidebarState.isOpen || sidebarState.isHovered"
+    @click="sidebarState.isOpen = !sidebarState.isOpen"
+    :srText="sidebarState.isOpen ? 'Close sidebar' : 'Open sidebar'"
+  >
+    <MenuFoldLineLeftIcon
+      aria-hidden="true"
+      v-show="sidebarState.isOpen"
+      :class="['hidden lg:block', iconSizeClasses]"
+      class="text-blue-500"
+    />
+
+    <MenuFoldLineRightIcon
+      aria-hidden="true"
+      v-show="!sidebarState.isOpen"
+      :class="['hidden lg:block', iconSizeClasses]"
+    />
+
+    <XIcon aria-hidden="true" :class="['lg:hidden', iconSizeClasses]" />
+  </Button>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router'
 import { TemplateIcon } from '@/components/icons/outline'
+import { MenuFoldLineLeftIcon, MenuFoldLineRightIcon } from '@/components/icons/outline'
 import { ShieldCheckIcon, DocumentIcon, UserGroupIcon, MapIcon } from '@heroicons/vue/outline'
 import SidebarCollapsible from '@/components/sidebar/SidebarCollapsible.vue'
 import SidebarCollapsibleItem from '@/components/sidebar/SidebarCollapsibleItem.vue'
+import { XIcon } from '@heroicons/vue/outline'
+import { sidebarState } from '@/composables'
 
 const isCurrentRoute = (routeName) => {
   return useRouter().currentRoute.value.name == routeName

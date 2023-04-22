@@ -107,7 +107,7 @@
       <div>
         <Button
           type="submit"
-          class="w-full justify-center gap-2"
+          class="w-full justify-center gap-2 rounded-full"
           :disabled="registerForm.processing"
           v-slot="{ iconSizeClasses }"
         >
