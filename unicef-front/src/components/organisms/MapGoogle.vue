@@ -1,10 +1,11 @@
 <template>
   <div>
-    <p class="text-xl mb-4 font-semibold text-gray-700">{{$t('manager.vaccination-map')}}</p>
+    <p class="text-xl mb-4 font-semibold text-gray-700">{{ $t('manager.vaccination-map') }}</p>
     <div>
       <!-- People with vaccines delayed -->
-      <div class="flex flex-col sm:flex-row items-center justify-between space-x-4 bg-gray-50 px-5 shadow-xl rounded border border-1 border-gray-50 shadow-t-lg shadow-r-lg shadow-l-lg shadow-b-lg ">
-                        <div class="">
+      <div
+        class="flex flex-col sm:flex-row items-center justify-between space-x-4 bg-gray-50 px-5 shadow-lg rounded border border-1 border-gray-50 shadow-t-md shadow-r-lg shadow-l-lg shadow-b-lg ">
+        <div class="">
           <form @submit.prevent="searchAddress" class="flex items-center w-full">
             <label for="default-search" class="sr-only text-sm font-medium text-gray-900">Procurar</label>
             <div class="relative flex items-center w-full">
@@ -46,12 +47,12 @@
         <div class="px-2 py-5">
           <Button type="submit" variant="success-outline" @click="savePolygons">
             <SaveIcon class="w-5 h-5" />
-            <span class="text-sm">{{$t('manager.save')}}</span>
+            <span class="text-sm">{{ $t('manager.save') }}</span>
           </Button>
         </div>
       </div>
       <!-- Map content -->
-      <div class="flex justify-start shadow border border-1 shadow-b-lg shadow-r-lg shadow-l-lg">
+      <div class="flex justify-start shadow border border-1">
         <GoogleMap :api-key="GOOGLE_MAP_API_KEY" style="width: 100%; height: 800px;" id="map" :center="center" :zoom="14"
           :libraries="['drawing']" ref="mapRef">
           <template #default="{ ready, api, map, mapTilesLoaded }">
@@ -128,10 +129,12 @@
                         <div id="content">
                           <div id="bodyContent" class="p-1">
                             <div class="flex flex-col justify-between p-5 bg-white rounded-2xl">
-                              <router-link v-if="patientsStore.items[i]" :to="{ name: 'PatientDetails', params: { id: patientsStore.items[i].id } }">
-                              <p class="font-semibold text-xl tracking-wider py-3 capitalize">{{ patientsStore.items[i] &&
-                                patientsStore.items[i].name.join().toLowerCase() }}</p>
-                                </router-link>
+                              <router-link v-if="patientsStore.items[i]"
+                                :to="{ name: 'PatientDetails', params: { id: patientsStore.items[i].id } }">
+                                <p class="font-semibold text-xl tracking-wider py-3 capitalize">{{ patientsStore.items[i]
+                                  &&
+                                  patientsStore.items[i].name.join().toLowerCase() }}</p>
+                              </router-link>
                               <hr class="border border-1 border-dashed border-gray-300" />
                               <!-- <span>{{ patientsStore.items[i] && patientsStore.items[i].number_of_alerts_by_protocol > 0 ?
                                 'Com alertas' : 'Sem alertas' }}</span> -->
@@ -251,8 +254,6 @@ onMounted(async () => {
   document.addEventListener('click', handleClickOutside);
 })
 
-
-
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside);
 })
@@ -274,24 +275,24 @@ const customClusterIcon = ref({
 const rectangle = ref({
   paths: [],
   fillColor: '#009334',
-  strokeColor:'#009334',
+  strokeColor: '#009334',
   strokeOpacity: 0.8,
   strokeWeight: 3,
   fillOpacity: 0.35,
   editable: true
 })
 const polygons = ref([])
-const customPolygons = (key) => {
-  return {
-    paths: polygons.value[key].polygon || [],
-    strokeColor: '#FF0000',
-    strokeOpacity: 0.8,
-    strokeWeight: 2,
-    fillColor: '#FF0000',
-    fillOpacity: 0.35,
-    editable: true
-  }
-}
+// const customPolygons = (key) => {
+//   return {
+//     paths: polygons.value[key].polygon || [],
+//     strokeColor: '#FF0000',
+//     strokeOpacity: 0.8,
+//     strokeWeight: 2,
+//     fillColor: '#FF0000',
+//     fillOpacity: 0.35,
+//     editable: true
+//   }
+// }
 
 const geocoderQuery = ref('')
 const searchAddress = () => {
@@ -331,9 +332,13 @@ onBeforeUpdate(() => {
 })
 function savePolygons() {
   const savedPolygons = []
+  if (!polygons.value) {
+    return
+  }
   polygons.value.forEach(function (polygon) {
     const vertices = polygon.getPath()
     const polygonCoordinates = []
+    console.log(vertices)
     vertices.forEach(function (vertex) {
       polygonCoordinates.push({
         lat: vertex.lat(),
@@ -358,15 +363,15 @@ function loadPolygons() {
       const polygon = new google.maps.Polygon({
         paths: polygonCoordinates,
         fillColor: '#FFA901',
-        strokeColor:'#4FA9DD',
+        strokeColor: '#4FA9DD',
         fillOpacity: 0.5,
         strokeWeight: 1,
         clickable: false,
         editable: true,
         zIndex: 1
       })
-      polygon.setMap(mapRef.value.map)
       polygons.value.push(polygon)
+      polygon.setMap(mapRef.value.map)
     })
   }
 }
@@ -401,7 +406,8 @@ watch(() => mapRef.value?.ready, (ready) => {
     state.value.polygons = []
   }
   let polygonData = state.value.polygons
-  console.log(polygonData.value)
+  // console.log(polygonData.value)
+  console.log('asdddd')
 
   // Add an event listener for when the user finishes drawing a polygon
   google.maps.event.addListener(drawingManager.value, 'overlaycomplete', (event) => {
@@ -409,38 +415,38 @@ watch(() => mapRef.value?.ready, (ready) => {
       const polygon = event.overlay
       polygons.value.push(polygon)
 
-      google.maps.event.addListener(polygon, 'click', function (event) {
-        // destaca o polígono
-        polygon.setOptions({
-          fillColor: '#FF0000', // altera a cor do preenchimento para amarelo
-          strokeColor: '#FF0000' // altera a cor da borda para vermelho
-        });
-
-        var paths = polygon.getPaths();
-        var confirmed = confirm('Tem certeza que deseja excluir todos os pontos do polígono?');
-        if (confirmed) {
-          paths.forEach(function (path) {
-            path.forEach(function (point) {
-              var marker = point.marker;
-              if (marker) {
-                marker.setMap(null);
-              }
-            });
-          });
-          polygon.setPaths([]);
-          // savePolygons()
-        } else {
-          // o usuário cancelou a exclusão, restaure as cores do polígono
-          polygon.setOptions({
-            fillColor: '#009FE3', // altera a cor do preenchimento para azul
-            strokeColor: '#FF0000' // altera a cor da borda para vermelho
-          });
-        }
-      });
 
     }
 
   })
+
+
+
+  // Adiciona um evento de clique ao mapa para deletar
+  google.maps.event.addListener(map.value, 'click', (event) => {
+    // Verifica se o clique ocorreu dentro de algum polígono
+    console.log('asd click')
+    polygons.value.forEach((polygon, polygonIndex) => {
+      if (google.maps.geometry.poly.containsLocation(event.latLng, polygon)) {
+
+        var confirmed = confirm('Tem certeza que deseja excluir todos os pontos do polígono?');
+        if (confirmed) {
+
+          if (polygonIndex !== -1) {
+            polygons.value.splice(polygonIndex, 1)
+            console.log(polygons.value)
+            console.log('qwe')
+          }
+
+          polygon.setPaths([]);
+          savePolygons()
+        }
+
+      }
+    });
+  });
+
+
 
   // Carrega polígonos salvos do localStorage ao inicializar o mapa
   loadPolygons()
@@ -473,7 +479,7 @@ function moveMarker(event, index) {
 
 function handleMarkerDrag(event, index) {
   console.log('dragend', event.latLng.lat(), event.latLng.lng())
-  console.log(markers.value[index])
+  //console.log(markers.value[index])
   markers.value[index].setPosition({
     lat: event.latLng.lat(),
     lng: event.latLng.lng()
@@ -522,12 +528,6 @@ const userLocation = computed(() => ({
   background-color: green;
 }
 
-@media (min-width: 768px) {
-  .w-1\\/2 {
-    width: 50%;
-  }
-}
-
 .slide-in-enter-active,
 .slide-in-leave-active {
   transition: all 0.3s ease;
@@ -540,5 +540,4 @@ const userLocation = computed(() => ({
 
 div:first-of-type>div.gmnoprint[role=menubar] {
   scale: 200%;
-}
-</style>
+}</style>
