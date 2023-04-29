@@ -415,13 +415,15 @@ function savePolygons() {
   }
   state.value.polygons = savedPolygons
 }
+const infoWindowsOpened = ref([])
+const arrayDeNomes = ref(['hospital', 'shopping', 'restaurante', 'parque'])
 function loadPolygons() {
   const state = useStorage('app-store', { polygons: [] })
   if (undefined == state.value.polygons) {
     state.value.polygons = []
   }
   if (state.value.polygons) {
-    state.value.polygons.forEach(function (polygonCoordinates) {
+    state.value.polygons.forEach(function (polygonCoordinates, index) {
       const polygon = new google.maps.Polygon({
         paths: polygonCoordinates,
         fillColor: '#FFA901',
@@ -432,6 +434,50 @@ function loadPolygons() {
         editable: true,
         zIndex: 1,
       })
+
+      let bounds = new google.maps.LatLngBounds()
+      polygon.getPath().forEach((latLng) => bounds.extend(latLng))
+      map.value.fitBounds(bounds)
+
+      let center = bounds.getCenter()
+      let marker = new google.maps.Marker({
+        position: center,
+        label: {
+          text: `${arrayDeNomes.value[index]}`,
+          color: 'black',
+          fontWeight: 'bold',
+        },
+        icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          fillColor: 'transparent',
+          fillOpacity: 0,
+          strokeColor: 'transparent',
+          strokeWeight: 0,
+          scale: 0,
+        },
+        map: map.value,
+      })
+      // Detecta o evento de clique no mapa
+      google.maps.event.addListener(map.value, 'click', (event) => {
+        // Verifica se o ponto do clique está dentro dos limites do polígono
+        if (google.maps.geometry.poly.containsLocation(event.latLng, polygon)) {
+          if (infoWindowsOpened.value.includes(index)) {
+            return
+          }
+          let infoWindow = new google.maps.InfoWindow({
+            content: '<div>Meu texto</div>',
+            pixelOffset: new google.maps.Size(0, -30),
+          })
+          infoWindow.setPosition(center)
+          infoWindow.addListener('closeclick', () => {
+            infoWindowsOpened.value.splice(infoWindowsOpened.value.indexOf(index))
+          })
+
+          infoWindow.open(map.value)
+          infoWindowsOpened.value.push(index)
+        }
+      })
+
       polygons.value.push(polygon)
       polygon.setMap(mapRef.value.map)
     })
@@ -483,17 +529,16 @@ watch(
       // Verifica se o clique ocorreu dentro de algum polígono
       polygons.value.forEach((polygon, polygonIndex) => {
         if (google.maps.geometry.poly.containsLocation(event.latLng, polygon)) {
-          var confirmed = confirm('Tem certeza que deseja excluir todos os pontos do polígono?')
-          if (confirmed) {
-            if (polygonIndex !== -1) {
-              polygons.value.splice(polygonIndex, 1)
-              console.log(polygons.value)
-              console.log('qwe')
-            }
-
-            polygon.setPaths([])
-            savePolygons()
-          }
+          // var confirmed = confirm('Tem certeza que deseja excluir todos os pontos do polígono?')
+          // if (confirmed) {
+          //   if (polygonIndex !== -1) {
+          //     polygons.value.splice(polygonIndex, 1)
+          //     console.log(polygons.value)
+          //     console.log('qwe')
+          //   }
+          //   polygon.setPaths([])
+          //   savePolygons()
+          // }
         }
       })
     })
