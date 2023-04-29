@@ -1,5 +1,5 @@
-import { createI18n } from "vue3-i18n"
-import { messages } from "vite-i18n-resources"
+import { createI18n } from 'vue3-i18n'
+import { messages } from 'vite-i18n-resources'
 import { useStorage } from '@vueuse/core'
 import { setDefaultOptions } from 'date-fns'
 import { ptBR, enUS, es } from 'date-fns/locale'
@@ -12,11 +12,11 @@ setDefaultOptions({ locale })
 
 const i18n = createI18n({
   legacy: false,
-  locale: appDefaultLang == state.value.lang ? appDefaultLang : 'es' == state.value.lang ? 'es'  : 'en',
-  fallbackLocale: appDefaultLang == state.value.lang ? appDefaultLang : 'es' == state.value.lang ? 'es': 'en',
+  locale: appDefaultLang == state.value.lang ? appDefaultLang : 'es' == state.value.lang ? 'es' : 'en',
+  fallbackLocale: appDefaultLang == state.value.lang ? appDefaultLang : 'es' == state.value.lang ? 'es' : 'en',
   globalInjection: true,
   silentTranslationWarn: true,
-  messages
+  messages,
 })
 
 // https://github.com/fvena/vite-plugin-i18n-resources/issues/49

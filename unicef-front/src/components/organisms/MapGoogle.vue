@@ -1,77 +1,121 @@
 <template>
   <div>
-    <p class="text-xl mb-4 font-semibold text-gray-700">{{ $t('manager.vaccination-map') }}</p>
+    <p class="mb-4 text-xl font-semibold text-gray-700">{{ $t('manager.vaccination-map') }}</p>
     <div>
       <!-- People with vaccines delayed -->
       <div
-        class="flex flex-col sm:flex-row items-center justify-between space-x-4 bg-gray-50 px-5 shadow-lg rounded border border-1 border-gray-50 shadow-t-md shadow-r-lg shadow-l-lg shadow-b-lg ">
+        class="border-1 shadow-t-md shadow-r-lg shadow-l-lg shadow-b-lg flex flex-col items-center justify-between space-x-4 rounded border border-gray-50 bg-gray-50 px-5 shadow-lg sm:flex-row"
+      >
         <div class="">
-          <form @submit.prevent="searchAddress" class="flex items-center w-full">
+          <form @submit.prevent="searchAddress" class="flex w-full items-center">
             <label for="default-search" class="sr-only text-sm font-medium text-gray-900">Procurar</label>
-            <div class="relative flex items-center w-full">
-              <svg class="h-5 w-5 text-gray-500 absolute left-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            <div class="relative flex w-full items-center">
+              <svg
+                class="absolute left-3 h-5 w-5 text-gray-500"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                ></path>
               </svg>
-              <input :placeholder="$t('manager.search-map')" v-model="geocoderQuery"
-                class="bg-white py-3 px-10 mr-1 w-full rounded-md border border-2 shadow-sm" />
+              <input
+                :placeholder="$t('manager.search-map')"
+                v-model="geocoderQuery"
+                class="mr-1 w-full rounded-md border-2 bg-white py-3 px-10 shadow-sm"
+              />
             </div>
           </form>
         </div>
 
         <div class="px-2">
-          <button @click="showList = !showList"
-            class="relative z-10 flex flex-col items-center py-2 text-gray-500 rounded-md">
+          <button
+            @click="showList = !showList"
+            class="relative z-10 flex flex-col items-center rounded-md py-2 text-gray-500"
+          >
             <UsersIcon title="População" class="h-6 w-6 text-green-500" />
             <span class="py-1 text-sm">{{ $t('manager.population') }}</span>
           </button>
-          <ul v-if="showList" class="absolute z-20 rounded-md shadow-md bg-white" style="margin-top: -0.5rem;">
-            <li v-for="item in items" :class="{ 'font-bold': item === selectedItem }"
-              class="px-4 py-2 font-normal cursor-pointer hover:bg-gray-100" :key="item" @click="onItemClick(item)">
+          <ul v-if="showList" class="absolute z-20 rounded-md bg-white shadow-md" style="margin-top: -0.5rem">
+            <li
+              v-for="item in items"
+              :class="{ 'font-bold': item === selectedItem }"
+              class="cursor-pointer px-4 py-2 font-normal hover:bg-gray-100"
+              :key="item"
+              @click="onItemClick(item)"
+            >
               {{ item }}
             </li>
           </ul>
         </div>
 
         <div class="px-2">
-          <div class="inline-block align-middle mr-2 select-none transition duration-200 ease-in relative w-10">
-            <input type="checkbox" name="toggle" id="toggle"
-              class="absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer toggle-checkbox"
-              v-model="onlyAlerts" />
-            <label for="toggle" class="block h-6 rounded-full bg-gray-300 cursor-pointer toggle-label"></label>
+          <div class="relative mr-2 inline-block w-10 select-none align-middle transition duration-200 ease-in">
+            <input
+              type="checkbox"
+              name="toggle"
+              id="toggle"
+              class="toggle-checkbox absolute block h-6 w-6 cursor-pointer appearance-none rounded-full border-4 bg-white"
+              v-model="onlyAlerts"
+            />
+            <label for="toggle" class="toggle-label block h-6 cursor-pointer rounded-full bg-gray-300"></label>
           </div>
-          <label for="toggle" class="text-gray-500 text-sm">{{ $t('manager.alerts') }}</label>
+          <label for="toggle" class="text-sm text-gray-500">{{ $t('manager.alerts') }}</label>
         </div>
 
         <div class="px-2 py-5">
           <Button type="submit" variant="success-outline" @click="savePolygons">
-            <SaveIcon class="w-5 h-5" />
+            <SaveIcon class="h-5 w-5" />
             <span class="text-sm">{{ $t('manager.save') }}</span>
           </Button>
         </div>
       </div>
       <!-- Map content -->
-      <div class="flex justify-start shadow border border-1">
-        <GoogleMap :api-key="GOOGLE_MAP_API_KEY" style="width: 100%; height: 800px;" id="map" :center="center" :zoom="14"
-          :libraries="['drawing']" ref="mapRef">
+      <div class="border-1 flex justify-start border shadow">
+        <GoogleMap
+          :api-key="GOOGLE_MAP_API_KEY"
+          style="width: 100%; height: 800px"
+          id="map"
+          :center="center"
+          :zoom="14"
+          :libraries="['drawing']"
+          ref="mapRef"
+        >
           <template #default="{ ready, api, map, mapTilesLoaded }">
             <!-- First pattern: Here you have access to the API and map instance.
           "ready" is a boolean that indicates when the Google Maps script
           has been loaded and the api and map instance are ready to be used -->
             <MarkerCluster>
               <div v-for="(location, i) in locations" :key="i">
-                <Marker v-if="onlyAlerts && location.alert == false || !onlyAlerts" :ref="el => { markers[i] = el }"
-                  :options="{ position: location, draggable: isDraggable(i), icon: (location.alert) ? customMarkerIcon : customMarkerIcon2 }"
-                  @dragend="handleMarkerDrag($event, i)">
-
-
+                <Marker
+                  v-if="(onlyAlerts && location.alert == false) || !onlyAlerts"
+                  :ref="
+                    (el) => {
+                      markers[i] = el
+                    }
+                  "
+                  :options="{
+                    position: location,
+                    draggable: isDraggable(i),
+                    icon: location.alert ? customMarkerIcon : customMarkerIcon2,
+                  }"
+                  @dragend="handleMarkerDrag($event, i)"
+                >
                   <Teleport to=".notification-space">
                     <Popover v-slot="{ open }" class="">
-                      <transition enter-active-class="transition duration-200 ease-out"
-                        enter-from-class="translate-y-1 opacity-0" enter-to-class="translate-y-0 opacity-100"
-                        leave-active-class="transition duration-150 ease-in" leave-from-class="translate-y-0 opacity-100"
-                        leave-to-class="translate-y-1 opacity-0">
+                      <transition
+                        enter-active-class="transition duration-200 ease-out"
+                        enter-from-class="translate-y-1 opacity-0"
+                        enter-to-class="translate-y-0 opacity-100"
+                        leave-active-class="transition duration-150 ease-in"
+                        leave-from-class="translate-y-0 opacity-100"
+                        leave-to-class="translate-y-1 opacity-0"
+                      >
                         <div>
                           <PopoverOverlay class="fixed inset-0 z-10 bg-black opacity-30" />
                           <PopoverPanel class="edit-panel z-20 mt-3 transform-gpu px-4">
@@ -79,45 +123,69 @@
                               <div class="min-w-96 text-lg font-normal">
                                 <div class="relative bg-neutral-50 p-4">
                                   <div class="">
-
                                     <h3 class="pb-3">Editing Patient #42</h3>
                                     <form @submit.prevent="">
                                       <div class="grid gap-6">
-
                                         <div class="space-y-1">
                                           <Label for="name" value="Name" />
 
-                                          <Input id="name" type="text" placeholder="Name" class="block w-full"
-                                            v-model="editForm.name" required autofocus autocapitalize="on"
-                                            autocorrect="off" />
+                                          <Input
+                                            id="name"
+                                            type="text"
+                                            placeholder="Name"
+                                            class="block w-full"
+                                            v-model="editForm.name"
+                                            required
+                                            autofocus
+                                            autocapitalize="on"
+                                            autocorrect="off"
+                                          />
                                         </div>
 
                                         <div class="space-y-1">
                                           <Label for="document" value="Document" />
 
-                                          <Input id="document" type="text" placeholder="xxxxx" class="block w-full"
-                                            v-model="editForm.cidade" required autofocus autocapitalize="on"
-                                            autocorrect="off" />
+                                          <Input
+                                            id="document"
+                                            type="text"
+                                            placeholder="xxxxx"
+                                            class="block w-full"
+                                            v-model="editForm.cidade"
+                                            required
+                                            autofocus
+                                            autocapitalize="on"
+                                            autocorrect="off"
+                                          />
                                         </div>
 
                                         <div class="space-y-1">
                                           <Label for="address" value="Address" />
 
-                                          <Input id="address" type="text" placeholder="Address" class="block w-full"
-                                            v-model="editForm.cidade" required autofocus autocapitalize="on"
-                                            autocorrect="off" />
+                                          <Input
+                                            id="address"
+                                            type="text"
+                                            placeholder="Address"
+                                            class="block w-full"
+                                            v-model="editForm.cidade"
+                                            required
+                                            autofocus
+                                            autocapitalize="on"
+                                            autocorrect="off"
+                                          />
                                         </div>
 
-
                                         <div>
-                                          <Button type="submit" class="w-full justify-center gap-2"
-                                            :disabled="editForm.processing" v-slot="{ iconSizeClasses }">
+                                          <Button
+                                            type="submit"
+                                            class="w-full justify-center gap-2"
+                                            :disabled="editForm.processing"
+                                            v-slot="{ iconSizeClasses }"
+                                          >
                                             <span>Salvar</span>
                                           </Button>
                                         </div>
                                       </div>
                                     </form>
-
                                   </div>
                                 </div>
                               </div>
@@ -128,50 +196,58 @@
                       <InfoWindow>
                         <div id="content">
                           <div id="bodyContent" class="p-1">
-                            <div class="flex flex-col justify-between p-5 bg-white rounded-2xl">
-                              <router-link v-if="patientsStore.items[i]"
-                                :to="{ name: 'PatientDetails', params: { id: patientsStore.items[i].id } }">
-                                <p class="font-semibold text-xl tracking-wider py-3 capitalize">{{ patientsStore.items[i]
-                                  &&
-                                  patientsStore.items[i].name.join().toLowerCase() }}</p>
+                            <div class="flex flex-col justify-between rounded-2xl bg-white p-5">
+                              <router-link
+                                v-if="patientsStore.items[i]"
+                                :to="{ name: 'PatientDetails', params: { id: patientsStore.items[i].id } }"
+                              >
+                                <p class="py-3 text-xl font-semibold capitalize tracking-wider">
+                                  {{ patientsStore.items[i] && patientsStore.items[i].name.join().toLowerCase() }}
+                                </p>
                               </router-link>
-                              <hr class="border border-1 border-dashed border-gray-300" />
+                              <hr class="border-1 border border-dashed border-gray-300" />
                               <!-- <span>{{ patientsStore.items[i] && patientsStore.items[i].number_of_alerts_by_protocol > 0 ?
                                 'Com alertas' : 'Sem alertas' }}</span> -->
                               <div class="flex justify-between py-5">
                                 <p
-                                  class=" text-sm font-normal text-black rounded-full bg-gray-100 px-3 py-1 justify-center">
+                                  class="justify-center rounded-full bg-gray-100 px-3 py-1 text-sm font-normal text-black"
+                                >
                                   3 months
                                 </p>
-                                <p class="text-sm bg-red-100 font-normal rounded-full text-red-900 px-3 py-1">
+                                <p class="rounded-full bg-red-100 px-3 py-1 text-sm font-normal text-red-900">
                                   vaccine with delay: BCG
                                 </p>
                               </div>
                               <div class="font-normal">
-                                <p>
-                                  Document: xxxx
-                                </p>
-                                <p>
-                                  Birthdate: xx/xx/xx
-                                </p>
-                                <p>
-                                  Address: xxxxx
-                                </p>
+                                <p>Document: xxxx</p>
+                                <p>Birthdate: xx/xx/xx</p>
+                                <p>Address: xxxxx</p>
                               </div>
-                              <span class="text-sm text-gray-400 mt-5 flex justify-end">Última alteração:
-                                08/02/2023</span>
+                              <span class="mt-5 flex justify-end text-sm text-gray-400"
+                                >Última alteração: 08/02/2023</span
+                              >
                             </div>
 
                             <div class="flex justify-evenly py-3">
-                              <Button type="submit" variant="success-outline" @click="moveMarker($event, i)"
-                                class="mx-2 gap-2 focus:outline-none" :disabled="editForm.processing"
-                                v-slot="{ iconSizeClasses }">
+                              <Button
+                                type="submit"
+                                variant="success-outline"
+                                @click="moveMarker($event, i)"
+                                class="mx-2 gap-2 focus:outline-none"
+                                :disabled="editForm.processing"
+                                v-slot="{ iconSizeClasses }"
+                              >
                                 <HandIcon aria-hidden="true" :class="iconSizeClasses" />
                                 <span>Mover</span>
                               </Button>
                               <PopoverButton :focus="false" :class="{ 'relative z-30': open }">
-                                <Button type="submit" variant="success" class="mx-2 gap-2 focus:outline-none bg-white"
-                                  :disabled="editForm.processing" v-slot="{ iconSizeClasses }">
+                                <Button
+                                  type="submit"
+                                  variant="success"
+                                  class="mx-2 gap-2 bg-white focus:outline-none"
+                                  :disabled="editForm.processing"
+                                  v-slot="{ iconSizeClasses }"
+                                >
                                   <PencilIcon aria-hidden="true" :class="iconSizeClasses" />
                                   <span>Editar</span>
                                 </Button>
@@ -184,7 +260,6 @@
                   </Teleport>
                 </Marker>
               </div>
-
             </MarkerCluster>
           </template>
         </GoogleMap>
@@ -212,7 +287,7 @@ const polygonTemp = ref(null)
 const selectedItem = ref(null)
 const drawingManager = ref(null)
 const movingIndex = ref(null)
-const center = ref({ lat: -22.748950, lng: -50.572530 })
+const center = ref({ lat: -22.74895, lng: -50.57253 })
 const isModalOpen = ref(false)
 const searchQuery = ref('')
 const GOOGLE_MAP_API_KEY = ref(import.meta.env.VITE_GOOGLE_MAP_API_KEY)
@@ -220,14 +295,14 @@ const customMarkerIcon = ref({
   url: 'marker1.png',
   scaledSize: {
     width: 40,
-    height: 50
+    height: 50,
   },
 })
 const customMarkerIcon2 = ref({
   url: 'marker2.png',
   scaledSize: {
     width: 40,
-    height: 50
+    height: 50,
   },
 })
 
@@ -240,27 +315,35 @@ const editForm = reactive({
   processing: false,
 })
 
-const showList = ref(false);
-const items = ['Todos', 'Gestantes', 'Puérperas', 'Recém-nascidos', 'Primeira infância', 'Segunda infância', 'Terceira Infância', 'Adolescência'];
+const showList = ref(false)
+const items = [
+  'Todos',
+  'Gestantes',
+  'Puérperas',
+  'Recém-nascidos',
+  'Primeira infância',
+  'Segunda infância',
+  'Terceira Infância',
+  'Adolescência',
+]
 
 const handleClickOutside = (event) => {
   if (!event.target.closest('.mt-4')) {
-    showList.value = false;
+    showList.value = false
   }
-};
+}
 
 onMounted(async () => {
   await patientsStore.fetchPatients()
-  document.addEventListener('click', handleClickOutside);
+  document.addEventListener('click', handleClickOutside)
 })
 
 onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside);
+  document.removeEventListener('click', handleClickOutside)
 })
 
-
 function onItemClick(item) {
-  selectedItem.value = item;
+  selectedItem.value = item
   console.log(`Item clicado: ${item}`)
 }
 
@@ -268,8 +351,8 @@ const customClusterIcon = ref({
   url: 'https://i.ibb.co/sQWvRnX/ssss.png',
   scaledSize: {
     width: 50,
-    height: 50
-  }
+    height: 50,
+  },
 })
 
 const rectangle = ref({
@@ -279,7 +362,7 @@ const rectangle = ref({
   strokeOpacity: 0.8,
   strokeWeight: 3,
   fillOpacity: 0.35,
-  editable: true
+  editable: true,
 })
 const polygons = ref([])
 // const customPolygons = (key) => {
@@ -305,25 +388,25 @@ const query = ref('')
 center.value = { lat: -4.269812, lng: -41.789923 }
 
 const locations = reactive([
-  { lat: -4.270790, lng: -41.786670, alert: false },
-  { lat: -4.267780, lng: -41.786480, alert: false },
+  { lat: -4.27079, lng: -41.78667, alert: false },
+  { lat: -4.26778, lng: -41.78648, alert: false },
   { lat: -4.281896, lng: -41.772761, alert: false },
   { lat: -4.278861, lng: -41.794099, alert: false },
   { lat: -4.277929, lng: -41.776558, alert: true },
-  { lat: -4.255650, lng: -41.805445, alert: true },
+  { lat: -4.25565, lng: -41.805445, alert: true },
   { lat: -4.279603, lng: -41.775932, alert: true },
   { lat: -4.279603, lng: -41.775932, alert: true },
   { lat: -4.285898, lng: -41.800961, alert: false },
   { lat: -4.282285, lng: -41.772658, alert: false },
-  { lat: -4.266060, lng: -41.806942, alert: false },
+  { lat: -4.26606, lng: -41.806942, alert: false },
   { lat: -4.289922, lng: -41.807408, alert: true },
   { lat: -4.281836, lng: -41.779707, alert: true },
   { lat: -4.282848, lng: -41.774176, alert: true },
-  { lat: -4.273743, lng: -41.781290, alert: false },
+  { lat: -4.273743, lng: -41.78129, alert: false },
   { lat: -4.263637, lng: -41.797071, alert: true },
   { lat: -4.276892, lng: -41.779148, alert: false },
   { lat: -4.256098, lng: -41.773501, alert: false },
-  { lat: -4.255330, lng: -41.779087, alert: true },
+  { lat: -4.25533, lng: -41.779087, alert: true },
   { lat: -4.263637, lng: -41.795704, alert: true },
 ])
 const markers = ref([])
@@ -342,7 +425,7 @@ function savePolygons() {
     vertices.forEach(function (vertex) {
       polygonCoordinates.push({
         lat: vertex.lat(),
-        lng: vertex.lng()
+        lng: vertex.lng(),
       })
     })
     savedPolygons.push(polygonCoordinates)
@@ -368,7 +451,7 @@ function loadPolygons() {
         strokeWeight: 1,
         clickable: false,
         editable: true,
-        zIndex: 1
+        zIndex: 1,
       })
       polygons.value.push(polygon)
       polygon.setMap(mapRef.value.map)
@@ -377,83 +460,75 @@ function loadPolygons() {
 }
 
 // Third pattern: watc'h for "ready" then do something with the API or map instance
-watch(() => mapRef.value?.ready, (ready) => {
-  if (!ready) return
-  map.value = mapRef.value.map
-  geocoder.value = new mapRef.value.api.Geocoder()
+watch(
+  () => mapRef.value?.ready,
+  (ready) => {
+    if (!ready) return
+    map.value = mapRef.value.map
+    geocoder.value = new mapRef.value.api.Geocoder()
 
-  // do something with the api using `mapRef.value.api`
-  // or with the map instance using `mapRef.value.map`
-  // const mapp = new google.maps.Map(document.getElementById('map'))
-  //console.log(mapRef.value.map)
+    // do something with the api using `mapRef.value.api`
+    // or with the map instance using `mapRef.value.map`
+    // const mapp = new google.maps.Map(document.getElementById('map'))
+    //console.log(mapRef.value.map)
 
-  drawingManager.value = new google.maps.drawing.DrawingManager({
-    drawingMode: null,
-    drawingControl: true,
-    drawingControlOptions: {
-      position: google.maps.ControlPosition.TOP_CENTER,
-      drawingModes: ['polygon']
-    },
-    polygonOptions: rectangle.value
-  })
+    drawingManager.value = new google.maps.drawing.DrawingManager({
+      drawingMode: null,
+      drawingControl: true,
+      drawingControlOptions: {
+        position: google.maps.ControlPosition.TOP_CENTER,
+        drawingModes: ['polygon'],
+      },
+      polygonOptions: rectangle.value,
+    })
 
-  // Set the drawing manager to draw on the map instance
-  drawingManager.value.setMap(mapRef.value.map)
+    // Set the drawing manager to draw on the map instance
+    drawingManager.value.setMap(mapRef.value.map)
 
-
-  const state = useStorage('app-store', { polygons: [] })
-  if (undefined == state.value.polygons) {
-    state.value.polygons = []
-  }
-  let polygonData = state.value.polygons
-  // console.log(polygonData.value)
-  console.log('asdddd')
-
-  // Add an event listener for when the user finishes drawing a polygon
-  google.maps.event.addListener(drawingManager.value, 'overlaycomplete', (event) => {
-    if (event.type === google.maps.drawing.OverlayType.POLYGON) {
-      const polygon = event.overlay
-      polygons.value.push(polygon)
-
-
+    const state = useStorage('app-store', { polygons: [] })
+    if (undefined == state.value.polygons) {
+      state.value.polygons = []
     }
+    let polygonData = state.value.polygons
+    // console.log(polygonData.value)
+    console.log('asdddd')
 
-  })
-
-
-
-  // Adiciona um evento de clique ao mapa para deletar
-  google.maps.event.addListener(map.value, 'click', (event) => {
-    // Verifica se o clique ocorreu dentro de algum polígono
-    console.log('asd click')
-    polygons.value.forEach((polygon, polygonIndex) => {
-      if (google.maps.geometry.poly.containsLocation(event.latLng, polygon)) {
-
-        var confirmed = confirm('Tem certeza que deseja excluir todos os pontos do polígono?');
-        if (confirmed) {
-
-          if (polygonIndex !== -1) {
-            polygons.value.splice(polygonIndex, 1)
-            console.log(polygons.value)
-            console.log('qwe')
-          }
-
-          polygon.setPaths([]);
-          savePolygons()
-        }
-
+    // Add an event listener for when the user finishes drawing a polygon
+    google.maps.event.addListener(drawingManager.value, 'overlaycomplete', (event) => {
+      if (event.type === google.maps.drawing.OverlayType.POLYGON) {
+        const polygon = event.overlay
+        polygons.value.push(polygon)
       }
-    });
-  });
+    })
 
+    // Adiciona um evento de clique ao mapa para deletar
+    google.maps.event.addListener(map.value, 'click', (event) => {
+      // Verifica se o clique ocorreu dentro de algum polígono
+      console.log('asd click')
+      polygons.value.forEach((polygon, polygonIndex) => {
+        if (google.maps.geometry.poly.containsLocation(event.latLng, polygon)) {
+          var confirmed = confirm('Tem certeza que deseja excluir todos os pontos do polígono?')
+          if (confirmed) {
+            if (polygonIndex !== -1) {
+              polygons.value.splice(polygonIndex, 1)
+              console.log(polygons.value)
+              console.log('qwe')
+            }
 
+            polygon.setPaths([])
+            savePolygons()
+          }
+        }
+      })
+    })
 
-  // Carrega polígonos salvos do localStorage ao inicializar o mapa
-  loadPolygons()
-})
+    // Carrega polígonos salvos do localStorage ao inicializar o mapa
+    loadPolygons()
+  }
+)
 
 const geocodeAddress = (geocoder, resultsMap) => {
-  geocoder.geocode({ 'address': geocoderQuery.value }, function (results, status) {
+  geocoder.geocode({ address: geocoderQuery.value }, function (results, status) {
     if (status === 'OK') {
       resultsMap.setCenter(results[0].geometry.location)
       //const marker = new google.maps.Marker({
@@ -465,10 +540,10 @@ const geocodeAddress = (geocoder, resultsMap) => {
     }
   })
 }
-const isDraggable = computed(() => index => index == movingIndex.value)
+const isDraggable = computed(() => (index) => index == movingIndex.value)
 const patients = computed(() => {
   if (onlyAlerts.value) {
-    return patientsStore.items.filter(p => (p.number_of_alerts_by_protocol > 0))
+    return patientsStore.items.filter((p) => p.number_of_alerts_by_protocol > 0)
   }
   return patientsStore.items
 })
@@ -482,14 +557,14 @@ function handleMarkerDrag(event, index) {
   //console.log(markers.value[index])
   markers.value[index].setPosition({
     lat: event.latLng.lat(),
-    lng: event.latLng.lng()
+    lng: event.latLng.lng(),
   })
 }
 
 const { coords } = useGeolocation()
 const userLocation = computed(() => ({
   lat: coords.value.latitude,
-  lng: coords.value.longitude
+  lng: coords.value.longitude,
 }))
 </script>
 
@@ -523,7 +598,7 @@ const userLocation = computed(() => ({
   border-color: green;
 }
 
-.toggle-checkbox:checked+.toggle-label {
+.toggle-checkbox:checked + .toggle-label {
   @apply: bg-green-400;
   background-color: green;
 }
@@ -538,6 +613,7 @@ const userLocation = computed(() => ({
   transform: translateX(100%);
 }
 
-div:first-of-type>div.gmnoprint[role=menubar] {
+div:first-of-type > div.gmnoprint[role='menubar'] {
   scale: 200%;
-}</style>
+}
+</style>

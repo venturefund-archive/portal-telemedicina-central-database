@@ -7,13 +7,13 @@
 /*}*/
 
 a:hover {
-    @apply underline
+  @apply underline;
 }
- p {
-    @apply text-lg tracking-wide
+p {
+  @apply text-lg tracking-wide;
 }
-h3{
-  @apply text-lg
+h3 {
+  @apply text-lg;
 }
 @layer utilities {
   #nprogress {
@@ -33,11 +33,10 @@ h3{
   }
 }
 
-.bg-primary{
-  @apply bg-white
-
+.bg-primary {
+  @apply bg-white;
 }
 
-.scondary-color{
+.scondary-color {
   color: #009334 !important;
 }

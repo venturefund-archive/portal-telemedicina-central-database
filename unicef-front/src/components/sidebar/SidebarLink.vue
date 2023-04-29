@@ -3,11 +3,10 @@
     v-if="href"
     :href="href"
     :class="[
-      'flex items-center flex-col gap-2 rounded-md p-2 no-underline transition-colors hover:no-underline',
+      'flex flex-col items-center gap-2 rounded-md p-2 no-underline transition-colors hover:no-underline',
       {
-        'text-white bg-blue-500':
-          !active,
-        ' text-white shadow bg-blue-660': active,
+        'bg-blue-500 text-white': !active,
+        ' bg-blue-660 text-white shadow': active,
       },
     ]"
   >
@@ -21,11 +20,10 @@
     v-else-if="to"
     :to="to"
     :class="[
-      'flex items-center flex-col gap-2 rounded-md p-2 no-underline transition-colors hover:no-underline',
+      'flex flex-col items-center gap-2 rounded-md p-2 no-underline transition-colors hover:no-underline',
       {
-        'text-white bg-blue-500':
-          !active,
-        ' text-white shadow bg-blue-660': active,
+        'bg-blue-500 text-white': !active,
+        ' bg-blue-660 text-white shadow': active,
       },
     ]"
   >
@@ -41,9 +39,8 @@
     :class="[
       'flex w-full items-center gap-2 rounded-md p-2 transition-colors',
       {
-        'text-white bg-blue-500':
-          !active,
-        ' text-white shadow bg-blue-660': active,
+        'bg-blue-500 text-white': !active,
+        ' bg-blue-660 text-white shadow': active,
       },
     ]"
   >

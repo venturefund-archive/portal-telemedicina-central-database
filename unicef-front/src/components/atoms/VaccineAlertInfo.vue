@@ -7,11 +7,15 @@
             <CheckCircleIcon class="h-7 w-7 rounded-full bg-lime-600 text-white" v-if="dose.is_completed" />
             <ExclamationCircleIcon class="h-7 w-7 rounded-full bg-red-500 text-white" v-else />
           </div>
-          <p class="font-semibold px-2 tracking-wider">{{ props.vaccine.description }}</p>
+          <p class="px-2 font-semibold tracking-wider">{{ props.vaccine.description }}</p>
         </div>
-        <span class="uppercase p-1.5 text-sm bg-green-200 text-green-800 rounded-lg bg-opacity-50">{{ $t('patient-details.dose') }} <span class="font-semibold">#{{ props.dose.dose_order }}</span></span>
+        <span class="rounded-lg bg-green-200 bg-opacity-50 p-1.5 text-sm uppercase text-green-800"
+          >{{ $t('patient-details.dose') }} <span class="font-semibold">#{{ props.dose.dose_order }}</span></span
+        >
       </div>
-      <p>{{ $t('patient-details.recommended') }}: {{ formatDuration({ months: props.dose.maximum_recommended_age }) }}</p>
+      <p>
+        {{ $t('patient-details.recommended') }}: {{ formatDuration({ months: props.dose.maximum_recommended_age }) }}
+      </p>
       <p>{{ $t('patient-details.gender') }}: {{ props.dose.gender_recommendation }}</p>
     </div>
     <div class="bg-neutral-200 p-4 font-normal" v-if="props.dose.alerts.length > 0">
@@ -36,7 +40,6 @@ const patientsStore = usePatientsStore()
 
 const birthDate = ref(parseISO(patientsStore.item.birth_date))
 const recommendedDate = ref(add(birthDate.value, { months: props.dose.maximum_recommended_age }))
-
 
 const props = defineProps({
   withoutDetails: {

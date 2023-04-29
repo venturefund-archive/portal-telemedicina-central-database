@@ -40,9 +40,9 @@
       </div>
 
       <div>
-        <Button type="submit" class="w-full justify-center" :disabled="resetPasswordForm.processing"
-          >{{ $t('auth.resetar-senha') }}</Button
-        >
+        <Button type="submit" class="w-full justify-center" :disabled="resetPasswordForm.processing">{{
+          $t('auth.resetar-senha')
+        }}</Button>
       </div>
     </div>
   </form>
@@ -55,7 +55,7 @@ import { MailIcon, LockClosedIcon } from '@heroicons/vue/outline'
 import { useStorage } from '@vueuse/core'
 import { useRouter } from 'vue-router'
 import { errorToast, successToast } from '@/toast'
-import { useI18n } from "vue3-i18n";
+import { useI18n } from 'vue3-i18n'
 const { t, locale } = useI18n()
 
 const props = defineProps({
@@ -73,14 +73,12 @@ const resetPasswordForm = reactive({
 const submit = async () => {
   const state = useStorage('app-store', { token: '' })
   try {
-    const response = await axios.post(`/rest-auth/password/reset/confirm/${props.uid}/${props.token}/`,
-      {
-        new_password1: resetPasswordForm.password,
-        new_password2: resetPasswordForm.password_confirmation,
-        uid: props.uid,
-        token: props.token,
-      }
-    )
+    const response = await axios.post(`/rest-auth/password/reset/confirm/${props.uid}/${props.token}/`, {
+      new_password1: resetPasswordForm.password,
+      new_password2: resetPasswordForm.password_confirmation,
+      uid: props.uid,
+      token: props.token,
+    })
     successToast({ text: t('auth.password-changed-successfully') })
     router.replace({ name: 'Login' })
   } catch (err) {

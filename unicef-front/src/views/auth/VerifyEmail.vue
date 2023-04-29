@@ -1,6 +1,7 @@
 <template>
   <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-    {{ $t('auth.thanks-text') }}  </div>
+    {{ $t('auth.thanks-text') }}
+  </div>
 
   <div class="mb-4 text-sm font-medium text-green-600" v-if="verificationLinkSent">
     {{ $t('auth.request-text') }}
