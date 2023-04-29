@@ -26,7 +26,7 @@
               </svg>
               <input
                 :placeholder="$t('manager.search-map')"
-                v-model="geocoderQuery"
+                v-model="geoCoderQuery"
                 class="mr-1 w-full rounded-md border-2 bg-white py-3 px-10 shadow-sm"
               />
             </div>
@@ -277,20 +277,19 @@ import { HandIcon, PencilIcon, UsersIcon, SaveIcon, XIcon, RefreshIcon } from '@
 import { useRouter } from 'vue-router'
 import { usePatientsStore } from '@/stores/patients'
 import { useStorage } from '@vueuse/core'
+
+const GOOGLE_MAP_API_KEY = ref(import.meta.env.VITE_GOOGLE_MAP_API_KEY)
 const patientsStore = usePatientsStore()
 const router = useRouter()
-const mapRef = ref(null)
-const geocoder = ref(null)
 const map = ref(null)
+const mapRef = ref(null)
+const geoCoder = ref(null)
 const onlyAlerts = ref(false)
-const polygonTemp = ref(null)
 const selectedItem = ref(null)
 const drawingManager = ref(null)
 const movingIndex = ref(null)
 const center = ref({ lat: -22.74895, lng: -50.57253 })
-const isModalOpen = ref(false)
-const searchQuery = ref('')
-const GOOGLE_MAP_API_KEY = ref(import.meta.env.VITE_GOOGLE_MAP_API_KEY)
+const showList = ref(false)
 const customMarkerIcon = ref({
   url: 'marker1.png',
   scaledSize: {
@@ -305,7 +304,6 @@ const customMarkerIcon2 = ref({
     height: 50,
   },
 })
-
 const editForm = reactive({
   username: '',
   email: '',
@@ -314,8 +312,6 @@ const editForm = reactive({
   terms: false,
   processing: false,
 })
-
-const showList = ref(false)
 const items = [
   'Todos',
   'Gestantes',
@@ -347,23 +343,6 @@ function onItemClick(item) {
   console.log(`Item clicado: ${item}`)
 }
 
-const customClusterIcon = ref({
-  url: 'https://i.ibb.co/sQWvRnX/ssss.png',
-  scaledSize: {
-    width: 50,
-    height: 50,
-  },
-})
-
-const rectangle = ref({
-  paths: [],
-  fillColor: '#009334',
-  strokeColor: '#009334',
-  strokeOpacity: 0.8,
-  strokeWeight: 3,
-  fillOpacity: 0.35,
-  editable: true,
-})
 const polygons = ref([])
 // const customPolygons = (key) => {
 //   return {
@@ -377,11 +356,11 @@ const polygons = ref([])
 //   }
 // }
 
-const geocoderQuery = ref('')
+const geoCoderQuery = ref('')
 const searchAddress = () => {
   //center.value = { lat: -22.749940, lng: -50.576540 }
 
-  geocodeAddress(geocoder.value, map.value)
+  geocodeAddress(geoCoder.value, map.value)
 }
 
 const query = ref('')
@@ -459,18 +438,16 @@ function loadPolygons() {
   }
 }
 
-// Third pattern: watc'h for "ready" then do something with the API or map instance
+// Third pattern: watch for "ready" then do something with the API or map instance
 watch(
   () => mapRef.value?.ready,
   (ready) => {
     if (!ready) return
     map.value = mapRef.value.map
-    geocoder.value = new mapRef.value.api.Geocoder()
+    geoCoder.value = new mapRef.value.api.Geocoder()
 
     // do something with the api using `mapRef.value.api`
     // or with the map instance using `mapRef.value.map`
-    // const mapp = new google.maps.Map(document.getElementById('map'))
-    //console.log(mapRef.value.map)
 
     drawingManager.value = new google.maps.drawing.DrawingManager({
       drawingMode: null,
@@ -479,19 +456,19 @@ watch(
         position: google.maps.ControlPosition.TOP_CENTER,
         drawingModes: ['polygon'],
       },
-      polygonOptions: rectangle.value,
+      polygonOptions: {
+        paths: [],
+        fillColor: '#009334',
+        strokeColor: '#009334',
+        strokeOpacity: 0.8,
+        strokeWeight: 3,
+        fillOpacity: 0.35,
+        editable: true,
+      },
     })
 
     // Set the drawing manager to draw on the map instance
     drawingManager.value.setMap(mapRef.value.map)
-
-    const state = useStorage('app-store', { polygons: [] })
-    if (undefined == state.value.polygons) {
-      state.value.polygons = []
-    }
-    let polygonData = state.value.polygons
-    // console.log(polygonData.value)
-    console.log('asdddd')
 
     // Add an event listener for when the user finishes drawing a polygon
     google.maps.event.addListener(drawingManager.value, 'overlaycomplete', (event) => {
@@ -504,7 +481,6 @@ watch(
     // Adiciona um evento de clique ao mapa para deletar
     google.maps.event.addListener(map.value, 'click', (event) => {
       // Verifica se o clique ocorreu dentro de algum polígono
-      console.log('asd click')
       polygons.value.forEach((polygon, polygonIndex) => {
         if (google.maps.geometry.poly.containsLocation(event.latLng, polygon)) {
           var confirmed = confirm('Tem certeza que deseja excluir todos os pontos do polígono?')
@@ -527,8 +503,8 @@ watch(
   }
 )
 
-const geocodeAddress = (geocoder, resultsMap) => {
-  geocoder.geocode({ address: geocoderQuery.value }, function (results, status) {
+const geocodeAddress = (geoCoder, resultsMap) => {
+  geoCoder.geocode({ address: geoCoderQuery.value }, function (results, status) {
     if (status === 'OK') {
       resultsMap.setCenter(results[0].geometry.location)
       //const marker = new google.maps.Marker({
