@@ -7,8 +7,8 @@
     </svg>
   </div>
   <div class="flex flex-col" v-else>
-    <div class="flex flex-col sm:flex-row justify-between px-2">
-      <ProfileCard :id="id" class="sm:w-2/3 md:w-fu" />
+    <div class="flex flex-col sm:flex-row justify-between px-2 pt-10">
+      <ProfileCard :id="id" class="sm:w-2/3 md:w-full" />
       <div class="flex pl-2 justify-end">
         <div class="flex place-items-end pt-5 md:mt-0">
           <div class="flex flex-col items-end md:flex-row md:items-center rounded-md bg-neutral-200 px-3 py-2 text-neutral-500">

@@ -44,7 +44,7 @@
         </div>
 
         <div class="px-2 py-5">
-          <Button type="submit" variant="success-outline" @click="savePolygons" :disabled="!isActive">
+          <Button type="submit" variant="success-outline" @click="savePolygons">
             <SaveIcon class="w-5 h-5" />
             <span class="text-sm">{{$t('manager.save')}}</span>
           </Button>
@@ -204,7 +204,6 @@ const router = useRouter()
 const mapRef = ref(null)
 const geocoder = ref(null)
 const map = ref(null)
-const isActive = ref(false)
 const onlyAlerts = ref(false)
 const polygonTemp = ref(null)
 const selectedItem = ref(null)
@@ -438,7 +437,6 @@ watch(() => mapRef.value?.ready, (ready) => {
           });
         }
       });
-      isActive.value = true
 
     }
 
