@@ -1,21 +1,16 @@
-from django.conf import settings
+import google.auth
 from fhirclient.client import FHIRClient
+from fhirclient.models.bundle import Bundle
 from fhirclient.server import FHIRServer
 from google.auth.transport import requests as google_requests
-from google.oauth2 import service_account
 
 
 class GoogleFHIRServer(FHIRServer):
     def __init__(self, client, base_uri=None, state=None, custom_session=None):
-        # Call the parent constructor
         super().__init__(client, base_uri, state)
 
         if custom_session is not None:
-            credentials = service_account.Credentials.from_service_account_file(  # noqa: E501
-                f"{settings.CENTRAL_DATABASE_PATH}/integrations/fhir_api/credentials.json"  # noqa: E501
-            )
-
-            # credentials, _ = google.auth.default()
+            credentials, _ = google.auth.default()
 
             scoped_credentials = credentials.with_scopes(
                 ["https://www.googleapis.com/auth/cloud-platform"]
@@ -32,9 +27,25 @@ class GoogleFHIRClient(FHIRClient):
             self, base_uri=settings["api_base"], custom_session=True
         )
 
+    def fetch_all_pages(self, search):
+        bundle = search.perform(self.server)
+        while bundle is not None:
+            yield bundle
+            next_link = None
 
-# settings = {
-# 'app_id': 'my_web_app',
-# 'api_base': 'https://healthcare.googleapis.com/v1/projects/ptm-gestao-di-dev/locations/southamerica-east1/datasets/taruma_data/fhirStores/taruma_dev_immunization/fhir'  # noqa: E501
+            for link in bundle.link:
+                if link.relation == "next":
+                    next_link = link.url
+                    break
 
-# }
+            if next_link:
+                bundle = Bundle.read_from(next_link, self.server)
+            else:
+                bundle = None
+
+
+def server_settings(dataset, fhirstore):
+    return {
+        "app_id": "di_app",
+        "api_base": f"https://healthcare.googleapis.com/v1/projects/ptm-gestao-di-dev/locations/southamerica-east1/datasets/{dataset}/fhirStores/{fhirstore}/fhir",  # noqa: E501
+    }
