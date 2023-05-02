@@ -69,6 +69,10 @@
         </div>
 
         <div class="px-2 py-5">
+          <Button type="submit" variant="danger" @click="state.polygons = []; state.polygonNames = []; polygonNames = []; polygons = []">
+            <SaveIcon class="h-5 w-5" />
+            <span class="text-sm">Apagar todos poligonos</span>
+          </Button>
           <Button type="submit" variant="success-outline" @click="savePolygons">
             <SaveIcon class="h-5 w-5" />
             <span class="text-sm">{{ $t('manager.save') }}</span>
@@ -86,10 +90,33 @@
           :libraries="['drawing']"
           ref="mapRef"
         >
-          <template #default="{ ready, api, map, mapTilesLoaded }">
+          <template #default="{ ready, api, map, mapTilesLoaded }"><p v-if="!mapTilesLoaded">Loading</p>
             <!-- First pattern: Here you have access to the API and map instance.
           "ready" is a boolean that indicates when the Google Maps script
           has been loaded and the api and map instance are ready to be used -->
+            <div v-for="(polygon, polygonIndex) in polygons" :key="polygonIndex">
+              <Polygon
+                ref="itemRefs"
+                :options="{
+                  paths: polygon.getPath(),
+                  fillColor: '#FFA901',
+                  strokeColor: '#4FA9DD',
+                  fillOpacity: 0.5,
+                  strokeWeight: 1,
+                  clickable: false,
+                  editable: true,
+                  zIndex: 1,
+                }"
+              />
+              <InfoWindow
+                v-if="currentInfoWindowIndex === polygonIndex"
+                ref="infoWindow"
+                :options="{
+                  position: calculatePolygonCenter(polygon.getPath()),
+                }">
+                <MapInfoWindow @delete="deletePolygon(polygonIndex)" :polygonIndex="polygonIndex" @saved="updateLabel" />
+                </InfoWindow>
+            </div>
             <MarkerCluster>
               <div v-for="(location, i) in locations" :key="i">
                 <Marker
@@ -269,7 +296,7 @@
 </template>
 
 <script setup>
-import { defineComponent, reactive, computed, onBeforeUpdate, onMounted, watch, ref, onUnmounted } from 'vue'
+import { defineComponent, reactive, computed, onBeforeUpdate, onMounted, watch, ref, onUnmounted, createApp } from 'vue'
 import { GoogleMap, Marker, CustomMarker, MarkerCluster, InfoWindow, Polygon } from 'vue3-google-map'
 import { useGeolocation } from '@/composables/useGeolocation'
 import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue'
@@ -277,6 +304,10 @@ import { HandIcon, PencilIcon, UsersIcon, SaveIcon, XIcon, RefreshIcon } from '@
 import { useRouter } from 'vue-router'
 import { usePatientsStore } from '@/stores/patients'
 import { useStorage } from '@vueuse/core'
+
+import MapInfoWindow from '@/components/atoms/MapInfoWindow.vue'
+
+const itemRefs = ref([])
 
 const GOOGLE_MAP_API_KEY = ref(import.meta.env.VITE_GOOGLE_MAP_API_KEY)
 const patientsStore = usePatientsStore()
@@ -392,96 +423,130 @@ const markers = ref([])
 onBeforeUpdate(() => {
   markers.value = []
 })
-function savePolygons() {
-  const savedPolygons = []
-  if (!polygons.value) {
-    return
-  }
-  polygons.value.forEach(function (polygon) {
-    const vertices = polygon.getPath()
-    const polygonCoordinates = []
-    console.log(vertices)
-    vertices.forEach(function (vertex) {
-      polygonCoordinates.push({
-        lat: vertex.lat(),
-        lng: vertex.lng(),
-      })
-    })
-    savedPolygons.push(polygonCoordinates)
-  })
-  const state = useStorage('app-store', { polygons: [] })
-  if (undefined == state.value.polygons) {
-    state.value.polygons = []
-  }
-  state.value.polygons = savedPolygons
-}
-const infoWindowsOpened = ref([])
-const arrayDeNomes = ref(['hospital', 'shopping', 'restaurante', 'parque'])
+
 function loadPolygons() {
   const state = useStorage('app-store', { polygons: [] })
   if (undefined == state.value.polygons) {
     state.value.polygons = []
   }
   if (state.value.polygons) {
+    // asd.value = state.value.polygons
     state.value.polygons.forEach(function (polygonCoordinates, index) {
-      const polygon = new google.maps.Polygon({
-        paths: polygonCoordinates,
-        fillColor: '#FFA901',
-        strokeColor: '#4FA9DD',
-        fillOpacity: 0.5,
-        strokeWeight: 1,
-        clickable: false,
-        editable: true,
-        zIndex: 1,
-      })
+      // const polygon = new google.maps.Polygon({
+      //   paths: polygonCoordinates,
+      //   fillColor: '#FFA901',
+      //   strokeColor: '#4FA9DD',
+      //   fillOpacity: 0.5,
+      //   strokeWeight: 1,
+      //   clickable: false,
+      //   editable: true,
+      //   zIndex: 1,
+      // })
 
-      let bounds = new google.maps.LatLngBounds()
-      polygon.getPath().forEach((latLng) => bounds.extend(latLng))
-      map.value.fitBounds(bounds)
+      // // Detecta o evento de clique no mapa
+      // google.maps.event.addListener(map.value, 'click', (event) => {
+      //   // Verifica se o ponto do clique está dentro dos limites do polígono
+      //   if (google.maps.geometry.poly.containsLocation(event.latLng, polygon)) {
+      //     if (infoWindowsOpened.value.includes(index)) {
+      //       return
+      //     }
+      //     //MapInfoWindow.emits = ['asd'];
+      //     // var app = createApp(MapInfoWindow, { content: 'Seu conteúdo aqui' })
+      //     // app.component('MapInfoWindow', MapInfoWindow);
+      //     // const content = document.createElement('div')
+      //     // console.log(MapInfoWindow)
+      //     // app.mount(content, { asd: MapInfoWindow.emits.asd })
 
-      let center = bounds.getCenter()
-      let marker = new google.maps.Marker({
-        position: center,
-        label: {
-          text: `${arrayDeNomes.value[index]}`,
-          color: 'black',
-          fontWeight: 'bold',
-        },
-        icon: {
-          path: google.maps.SymbolPath.CIRCLE,
-          fillColor: 'transparent',
-          fillOpacity: 0,
-          strokeColor: 'transparent',
-          strokeWeight: 0,
-          scale: 0,
-        },
-        map: map.value,
-      })
-      // Detecta o evento de clique no mapa
-      google.maps.event.addListener(map.value, 'click', (event) => {
-        // Verifica se o ponto do clique está dentro dos limites do polígono
-        if (google.maps.geometry.poly.containsLocation(event.latLng, polygon)) {
-          if (infoWindowsOpened.value.includes(index)) {
-            return
-          }
-          let infoWindow = new google.maps.InfoWindow({
-            content: '<div>Meu texto</div>',
-            pixelOffset: new google.maps.Size(0, -30),
-          })
-          infoWindow.setPosition(center)
-          infoWindow.addListener('closeclick', () => {
-            infoWindowsOpened.value.splice(infoWindowsOpened.value.indexOf(index))
-          })
+      //     const content = '<div id="asd"></div>'
+      //     let infoWindow = new google.maps.InfoWindow({
+      //       content: content,
+      //       pixelOffset: new google.maps.Size(0, -30),
+      //     })
+      //     infoWindow.setPosition(center)
+      //     infoWindow.addListener('closeclick', () => {
+      //       infoWindowsOpened.value.splice(infoWindowsOpened.value.indexOf(index))
+      //     })
 
-          infoWindow.open(map.value)
-          infoWindowsOpened.value.push(index)
-        }
-      })
+      //     infoWindow.open(map.value)
+      //     infoWindowsOpened.value.push(index)
+      //   }
+      // })
 
       polygons.value.push(polygon)
-      polygon.setMap(mapRef.value.map)
+      // polygon.setMap(mapRef.value.map)
     })
   }
+}
+
+const currentInfoWindowIndex = ref(null)
+const calculatePolygonCenter = (coords) => {
+  const bounds = new google.maps.LatLngBounds()
+  coords.forEach((coord) => {
+    bounds.extend(coord)
+  })
+  return bounds.getCenter()
+}
+const showInfoWindow = (index) => {
+  currentInfoWindowIndex.value = index
+}
+const getCenterOfPolygon = computed(() => (index) => {
+  // let bounds = new google.maps.LatLngBounds()
+  // console.log(polygon)
+  // polygon.getPath().forEach((latLng) => bounds.extend(latLng))
+  // map.value.fitBounds(bounds)
+
+  // return bounds.getCenter()
+
+
+  const polygon = this.$refs.itemRefs[index];
+  const bounds = polygon.getBounds();
+  const center = bounds.getCenter();
+  const infoWindow = this.$refs.infoWindow;
+  infoWindow.setPosition(center);
+})
+
+function serializeOne(polygon) {
+  const polygonCoordinates = []
+  const vertices = polygon.getPath()
+  vertices.forEach(function (vertex) {
+    polygonCoordinates.push({
+      lat: vertex.lat(),
+      lng: vertex.lng(),
+    })
+  })
+  return polygonCoordinates
+}
+function serialize() {
+  const polygonCoordinates = []
+  polygons.value.forEach(function (polygon) {
+    polygonCoordinates.push(serializeOne(polygon))
+  })
+  return polygonCoordinates
+}
+
+const state = useStorage('app-store', { polygons: [], polygonNames: [] })
+
+function savePolygons() {
+  const savedPolygons = []
+  if (!polygons.value) {
+    return
+  }
+
+  state.value.polygons = serialize()
+}
+
+const asd = ref([])
+const infoWindowsOpened = ref([])
+
+if (undefined == state.value.polygonNames) {
+  state.value.polygonNames = []
+}
+
+const polygonLabels = ref([])
+
+const updateLabel = ({polygonName, polygonIndex }) => {
+  polygonLabels.value[polygonIndex].setLabel(polygonName)
+  currentInfoWindowIndex.value = null
 }
 
 // Third pattern: watch for "ready" then do something with the API or map instance
@@ -520,31 +585,64 @@ watch(
     google.maps.event.addListener(drawingManager.value, 'overlaycomplete', (event) => {
       if (event.type === google.maps.drawing.OverlayType.POLYGON) {
         const polygon = event.overlay
+        //console.log(state.value.polygons)
         polygons.value.push(polygon)
+        savePolygons()
+        showInfoWindow(polygons.value.length - 1)
       }
     })
 
-    // Adiciona um evento de clique ao mapa para deletar
     google.maps.event.addListener(map.value, 'click', (event) => {
       // Verifica se o clique ocorreu dentro de algum polígono
       polygons.value.forEach((polygon, polygonIndex) => {
         if (google.maps.geometry.poly.containsLocation(event.latLng, polygon)) {
-          // var confirmed = confirm('Tem certeza que deseja excluir todos os pontos do polígono?')
-          // if (confirmed) {
-          //   if (polygonIndex !== -1) {
-          //     polygons.value.splice(polygonIndex, 1)
-          //     console.log(polygons.value)
-          //     console.log('qwe')
-          //   }
-          //   polygon.setPaths([])
-          //   savePolygons()
-          // }
+
+          showInfoWindow(polygonIndex)
         }
       })
     })
 
     // Carrega polígonos salvos do localStorage ao inicializar o mapa
-    loadPolygons()
+    // loadPolygons()
+    state.value.polygons.forEach(function (polygonCoordinates, index) {
+      const polygon = new google.maps.Polygon({
+         paths: polygonCoordinates,
+         fillColor: '#FFA901',
+         strokeColor: '#4FA9DD',
+         fillOpacity: 0.5,
+         strokeWeight: 1,
+         clickable: false,
+         editable: true,
+         zIndex: 1,
+       })
+      polygons.value.push(polygon)
+
+      let bounds = new google.maps.LatLngBounds()
+      polygon.getPath().forEach((latLng) => bounds.extend(latLng))
+      map.value.fitBounds(bounds)
+
+      let center = bounds.getCenter()
+      // polygon name text label
+      polygonLabels.value.push(new google.maps.Marker({
+          position: center,
+          label: {
+            text: `${state.value.polygonNames[index]}`,
+            color: 'black',
+            fontWeight: 'bold',
+          },
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            fillColor: 'transparent',
+            fillOpacity: 0,
+            strokeColor: 'transparent',
+            strokeWeight: 0,
+            scale: 0,
+          },
+          map: map.value,
+        })
+      )
+    })
+
   }
 )
 
@@ -561,6 +659,7 @@ const geocodeAddress = (geoCoder, resultsMap) => {
     }
   })
 }
+
 const isDraggable = computed(() => (index) => index == movingIndex.value)
 const patients = computed(() => {
   if (onlyAlerts.value) {
@@ -582,11 +681,27 @@ function handleMarkerDrag(event, index) {
   })
 }
 
+function deletePolygon(polygonIndex) {
+  const confirmed = confirm('Tem certeza que deseja excluir este polígono?')
+  if (confirmed) {
+    polygons.value.splice(polygonIndex, 1)
+    currentInfoWindowIndex.value = null
+    savePolygons()
+    polygonLabels.value[polygonIndex].setLabel('')
+    polygonLabels.value.splice(polygonIndex, 1)
+  }
+}
+
 const { coords } = useGeolocation()
 const userLocation = computed(() => ({
   lat: coords.value.latitude,
   lng: coords.value.longitude,
 }))
+const dddd = computed(() => (polygonIndex) => {
+  console.log('asd dddd')
+})
+const ddd = ({polygonName, polygonIndex }) => { console.log('asd ddd')
+}
 </script>
 
 <style type="text/css">

@@ -39,9 +39,9 @@
       <div class="py-2">
         <div class="overflow-auto px-2 pt-2 pb-52">
           <table
-            class="w-full table-auto rounded-md bg-neutral-50 text-left tracking-wider shadow md:table-fixed lg:table-fixed"
+            class="w-full table-auto rounded-full text-left tracking-wider shadow md:table-fixed lg:table-fixed"
           >
-            <thead class="bg-neutral-200 text-white">
+            <thead class= " bg-neutral-200 text-white">
               <tr>
                 <th scope="col" colspan="2" class="w-80 bg-blue-200 px-6 py-4 text-center uppercase text-gray-900">
                   {{ $t('patient-details.vaccines') }}
@@ -189,9 +189,9 @@
                 </th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-gray-100">
-              <tr class="hover:bg-neutral-200" v-for="(vaccine, k) in orderedVaccinesByDoseAlerts" :key="k">
-                <td colspan="2" class="px-6 py-4 font-medium text-gray-900">
+            <tbody class="divide-y-4 divide-white">
+              <tr class="bg-neutral-200 hover:bg-white" v-for="(vaccine, k) in orderedVaccinesByDoseAlerts" :key="k">
+                <td colspan="2" class="px-6 py-4 font-medium rounded-l-full text-gray-900">
                   <span class="">{{ vaccine.display }}</span> <span class="">{{ vaccine.description }}</span>
                 </td>
 
