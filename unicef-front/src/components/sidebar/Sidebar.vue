@@ -1,4 +1,5 @@
-lo<template>
+lo
+<template>
   <transition
     enter-active-class="transition"
     enter-from-class="opacity-0"

@@ -6,10 +6,7 @@ export function useGeolocation() {
 
   let watcher = null
   onMounted(() => {
-    if (isSupported)
-      watcher = navigator.geolocation.watchPosition(
-        position => (coords.value = position.coords)
-      )
+    if (isSupported) watcher = navigator.geolocation.watchPosition((position) => (coords.value = position.coords))
   })
   onUnmounted(() => {
     if (watcher) navigator.geolocation.clearWatch(watcher)

@@ -53,9 +53,9 @@
           <span class="ml-2 text-sm text-gray-600">{{ $t('auth.remember-me') }}</span>
         </label>
 
-        <router-link :to="{ name: 'ForgotPassword' }" class="text-sm text-blue-500 hover:underline"
-          >{{ $t('auth.forgot-password') }}</router-link
-        >
+        <router-link :to="{ name: 'ForgotPassword' }" class="text-sm text-blue-500 hover:underline">{{
+          $t('auth.forgot-password')
+        }}</router-link>
       </div>
 
       <!-- Login button -->
@@ -74,7 +74,9 @@
       <!-- Register link -->
       <p class="text-sm text-gray-600 dark:text-gray-400">
         {{ $t('auth.not-have-an-account-yet') }}
-        <router-link :to="{ name: 'Register' }" class="text-blue-500 hover:underline">{{ $t('auth.register') }}</router-link>
+        <router-link :to="{ name: 'Register' }" class="text-blue-500 hover:underline">{{
+          $t('auth.register')
+        }}</router-link>
       </p>
     </div>
   </form>
@@ -89,7 +91,7 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
-import { useI18n } from "vue3-i18n"
+import { useI18n } from 'vue3-i18n'
 const { t, locale } = useI18n()
 
 const router = useRouter()

@@ -1,0 +1,8 @@
+**/.git
+**/.svn
+**/.hg
+**/node_modules
+**/dist
+**/.vscode
+*.ts
+src/components/atoms/AutoComplete.vue

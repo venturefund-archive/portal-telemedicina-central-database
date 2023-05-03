@@ -17,8 +17,8 @@ export const useVaccinesStore = defineStore('vaccines', () => {
           Authorization: `token ${state.value.token}`,
         },
         params: {
-          system: "BRI"
-        }
+          system: 'BRI',
+        },
       })
       this.items = response.data
     } catch (err) {
