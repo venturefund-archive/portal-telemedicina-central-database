@@ -152,15 +152,29 @@ class PatientSerializer(serializers.Serializer):
         if "address" in validated_data:
             for address_data in validated_data["address"]:
                 address_instance = instance.address[address_data.pop("id") - 1]
-                coordinates = ["latitude", "longitude"]
-                if any(key in coordinates for key in address_data.keys()):
-                    latitude = address_data.pop("latitude")
-                    longitude = address_data.pop("longitude")
+                latitude = address_data.pop("latitude", None)
+                longitude = address_data.pop("longitude", None)
+
+                if latitude is not None or longitude is not None:
+                    if address_instance.extension is None:
+                        raise serializers.ValidationError(
+                            {
+                                "detail": "The resource doesn't have a coordinate extension configured. Please check the fhirStore"  # noqa: E501
+                            }
+                        )
+
                     for nested_extension in address_instance.extension:
+                        if nested_extension.extension is None:
+                            raise serializers.ValidationError(
+                                {
+                                    "detail": "The resource doesn't have a coordinate extension configured. Please check the fhirStore"  # noqa: E501
+                                }
+                            )
+
                         for ext in nested_extension.extension:
                             if ext.url == "latitude":
                                 ext.valueDecimal = latitude
-                            if ext.url == "longitude":
+                            elif ext.url == "longitude":
                                 ext.valueDecimal = longitude
 
                 for key, value in address_data.items():

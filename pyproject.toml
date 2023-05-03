@@ -43,7 +43,6 @@ rules = "^3.3"
 django-filter = "^22.1"
 fhirclient = "^4.1.0"
 
-
 [tool.poetry.dev-dependencies]
 Werkzeug = {extras = ["watchdog"], version = "2.0.3"} # https://github.com/pallets/werkzeug
 ipdb = "0.13.9"  # https://github.com/gotcha/ipdb
