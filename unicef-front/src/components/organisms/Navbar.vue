@@ -2,14 +2,14 @@
   <nav
     aria-label="secondary"
     :class="[
-      'sticky top-0 z-10 flex items-center justify-between shadow-md bg-white py-4 px-5 transition-transform duration-500',
+      'sticky top-0 z-10 flex items-center justify-between bg-white py-4 px-5 shadow-md transition-transform duration-500',
       {
         '-translate-y-full': scrolling.down,
         'translate-y-0': scrolling.up,
       },
     ]"
   >
-    <div class="flex items-center pr-5 grow">
+    <div class="flex grow items-center pr-5">
       <form @submit.prevent="search" class="w-full lg:w-1/2">
         <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900">Procurar</label>
         <InputIconWrapper>
@@ -23,8 +23,8 @@
 
     <div class="flex items-center gap-2">
       <div class="px-10">
-      <LanguageSwitcher/>
-    </div>
+        <LanguageSwitcher />
+      </div>
       <!-- Dropdwon -->
       <div>
         <div>
@@ -39,7 +39,9 @@
         </div>
       </div>
       <div>
-        <div class="inline-flex items-center justify-center gap-2 border-gray-100 border border-r-1 border-l-0 border-t-transparent border-b-transparent py-5 px-4"> </div>
+        <div
+          class="border-r-1 inline-flex items-center justify-center gap-2 border border-l-0 border-gray-100 border-t-transparent border-b-transparent py-5 px-4"
+        ></div>
       </div>
       <Button
         iconOnly
@@ -68,9 +70,9 @@
 
   <!-- Mobile bottom bar -->
   <div
-  class="block sm:hidden"
+    class="block sm:hidden"
     :class="[
-      'dark:bg-dark-eval-1 fixed z-10 inset-x-0 bottom-0 flex items-center justify-between bg-blue-500 px-4 py-4 transition-transform duration-500 sm:px-6 md:hidden',
+      'dark:bg-dark-eval-1 fixed inset-x-0 bottom-0 z-10 flex items-center justify-between bg-blue-500 px-4 py-4 transition-transform duration-500 sm:px-6 md:hidden',
       {
         'translate-y-full': scrolling.down,
         'translate-y-0': scrolling.up,

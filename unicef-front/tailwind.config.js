@@ -6,22 +6,22 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'green': {
+        green: {
           500: '#009334',
         },
-        'gray': {
+        gray: {
           400: '#B0B0B0',
         },
-        'blue': {
+        blue: {
           500: '#009FE3',
           600: '#0082C9',
           660: ' #035886',
         },
-        'red': {
+        red: {
           500: '#FF5363',
           600: '#FF5363',
         },
-        'yellow': {
+        yellow: {
           500: '#FFA901',
         },
 

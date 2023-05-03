@@ -6,9 +6,9 @@
         <div class="flex justify-between">
           <h4 class="text-lg font-medium">{{ title }}</h4>
           <form>
-            <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >{{ $t('dashboard.search') }}</label
-            >
+            <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{
+              $t('dashboard.search')
+            }}</label>
             <div class="relative">
               <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <svg
@@ -34,7 +34,7 @@
                   @input="$emit('update:query', $event.target.value)"
                   :placeholder="$t('dashboard.search')"
                   withIcon
-                  class="block w-full rounded-lg border border-transparent bg-gray-50 p-4 pl-10 text-sm text-gray-900 "
+                  class="block w-full rounded-lg border border-transparent bg-gray-50 p-4 pl-10 text-sm text-gray-900"
                 />
               </InputIconWrapper>
             </div>
@@ -64,7 +64,7 @@ const props = defineProps({
     default: 'bg-white',
   },
 
-  title: String
+  title: String,
 })
 
 const localQuery = ref(props.query)

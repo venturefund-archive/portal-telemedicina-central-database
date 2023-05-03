@@ -1,5 +1,9 @@
 <template>
-  <PerfectScrollbar tagname="nav" aria-label="main" class="relative flex max-h-full flex-1 flex-row md:flex-col gap-4 px-3">
+  <PerfectScrollbar
+    tagname="nav"
+    aria-label="main"
+    class="relative flex max-h-full flex-1 flex-row gap-4 px-3 md:flex-col"
+  >
     <SidebarLink :title="$t('dashboard.dashboard')" :to="{ name: 'Dashboard' }" :active="isCurrentRoute('Dashboard')">
       <template #icon>
         <TemplateIcon class="h-6 w-6 flex-shrink-0" aria-hidden="true" />
@@ -31,7 +35,7 @@
   <Button
     iconOnly
     variant="secondary"
-    class="w-10 mx-auto opacity-80 bg-white"
+    class="mx-auto w-10 bg-white opacity-80"
     v-slot="{ iconSizeClasses }"
     v-show="sidebarState.isOpen || sidebarState.isHovered"
     @click="sidebarState.isOpen = !sidebarState.isOpen"

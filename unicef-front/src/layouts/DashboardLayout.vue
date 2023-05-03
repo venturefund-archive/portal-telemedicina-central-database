@@ -1,9 +1,8 @@
 <template>
   <div class="min-h-screen bg-white text-gray-900">
     <div class="hidden sm:block">
-    <Sidebar />
+      <Sidebar />
     </div>
-
 
     <div
       style="transition-property: margin; transition-duration: 150ms"
@@ -15,7 +14,6 @@
         },
       ]"
     >
-
       <Navbar />
 
       <router-view v-slot="{ Component, route }">
@@ -25,8 +23,6 @@
           </div>
         </transition>
       </router-view>
-
-
 
       <PageFooter />
     </div>
@@ -46,6 +42,4 @@ import { sidebarState } from '@/composables'
 .fade-leave-to {
   opacity: 0;
 }
-
-
 </style>

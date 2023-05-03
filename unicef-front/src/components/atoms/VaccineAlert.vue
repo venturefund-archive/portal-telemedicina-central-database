@@ -1,7 +1,7 @@
 <template>
   <Popover v-slot="{ open }" class="relative">
-    <PopoverButton :focus="false" :class="{'relative z-30': open}">
-      <div class="hover:scale-125" :class="{'scale-125': open}">
+    <PopoverButton :focus="false" :class="{ 'relative z-30': open }">
+      <div class="hover:scale-125" :class="{ 'scale-125': open }">
         <div v-if="1 == status" class="h-9 w-9 rounded-full border border-lime-600 bg-lime-600 shadow-md"></div>
 
         <span v-else-if="2 == status" class="flex h-9 w-9">
@@ -10,10 +10,7 @@
         </span>
 
         <div v-else-if="3 == status" class="border-tranparent h-9 w-9 rounded-full border bg-red-500 shadow-md"></div>
-        <div
-          v-else-if="4 == status"
-          class="border-tranparent h-9 w-9 rounded-full border bg-blue-300 shadow-md"
-        ></div>
+        <div v-else-if="4 == status" class="border-tranparent h-9 w-9 rounded-full border bg-blue-300 shadow-md"></div>
         <div v-else class=""></div>
       </div>
     </PopoverButton>
@@ -26,7 +23,7 @@
       leave-to-class="translate-y-1 opacity-0"
     >
       <div>
-        <PopoverOverlay class="fixed inset-0 bg-black opacity-30 z-10" />
+        <PopoverOverlay class="fixed inset-0 z-10 bg-black opacity-30" />
         <PopoverPanel
           class="absolute z-20 mt-3 w-auto max-w-sm transform-gpu px-4 sm:px-0 lg:max-w-3xl"
           :class="[rangeIndex == 11 ? '-translate-x-48' : rangeIndex <= 1 ? '' : '-translate-x-64']"

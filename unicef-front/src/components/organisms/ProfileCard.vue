@@ -5,11 +5,12 @@
         <img src="/avatar.png" class="max-w-20 max-h-20 rounded-full bg-neutral-200 p-1" />
       </div>
 
-      <div class="col-span-5 ml-4 md:col-span-4 tracking-wide">
+      <div class="col-span-5 ml-4 tracking-wide md:col-span-4">
         <p class="pr-2 font-bold capitalize text-gray-600">{{ patientsStore.item.name.join().toLowerCase() }}</p>
         <div class="text-gray-400">
           <p>
-            {{ $t('patient-details.genre') }} <span>{{ 'male' == patientsStore.item.gender ? 'Masculino' : 'Feminino' }}</span>
+            {{ $t('patient-details.genre') }}
+            <span>{{ 'male' == patientsStore.item.gender ? 'Masculino' : 'Feminino' }}</span>
           </p>
           <!--
           <p>
@@ -28,7 +29,7 @@
         </div>
       </div>
       <div class="col-start-2 ml-4 flex md:col-start-auto md:ml-0 md:justify-end">
-        <p class="h-fit rounded-lg bg-sky-200 py-1 px-3 text-sm font-bold text-sky-600 lowercase">
+        <p class="h-fit rounded-lg bg-sky-200 py-1 px-3 text-sm font-bold lowercase text-sky-600">
           {{ formatedAge }}
         </p>
       </div>
@@ -45,8 +46,17 @@ import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
 import { usePatientsStore } from '@/stores/patients'
-import { parseISO, differenceInYears, setDefaultOptions, format, differenceInMonths, differenceInDays, addDays, addMonths } from 'date-fns'
-import { useI18n } from "vue3-i18n";
+import {
+  parseISO,
+  differenceInYears,
+  setDefaultOptions,
+  format,
+  differenceInMonths,
+  differenceInDays,
+  addDays,
+  addMonths,
+} from 'date-fns'
+import { useI18n } from 'vue3-i18n'
 const { t } = useI18n()
 const patientsStore = usePatientsStore()
 const router = useRouter()
@@ -63,7 +73,7 @@ const formatedAge = computed(() => {
     if (1 == ageInMonths) {
       return '1 ' + t('patient-details.month')
     } else if (0 == ageInMonths) {
-      if (1 == ageInDays){
+      if (1 == ageInDays) {
         return '1 ' + t('patient-details.day')
       }
       return ageInDays + ' ' + t('patient-details.days')
