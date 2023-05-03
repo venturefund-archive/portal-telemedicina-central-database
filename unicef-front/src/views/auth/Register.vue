@@ -91,13 +91,13 @@
 
             <div class="ml-2">
               {{ $t('auth.terms1') }}
-              <a target="_blank" href="#" class="text-sm text-blue-600 underline hover:text-blue-900"
-                >{{ $t('auth.terms2') }}</a
-              >
+              <a target="_blank" href="#" class="text-sm text-blue-600 underline hover:text-blue-900">{{
+                $t('auth.terms2')
+              }}</a>
               {{ $t('auth.terms3') }}
-              <a target="_blank" href="#" class="text-sm text-blue-600 underline hover:text-blue-900"
-                >{{ $t('auth.terms4') }}</a
-              >
+              <a target="_blank" href="#" class="text-sm text-blue-600 underline hover:text-blue-900">{{
+                $t('auth.terms4')
+              }}</a>
             </div>
           </div>
         </Label>
@@ -107,7 +107,7 @@
       <div>
         <Button
           type="submit"
-          class="w-full justify-center gap-2"
+          class="w-full justify-center gap-2 rounded-full"
           :disabled="registerForm.processing"
           v-slot="{ iconSizeClasses }"
         >

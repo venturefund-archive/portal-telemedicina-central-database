@@ -28,7 +28,7 @@
       <div>
         <Button
           type="submit"
-          class="w-full justify-center gap-2"
+          class="w-full justify-center gap-2 rounded-full"
           :disabled="forgotPasswordForm.processing"
           v-slot="{ iconSizeClasses }"
         >
@@ -58,7 +58,10 @@ const forgotPasswordForm = reactive({
 
 const submit = async () => {
   try {
-    const response = await axios.post(import.meta.env.VITE_API_URL + '/api/dj-rest-auth/password/reset/', forgotPasswordForm)
+    const response = await axios.post(
+      import.meta.env.VITE_API_URL + '/api/dj-rest-auth/password/reset/',
+      forgotPasswordForm
+    )
     successToast({ text: response.data.detail })
     router.replace({ name: 'Login' })
   } catch (err) {

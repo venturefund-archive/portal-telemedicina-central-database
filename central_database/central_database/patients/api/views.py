@@ -1,43 +1,111 @@
+import threading
+
+from fhirclient import client
+from fhirclient.models.patient import Patient
+from rest_framework import status
+from rest_framework.mixins import (  # noqa: E501
+    ListModelMixin,
+    RetrieveModelMixin,
+    UpdateModelMixin,
+)
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.viewsets import ViewSet
+from rest_framework.viewsets import GenericViewSet
 
-import central_database.integrations.fhir_resources.patient as patient_resource
-from central_database.customers.models import Client
+from central_database.integrations.fhir_api.google_fhir import (
+    GoogleFHIRClient,
+    server_settings,
+)
+from central_database.patients.api.serializers import PatientSerializer
 from central_database.permissions_manager.rest_api.permission_classes import (
     permission_class_assembler,
 )
 
+_fhir_client_local = threading.local()
 
-class PatientsViewSet(ViewSet):
+
+class PatientsViewSet(
+    GenericViewSet, ListModelMixin, RetrieveModelMixin, UpdateModelMixin
+):
+
+    serializer_class = PatientSerializer
+    fhir_client_class = GoogleFHIRClient
 
     permission_classes = [
         IsAuthenticated,
         permission_class_assembler(
             permissions_to_check={
-                "list": ["patients.can_view_patient"],
-                "retrieve": ["patients.can_view_patient"],
+                "list": ["patients.view_patient"],
+                "retrieve": ["patients.view_patient"],
+                "update": ["patients.change_patient"],
+                "partial_update": ["patients.change_patient"],
             }
         ),
     ]
 
-    def list(self, request):
-        client_id = request.user.client_id
-        client = Client.objects.filter(id=client_id)
-        patients = patient_resource.Patient(id="?", client=client.first())
-        data = patients.all
-        sorted_data = sorted(
-            data,
-            key=lambda x: (
-                -x["number_of_alerts_by_protocol"],
-                x["age_in_days"],
-            ),  # noqa: E501
-        )
-        return Response(sorted_data)
+    def get_serializer_context(self):
+        context = {
+            "request": self.request,
+            "format": self.format_kwarg,
+            "view": self,
+            "method": self.request.method,
+        }
+        return context
 
-    def retrieve(self, request, pk=None):
-        client_id = request.user.client_id
-        client = Client.objects.filter(id=client_id)
-        patient = patient_resource.Patient(id=pk, client=client.first())
-        data = patient.detail
-        return Response(data)
+    def initialize_request(self, request, *args, **kwargs):
+        request = super().initialize_request(request, *args, **kwargs)
+
+        if request.user.is_authenticated:
+            client = request.user.client
+
+            if not hasattr(_fhir_client_local, "fhir_client"):
+                _fhir_client_local.fhir_client = self._get_fhir_client(client)
+
+            self.fhir_client = _fhir_client_local.fhir_client
+            request.fhir_client = self.fhir_client
+
+        return request
+
+    def _get_fhir_client(self, client):
+        settings = server_settings(client.dataset_id, client.fhir_store_id)
+        return self.fhir_client_class(settings=settings)
+
+    def get_object(self):
+        lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
+        filter_kwargs = self.kwargs[lookup_url_kwarg]
+        try:
+            return Patient.read(filter_kwargs, self.fhir_client.server)
+        except client.FHIRNotFoundException:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def get_queryset(self):
+        search = Patient.where(struct={})
+
+        resources = []
+        for bundle in self.fhir_client.fetch_all_pages(search):
+            resources.extend(bundle.entry)
+
+        return [entry.resource for entry in resources]
+
+    def list(self, request):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def update(self, request, *args, **kwargs):
+        print(request.data)
+        partial = kwargs.pop("partial", False)
+        instance = self.get_object()
+        serializer = self.get_serializer(
+            instance, data=request.data, partial=partial
+        )  # noqa: E501
+        if serializer.is_valid():
+            updated_patient = serializer.save()
+            updated_patient.update(self.fhir_client.server)
+
+            updated_serializer = self.get_serializer(updated_patient)
+            return Response(updated_serializer.data)
+        else:
+            return Response(
+                serializer.errors, status=status.HTTP_400_BAD_REQUEST
+            )  # noqa: E501
