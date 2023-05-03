@@ -34,12 +34,18 @@ class TestPatientViewSet(APITestCase):
         self.assertEqual(response.status_code, 401)
 
     @mock.patch(
+        "central_database.patients.api.views.PatientsViewSet._get_fhir_client"  # noqa: E501
+    )
+    @mock.patch(
         "central_database.patients.api.views.PatientsViewSet.get_queryset"  # noqa: E501
     )
-    def test_it_requires_patient_view_permission(self, mock_get):
+    def test_it_requires_patient_view_permission(
+        self, mock_get, mock_get_fhir_client
+    ):  # noqa: E501
         self.role.users.remove(self.user)
-        queryset = [PatientFactory() for _ in range(2)]
-        mock_get.return_value = queryset
+
+        mock_fhir_client = mock.MagicMock()
+        mock_get_fhir_client.return_value = mock_fhir_client
 
         self.client.force_authenticate(self.user)
         response = self.client.get(reverse("api:patients-list"))
@@ -47,9 +53,12 @@ class TestPatientViewSet(APITestCase):
         self.assertEqual(response.status_code, 403)
 
     @mock.patch(
+        "central_database.patients.api.views.PatientsViewSet._get_fhir_client"  # noqa: E501
+    )
+    @mock.patch(
         "central_database.patients.api.views.PatientsViewSet.get_queryset"  # noqa: E501
     )
-    def test_it_lists_patients(self, mock_get):
+    def test_it_lists_patients(self, mock_get, mock_get_fhir_client):
 
         queryset = [PatientFactory() for _ in range(2)]
         self.vaccine_dose_1 = VaccineDoseFactory(
@@ -78,6 +87,9 @@ class TestPatientViewSet(APITestCase):
         )
         mock_get.return_value = queryset
 
+        mock_fhir_client = mock.MagicMock()
+        mock_get_fhir_client.return_value = mock_fhir_client
+
         self.client.force_authenticate(self.user)
         response = self.client.get(reverse("api:patients-list"))
 
@@ -91,11 +103,19 @@ class TestPatientViewSet(APITestCase):
             self.assertTrue("age_in_days" in data)
 
     @mock.patch(
+        "central_database.patients.api.views.PatientsViewSet._get_fhir_client"  # noqa: E501
+    )
+    @mock.patch(
         "central_database.patients.api.views.PatientsViewSet.get_object"  # noqa: E501
     )
-    def test_it_retrieves_a_patient_detail(self, mock_get):
+    def test_it_retrieves_a_patient_detail(
+        self, mock_get, mock_get_fhir_client
+    ):  # noqa: E501
         patient = PatientFactory()
         mock_get.return_value = patient
+
+        mock_fhir_client = mock.MagicMock()
+        mock_get_fhir_client.return_value = mock_fhir_client
 
         self.client.force_authenticate(self.user)
         response = self.client.get(
@@ -126,12 +146,20 @@ class TestPatientUpdateViewSet(APITestCase):
         self.role.assign_to_user(self.user)
 
     @mock.patch(
+        "central_database.patients.api.views.PatientsViewSet._get_fhir_client"  # noqa: E501
+    )
+    @mock.patch(
         "central_database.patients.api.views.PatientsViewSet.get_object"  # noqa: E501
     )
-    def test_it_requires_patient_change_permission(self, mock_get):
+    def test_it_requires_patient_change_permission(
+        self, mock_get, mock_get_fhir_client
+    ):
         self.role.users.remove(self.user)
         patient = PatientFactory()
         mock_get.return_value = patient
+
+        mock_fhir_client = mock.MagicMock()
+        mock_get_fhir_client.return_value = mock_fhir_client
 
         payload = {"gender": "male"}
         self.client.force_authenticate(self.user)
@@ -144,13 +172,20 @@ class TestPatientUpdateViewSet(APITestCase):
         self.assertEqual(response.status_code, 403)
 
     @mock.patch(
+        "central_database.patients.api.views.PatientsViewSet._get_fhir_client"  # noqa: E501
+    )
+    @mock.patch(
         "central_database.patients.api.views.PatientsViewSet.get_object"
     )  # noqa: E501
     @mock.patch.object(Patient, "update")
-    def test_it_updates_patient(self, mock_update, mock_get_object):
+    def test_it_updates_patient(
+        self, mock_update, mock_get_object, mock_get_fhir_client
+    ):
         test_patient = PatientFactory()
 
         mock_get_object.return_value = test_patient
+        mock_fhir_client = mock.MagicMock()
+        mock_get_fhir_client.return_value = mock_fhir_client
 
         payload = {
             "resource_type": "Patient",
@@ -186,13 +221,21 @@ class TestPatientUpdateViewSet(APITestCase):
         self.assertEqual(response.status_code, 200)
 
     @mock.patch(
+        "central_database.patients.api.views.PatientsViewSet._get_fhir_client"  # noqa: E501
+    )
+    @mock.patch(
         "central_database.patients.api.views.PatientsViewSet.get_object"
     )  # noqa: E501
     @mock.patch.object(Patient, "update")
-    def test_it_updates_patient_partially(self, mock_update, mock_get_object):
+    def test_it_updates_patient_partially(
+        self, mock_update, mock_get_object, mock_get_fhir_client
+    ):
         test_patient = PatientFactory()
 
         mock_get_object.return_value = test_patient
+
+        mock_fhir_client = mock.MagicMock()
+        mock_get_fhir_client.return_value = mock_fhir_client
 
         payload = {"gender": "male"}
 
@@ -209,13 +252,21 @@ class TestPatientUpdateViewSet(APITestCase):
         self.assertEqual(response.data["gender"], "male")
 
     @mock.patch(
+        "central_database.patients.api.views.PatientsViewSet._get_fhir_client"  # noqa: E501
+    )
+    @mock.patch(
         "central_database.patients.api.views.PatientsViewSet.get_object"
     )  # noqa: E501
     @mock.patch.object(Patient, "update")
-    def test_update_coordinates(self, mock_update, mock_get_object):
+    def test_update_coordinates(
+        self, mock_update, mock_get_object, mock_get_fhir_client
+    ):
         test_patient = PatientFactory()
 
         mock_get_object.return_value = test_patient
+
+        mock_fhir_client = mock.MagicMock()
+        mock_get_fhir_client.return_value = mock_fhir_client
 
         payload = {"address": [{"id": 1, "latitude": 100, "longitude": 101}]}
 
