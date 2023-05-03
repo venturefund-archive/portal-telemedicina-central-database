@@ -20,7 +20,7 @@
 
             <div class="-ml-10 flex-shrink-0">
               <router-link to="/">
-                <LogoFull class="h-16" />
+                <img src="@/assets/portal_logo.png" alt="unicef logo" class="h-16" />
                 <span class="sr-only">Dashboard</span>
               </router-link>
             </div>
@@ -28,17 +28,19 @@
           </div>
           <main class="flex w-full flex-1 items-center sm:max-w-md">
             <div class="w-full overflow-hidden bg-white px-6 py-4 sm:rounded-lg">
+              <div class="flex justify-center py-5">
+              <LanguageSwitcher />
+              </div>
               <router-view></router-view>
-              <LanguageSwitcher class="pt-4" />
             </div>
           </main>
-
             <!-- <PageFooter /> -->
 
           <!-- <p class="mt-6 text-sm text-center text-gray-400">Ainda não esta cadastrado? <a href="#"
                               class="text-blue-500 focus:outline-none focus:underline hover:underline">Cadastrar</a>.
                       </p> -->
         </div>
+
     </div>
   </div>
 </template>

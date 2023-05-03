@@ -1,5 +1,5 @@
 <template>
-  <div :class="['rounded-md p-3 shadow-md', bgClasses]">
+  <div :class="['rounded-2xl py-5 px-8 shadow-md', bgClasses]">
     <!-- Card header -->
     <div class="" v-if="!noHeader">
       <slot name="header">

@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper :title="$t('patient-details.patient-details-title')">
+  <PageWrapper>
     <div v-if="patientsStore.item && props.id">
       <VaccinesList :id="id" />
     </div>

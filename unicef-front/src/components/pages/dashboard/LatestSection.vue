@@ -1,23 +1,25 @@
 <template>
-  <section class="grid grid-cols-1 gap-6  place-content-center pt-5 md:pt-0 lg:pt-0">
+  <section class="grid grid-cols-1 gap-6 place-content-center w-full pt-5 md:pt-0 lg:pt-0 mx-auto">
+    <p class="text-xl mt-5 font-semibold text-gray-700">{{ $t('dashboard.total-alerts-per-patient') }}</p>
     <div class="grid grid-cols-1 gap-6" v-if="paginated">
-      <BaseCard :title="$t('dashboard.total-alerts-per-patient')" :actions="[{ title: 'View', to: '#' }]" @update:query="patientQuery = $event">
+      <BaseCard class=" bg-[#F2F2F2] rounded-xl" @update:query="patientQuery = $event">
 
-        <div class="mt-4 flex items-center justify-between" v-for="(patient, index) in paginated" :key="index">
+        <div class="mt-5 flex items-center justify-between hover:bg-gray-100 hover:rounded px-2 py-1" v-for="(patient, index) in paginated" :key="index">
           <div class="flex items-center gap-2 flex-auto">
             <span class="hidden text-xs text-gray-500 align-baseline">{{ indexStart + ++index }}.</span>
             <img class="h-10 w-10 p-1 rounded-md object-cover rounded-full bg-neutral-200" src="/avatar.png" />
             <div>
-              <h5 class="text-sm text-gray-600 dark:text-gray-300 font-medium capitalize">
+              <h5 class=" font-medium capitalize">
                 <router-link :to="{ name: 'PatientDetails', params: { id: patient.id } }" class="hover:underline">{{
                   patient.name.join().toLowerCase() }}</router-link>
               </h5>
             </div>
+            <hr class="text-white divide-dotted border"/>
           </div>
-          <span class="flex-none pr-14">{{ patient.number_of_alerts_by_protocol }}</span>
+          <span class="flex-none pr-14 font-normal text-neutral-500 ">{{ patient.number_of_alerts_by_protocol }}</span>
         </div>
 
-        <div class="flex justify-between pt-3 pb-2">
+        <div class="flex justify-between pt-3 pb-2 pt-16">
           <div>
             <Button :disabled="isFirstPage" size="sm" iconOnly variant="secondary" v-slot="{ iconSizeClasses }"
               @click="prev">

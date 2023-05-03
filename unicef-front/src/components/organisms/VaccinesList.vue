@@ -7,8 +7,8 @@
     </svg>
   </div>
   <div class="flex flex-col" v-else>
-    <div class="flex flex-col sm:flex-row justify-between px-2">
-      <ProfileCard :id="id" class="sm:w-2/3 md:w-fu" />
+    <div class="flex flex-col sm:flex-row justify-between px-2 pt-10">
+      <ProfileCard :id="id" class="sm:w-2/3 md:w-full" />
       <div class="flex pl-2 justify-end">
         <div class="flex place-items-end pt-5 md:mt-0">
           <div class="flex flex-col items-end md:flex-row md:items-center rounded-md bg-neutral-200 px-3 py-2 text-neutral-500">
@@ -25,7 +25,7 @@
           <thead class="bg-neutral-200 text-white">
             <tr>
               <th scope="col" colspan="2" class="bg-blue-200 px-6 py-4 text-center text-gray-900 uppercase w-80">{{ $t('patient-details.vaccines') }}</th>
-              <th scope="col" colspan="9" class="bg-blue-300 px-6 py-4 text-center">
+              <th scope="col" colspan="10" class="bg-blue-300 px-6 py-4 text-center">
                 <span class="rounded-t-xl border border-transparent bg-neutral-500 p-2 font-semibold text-white"
                   >{{ $t('patient-details.months') }}</span
                 >
@@ -60,94 +60,101 @@
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[0]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 0 && ageInMonths < 2 }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
-                0{{ $t('patient-details.to') }}2
+                0
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[1]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 2 && ageInMonths < 3}"
+                class="px-6 py-4 text-gray-900 whitespace-nowrap"
+              >
+                2
+              </th>
+              <th
+                scope="col"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 3 && ageInMonths < 4}"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 3
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[2]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 4 && ageInMonths < 5}"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 4
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[3]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 5 && ageInMonths < 6}"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 5
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[4]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 6 && ageInMonths < 7}"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 6
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[5]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 7 && ageInMonths < 9}"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
-                7{{ $t('patient-details.to') }}11
+                7
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[6]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 9 && ageInMonths < 12}"
+                class="px-6 py-4 text-gray-900 whitespace-nowrap"
+              >
+                9
+              </th>
+              <th
+                scope="col"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 12 && ageInMonths < 15}"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 12
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[7]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 15 && ageInMonths < 48}"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
                 15
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[8]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 48 && ageInMonths < 60 }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
-                18
+                4
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[9]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 60 && ageInMonths < 108 }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
-                1{{ $t('patient-details.to') }}5
+                5
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[10]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 108 && ageInMonths < 168 }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
-                5{{ $t('patient-details.to') }}10
+                9
               </th>
               <th
                 scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[11]) }"
+                :class="{ 'border-x-2 border-sky-500': ageInMonths >= 168 && ageInMonths < 200 }"
                 class="px-6 py-4 text-gray-900 whitespace-nowrap"
               >
-                10{{ $t('patient-details.to') }}12
-              </th>
-              <th
-                scope="col"
-                :class="{ 'border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[12]) }"
-                class="px-6 py-4 text-gray-900 whitespace-nowrap"
-              >
-                12{{ $t('patient-details.to') }}15
+                14
               </th>
             </tr>
           </thead>
@@ -159,13 +166,12 @@
 
               <td
                 :class="{
-                  'col-birth box-border border-x-2 border-sky-500': isWithinInterval(new Date(), ranges[rangeIndex]),
+                  'col-birth box-border border-x-2 border-sky-500': ageInMonths >= monthRanges[rangeIndex].start && ageInMonths < monthRanges[rangeIndex].end,
                 }"
                 class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"
                 v-for="(range, rangeIndex) in ranges"
                 :key="rangeIndex"
               >
-
                 <div v-for="(dose, dk) in filteredDosesByVaccine(vaccine)" :key="dk" class="text-center">
 
 
@@ -242,7 +248,7 @@ import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
 import { computed } from 'vue'
-import { formatDistance, format, parseISO, formatISO9075, add, isWithinInterval, differenceInMonths, differenceInDays, subDays, setDefaultOptions } from 'date-fns'
+import { formatDistance, format, parseISO, formatISO9075, add, isWithinInterval, startOfMonth, differenceInMonths, differenceInDays, subDays, setDefaultOptions } from 'date-fns'
 import { usePatientsStore } from '@/stores/patients'
 import { useDosesStore } from '@/stores/doses'
 import { useVaccinesStore } from '@/stores/vaccines'
@@ -257,6 +263,7 @@ const router = useRouter()
 
 const birthDate = computed(() => parseISO(patientsStore.item.birth_date))
 //const birthDateInMonthsFromNow = computed(() => differenceInMonths(birthDate, new Date()) )
+const ageInMonths = computed(() => differenceInMonths(new Date(), birthDate.value))
 
 const vaccineQuery = ref('')
 
@@ -295,23 +302,46 @@ const filteredDosesByVaccine = computed(() => {
 
 const key = ref(0)
 
-const ranges = computed(() => [
-  { start: birthDate.value, end: add(birthDate.value, { months: 2 }) }, //ao nascer
-  { start: add(birthDate.value, { months: 2, seconds: 1 }), end: add(birthDate.value, { months: 3 }) },
-  { start: add(birthDate.value, { months: 3, seconds: 1 }), end: add(birthDate.value, { months: 4 }) },
-  { start: add(birthDate.value, { months: 4, seconds: 1 }), end: add(birthDate.value, { months: 5 }) },
-  { start: add(birthDate.value, { months: 5, seconds: 1 }), end: add(birthDate.value, { months: 6 }) },
+const monthRanges = computed(() => [
+  { start: 0, end: 2 },
+  { start: 2, end: 3 },
+  { start: 3, end: 4 },
+  { start: 4, end: 5 },
 
-  { start: add(birthDate.value, { months: 6, seconds: 1 }), end: add(birthDate.value, { months: 11 }) },
-  { start: add(birthDate.value, { months: 11, seconds: 1 }), end: add(birthDate.value, { months: 12 }) },
+  { start: 5, end: 6 },
+  { start: 6, end: 7 },
+  { start: 7, end: 9 },
+
+  { start: 9, end: 12 },
+
+  { start: 12, end: 15},
+
+  { start: 15, end: 48 },
+  { start: 48, end: 60 },
+  { start: 60, end: 108 },
+  { start: 108, end: 168 },
+  { start: 168, end: 200 },
+])
+
+const ranges = computed(() => [
+  { start: birthDate.value, end: add(birthDate.value, { months: 0 }) }, //ao nascer
+  { start: add(birthDate.value, { months: 0, seconds: 1 }), end: add(birthDate.value, { months: 2  }) },
+  { start: add(birthDate.value, { months: 2, seconds: 1 }), end: add(birthDate.value, { months: 3 }) },
+  { start: add(birthDate.value, { months: 3, seconds: 1 }), end: add(birthDate.value, { months: 4}) },
+  { start: add(birthDate.value, { months: 4, seconds: 1 }), end: add(birthDate.value, { months: 5 }) },
+
+  { start: add(birthDate.value, { months: 5, seconds: 1 }), end: add(birthDate.value, { months: 6 }) },
+  { start: add(birthDate.value, { months: 6, seconds: 1 }), end: add(birthDate.value, { months: 7 }) },
+  { start: add(birthDate.value, { months: 7, seconds: 1 }), end: add(birthDate.value, { months: 9 }) },
+
+  { start: add(birthDate.value, { months: 9, seconds: 1 }), end: add(birthDate.value, { months: 12 }) },
+
   { start: add(birthDate.value, { months: 12, seconds: 1 }), end: add(birthDate.value, { months: 15 }) },
 
-  { start: add(birthDate.value, { months: 15, seconds: 1 }), end: add(birthDate.value, { months: 18 }) },
-
-  { start: add(birthDate.value, { months: 18, seconds: 1 }), end: add(birthDate.value, { years: 6 }) },
-  { start: add(birthDate.value, { years: 6, seconds: 1 }), end: add(birthDate.value, { years: 10 }) },
-  { start: add(birthDate.value, { years: 10, seconds: 1 }), end: add(birthDate.value, { years: 12 }) },
-  { start: add(birthDate.value, { years: 12, seconds: 1 }), end: add(birthDate.value, { years: 15 }) },
+  { start: add(birthDate.value, { months: 15, seconds: 1 }), end: add(birthDate.value, { months: 48 }) },
+  { start: add(birthDate.value, { months: 48, seconds: 1 }), end: add(birthDate.value, { months: 60 }) },
+  { start: add(birthDate.value, { months: 60, seconds: 1 }), end: add(birthDate.value, { months: 108 }) },
+  { start: add(birthDate.value, { months: 108, seconds: 1 }), end: add(birthDate.value, { months: 168 }) },
 ])
 
 const addDose = () => {

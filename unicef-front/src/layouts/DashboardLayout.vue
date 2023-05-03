@@ -1,17 +1,21 @@
 <template>
-  <div class="min-h-screen bg-gray-100 text-gray-900">
+  <div class="min-h-screen bg-white text-gray-900">
+    <div class="hidden sm:block">
     <Sidebar />
+    </div>
+
 
     <div
       style="transition-property: margin; transition-duration: 150ms"
       :class="[
         'flex min-h-screen flex-col',
         {
-          'lg:ml-64': sidebarState.isOpen,
+          'lg:ml-28': sidebarState.isOpen,
           'md:ml-16': !sidebarState.isOpen,
         },
       ]"
     >
+
       <Navbar />
 
       <router-view v-slot="{ Component, route }">
