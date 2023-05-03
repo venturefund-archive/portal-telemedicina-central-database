@@ -69,10 +69,14 @@
         </div>
 
         <div class="px-2 py-5">
-          <Button type="submit" variant="danger" @click="state.polygons = []; state.polygonNames = []; state.markers = null; polygonNames = []; polygons = []; markers = null">
+          <!-- <Button
+            type="submit"
+            variant="danger"
+            @click="state.polygons = []; state.polygonNames = []; state.markers = null; polygonNames = []; polygons = []; markers = null;"
+          >
             <SaveIcon class="h-5 w-5" />
             <span class="text-sm">Apagar todos poligonos</span>
-          </Button>
+          </Button> -->
           <Button type="submit" variant="success-outline" @click="savePolygons">
             <SaveIcon class="h-5 w-5" />
             <span class="text-sm">{{ $t('manager.save') }}</span>
@@ -90,7 +94,8 @@
           :libraries="['drawing']"
           ref="mapRef"
         >
-          <template #default="{ ready, api, map, mapTilesLoaded }"><p v-if="!mapTilesLoaded">Loading</p>
+          <template #default="{ ready, api, map, mapTilesLoaded }"
+            ><p v-if="!mapTilesLoaded">Loading</p>
             <!-- First pattern: Here you have access to the API and map instance.
           "ready" is a boolean that indicates when the Google Maps script
           has been loaded and the api and map instance are ready to be used -->
@@ -113,9 +118,14 @@
                 ref="infoWindow"
                 :options="{
                   position: calculatePolygonCenter(polygon.getPath()),
-                }">
-                <MapInfoWindow @delete="deletePolygon(polygonIndex)" :polygonIndex="polygonIndex" @saved="updateLabel" />
-                </InfoWindow>
+                }"
+              >
+                <MapInfoWindow
+                  @delete="deletePolygon(polygonIndex)"
+                  :polygonIndex="polygonIndex"
+                  @saved="updateLabel"
+                />
+              </InfoWindow>
             </div>
             <MarkerCluster>
               <div v-for="(location, i) in state.markers" :key="i">
@@ -361,7 +371,6 @@ const handleClickOutside = (event) => {
   }
 }
 
-
 function onItemClick(item) {
   selectedItem.value = item
   console.log(`Item clicado: ${item}`)
@@ -462,12 +471,11 @@ const getCenterOfPolygon = computed(() => (index) => {
 
   // return bounds.getCenter()
 
-
-  const polygon = this.$refs.itemRefs[index];
-  const bounds = polygon.getBounds();
-  const center = bounds.getCenter();
-  const infoWindow = this.$refs.infoWindow;
-  infoWindow.setPosition(center);
+  const polygon = this.$refs.itemRefs[index]
+  const bounds = polygon.getBounds()
+  const center = bounds.getCenter()
+  const infoWindow = this.$refs.infoWindow
+  infoWindow.setPosition(center)
 })
 
 function serializeOne(polygon) {
@@ -507,11 +515,10 @@ const infoWindowsOpened = ref([])
 
 const polygonLabels = ref([])
 
-const updateLabel = ({polygonName, polygonIndex }) => {
+const updateLabel = ({ polygonName, polygonIndex }) => {
   polygonLabels.value[polygonIndex].setLabel(polygonName)
   currentInfoWindowIndex.value = null
 }
-
 
 const state = useStorage('app-store', { polygons: [], polygonNames: [], markers: [] })
 state.value.polygonNames = state.value.polygonNames || []
@@ -586,7 +593,6 @@ watch(
       // Verifica se o clique ocorreu dentro de algum polígono
       polygons.value.forEach((polygon, polygonIndex) => {
         if (google.maps.geometry.poly.containsLocation(event.latLng, polygon)) {
-
           showInfoWindow(polygonIndex)
         }
       })
@@ -596,20 +602,20 @@ watch(
     // loadPolygons()
     state.value.polygons.forEach(function (polygonCoordinates, index) {
       const polygon = new google.maps.Polygon({
-         paths: polygonCoordinates,
-         fillColor: '#FFA901',
-         strokeColor: '#4FA9DD',
-         fillOpacity: 0.5,
-         strokeWeight: 1,
-         clickable: false,
-         editable: true,
-         zIndex: 1,
+        paths: polygonCoordinates,
+        fillColor: '#FFA901',
+        strokeColor: '#4FA9DD',
+        fillOpacity: 0.5,
+        strokeWeight: 1,
+        clickable: false,
+        editable: true,
+        zIndex: 1,
       })
 
-      polygon.getPath().forEach(function(latLng, index) {
+      polygon.getPath().forEach(function (latLng, index) {
         const polygonIndex = polygons.value.length
         const vertices = polygon.getPath()
-        google.maps.event.addListener(vertices, 'set_at', function(event) {
+        google.maps.event.addListener(vertices, 'set_at', function (event) {
           // console.log('A vértice ' + index + ' do polígono foi movida pa
           const polygonCoordinates = []
           vertices.forEach(function (vertex) {
@@ -622,10 +628,8 @@ watch(
           polygonCoordinates.forEach(function (p, k) {
             state.value.polygons[polygonIndex][k] = { ...p, ...state.value.polygons[polygonIndex][k].alert }
           })
-
-
-        });
-      });
+        })
+      })
 
       polygons.value.push(polygon)
 
@@ -635,7 +639,8 @@ watch(
 
       let center = bounds.getCenter()
       // polygon name text label
-      polygonLabels.value.push(new google.maps.Marker({
+      polygonLabels.value.push(
+        new google.maps.Marker({
           position: center,
           label: {
             text: `${state.value.polygonNames[index]}`,
@@ -654,7 +659,6 @@ watch(
         })
       )
     })
-
   }
 )
 
@@ -699,7 +703,7 @@ function handleMarkerDrag(event, index) {
   const coords = {
     lat: event.latLng.lat(),
     lng: event.latLng.lng(),
-    alert: state.value.markers[index].alert || false
+    alert: state.value.markers[index].alert || false,
   }
 
   // polygonCoordinates.forEach(function (p, k) {
@@ -734,7 +738,9 @@ const userLocation = computed(() => ({
 const dddd = computed(() => (polygonIndex) => {
   console.log('asd dddd')
 })
-const ddd = () => { console.log('asd ddd') }
+const ddd = () => {
+  console.log('asd ddd')
+}
 </script>
 
 <style type="text/css">
