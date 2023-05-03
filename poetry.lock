@@ -673,18 +673,6 @@ python-versions = ">=3.6"
 python-dateutil = ">=2.4"
 
 [[package]]
-name = "fhirclient"
-version = "4.1.0"
-description = "A flexible client for FHIR servers supporting the SMART on FHIR protocol"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-isodate = "*"
-requests = "*"
-
-[[package]]
 name = "filelock"
 version = "3.8.0"
 description = "A platform independent file lock."
@@ -905,17 +893,6 @@ parallel = ["ipyparallel"]
 qtconsole = ["qtconsole"]
 test = ["pytest (<7.1)", "pytest-asyncio", "testpath"]
 test_extra = ["pytest (<7.1)", "pytest-asyncio", "testpath", "curio", "matplotlib (!=3.2.0)", "nbformat", "numpy (>=1.19)", "pandas", "trio"]
-
-[[package]]
-name = "isodate"
-version = "0.6.1"
-description = "An ISO 8601 date/time/duration parser and formatter"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-six = "*"
 
 [[package]]
 name = "isort"
@@ -2101,7 +2078,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "f3c8733e1cb658b33baa530b50a268c1f225bd26bb8205cea18722cbd4ba5576"
+content-hash = "fe93daefa7e0ed23cfbe06ed4581cf4ec4c8a5f8542bbb42cc81a54a8bf15c39"
 
 [metadata.files]
 alabaster = [
@@ -2482,10 +2459,6 @@ faker = [
     {file = "Faker-13.15.1-py3-none-any.whl", hash = "sha256:172e45220b7a46743f4fb58cf380adb306d5c3ab1c0b0d97062508474cec5ff8"},
     {file = "Faker-13.15.1.tar.gz", hash = "sha256:7c3f8ee807d3916415568169a172bf0893ea9cc3371ab55e4e5f5170d2185bea"},
 ]
-fhirclient = [
-    {file = "fhirclient-4.1.0-py2.py3-none-any.whl", hash = "sha256:4f64f7967c9fe5f74cce068f29b0e5e4485848a73ec327765a8f3c188b9948a4"},
-    {file = "fhirclient-4.1.0.tar.gz", hash = "sha256:fe9c92b3649a4d2829d91c40cd7765c6f729971d12d1dec39a7ee6e81f83384c"},
-]
 filelock = [
     {file = "filelock-3.8.0-py3-none-any.whl", hash = "sha256:617eb4e5eedc82fc5f47b6d61e4d11cb837c56cb4544e39081099fa17ad109d4"},
     {file = "filelock-3.8.0.tar.gz", hash = "sha256:55447caa666f2198c5b6b13a26d2084d26fa5b115c00d065664b2124680c4edc"},
@@ -2623,10 +2596,6 @@ ipdb = [
 ipython = [
     {file = "ipython-8.4.0-py3-none-any.whl", hash = "sha256:7ca74052a38fa25fe9bedf52da0be7d3fdd2fb027c3b778ea78dfe8c212937d1"},
     {file = "ipython-8.4.0.tar.gz", hash = "sha256:f2db3a10254241d9b447232cec8b424847f338d9d36f9a577a6192c332a46abd"},
-]
-isodate = [
-    {file = "isodate-0.6.1-py2.py3-none-any.whl", hash = "sha256:0751eece944162659049d35f4f549ed815792b38793f07cf73381c1c87cbed96"},
-    {file = "isodate-0.6.1.tar.gz", hash = "sha256:48c5881de7e8b0a0d648cb024c8062dc84e7b840ed81e864c7614fd3c127bde9"},
 ]
 isort = [
     {file = "isort-5.10.1-py3-none-any.whl", hash = "sha256:6f62d78e2f89b4500b080fe3a81690850cd254227f27f75c3a0c491a1f351ba7"},

@@ -8,4 +8,4 @@ def does_user_has_client_assigned(user):
     return False
 
 
-# rules.add_rule("can_view_patient", does_user_has_client_assigned)
+rules.add_rule("can_view_patient", does_user_has_client_assigned)

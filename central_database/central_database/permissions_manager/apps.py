@@ -25,7 +25,5 @@ def create_healthcare_manager_role(sender, **kwargs):
             "view_client",
             "add_client",
             "delete_client",
-            "view_patient",
-            "change_patient",
         ],  # noqa: E501
     )
