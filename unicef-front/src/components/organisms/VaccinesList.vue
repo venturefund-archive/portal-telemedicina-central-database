@@ -39,26 +39,12 @@
       <div class="py-2">
         <div class="overflow-auto px-2 pt-2 pb-52">
           <table
-            class="w-full table-auto rounded-full text-left tracking-wider shadow md:table-fixed lg:table-fixed"
+            class="w-full table-auto text-left tracking-wider shadow md:table-fixed lg:table-fixed"
           >
-            <thead class= " bg-neutral-200 text-white">
+            <thead class="text-gray-900">
               <tr>
-                <th scope="col" colspan="2" class="w-80 bg-blue-200 px-6 py-4 text-center uppercase text-gray-900">
-                  {{ $t('patient-details.vaccines') }}
-                </th>
-                <th scope="col" colspan="10" class="bg-blue-300 px-6 py-4 text-center">
-                  <span class="rounded-t-xl border border-transparent bg-neutral-500 p-2 font-semibold text-white">{{
-                    $t('patient-details.months')
-                  }}</span>
-                </th>
-                <th scope="col" colspan="4" class="bg-blue-400 px-6 py-4 text-center text-gray-900">
-                  <span class="rounded-t-xl border border-transparent bg-neutral-500 p-2 font-semibold text-white">{{
-                    $t('patient-details.years')
-                  }}</span>
-                </th>
-              </tr>
-              <tr class="text-center">
-                <th scope="col" colspan="2" class="whitespace-nowrap px-2.5 pt-2 font-normal text-gray-900">
+                <th scope="col" colspan="2" class="w-80 bg-white px-6 text-center uppercase">
+
                   <InputIconWrapper>
                     <template #icon>
                       <SearchIcon aria-hidden="true" class="h-5 w-5" />
@@ -70,7 +56,7 @@
                       class="w-full rounded-md bg-gray-50 shadow focus:shadow-none"
                     />
                   </InputIconWrapper>
-                  <div class="py-0.6 py-3 text-center text-sm font-normal text-neutral-500">
+                  <div class="py-1 text-center text-sm font-normal text-neutral-500">
                     {{ $t('patient-details.total-of') }}
                     <span class="lowercase">
                       <span v-if="filteredVaccines.length == 1"
@@ -89,118 +75,135 @@
                     </span>
                   </div>
                 </th>
+                <th scope="col" colspan="10" class="bg-white px-6 pb-1 pt-4 text-center">
+                  <span class="rounded-t-full pt-3 border border-transparent bg-neutral-200 p-2 font-semibold">{{
+                    $t('patient-details.months')
+                  }}</span>
+                </th>
+                <th scope="col" colspan="4" class="bg-white px-6 pb-1 pt-4 text-center">
+                  <span class="rounded-t-full pt-3 border border-transparent bg-neutral-200 p-2 font-semibold">{{
+                    $t('patient-details.years')
+                  }}</span>
+                </th>
+              </tr>
+              <tr class="text-center divide-x-4 divide-white border-b-2 border-white">
+                <th scope="col" colspan="2" class="whitespace-nowrap px-2.5 pt-2 font-normal text-gray-900">
+                  {{ $t('patient-details.vaccines') }}
+                </th>
                 <th
                   scope="col"
-                  :class="{ 'border-x-2 border-sky-500': ageInMonths >= 0 && ageInMonths < 2 }"
-                  class="whitespace-nowrap px-6 py-4 text-gray-900"
+                  :class="{ 'border-x-2 border-t-2 border-sky-500': ageInMonths >= 0 && ageInMonths < 2 }"
+                  class="bg-neutral-100 rounded-l-3xl whitespace-nowrap px-6 py-4 text-gray-900"
                 >
                   0
                 </th>
                 <th
                   scope="col"
-                  :class="{ 'border-x-2 border-sky-500': ageInMonths >= 2 && ageInMonths < 3 }"
-                  class="whitespace-nowrap px-6 py-4 text-gray-900"
+                  :class="{ 'border-x-2 border-t-2 border-sky-500': ageInMonths >= 2 && ageInMonths < 3 }"
+                  class="bg-neutral-200 whitespace-nowrap px-6 py-4 text-gray-900"
                 >
                   2
                 </th>
                 <th
                   scope="col"
-                  :class="{ 'border-x-2 border-sky-500': ageInMonths >= 3 && ageInMonths < 4 }"
-                  class="whitespace-nowrap px-6 py-4 text-gray-900"
+                  :class="{ 'border-x-2 border-t-2 border-sky-500': ageInMonths >= 3 && ageInMonths < 4 }"
+                  class="bg-neutral-200 whitespace-nowrap px-6 py-4 text-gray-900"
                 >
                   3
                 </th>
                 <th
                   scope="col"
-                  :class="{ 'border-x-2 border-sky-500': ageInMonths >= 4 && ageInMonths < 5 }"
-                  class="whitespace-nowrap px-6 py-4 text-gray-900"
+                  :class="{ 'border-x-2 border-t-2 border-sky-500': ageInMonths >= 4 && ageInMonths < 5 }"
+                  class="bg-neutral-200 whitespace-nowrap px-6 py-4 text-gray-900"
                 >
                   4
                 </th>
                 <th
                   scope="col"
-                  :class="{ 'border-x-2 border-sky-500': ageInMonths >= 5 && ageInMonths < 6 }"
-                  class="whitespace-nowrap px-6 py-4 text-gray-900"
+                  :class="{ 'border-x-2 border-t-2 border-sky-500': ageInMonths >= 5 && ageInMonths < 6 }"
+                  class="bg-neutral-200 whitespace-nowrap px-6 py-4 text-gray-900"
                 >
                   5
                 </th>
                 <th
                   scope="col"
-                  :class="{ 'border-x-2 border-sky-500': ageInMonths >= 6 && ageInMonths < 7 }"
-                  class="whitespace-nowrap px-6 py-4 text-gray-900"
+                  :class="{ 'border-x-2 border-t-2 border-sky-500': ageInMonths >= 6 && ageInMonths < 7 }"
+                  class="bg-neutral-200 whitespace-nowrap px-6 py-4 text-gray-900"
                 >
                   6
                 </th>
                 <th
                   scope="col"
-                  :class="{ 'border-x-2 border-sky-500': ageInMonths >= 7 && ageInMonths < 9 }"
-                  class="whitespace-nowrap px-6 py-4 text-gray-900"
+                  :class="{ 'border-x-2 border-t-2 border-sky-500': ageInMonths >= 7 && ageInMonths < 9 }"
+                  class="bg-neutral-200 whitespace-nowrap px-6 py-4 text-gray-900"
                 >
                   7
                 </th>
                 <th
                   scope="col"
-                  :class="{ 'border-x-2 border-sky-500': ageInMonths >= 9 && ageInMonths < 12 }"
-                  class="whitespace-nowrap px-6 py-4 text-gray-900"
+                  :class="{ 'border-x-2 border-t-2 border-sky-500': ageInMonths >= 9 && ageInMonths < 12 }"
+                  class="bg-neutral-200 whitespace-nowrap px-6 py-4 text-gray-900"
                 >
                   9
                 </th>
                 <th
                   scope="col"
-                  :class="{ 'border-x-2 border-sky-500': ageInMonths >= 12 && ageInMonths < 15 }"
-                  class="whitespace-nowrap px-6 py-4 text-gray-900"
+                  :class="{ 'border-x-2 border-t-2 border-sky-500': ageInMonths >= 12 && ageInMonths < 15 }"
+                  class="bg-neutral-200 whitespace-nowrap px-6 py-4 text-gray-900"
                 >
                   12
                 </th>
                 <th
                   scope="col"
-                  :class="{ 'border-x-2 border-sky-500': ageInMonths >= 15 && ageInMonths < 48 }"
-                  class="whitespace-nowrap px-6 py-4 text-gray-900"
+                  :class="{ 'border-x-2 border-t-2 border-sky-500': ageInMonths >= 15 && ageInMonths < 48 }"
+                  class="bg-neutral-200 whitespace-nowrap px-6 py-4 text-gray-900"
                 >
                   15
                 </th>
                 <th
                   scope="col"
-                  :class="{ 'border-x-2 border-sky-500': ageInMonths >= 48 && ageInMonths < 60 }"
-                  class="whitespace-nowrap px-6 py-4 text-gray-900"
+                  :class="{ 'border-x-2 border-t-2 border-sky-500': ageInMonths >= 48 && ageInMonths < 60 }"
+                  class="bg-neutral-200 whitespace-nowrap px-6 py-4 text-gray-900"
                 >
                   4
                 </th>
                 <th
                   scope="col"
-                  :class="{ 'border-x-2 border-sky-500': ageInMonths >= 60 && ageInMonths < 108 }"
-                  class="whitespace-nowrap px-6 py-4 text-gray-900"
+                  :class="{ 'border-x-2 border-t-2 border-sky-500': ageInMonths >= 60 && ageInMonths < 108 }"
+                  class="bg-neutral-200 whitespace-nowrap px-6 py-4 text-gray-900"
                 >
                   5
                 </th>
                 <th
                   scope="col"
-                  :class="{ 'border-x-2 border-sky-500': ageInMonths >= 108 && ageInMonths < 168 }"
-                  class="whitespace-nowrap px-6 py-4 text-gray-900"
+                  :class="{ 'border-x-2 border-t-2 border-sky-500': ageInMonths >= 108 && ageInMonths < 168 }"
+                  class="bg-neutral-200 whitespace-nowrap px-6 py-4 text-gray-900"
                 >
                   9
                 </th>
                 <th
                   scope="col"
-                  :class="{ 'border-x-2 border-sky-500': ageInMonths >= 168 && ageInMonths < 200 }"
-                  class="whitespace-nowrap px-6 py-4 text-gray-900"
+                  :class="{ 'border-x-2 border-t-2 border-sky-500': ageInMonths >= 168 && ageInMonths < 200 }"
+                  class="bg-neutral-200 rounded-r-full whitespace-nowrap px-6 py-4 text-gray-900"
                 >
                   14
                 </th>
               </tr>
             </thead>
             <tbody class="divide-y-4 divide-white">
-              <tr class="bg-neutral-200 hover:bg-white" v-for="(vaccine, k) in orderedVaccinesByDoseAlerts" :key="k">
-                <td colspan="2" class="px-6 py-4 font-medium rounded-l-full text-gray-900">
+              <tr class="bg-neutral-200 hover:bg-white divide-x-4 divide-white " v-for="(vaccine, k) in orderedVaccinesByDoseAlerts" :key="k">
+                <td colspan="2" class="bg-neutral-50 px-6 py-4 font-medium rounded-l-full text-gray-900">
                   <span class="">{{ vaccine.display }}</span> <span class="">{{ vaccine.description }}</span>
                 </td>
 
                 <td
                   :class="{
                     'col-birth box-border border-x-2 border-sky-500':
-                      ageInMonths >= monthRanges[rangeIndex].start && ageInMonths < monthRanges[rangeIndex].end,
+                      ageInMonthss >= monthRanges[rangeIndex].start && ageInMonths < monthRanges[rangeIndex].end,
+                      'rounded-r-full': rangeIndex == monthRanges.length -1,
+                      'bg-neutral-100': rangeIndex == 0
                   }"
-                  class="whitespace-nowrap px-6 py-4 text-sm font-light text-gray-900"
+                  class="whitespace-nowrap px-6 py-2 text-sm font-light text-gray-900"
                   v-for="(range, rangeIndex) in ranges"
                   :key="rangeIndex"
                 >

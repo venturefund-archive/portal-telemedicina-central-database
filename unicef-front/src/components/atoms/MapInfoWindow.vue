@@ -44,7 +44,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['delete', 'saved'])
 
-const state = useStorage('app-store', { polygons: [], polygonNames: [] })
+const state = useStorage('app-store', { polygons: [], polygonNames: [], markers: [] })
 if (undefined == state.value.polygonNames) {
   state.value.polygonNames = []
 }

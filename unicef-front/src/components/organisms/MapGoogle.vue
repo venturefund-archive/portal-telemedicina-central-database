@@ -69,7 +69,7 @@
         </div>
 
         <div class="px-2 py-5">
-          <Button type="submit" variant="danger" @click="state.polygons = []; state.polygonNames = []; polygonNames = []; polygons = []">
+          <Button type="submit" variant="danger" @click="state.polygons = []; state.polygonNames = []; state.markers = null; polygonNames = []; polygons = []; markers = null">
             <SaveIcon class="h-5 w-5" />
             <span class="text-sm">Apagar todos poligonos</span>
           </Button>
@@ -118,9 +118,9 @@
                 </InfoWindow>
             </div>
             <MarkerCluster>
-              <div v-for="(location, i) in locations" :key="i">
+              <div v-for="(location, i) in state.markers" :key="i">
                 <Marker
-                  v-if="(onlyAlerts && location.alert == false) || !onlyAlerts"
+                  v-if="(onlyAlerts && location.alert == true) || !onlyAlerts"
                   :ref="
                     (el) => {
                       markers[i] = el
@@ -129,7 +129,7 @@
                   :options="{
                     position: location,
                     draggable: isDraggable(i),
-                    icon: location.alert ? customMarkerIcon : customMarkerIcon2,
+                    icon: location.alert ? markerIconAlert : markerIconNormal,
                   }"
                   @dragend="handleMarkerDrag($event, i)"
                 >
@@ -321,20 +321,21 @@ const drawingManager = ref(null)
 const movingIndex = ref(null)
 const center = ref({ lat: -22.74895, lng: -50.57253 })
 const showList = ref(false)
-const customMarkerIcon = ref({
-  url: 'marker1.png',
+const markerIconNormal = ref({
+  url: 'marker-normal.png',
   scaledSize: {
     width: 40,
     height: 50,
   },
 })
-const customMarkerIcon2 = ref({
-  url: 'marker2.png',
+const markerIconAlert = ref({
+  url: 'marker-alert.png',
   scaledSize: {
     width: 40,
     height: 50,
   },
 })
+
 const editForm = reactive({
   username: '',
   email: '',
@@ -360,14 +361,6 @@ const handleClickOutside = (event) => {
   }
 }
 
-onMounted(async () => {
-  await patientsStore.fetchPatients()
-  document.addEventListener('click', handleClickOutside)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
 
 function onItemClick(item) {
   selectedItem.value = item
@@ -393,36 +386,8 @@ const searchAddress = () => {
 
   geocodeAddress(geoCoder.value, map.value)
 }
-
 const query = ref('')
 center.value = { lat: -4.269812, lng: -41.789923 }
-
-const locations = reactive([
-  { lat: -4.27079, lng: -41.78667, alert: false },
-  { lat: -4.26778, lng: -41.78648, alert: false },
-  { lat: -4.281896, lng: -41.772761, alert: false },
-  { lat: -4.278861, lng: -41.794099, alert: false },
-  { lat: -4.277929, lng: -41.776558, alert: true },
-  { lat: -4.25565, lng: -41.805445, alert: true },
-  { lat: -4.279603, lng: -41.775932, alert: true },
-  { lat: -4.279603, lng: -41.775932, alert: true },
-  { lat: -4.285898, lng: -41.800961, alert: false },
-  { lat: -4.282285, lng: -41.772658, alert: false },
-  { lat: -4.26606, lng: -41.806942, alert: false },
-  { lat: -4.289922, lng: -41.807408, alert: true },
-  { lat: -4.281836, lng: -41.779707, alert: true },
-  { lat: -4.282848, lng: -41.774176, alert: true },
-  { lat: -4.273743, lng: -41.78129, alert: false },
-  { lat: -4.263637, lng: -41.797071, alert: true },
-  { lat: -4.276892, lng: -41.779148, alert: false },
-  { lat: -4.256098, lng: -41.773501, alert: false },
-  { lat: -4.25533, lng: -41.779087, alert: true },
-  { lat: -4.263637, lng: -41.795704, alert: true },
-])
-const markers = ref([])
-onBeforeUpdate(() => {
-  markers.value = []
-})
 
 function loadPolygons() {
   const state = useStorage('app-store', { polygons: [] })
@@ -524,7 +489,9 @@ function serialize() {
   return polygonCoordinates
 }
 
-const state = useStorage('app-store', { polygons: [], polygonNames: [] })
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
 
 function savePolygons() {
   const savedPolygons = []
@@ -538,16 +505,39 @@ function savePolygons() {
 const asd = ref([])
 const infoWindowsOpened = ref([])
 
-if (undefined == state.value.polygonNames) {
-  state.value.polygonNames = []
-}
-
 const polygonLabels = ref([])
 
 const updateLabel = ({polygonName, polygonIndex }) => {
   polygonLabels.value[polygonIndex].setLabel(polygonName)
   currentInfoWindowIndex.value = null
 }
+
+
+const state = useStorage('app-store', { polygons: [], polygonNames: [], markers: [] })
+state.value.polygonNames = state.value.polygonNames || []
+state.value.polygons = state.value.polygons || []
+state.value.markers = state.value.markers || [
+  { lat: -4.27079, lng: -41.78667, alert: false },
+  { lat: -4.26778, lng: -41.78648, alert: false },
+  { lat: -4.281896, lng: -41.772761, alert: false },
+  { lat: -4.278861, lng: -41.794099, alert: true },
+  { lat: -4.277929, lng: -41.776558, alert: true },
+  { lat: -4.25565, lng: -41.805445, alert: true },
+  { lat: -4.279603, lng: -41.775932, alert: true },
+  { lat: -4.279603, lng: -41.775932, alert: true },
+  { lat: -4.285898, lng: -41.800961, alert: true },
+  { lat: -4.282285, lng: -41.772658, alert: true },
+  { lat: -4.26606, lng: -41.806942, alert: true },
+  { lat: -4.289922, lng: -41.807408, alert: true },
+  { lat: -4.281836, lng: -41.779707, alert: true },
+  { lat: -4.282848, lng: -41.774176, alert: true },
+  { lat: -4.273743, lng: -41.78129, alert: true },
+  { lat: -4.263637, lng: -41.797071, alert: true },
+  { lat: -4.276892, lng: -41.779148, alert: true },
+  { lat: -4.256098, lng: -41.773501, alert: true },
+  { lat: -4.25533, lng: -41.779087, alert: true },
+  { lat: -4.263637, lng: -41.795704, alert: true },
+]
 
 // Third pattern: watch for "ready" then do something with the API or map instance
 watch(
@@ -614,7 +604,29 @@ watch(
          clickable: false,
          editable: true,
          zIndex: 1,
-       })
+      })
+
+      polygon.getPath().forEach(function(latLng, index) {
+        const polygonIndex = polygons.value.length
+        const vertices = polygon.getPath()
+        google.maps.event.addListener(vertices, 'set_at', function(event) {
+          // console.log('A vértice ' + index + ' do polígono foi movida pa
+          const polygonCoordinates = []
+          vertices.forEach(function (vertex) {
+            polygonCoordinates.push({
+              lat: vertex.lat(),
+              lng: vertex.lng(),
+            })
+          })
+          // state.value.polygons[polygonIndex] = polygonCoordinates
+          polygonCoordinates.forEach(function (p, k) {
+            state.value.polygons[polygonIndex][k] = { ...p, ...state.value.polygons[polygonIndex][k].alert }
+          })
+
+
+        });
+      });
+
       polygons.value.push(polygon)
 
       let bounds = new google.maps.LatLngBounds()
@@ -660,6 +672,16 @@ const geocodeAddress = (geoCoder, resultsMap) => {
   })
 }
 
+onMounted(async () => {
+  await patientsStore.fetchPatients()
+  document.addEventListener('click', handleClickOutside)
+})
+
+const markers = ref([])
+onBeforeUpdate(() => {
+  markers.value = []
+})
+
 const isDraggable = computed(() => (index) => index == movingIndex.value)
 const patients = computed(() => {
   if (onlyAlerts.value) {
@@ -673,12 +695,24 @@ function moveMarker(event, index) {
 }
 
 function handleMarkerDrag(event, index) {
-  console.log('dragend', event.latLng.lat(), event.latLng.lng())
-  //console.log(markers.value[index])
-  markers.value[index].setPosition({
+  // console.log('dragend', event.latLng.lat(), event.latLng.lng())
+  const coords = {
     lat: event.latLng.lat(),
     lng: event.latLng.lng(),
-  })
+    alert: state.value.markers[index].alert || false
+  }
+
+  // polygonCoordinates.forEach(function (p, k) {
+  //   state.value.polygons[polygonIndex][k] = p
+  // })
+  // state.value.polygons[polygonIndex].forEach(function (p, k) {
+  //   polygonCoordinates[k] = p
+  // })
+
+  // console.log(markers.value[index])
+  // console.log(coords)
+  markers.value[index] = coords
+  state.value.markers[index] = coords
 }
 
 function deletePolygon(polygonIndex) {
@@ -700,8 +734,7 @@ const userLocation = computed(() => ({
 const dddd = computed(() => (polygonIndex) => {
   console.log('asd dddd')
 })
-const ddd = ({polygonName, polygonIndex }) => { console.log('asd ddd')
-}
+const ddd = () => { console.log('asd ddd') }
 </script>
 
 <style type="text/css">
