@@ -42,12 +42,12 @@ class TestPatientViewSet(APITestCase):
     def test_it_requires_patient_view_permission(
         self, mock_get, mock_get_fhir_client
     ):  # noqa: E501
-        self.role.users.remove(self.user)
+        user_without_permission = UserFactory()
 
         mock_fhir_client = mock.MagicMock()
         mock_get_fhir_client.return_value = mock_fhir_client
 
-        self.client.force_authenticate(self.user)
+        self.client.force_authenticate(user_without_permission)
         response = self.client.get(reverse("api:patients-list"))
 
         self.assertEqual(response.status_code, 403)
@@ -154,7 +154,8 @@ class TestPatientUpdateViewSet(APITestCase):
     def test_it_requires_patient_change_permission(
         self, mock_get, mock_get_fhir_client
     ):
-        self.role.users.remove(self.user)
+        user_without_permission = UserFactory()
+
         patient = PatientFactory()
         mock_get.return_value = patient
 
@@ -162,7 +163,7 @@ class TestPatientUpdateViewSet(APITestCase):
         mock_get_fhir_client.return_value = mock_fhir_client
 
         payload = {"gender": "male"}
-        self.client.force_authenticate(self.user)
+        self.client.force_authenticate(user_without_permission)
         response = self.client.patch(
             reverse("api:patients-detail", kwargs={"pk": patient.id}),
             data=payload,
