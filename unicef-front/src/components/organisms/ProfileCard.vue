@@ -5,8 +5,8 @@
         <img src="/avatar.png" class="max-w-20 max-h-20 rounded-full bg-neutral-200 p-1" />
       </div>
 
-      <div class="col-span-5 ml-4 tracking-wide md:col-span-4">
-        <p class="pr-2 font-bold capitalize text-gray-600">{{ patientsStore.item.name.join().toLowerCase() }}</p>
+      <div class="col-span-5 ml-4 md:col-span-4 tracking-wide">
+        <p class="pr-2 font-bold capitalize text-gray-600">{{ patientsStore.item.name.toLowerCase() }}</p>
         <div class="text-gray-400">
           <p>
             {{ $t('patient-details.genre') }}

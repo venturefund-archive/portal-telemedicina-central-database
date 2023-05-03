@@ -17,7 +17,7 @@
           <div class="flex items-center gap-4 px-2 py-2">
             <img class="h-10 w-10 rounded-full bg-neutral-200 p-1" src="/avatar.png" />
             <span class="text-sm font-medium capitalize text-slate-900">{{
-              suggestion.name.join().toLowerCase()
+              suggestion.name.toLowerCase()
             }}</span>
           </div>
         </router-link>

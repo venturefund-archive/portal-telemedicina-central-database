@@ -14,8 +14,7 @@
             <div>
               <h5 class="font-medium capitalize">
                 <router-link :to="{ name: 'PatientDetails', params: { id: patient.id } }" class="hover:underline">{{
-                  patient.name.join().toLowerCase()
-                }}</router-link>
+                  patient.name.toLowerCase() }}</router-link>
               </h5>
             </div>
             <hr class="divide-dotted border text-white" />
@@ -86,7 +85,7 @@ const indexStart = computed(() => (current.value - 1) * pageSize.value)
 const indexEnd = computed(() => indexStart.value + pageSize.value)
 const filteredPatients = computed(() => {
   return patientsStore.items.filter((patient) => {
-    return patient.name.join().toLowerCase().includes(patientQuery.value.toLowerCase())
+    return patient.name.toLowerCase().includes(patientQuery.value.toLowerCase())
   })
 })
 const totalPages = computed(() => Math.ceil(filteredPatients.value.length / pageSize.value))
