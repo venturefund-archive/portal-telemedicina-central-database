@@ -1,4 +1,4 @@
-ARG PYTHON_VERSION=3.9-slim-bullseye
+ARG PYTHON_VERSION=3.10-slim-bullseye
 
 # define an alias for the specfic python version used in this file.
 FROM python:${PYTHON_VERSION} as python
@@ -9,7 +9,7 @@ ARG APP_HOME=/app
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV BUILD_ENV ${BUILD_ENVIRONMENT}
-ENV POETRY_VERSION=1.1.14
+ENV POETRY_VERSION=1.4.2
 
 # Install apt packages
 RUN apt-get update && apt-get install --no-install-recommends -y \
