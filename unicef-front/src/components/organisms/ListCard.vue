@@ -54,7 +54,7 @@
               <span class="hidden align-baseline text-xs text-gray-500">{{ indexStart + ++index }}.</span>
               <div>
                 <router-link :to="{ name: 'PatientDetails', params: { id: patient.id } }">
-                  <p class="text-lg font-semibold capitalize">{{ patient.name.join().toLowerCase() }}</p>
+                  <p class="text-lg font-semibold capitalize">{{ patient.name.toLowerCase() }}</p>
                 </router-link>
                 <span class="text-sm text-gray-500"> Street xxx, district xxx </span>
               </div>
@@ -143,7 +143,7 @@ const indexStart = computed(() => (current.value - 1) * pageSize.value)
 const indexEnd = computed(() => indexStart.value + pageSize.value)
 const filteredPatients = computed(() => {
   return patientsStore.items.filter((patient) => {
-    return patient.name.join().toLowerCase().includes(patientQuery.value.toLowerCase())
+    return patient.name.toLowerCase().includes(patientQuery.value.toLowerCase())
   })
 })
 const totalPages = computed(() => Math.ceil(filteredPatients.value.length / pageSize.value))
