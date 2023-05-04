@@ -1,0 +1,21 @@
+<template>
+  <PageWrapper>
+    <div class="pb-10">
+      <div class="flex flex-col items-baseline justify-center pt-10 md:flex-row">
+        <div class="md:flex-1">
+          <MapGoogle />
+        </div>
+        <div class="md:w-1/3">
+          <div class="m-3">
+            <ListCard />
+          </div>
+        </div>
+      </div>
+    </div>
+  </PageWrapper>
+</template>
+
+<script setup>
+import { onMounted } from 'vue'
+import MapGoogle from '@/components/organisms/MapGoogle.vue'
+</script>

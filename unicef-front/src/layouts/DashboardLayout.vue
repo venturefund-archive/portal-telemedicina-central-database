@@ -1,13 +1,15 @@
 <template>
-  <div class="min-h-screen bg-gray-100 text-gray-900">
-    <Sidebar />
+  <div class="min-h-screen bg-white text-gray-900">
+    <div class="hidden sm:block">
+      <Sidebar />
+    </div>
 
     <div
       style="transition-property: margin; transition-duration: 150ms"
       :class="[
         'flex min-h-screen flex-col',
         {
-          'lg:ml-64': sidebarState.isOpen,
+          'lg:ml-28': sidebarState.isOpen,
           'md:ml-16': !sidebarState.isOpen,
         },
       ]"
@@ -21,8 +23,6 @@
           </div>
         </transition>
       </router-view>
-
-
 
       <PageFooter />
     </div>
@@ -42,6 +42,4 @@ import { sidebarState } from '@/composables'
 .fade-leave-to {
   opacity: 0;
 }
-
-
 </style>

@@ -1,3 +1,4 @@
+lo
 <template>
   <transition
     enter-active-class="transition"
@@ -17,10 +18,9 @@
   <aside
     style="transition-property: width, transform; transition-duration: 150ms"
     :class="[
-      'dark:bg-dark-eval-1 fixed inset-y-0 z-20 flex flex-col space-y-6 bg-white py-4 shadow-lg',
+      'fixed inset-y-0 z-20 flex flex-col space-y-6 bg-blue-500 py-4 shadow-lg',
       {
-        'w-64 translate-x-0': sidebarState.isOpen || sidebarState.isHovered,
-        'w-64 -translate-x-full md:w-16 md:translate-x-0': !sidebarState.isOpen && !sidebarState.isHovered,
+        'w-28 translate-x-0': sidebarState.isOpen || sidebarState.isHovered,
       },
     ]"
     @mouseenter="sidebarState.handleHover(true)"

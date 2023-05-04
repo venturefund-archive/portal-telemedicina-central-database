@@ -1,9 +1,7 @@
 <template>
-  <PageWrapper title="Detalhes do patiente">
+  <PageWrapper>
     <div class="flex justify-center">
-      <span class="h-20 text-lg text-neutral-500"
-        >Nenhum paciente selecionado. Pesquise por um paciente (nome, documento etc).</span
-      >
+      <span class="h-20 p-20 text-lg text-neutral-500">{{ $t('patient-details.no-patient-selected-text') }}</span>
     </div>
   </PageWrapper>
 </template>

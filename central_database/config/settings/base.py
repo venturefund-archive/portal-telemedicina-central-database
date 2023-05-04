@@ -80,14 +80,15 @@ THIRD_PARTY_APPS = [
     "drf_spectacular",
     "simple_history",
     "rules.apps.AutodiscoverRulesConfig",
+    "django_filters",
 ]
 
 LOCAL_APPS = [
     "central_database.users",
+    "central_database.patients",
     "central_database.vaccines.apps.VaccinesConfig",
     "central_database.permissions_manager",
     "central_database.customers",
-    "central_database.patients",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

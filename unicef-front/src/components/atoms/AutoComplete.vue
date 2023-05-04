@@ -3,9 +3,9 @@
     <Input
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value); hideSuggestions = false"
-      placeholder="Pesquisar por pacientes, número de documento etc"
-      class="block w-full rounded-lg border border-transparent focus:shadow-none bg-gray-50 py-4.5 pl-10 text-gray-900 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 w-full"
-      />
+      :placeholder="$t('dashboard.pesquisar-por-pacientes-numero-de-documento-etc')"
+      class="py-4.5 block w-full rounded-lg border border-transparent bg-gray-50 pl-10 text-gray-900 focus:shadow-none focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+    />
 
     <ul class="absolute w-full rounded bg-white p-2" v-if="suggestions.length && !hideSuggestions">
       <li v-for="suggestion in filtedSuggestions" :key="suggestion.name" class="cursor-pointer hover:bg-neutral-100">
@@ -17,7 +17,7 @@
           <div class="flex items-center gap-4 px-2 py-2">
             <img class="h-10 w-10 rounded-full bg-neutral-200 p-1" src="/avatar.png" />
             <span class="text-sm font-medium capitalize text-slate-900">{{
-              suggestion.name.join().toLowerCase()
+              suggestion.name.toLowerCase()
             }}</span>
           </div>
         </router-link>
