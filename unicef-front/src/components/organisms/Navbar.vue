@@ -149,7 +149,7 @@ const filteredResults = computed(() => {
 
   return patientsStore.items.filter((patient) => {
     if (
-      (patient.name.join().toLowerCase().includes(queryText.value.toLowerCase()) ||
+      (patient.name.toLowerCase().includes(queryText.value.toLowerCase()) ||
         patient.id.toLowerCase().includes(queryText.value.toLowerCase())) &&
       matches < 10
     ) {

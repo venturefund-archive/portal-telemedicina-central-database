@@ -239,7 +239,7 @@
                                 :to="{ name: 'PatientDetails', params: { id: patientsStore.items[i].id } }"
                               >
                                 <p class="py-3 text-xl font-semibold capitalize tracking-wider">
-                                  {{ patientsStore.items[i] && patientsStore.items[i].name.join().toLowerCase() }}
+                                  {{ patientsStore.items[i] && patientsStore.items[i].name.toLowerCase() }}
                                 </p>
                               </router-link>
                               <hr class="border-1 border border-dashed border-gray-300" />
