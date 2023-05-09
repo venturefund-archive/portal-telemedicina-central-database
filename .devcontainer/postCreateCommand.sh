@@ -1,6 +1,6 @@
 # Install local dependencies
 pip install --upgrade pip
-pip install poetry==1.1.14
+pip install poetry==1.4.2
 poetry config virtualenvs.create false
 poetry install
 
