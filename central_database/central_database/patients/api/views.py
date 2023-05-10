@@ -79,7 +79,8 @@ class PatientsViewSet(
             return Response(status=status.HTTP_404_NOT_FOUND)
 
     def get_queryset(self):
-        search = Patient.where(struct={})
+        client_city = self.request.user.client.city
+        search = Patient.where(struct={"address-city": client_city})
 
         resources = []
         for bundle in self.fhir_client.fetch_all_pages(search):
