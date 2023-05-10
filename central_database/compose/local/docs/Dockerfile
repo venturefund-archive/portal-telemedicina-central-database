@@ -7,7 +7,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ARG BUILD_ENVIRONMENT
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
-ENV POETRY_VERSION=1.1.14
+ENV POETRY_VERSION=1.4.2
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
   # dependencies for building Python packages
