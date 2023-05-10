@@ -7,7 +7,7 @@
             <CheckCircleIcon class="h-7 w-7 rounded-full bg-lime-600 text-white" v-if="dose.is_completed" />
             <ExclamationCircleIcon class="h-7 w-7 rounded-full bg-red-500 text-white" v-else />
           </div>
-          <p class="px-2 font-semibold tracking-wider">{{ props.vaccine.description }}</p>
+          <p class="px-2 font-semibold">{{ props.vaccine.description }}</p>
         </div>
         <span class="rounded-lg bg-green-200 bg-opacity-50 p-1.5 text-sm uppercase text-green-800"
           >{{ $t('patient-details.dose') }} <span class="font-semibold">#{{ props.dose.dose_order }}</span></span

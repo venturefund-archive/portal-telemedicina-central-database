@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-white text-gray-900">
+  <div class="min-h-screen bg-[#F8F9FB] text-gray-900">
     <div class="hidden sm:block">
       <Sidebar />
     </div>

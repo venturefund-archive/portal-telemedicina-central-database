@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="mb-4 text-xl font-semibold text-gray-700">{{ $t('manager.patients-delayed') }}</p>
-    <div class="border-1 float-right w-full rounded border border-gray-200 p-4 shadow">
+    <div class="bg-white border-1 float-right w-full rounded border border-gray-200 p-4 shadow">
       <div class="flex justify-between">
         <div class="flex">
           <button
@@ -32,14 +32,6 @@
               {{ item }}
             </li>
           </ul>
-        </div>
-
-        <div class="flex items-baseline py-2">
-          <ShareIcon title="share" class="mx-4 h-6 w-6 cursor-pointer text-gray-400 hover:text-green-500"></ShareIcon>
-          <DownloadIcon
-            title="download"
-            class="h-6 w-6 cursor-pointer text-gray-400 hover:text-green-500"
-          ></DownloadIcon>
         </div>
       </div>
 
