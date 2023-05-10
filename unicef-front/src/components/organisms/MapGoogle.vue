@@ -4,7 +4,7 @@
     <div>
       <!-- People with vaccines delayed -->
       <div
-        class="border-1 shadow-t-md shadow-r-lg shadow-l-lg shadow-b-lg flex flex-col items-center justify-between space-x-4 rounded border border-gray-50 bg-gray-50 px-5 shadow-lg sm:flex-row"
+        class="border-1 shadow-t-md shadow-r-lg shadow-l-lg shadow-b-lg flex flex-col items-center justify-between space-x-4 rounded bg-gray-100 px-5 shadow-lg sm:flex-row"
       >
         <div class="">
           <form @submit.prevent="searchAddress" class="flex w-full items-center">
@@ -24,10 +24,10 @@
                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                 ></path>
               </svg>
-              <input
+              <Input
                 :placeholder="$t('manager.search-map')"
                 v-model="geoCoderQuery"
-                class="mr-1 w-full rounded-md border-2 bg-white py-3 px-10 shadow-sm"
+                class="px-10 py-3 border border-2 shadow w-full rounded-lg focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
               />
             </div>
           </form>
@@ -238,7 +238,7 @@
                                 v-if="patientsStore.items[i]"
                                 :to="{ name: 'PatientDetails', params: { id: patientsStore.items[i].id } }"
                               >
-                                <p class="py-3 text-xl font-semibold capitalize tracking-wider">
+                                <p class="py-3 text-xl font-semibold capitalize">
                                   {{ patientsStore.items[i] && patientsStore.items[i].name.toLowerCase() }}
                                 </p>
                               </router-link>

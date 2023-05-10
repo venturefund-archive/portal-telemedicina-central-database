@@ -4,7 +4,7 @@
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value); hideSuggestions = false"
       :placeholder="$t('dashboard.pesquisar-por-pacientes-numero-de-documento-etc')"
-      class="py-4.5 block w-full rounded-lg border border-transparent bg-gray-50 pl-10 text-gray-900 focus:shadow-none focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+      class="py-4.5 block w-full rounded-full border border-transparent bg-gray-50 pl-10 text-gray-900 focus:shadow-none focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
     />
 
     <ul class="absolute w-full rounded bg-white p-2" v-if="suggestions.length && !hideSuggestions">
