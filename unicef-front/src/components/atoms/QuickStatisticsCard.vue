@@ -9,7 +9,7 @@
     <div class="relative overflow-hidden pl-3">
       <div class="flex flex-col justify-between">
         <h4 class="text-3xl font-semibold text-white">{{ result }}</h4>
-        <p class="text-xl font-normal text-white">{{ title }}</p>
+        <p class="text-xl font-semibold text-white">{{ title }}</p>
       </div>
     </div>
   </BaseCard>

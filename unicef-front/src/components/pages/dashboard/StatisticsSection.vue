@@ -1,36 +1,46 @@
 <template>
-  <section class="grid grid-cols-1 place-content-center gap-6 md:grid-cols-2 lg:grid-cols-4" v-if="protocolStore.item">
+<section class="flex flex-wrap justify-around gap-[43px] pt-2" v-if="protocolStore.item">
     <QuickStatisticsCard
       :title="$t('dashboard.total-alerts')"
       :result="protocolStore.item.alert_doses_count"
-      class="col-span-1 bg-red-500"
+      class="bg-red-500 overflow-hidden flex items-center justify-center word-break w-full md:w-auto"
+      style="width: 279px; height: 117px;"
     >
       <template #icon="{ sizeClasses }">
-        <ExclamationCircleIcon aria-hidden="true" class="h-12 w-12 text-white" />
+        <ExclamationCircleIcon aria-hidden="true" class="h-12 w-12 text-white mr-4" />
       </template>
     </QuickStatisticsCard>
 
     <QuickStatisticsCard
       :title="$t('dashboard.completed-doses')"
       :result="protocolStore.item.completed_doses_percentage + `%`"
-      class="bg-yellow-500"
+      class="bg-yellow-500 overflow-hidden flex items-center justify-center word-break w-full md:w-auto"
+      style="width: 279px; height: 117px;"
     >
       <template #icon="{ sizeClasses }">
-        <CheckCircleIcon aria-hidden="true" class="h-12 w-12 text-white" />
+        <CheckCircleIcon aria-hidden="true" class="h-12 w-12 text-white mr-4" />
       </template>
     </QuickStatisticsCard>
+
     <div v-for="(dose, k) in protocolStore.item.vaccine_doses" :key="k">
       <QuickStatisticsCard
         :class="{ 'bg-blue-500': k == 0, 'bg-[#7A6EFE]': k > 0 }"
         :title="dose.vaccine.name"
         :result="`${dose.completed_percentage}%`"
+        class="overflow-hidden flex items-center justify-center word-break w-full md:w-auto"
+        style="width: 279px; height: 117px;"
       >
         <template #icon="{ sizeClasses }">
-          <CheckCircleIcon aria-hidden="true" class="h-12 w-12 text-white" />
+          <CheckCircleIcon aria-hidden="true" class="h-12 w-12 text-white mr-4" />
         </template>
       </QuickStatisticsCard>
     </div>
-  </section>
+</section>
+
+
+
+
+
 </template>
 
 <script setup>
