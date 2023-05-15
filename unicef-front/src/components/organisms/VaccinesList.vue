@@ -107,7 +107,7 @@
           <table class="w-full table-auto text-left tracking-wide md:table-fixed lg:table-fixed">
             <thead class="">
               <tr>
-                <th scope="col" colspan="10" class="pt-10 pb-2 text-center">
+                <th scope="col" colspan="12" class="pt-10 pb-2 text-center">
                   <span class="rounded-t-full border border-transparent bg-[#DDDDDD] p-2 pt-3 uppercase">{{
                     $t('patient-details.months')
                   }}</span>

@@ -27,6 +27,10 @@ module.exports = {
 
         // ...
       },
+      fontSize: {
+        xl: '1.25rem',
+      },
+
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
       },
