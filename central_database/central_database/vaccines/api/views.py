@@ -1,5 +1,7 @@
 from django.shortcuts import render  # noqa: F401
 from django_filters.rest_framework import DjangoFilterBackend
+from django.db.models import Prefetch
+
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.viewsets import GenericViewSet
@@ -17,6 +19,8 @@ from central_database.vaccines.models import (  # noqa: E501
     Vaccine,
     VaccineDose,
     VaccineProtocol,
+    VaccineAlert,
+    VaccineStatus
 )
 
 
@@ -34,7 +38,22 @@ class VaccineDosesViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
     ]
 
     def get_queryset(self):
-        return VaccineDose.objects.all()
+        patient_id = self.request.query_params.get("patient_id")
+        return (
+            VaccineDose.objects.all()
+            .prefetch_related(
+                Prefetch(
+                    "vaccine_alerts",
+                    queryset=VaccineAlert.objects.filter(patient_id=patient_id, active=True),
+                    to_attr="active_alerts",
+                ),
+                Prefetch(
+                    "vaccinestatus_set",
+                    queryset=VaccineStatus.objects.filter(patient_id=patient_id),
+                    to_attr="patient_status",
+                ),
+            )
+        )
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
