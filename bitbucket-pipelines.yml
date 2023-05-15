@@ -12,7 +12,7 @@ pipelines:
             name: Django automated tests and coverage (using pytest)
             image: python:3.9
             script:
-              - pip install poetry==1.1.14
+              - pip install poetry==1.4.2
               - poetry config virtualenvs.create false
               - poetry install --no-interaction --no-root
               - export DATABASE_URL=postgres://debug:debug@127.0.0.0:5432/central_database
