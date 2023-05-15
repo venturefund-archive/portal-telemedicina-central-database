@@ -100,14 +100,20 @@ LOGGING = {
         }
     },
     "handlers": {
-        "console": {
+        "gunicorn": {
             "level": "DEBUG",
-            "class": "logging.StreamHandler",
+            "class": "logging.handlers.RotatingFileHandler",
             "formatter": "verbose",
+            "filename": "/opt/djangoprojects/reports/bin/gunicorn.errors",
+            "maxBytes": 1024 * 1024 * 100,  # 100 mb
         }
     },
-    "root": {"level": "INFO", "handlers": ["console"]},
     "loggers": {
+        "gunicorn.errors": {
+            "level": "DEBUG",
+            "handlers": ["gunicorn"],
+            "propagate": True,
+        },
         "django.db.backends": {
             "level": "ERROR",
             "handlers": ["console"],
