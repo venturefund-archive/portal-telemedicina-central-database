@@ -1,9 +1,10 @@
 <template>
-<section class="flex flex-wrap justify-around gap-[43px] pt-2" v-if="protocolStore.item">
+<div class="flex justify-center pt-2">
+<section class="flex justify-start" v-if="protocolStore.item">
     <QuickStatisticsCard
       :title="$t('dashboard.total-alerts')"
       :result="protocolStore.item.alert_doses_count"
-      class="bg-red-500 overflow-hidden flex items-center justify-center word-break w-full md:w-auto"
+      class="bg-red-500 overflow-hidden flex items-center justify-center word-break w-full md:w-auto mr-20"
       style="width: 279px; height: 117px;"
     >
       <template #icon="{ sizeClasses }">
@@ -14,7 +15,7 @@
     <QuickStatisticsCard
       :title="$t('dashboard.completed-doses')"
       :result="protocolStore.item.completed_doses_percentage + `%`"
-      class="bg-yellow-500 overflow-hidden flex items-center justify-center word-break w-full md:w-auto"
+      class="bg-yellow-500 overflow-hidden flex items-center justify-center word-break w-full md:w-auto mr-20"
       style="width: 279px; height: 117px;"
     >
       <template #icon="{ sizeClasses }">
@@ -27,15 +28,16 @@
         :class="{ 'bg-blue-500': k == 0, 'bg-[#7A6EFE]': k > 0 }"
         :title="dose.vaccine.name"
         :result="`${dose.completed_percentage}%`"
-        class="overflow-hidden flex items-center justify-center word-break w-full md:w-auto"
+        class="overflow-hidden flex items-center justify-center word-break w-full md:w-auto mr-20"
         style="width: 279px; height: 117px;"
       >
         <template #icon="{ sizeClasses }">
-          <CheckCircleIcon aria-hidden="true" class="h-12 w-12 text-white mr-4" />
+          <CheckCircleIcon aria-hidden="true" class="h-12 w-12 text-white ml-4" />
         </template>
       </QuickStatisticsCard>
     </div>
 </section>
+</div>
 
 
 
