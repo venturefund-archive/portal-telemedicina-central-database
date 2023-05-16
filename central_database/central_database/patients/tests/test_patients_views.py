@@ -85,7 +85,7 @@ class TestPatientViewSet(APITestCase):
         self.protocol = VaccineProtocolFactory(
             vaccine_doses=[self.vaccine_dose_1, self.vaccine_dose_2]
         )
-        mock_get.return_value = queryset
+        mock_get.return_value = (queryset, "fake_url")
 
         mock_fhir_client = mock.MagicMock()
         mock_get_fhir_client.return_value = mock_fhir_client
@@ -95,7 +95,8 @@ class TestPatientViewSet(APITestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 2)
-        for data in response.data:
+
+        for data in response.data.get("results"):
             self.assertTrue("id" in data)
             self.assertTrue("birth_date" in data)
             self.assertTrue("name" in data)

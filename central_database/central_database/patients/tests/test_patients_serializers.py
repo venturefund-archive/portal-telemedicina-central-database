@@ -3,6 +3,7 @@ from rest_framework.test import APITestCase
 from central_database.patients.api.serializers import PatientSerializer
 from central_database.patients.helpers import calculate_age_in_days
 from central_database.patients.tests.factories import PatientFactory
+from central_database.vaccines.models import VaccineAlert
 from central_database.vaccines.tests.factories import (
     VaccineAlertFactory,
     VaccineAlertTypeFactory,
@@ -54,34 +55,30 @@ class TestPatientSerializer(APITestCase):
         patient_1 = PatientFactory()
         patient_2 = PatientFactory()
         resources = [patient_1, patient_2]
-
-        self.vaccine_dose_1 = VaccineDoseFactory(
-            minimum_recommended_age=1,
-            maximum_recommended_age=2,
-        )
-        self.vaccine_dose_2 = VaccineDoseFactory(
-            minimum_recommended_age=1,
-            maximum_recommended_age=2,
-        )
+        vaccine_doses = [
+            VaccineDoseFactory(
+                minimum_recommended_age=1,
+                maximum_recommended_age=2,
+            )
+            for _ in range(2)
+        ]
 
         self.vaccine_alert_type = VaccineAlertTypeFactory()
         self.vaccine_alert_1 = VaccineAlertFactory(
             patient_id=patient_1.id,
-            vaccine_dose=self.vaccine_dose_1,
+            vaccine_dose=vaccine_doses[0],
             alert_type=self.vaccine_alert_type,  # noqa: E501
         )
         self.vaccine_alert_2 = VaccineAlertFactory(
             patient_id=patient_2.id,
-            vaccine_dose=self.vaccine_dose_2,
+            vaccine_dose=vaccine_doses[1],
             alert_type=self.vaccine_alert_type,  # noqa: E501
         )
 
-        self.protocol = VaccineProtocolFactory(
-            vaccine_doses=[self.vaccine_dose_1, self.vaccine_dose_2]
-        )
+        self.protocol = VaccineProtocolFactory(vaccine_doses=vaccine_doses)
 
         serialized_patients_list = PatientSerializer(resources, many=True).data
-        print(serialized_patients_list)
+
         patient_id_dict = {patient.id: patient for patient in resources}
 
         matching_patients = [
@@ -89,7 +86,9 @@ class TestPatientSerializer(APITestCase):
             for serialized_patient in serialized_patients_list
             if serialized_patient["id"] in patient_id_dict
         ]
-
+        alerts = VaccineAlert.get_alerts_by_patient(
+            [patient.id for patient in resources]
+        )
         for serialized_patient, patient_object in matching_patients:
             parts = []
             patient_name = patient_object.name[0]
@@ -114,3 +113,6 @@ class TestPatientSerializer(APITestCase):
             self.assertEqual(
                 serialized_patient["number_of_alerts_by_protocol"], 1
             )  # noqa: E501
+            self.assertEqual(
+                serialized_patient["alerts"], alerts.get(patient_object.id)
+            )
