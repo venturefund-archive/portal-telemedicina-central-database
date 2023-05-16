@@ -42,17 +42,15 @@ class VaccineDosesSerializer(serializers.ModelSerializer):  # noqa: E501
         ]
 
     def get_alerts(self, vaccine_dose_instance):
-        alerts = vaccine_dose_instance.active_alerts
-        return VaccineAlertSerializer(alerts, many=True).data
+        alerts = getattr(vaccine_dose_instance, "active_alerts", None)
+        if alerts is not None:
+            return VaccineAlertSerializer(alerts, many=True).data
+        return None
 
     def get_status(self, vaccine_dose_instance):
-        status = (
-            vaccine_dose_instance.patient_status[0]
-            if vaccine_dose_instance.patient_status
-            else None
-        )
+        status = getattr(vaccine_dose_instance, "patient_status", None)
         if status:
-            return status.completed
+            return status[0].completed if status else None
         return None
 
 

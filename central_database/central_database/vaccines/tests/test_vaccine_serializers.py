@@ -32,6 +32,8 @@ class TestVaccineDoseSerializer(APITestCase):
         vaccine_dose = VaccineDoseFactory(
             minimum_recommended_age=1, maximum_recommended_age=2
         )
+        vaccine_dose.active_alerts = []
+        vaccine_dose.patient_status = []
         serialized_vaccine_dose = VaccineDosesSerializer(vaccine_dose).data
 
         self.assertEqual(
@@ -59,7 +61,8 @@ class TestVaccineDoseSerializer(APITestCase):
             minimum_recommended_age=1, maximum_recommended_age=2
         )
         alert = VaccineAlertFactory(vaccine_dose=vaccine_dose, patient_id=11)
-
+        vaccine_dose.active_alerts = [alert]
+        vaccine_dose.patient_status = []
         VaccineDosesSerializer.context = {"patient_id": 11}
         serialized_vaccine_dose = VaccineDosesSerializer(vaccine_dose).data
         self.assertEqual(
@@ -144,6 +147,7 @@ class TestVaccineProtocolSerializer(APITestCase):
         self.protocol = VaccineProtocolFactory(
             vaccine_doses=[self.vaccine_dose_1, self.vaccine_dose_2]
         )
+
         serialized_vaccine_protocol = VaccineProtocolSerializer(
             self.protocol
         ).data  # noqa: E501
