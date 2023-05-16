@@ -6,3 +6,4 @@ worker_class = "uvicorn.workers.UvicornWorker"
 max_requests = 20
 threads = 1
 chdir = "/app/central_database/"
+capture_output = True
