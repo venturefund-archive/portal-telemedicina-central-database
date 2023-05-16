@@ -36,7 +36,7 @@
         <div class="px-2">
           <button
             @click="showList = !showList"
-            class="relative z-10 flex flex-col items-center rounded-md py-2 text-gray-500"
+            class="relative flex flex-col items-center rounded-md py-2 text-gray-500"
           >
             <UsersIcon title="População" class="h-6 w-6 text-green-500" />
             <span class="py-1 text-sm">{{ $t('manager.population') }}</span>

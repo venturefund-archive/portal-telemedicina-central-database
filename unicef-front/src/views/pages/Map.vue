@@ -7,7 +7,7 @@
         </div>
         <div class="md:w-1/3">
           <div class="m-3">
-            <ListCard />
+            <PatientListCard />
           </div>
         </div>
       </div>
