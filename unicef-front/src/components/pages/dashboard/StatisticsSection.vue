@@ -1,48 +1,40 @@
 <template>
-<div class="flex justify-center pt-2">
-<section class="flex justify-start" v-if="protocolStore.item">
-    <QuickStatisticsCard
-      :title="$t('dashboard.total-alerts')"
-      :result="protocolStore.item.alert_doses_count"
-      class="bg-red-500 overflow-hidden flex items-start justify-start word-break w-full md:w-auto mr-20 ml-20"
-      style="width: 279px; height: 117px;"
-    >
-      <template #icon="{ sizeClasses }">
-        <ExclamationCircleIcon aria-hidden="true" class="h-12 w-12 text-white mr-4" />
-      </template>
-    </QuickStatisticsCard>
-
-    <QuickStatisticsCard
-      :title="$t('dashboard.completed-doses')"
-      :result="protocolStore.item.completed_doses_percentage + `%`"
-      class="bg-yellow-500 overflow-hidden flex items-start justify-start word-break w-full md:w-auto mr-20"
-      style="width: 279px; height: 117px;"
-    >
-      <template #icon="{ sizeClasses }">
-        <CheckCircleIcon aria-hidden="true" class="h-12 w-12 text-white mr-4 break-word" />
-      </template>
-    </QuickStatisticsCard>
-
-    <div v-for="(dose, k) in protocolStore.item.vaccine_doses" :key="k">
+  <div class="pt-2">
+    <section class="flex flex-wrap justify-around" v-if="protocolStore.item">
       <QuickStatisticsCard
+        :title="$t('dashboard.total-alerts')"
+        :result="protocolStore.item.alert_doses_count"
+        class="word-break flex min-h-full w-auto overflow-hidden bg-red-500"
+      >
+        <template #icon="{ sizeClasses }">
+          <ExclamationCircleIcon aria-hidden="true" class="mr-4 h-12 w-12 text-white" />
+        </template>
+      </QuickStatisticsCard>
+
+      <QuickStatisticsCard
+        :title="$t('dashboard.completed-doses')"
+        :result="protocolStore.item.completed_doses_percentage + `%`"
+        class="word-break flex min-h-full w-auto overflow-hidden bg-yellow-500"
+      >
+        <template #icon="{ sizeClasses }">
+          <CheckCircleIcon aria-hidden="true" class="break-word mr-4 h-12 w-12 text-white" />
+        </template>
+      </QuickStatisticsCard>
+
+      <QuickStatisticsCard
+        v-for="(dose, k) in protocolStore.item.vaccine_doses"
+        :key="k"
         :class="{ 'bg-blue-500': k == 0, 'bg-[#7A6EFE]': k > 0 }"
         :title="dose.vaccine.name"
         :result="`${dose.completed_percentage}%`"
-        class="overflow-hidden flex items-start justify-start word-break w-full md:w-auto mr-20"
-        style="width: 279px; height: 117px;"
+        class="word-break flex min-h-full w-auto overflow-hidden"
       >
         <template #icon="{ sizeClasses }">
-          <CheckCircleIcon aria-hidden="true" class="h-12 w-12 text-white ml-4" />
+          <CheckCircleIcon aria-hidden="true" class="h-12 w-12 text-white" />
         </template>
       </QuickStatisticsCard>
-    </div>
-</section>
-</div>
-
-
-
-
-
+    </section>
+  </div>
 </template>
 
 <script setup>
@@ -59,7 +51,6 @@ onMounted(async () => {
   await protocolStore.fetchProtocol(1)
 })
 </script>
-
 
 <style>
 .break-word {

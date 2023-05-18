@@ -1,10 +1,10 @@
 <template>
   <section class="mx-auto grid w-full grid-cols-1 place-content-center gap-6 pt-5 md:pt-0 lg:pt-0">
-    <p class="mt-5 text-xl font-semibold text-gray-700 mt-16">{{ $t('dashboard.total-alerts-per-patient') }}</p>
+    <p class="mt-5 mt-16 text-xl font-semibold text-gray-700">{{ $t('dashboard.total-alerts-per-patient') }}</p>
     <div class="grid grid-cols-1 gap-6" v-if="paginated">
-      <BaseCard class="flex flex-col rounded-xl bg-[#F2F2F2]" @update:query="patientQuery = $event">
+      <BaseCard no-offset class="flex flex-col rounded-xl bg-[#F2F2F2]" @update:query="patientQuery = $event">
         <div
-          class="flex items-center justify-between px-2 py-4 hover:rounded hover:bg-gray-100 border-b border-white "
+          class="flex items-center justify-between border-b border-white px-2 py-4 hover:rounded hover:bg-gray-100"
           v-for="(patient, index) in paginated"
           :key="index"
         >
@@ -14,7 +14,8 @@
             <div>
               <h5 class="font-medium capitalize">
                 <router-link :to="{ name: 'PatientDetails', params: { id: patient.id } }" class="hover:underline">{{
-                  patient.name.toLowerCase() }}</router-link>
+                  patient.name.toLowerCase()
+                }}</router-link>
               </h5>
             </div>
             <hr class="divide-dotted border text-white" />

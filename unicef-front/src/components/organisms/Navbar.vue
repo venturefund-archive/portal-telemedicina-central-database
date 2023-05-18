@@ -10,7 +10,7 @@
     ]"
   >
     <div class="flex grow items-center pr-5">
-      <form @submit.prevent="search" class="w-full lg:w-1/2">
+      <form @submit.prevent="search" class="w-full sm:w-96">
         <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900">Procurar</label>
         <InputIconWrapper>
           <template #icon>

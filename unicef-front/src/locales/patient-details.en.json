@@ -20,5 +20,14 @@
   "vaccine": "Vaccine",
   "vaccines": "vaccines",
   "year": "Year",
-  "years": "Years"
+  "years": "Years",
+  "booklet":"Vaccine booklet",
+  "zero-to-fif":"0 to 15 years",
+  "overdue-doses":"Overdue doses",
+  "completed-doses":"Completed deses",
+  "recommended-doses": "recommended doses",
+  "add-vaccine": "Add vaccine",
+  "age":"Age",
+  "region":"Region",
+  "document": "Document"
 }

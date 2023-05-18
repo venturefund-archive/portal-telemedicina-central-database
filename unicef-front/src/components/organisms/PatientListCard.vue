@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="mb-4 text-xl font-semibold text-gray-700">{{ $t('manager.patients-delayed') }}</p>
-    <div class="bg-white border-1 float-right w-full rounded border border-gray-200 p-4 shadow">
+    <div class="border-1 float-right w-full rounded-2xl border border-gray-200 bg-white p-4 shadow">
       <div class="flex justify-between">
         <div class="flex">
           <button

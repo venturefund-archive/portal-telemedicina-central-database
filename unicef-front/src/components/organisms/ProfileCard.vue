@@ -1,63 +1,82 @@
 <template>
-  <div class="bg-white shadow rounded-full p-6 w-72 h-[888px]">
-    <div class="flex justify-center -mt-16">
-      <img class="rounded-full bg-white border border-2 border-white w-16 h-16 object-cover" src="/avatar.png" alt="Profile picture" />
+  <div class="h-[888px] w-72 rounded-full bg-white p-6 shadow">
+    <div class="-mt-16 flex justify-center">
+      <img
+        class="h-16 w-16 rounded-full border border-2 border-white bg-white object-cover"
+        src="/avatar.png"
+        alt="Profile picture"
+      />
     </div>
-    <div class="pt-12 p-3">
+    <div class="p-3 pt-12">
       <p class="text-sm font-semibold capitalize">{{ name }}</p>
     </div>
-    <ul class="text-neutral-500 px-3 text-sm">
-      <li><span class="font-semibold">Idade</span>: {{ age }}</li>
-      <li><span class="font-semibold">{{ $t('patient-details.date-of-birth') }}</span>: {{ format(birthDate, 'dd/MM/yyyy') }}</li>
-      <li><span class="font-semibold">{{ $t('patient-details.gender') }}</span>: {{ gender }}</li>
-      <li><span class="font-semibold">Região</span>: {{ region }}</li>
-      <li><span class="font-semibold">CEP</span>: {{ postalCode }}</li>
+    <ul class="px-3 text-sm text-neutral-500">
+      <li>
+        <span class="font-semibold">{{ $t('patient-details.age') }}</span
+        >: {{ age }}
+      </li>
+      <li>
+        <span class="font-semibold">{{ $t('patient-details.date-of-birth') }}</span
+        >: {{ format(birthDate, 'dd/MM/yyyy') }}
+      </li>
+      <li>
+        <span class="font-semibold">{{ $t('patient-details.gender') }}</span
+        >: {{ gender }}
+      </li>
+      <li>
+        <span class="font-semibold">{{ $t('patient-details.region') }}</span
+        >: {{ region }}
+      </li>
+      <li>
+        <span class="font-semibold">{{ $t('patient-details.document') }}</span
+        >: {{ postalCode }}
+      </li>
 
       <p v-if="patientsStore.item.marital_status && patientsStore.item.marital_status.text">
         {{ $t('patient-details.civil-status') }} <span>{{ patientsStore.item.marital_status.text }}</span>
       </p>
     </ul>
     <div class="mt-4">
-      <ul class="divide-y divide-gray-200 font-semibold text-sm">
-        <li class="py-4 flex items-center hover:bg-[#F8F9FB] cursor-pointer">
-          <div class="bg-[#F8F9FB] border border-gray-200  rounded-full w-12 h-12 p-2 mr-2">
-            <img class=" w-7 h-7 flex mx-auto my-auto"  src="@/assets/images/profile-menu-01.png" />
+      <ul class="divide-y divide-gray-200 text-sm font-semibold">
+        <li class="flex cursor-pointer items-center py-4 hover:bg-[#F8F9FB]">
+          <div class="mr-2 h-12 w-12 rounded-full border border-gray-200 bg-[#F8F9FB] p-2">
+            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-01.png" />
           </div>
           <span class="pl-3">Peso, altura, IMC</span>
         </li>
-        <li class="py-4 flex items-center hover:bg-[#F8F9FB] cursor-pointer border-r-4 !border-r-blue-500">
-          <div class="bg-[#F8F9FB] border border-gray-200  rounded-full w-12 h-12 p-2 mr-2">
-            <img class=" w-7 h-7 flex mx-auto my-auto"  src="@/assets/images/profile-menu-02.png" />
+        <li class="flex cursor-pointer items-center border-r-4 !border-r-blue-500 py-4 hover:bg-[#F8F9FB]">
+          <div class="mr-2 h-12 w-12 rounded-full border border-gray-200 bg-[#F8F9FB] p-2">
+            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-02.png" />
           </div>
-          <span class="pl-3" >Cartilha de vacinas</span>
+          <span class="pl-3">{{ $t('patient-details.booklet') }}</span>
         </li>
-        <li class="py-4 flex items-center hover:bg-[#F8F9FB] cursor-pointer">
-          <div class="bg-[#F8F9FB] border border-gray-200  rounded-full w-12 h-12 p-2 mr-2">
-            <img class=" w-7 h-7 flex mx-auto my-auto"  src="@/assets/images/profile-menu-03.png" />
+        <li class="flex cursor-pointer items-center py-4 hover:bg-[#F8F9FB]">
+          <div class="mr-2 h-12 w-12 rounded-full border border-gray-200 bg-[#F8F9FB] p-2">
+            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-03.png" />
           </div>
           <span class="pl-3">Período fetal</span>
         </li>
-        <li class="py-4 flex items-center hover:bg-[#F8F9FB] cursor-pointer">
-          <div class="bg-[#F8F9FB] border border-gray-200  rounded-full w-12 h-12 p-2 mr-2">
-            <img class=" w-7 h-7 flex mx-auto my-auto"  src="@/assets/images/profile-menu-04.png" />
+        <li class="flex cursor-pointer items-center py-4 hover:bg-[#F8F9FB]">
+          <div class="mr-2 h-12 w-12 rounded-full border border-gray-200 bg-[#F8F9FB] p-2">
+            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-04.png" />
           </div>
           <span class="pl-3">Alergias</span>
         </li>
-        <li class="py-4 flex items-center hover:bg-[#F8F9FB] cursor-pointer">
-          <div class="bg-[#F8F9FB] border border-gray-200  rounded-full w-12 h-12 p-2 mr-2">
-            <img class=" w-7 h-7 flex mx-auto my-auto" src="@/assets/images/profile-menu-05.png" />
+        <li class="flex cursor-pointer items-center py-4 hover:bg-[#F8F9FB]">
+          <div class="mr-2 h-12 w-12 rounded-full border border-gray-200 bg-[#F8F9FB] p-2">
+            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-05.png" />
           </div>
           <span class="pl-3">Medicamentos</span>
         </li>
-        <li class="py-4 flex items-center hover:bg-[#F8F9FB] cursor-pointer">
-          <div class="bg-[#F8F9FB] border border-gray-200  rounded-full w-12 h-12 p-2 mr-2">
-            <img class=" w-7 h-7 flex mx-auto my-auto"  src="@/assets/images/profile-menu-06.png" />
+        <li class="flex cursor-pointer items-center py-4 hover:bg-[#F8F9FB]">
+          <div class="mr-2 h-12 w-12 rounded-full border border-gray-200 bg-[#F8F9FB] p-2">
+            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-06.png" />
           </div>
           <span class="pl-3">Doenças</span>
         </li>
-        <li class="py-4 flex items-center hover:bg-[#F8F9FB] cursor-pointer">
-          <div class="bg-[#F8F9FB] border border-gray-200  rounded-full w-12 h-12 p-2 mr-2">
-            <img class=" w-7 h-7 flex mx-auto my-auto"  src="@/assets/images/profile-menu-07.png" />
+        <li class="flex cursor-pointer items-center py-4 hover:bg-[#F8F9FB]">
+          <div class="mr-2 h-12 w-12 rounded-full border border-gray-200 bg-[#F8F9FB] p-2">
+            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-07.png" />
           </div>
           <span class="pl-3">Dados socioculturais</span>
         </li>
@@ -93,7 +112,7 @@ const router = useRouter()
 
 const name = ref(patientsStore.item.name.toLowerCase())
 const gender = ref('male' == patientsStore.item.gender ? 'Masculino' : 'Feminino')
-const region = ref(patientsStore.item.address[0].city +' / '+ patientsStore.item.address[0].state)
+const region = ref(patientsStore.item.address[0].city + ' / ' + patientsStore.item.address[0].state)
 const postalCode = ref(patientsStore.item.address[0].postal_code)
 
 const birthDate = computed(() => parseISO(patientsStore.item.birth_date))
