@@ -1,90 +1,121 @@
 <template>
   <div>
-    <p class="mb-4 text-xl font-semibold text-gray-700">{{ $t('manager.vaccination-map') }}</p>
+    <p class="mb-4 text-xl font-semibold text-gray-700">
+      {{ isTableView ? $t('manager.table-view-text') : $t('manager.vaccination-map') }}
+    </p>
     <div>
       <!-- People with vaccines delayed -->
-      <div
-        class="border-1 shadow-t-md shadow-r-lg shadow-l-lg shadow-b-lg flex flex-col items-center justify-between space-x-4 rounded bg-gray-100 px-5 shadow-lg sm:flex-row"
-      >
-        <div class="">
-          <form @submit.prevent="searchAddress" class="flex w-full items-center">
-            <label for="default-search" class="sr-only text-sm font-medium text-gray-900">Procurar</label>
-            <div class="relative flex w-full items-center">
-              <svg
-                class="absolute left-3 h-5 w-5 text-gray-500"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                ></path>
-              </svg>
-              <Input
-                :placeholder="$t('manager.search-map')"
-                v-model="geoCoderQuery"
-                class="px-10 py-3 border border-2 shadow w-full rounded-lg focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
+      <div class="flex items-center justify-between rounded-t-2xl border bg-gray-50 p-5 drop-shadow-lg">
+        <div class="flex items-center space-x-5">
+          <div v-if="isTableView">
+            <div class="flex">
+              <input
+                type="date"
+                class="rounded-lg border border-gray-300 shadow focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
               />
             </div>
-          </form>
-        </div>
-
-        <div class="px-2">
-          <button
-            @click="showList = !showList"
-            class="relative flex flex-col items-center rounded-md py-2 text-gray-500"
-          >
-            <UsersIcon title="População" class="h-6 w-6 text-green-500" />
-            <span class="py-1 text-sm">{{ $t('manager.population') }}</span>
-          </button>
-          <ul v-if="showList" class="absolute z-20 rounded-md bg-white shadow-md" style="margin-top: -0.5rem">
-            <li
-              v-for="item in items"
-              :class="{ 'font-bold': item === selectedItem }"
-              class="cursor-pointer px-4 py-2 font-normal hover:bg-gray-100"
-              :key="item"
-              @click="onItemClick(item)"
-            >
-              {{ item }}
-            </li>
-          </ul>
-        </div>
-
-        <div class="px-2">
-          <div class="relative mr-2 inline-block w-10 select-none align-middle transition duration-200 ease-in">
-            <input
-              type="checkbox"
-              name="toggle"
-              id="toggle"
-              class="toggle-checkbox absolute block h-6 w-6 cursor-pointer appearance-none rounded-full border-4 bg-white"
-              v-model="onlyAlerts"
-            />
-            <label for="toggle" class="toggle-label block h-6 cursor-pointer rounded-full bg-gray-300"></label>
           </div>
-          <label for="toggle" class="text-sm text-gray-500">{{ $t('manager.alerts') }}</label>
-        </div>
+          <div class="flex items-center space-x-2">
+            <form @submit.prevent="searchAddress">
+              <label for="default-search" class="sr-only">Procurar</label>
+              <div class="relative flex items-center">
+                <svg
+                  class="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                  ></path>
+                </svg>
+                <div v-if="isTableView">
+                  <Input
+                    :placeholder="$t('manager.search')"
+                    v-model="asd"
+                    class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
+                  />
+                </div>
+                <div v-if="!isTableView">
+                  <Input
+                    :placeholder="$t('manager.search-map')"
+                    v-model="geoCoderQuery"
+                    class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
 
-        <div class="px-2 py-5">
-          <!-- <Button
-            type="submit"
-            variant="danger"
-            @click="state.polygons = []; state.polygonNames = []; state.markers = null; polygonNames = []; polygons = []; markers = null;"
-          >
-            <SaveIcon class="h-5 w-5" />
-            <span class="text-sm">Apagar todos poligonos</span>
-          </Button> -->
-          <Button type="submit" variant="success-outline" @click="savePolygons">
-            <SaveIcon class="h-5 w-5" />
-            <span class="text-sm">{{ $t('manager.save') }}</span>
-          </Button>
+          <!-- User List and Alerts -->
+          <div class="flex items-center space-x-10">
+            <div>
+              <button
+                @click="showList = !showList"
+                class="relative flex flex-col items-center rounded-md py-2 px-4 text-gray-500"
+              >
+                <UsersIcon title="{{ $t('manager.population') }}" class="h-6 w-6 text-green-500" />
+                <span class="text-sm">{{ $t('manager.population') }}</span>
+              </button>
+              <ul v-if="showList" class="absolute z-50 -ml-8 rounded-md bg-white shadow-md">
+                <li
+                  v-for="item in items"
+                  :class="{ 'font-bold': item === selectedItem }"
+                  class="cursor-pointer py-2 px-4 font-normal hover:bg-gray-100"
+                  :key="item"
+                >
+                  {{ item }}
+                </li>
+              </ul>
+            </div>
+
+            <div v-if="!isTableView" class="flex flex-col items-center rounded-md py-2 px-4 text-gray-500">
+              <Switch
+                v-model="onlyAlerts"
+                :class="onlyAlerts ? 'bg-green-500' : 'bg-gray-200'"
+                class="relative inline-flex h-5 w-12 items-center rounded-full"
+              >
+                <span
+                  :class="onlyAlerts ? 'translate-x-6' : 'translate-x-0'"
+                  class="inline-block h-6 w-6 transform rounded-full border border-gray-300 bg-white shadow transition"
+                ></span>
+              </Switch>
+              <span class="pt-2 text-sm">{{ $t('manager.alerts') }}</span>
+            </div>
+
+            <div class="flex cursor-pointer items-center space-x-10">
+              <button @click="toggleView" class="flex flex-col items-center">
+                <TableIcon v-if="!isTableView" class="h-8 w-9 text-gray-500" />
+                <MapIcon v-else class="h-7 w-10 text-gray-500" />
+                <span class="text-sm text-gray-500">Visualização</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
+
+      <!-- Save Button -->
+      <!-- <Button
+            v-if="!isTableView"
+            @click="savePolygons"
+            class="border-gray-400 bg-transparent hover:bg-green-500 p-2 text-gray-400 shadow-md hover:border-green-500 hover:text-white"
+          >
+            <SaveIcon class="h-5 w-5" />
+            <span class="text-sm">{{ $t('manager.save') }}</span>
+          </Button> -->
+
+      <!-- Toggle View Button -->
+
+      <TableList v-show="isTableView" />
       <!-- Map content -->
-      <div class="border-1 flex justify-start border shadow">
+      <div
+        class="border-1 -z-10 flex justify-start border bg-white shadow-2xl"
+        v-show="!isTableView && !showEmptyResult"
+      >
         <GoogleMap
           :api-key="GOOGLE_MAP_API_KEY"
           style="width: 100%; height: 800px"
@@ -301,6 +332,17 @@
           </template>
         </GoogleMap>
       </div>
+      <div
+        v-if="showEmptyResult"
+        class="shadow-b-md shadow-l-md shadow-r-md flex flex-col rounded rounded-b-2xl border border-gray-200 bg-white py-60 shadow"
+        style="min-height: 790px"
+      >
+        <div class="flex justify-center">
+          <EmptyResultPhoto />
+        </div>
+        <span class="flex justify-center font-semibold">{{ $t('manager.no-results') }}</span>
+        <span class="flex justify-center text-gray-500">{{ $t('manager.no-results-description') }}. </span>
+      </div>
     </div>
   </div>
 </template>
@@ -310,10 +352,14 @@ import { defineComponent, reactive, computed, onBeforeUpdate, onMounted, watch, 
 import { GoogleMap, Marker, CustomMarker, MarkerCluster, InfoWindow, Polygon } from 'vue3-google-map'
 import { useGeolocation } from '@/composables/useGeolocation'
 import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue'
-import { HandIcon, PencilIcon, UsersIcon, SaveIcon, XIcon, RefreshIcon } from '@heroicons/vue/solid'
+import { HandIcon, PencilIcon, SaveIcon } from '@heroicons/vue/solid'
+import { MapIcon, TableIcon, UsersIcon } from '@heroicons/vue/outline'
 import { useRouter } from 'vue-router'
 import { usePatientsStore } from '@/stores/patients'
 import { useStorage } from '@vueuse/core'
+import { Switch } from '@headlessui/vue'
+
+const enabled = ref(false)
 
 import MapInfoWindow from '@/components/atoms/MapInfoWindow.vue'
 
@@ -364,10 +410,14 @@ const items = [
   'Terceira Infância',
   'Adolescência',
 ]
+const isTableView = ref(false)
 
+const toggleView = () => {
+  isTableView.value = !isTableView.value
+}
 const handleClickOutside = (event) => {
   if (!event.target.closest('.mt-4')) {
-    showList.value = false
+    // showList.value = false
   }
 }
 
@@ -390,6 +440,7 @@ const polygons = ref([])
 // }
 
 const geoCoderQuery = ref('')
+const showEmptyResult = ref(false)
 const searchAddress = () => {
   //center.value = { lat: -22.749940, lng: -50.576540 }
 
@@ -666,12 +717,15 @@ const geocodeAddress = (geoCoder, resultsMap) => {
   geoCoder.geocode({ address: geoCoderQuery.value }, function (results, status) {
     if (status === 'OK') {
       resultsMap.setCenter(results[0].geometry.location)
+      showEmptyResult.value = false
+      console.log(showEmptyResult.value)
       //const marker = new google.maps.Marker({
       //  map: resultsMap,
       //  position: results[0].geometry.location
       //})
     } else {
-      alert('Geocode was not successful for the following reason: ' + status)
+      showEmptyResult.value = true
+      console.log(showEmptyResult.value)
     }
   })
 }
@@ -765,17 +819,6 @@ const ddd = () => {
   width: 380px;
   margin: 150px 0 0 -190px;
   /* Apply negative top and left margins to center the element */
-}
-
-.toggle-checkbox:checked {
-  @apply: right-0 border-green-400;
-  right: 0;
-  border-color: green;
-}
-
-.toggle-checkbox:checked + .toggle-label {
-  @apply: bg-green-400;
-  background-color: green;
 }
 
 .slide-in-enter-active,

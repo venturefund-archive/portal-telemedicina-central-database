@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="mb-4 text-xl font-semibold text-gray-700">{{ $t('manager.patients-delayed') }}</p>
-    <div class="bg-white border-1 float-right w-full rounded border border-gray-200 p-4 shadow">
+    <div class="border-1 float-right w-full rounded-2xl border border-gray-200 bg-white p-4" style="min-height: 900px">
       <div class="flex justify-between">
         <div class="flex">
           <button
@@ -27,7 +27,6 @@
               :class="{ 'font-bold': item === selectedItem }"
               class="cursor-pointer py-2 px-4 font-normal hover:bg-gray-100"
               :key="item"
-              @click=""
             >
               {{ item }}
             </li>
@@ -63,7 +62,7 @@
             </div>
           </div>
 
-          <div class="flex justify-between p-4">
+          <div class="flex justify-between p-4" v-if="0 != totalPages">
             <div>
               <Button
                 :disabled="isFirstPage"
@@ -77,11 +76,10 @@
               </Button>
             </div>
             <div class="flex flex-col items-center">
-              <span class="text-sm" v-if="0 != totalPages">
+              <span class="text-sm">
                 <span class="font-semibold">{{ current }} / {{ totalPages }}</span> {{ $t('dashboard.page')
                 }}<span v-if="totalPages > 1">s</span></span
               >
-              <span v-else>{{ $t('dashboard.no-results-found') }}</span>
               <span class="text-xs lowercase text-neutral-400">
                 <span class="font-semibold">{{ filteredPatients.length }}</span> {{ $t('dashboard.result')
                 }}<span v-if="filteredPatients.length > 1">s</span> {{ $t('dashboard.of-total-of') }}
@@ -101,6 +99,13 @@
                 <ArrowRightIcon aria-hidden="true" :class="iconSizeClasses" />
               </Button>
             </div>
+          </div>
+          <div v-else class="flex flex-col py-60">
+            <div class="flex justify-center">
+              <EmptyResultPhoto />
+            </div>
+            <span class="flex justify-center font-semibold">{{ $t('manager.no-data') }}</span>
+            <span class="flex justify-center text-gray-500"> {{ $t('manager.no-data-description') }}</span>
           </div>
         </div>
       </div>

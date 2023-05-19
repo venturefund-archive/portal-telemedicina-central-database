@@ -2,7 +2,7 @@
   <PerfectScrollbar
     tagname="nav"
     aria-label="main"
-    class="relative flex max-h-full flex-1 flex-row gap-4 px-3 md:flex-col"
+    class="relative flex max-h-full flex-1 flex-row gap-4 px-3 sm:flex-col"
   >
     <SidebarLink :title="$t('dashboard.dashboard')" :to="{ name: 'Dashboard' }" :active="isCurrentRoute('Dashboard')">
       <template #icon>

@@ -9,7 +9,7 @@
   "generated-date": "Gerado dia {0}",
   "month": "Mês",
   "months": "Meses",
-  "no-patient-selected-text": "Nenhum paciente selecionado. Pesquise por um paciente (nome, documento etc).",
+  "no-patient-selected-text": "Pesquise por um paciente",
   "patient-details-title": "Dealhes do paciente",
   "recommended": "Recomendado",
   "recommended-age": "Idade recomendada",
@@ -20,5 +20,15 @@
   "vaccine": "Vacina",
   "vaccines": "Vacinas",
   "year": "Ano",
-  "years": "Anos"
+  "years": "Anos",
+  "booklet":"Cartilha de vacinas",
+  "zero-to-fif":"0 a 15 anos",
+  "overdue-doses":"Doses atrasadas",
+  "completed-doses":"Doses completas",
+  "recommended-doses": "Doses recomendadas",
+  "add-vaccine": "Incluir vacina",
+  "age":"Idade",
+  "region":"Região",
+  "document": "CEP",
+  "no-selected":"Nenhum paciente selecionado"
 }

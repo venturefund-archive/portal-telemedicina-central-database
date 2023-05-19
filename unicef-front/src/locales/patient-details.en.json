@@ -10,7 +10,7 @@
   "gender": "Gender",
   "month": "Month",
   "months": "Months",
-  "no-patient-selected-text": "No patient selected. \nSearch for a patient (name, document, etc).",
+  "no-patient-selected-text": "Search for a patient",
   "patient-details-title": "Patient details",
   "recommended": "Recommended",
   "recommended-age": "Recommended age",
@@ -20,5 +20,15 @@
   "vaccine": "Vaccine",
   "vaccines": "vaccines",
   "year": "Year",
-  "years": "Years"
+  "years": "Years",
+  "booklet":"Vaccine booklet",
+  "zero-to-fif":"0 to 15 years",
+  "overdue-doses":"Overdue doses",
+  "completed-doses":"Completed deses",
+  "recommended-doses": "recommended doses",
+  "add-vaccine": "Add vaccine",
+  "age":"Age",
+  "region":"Region",
+  "document": "Document",
+  "no-selected":"No patient selected"
 }
