@@ -4,17 +4,20 @@
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value); hideSuggestions = false"
       :placeholder="$t('dashboard.pesquisar-por-pacientes-numero-de-documento-etc')"
-      class="py-4.5 block w-full pl-10 text-gray-900"
+      class="py-4.5 block w-full pl-10 text-gray-900 focus:ring-none !focus:ring-white !focus:ring-offset-none"
+      :class="{ 'w-full rounded-full bg-[#F3F3F3]  py-2.5 !shadow-md focus:shadow-none ': isInPage }"
+      :autofocus="isInPage"
     />
-
-    <ul class="absolute w-full rounded bg-white p-2" v-if="suggestions.length && !hideSuggestions">
-      <li v-for="suggestion in filtedSuggestions" :key="suggestion.name" class="cursor-pointer hover:bg-neutral-100">
+<div class="flex justify-center">
+    <ul class="border border-gray-100 absolute rounded-2xl bg-white p-2 !w-96 mt-1"
+        v-if="suggestions.length && !hideSuggestions">
+      <li v-for="suggestion in filtedSuggestions" :key="suggestion.name" class="cursor-pointer hover:bg-gray-100 rounded-lg">
         <router-link
           :to="{ name: 'PatientDetails', params: { id: suggestion.id } }"
           class="hover:underline"
           @click="hideSuggestions = true"
         >
-          <div class="flex items-center gap-4 px-2 py-2">
+          <div class="flex items-center gap-4 px-2 py-3">
             <img class="h-10 w-10 rounded-full bg-neutral-200 p-1" src="/avatar.png" />
             <span class="text-sm font-medium capitalize text-slate-900">{{
               suggestion.name.toLowerCase()
@@ -24,6 +27,7 @@
       </li>
     </ul>
   </div>
+  </div>
 </template>
 
 <script setup>
@@ -32,6 +36,10 @@ import { onClickOutside } from '@vueuse/core'
 
 const emit = defineEmits(['click', 'update:modelValue'])
 const props = defineProps({
+  isInPage: {
+    type: Boolean,
+    default: false,
+  },
   suggestions: {
     type: Array,
     default: [],

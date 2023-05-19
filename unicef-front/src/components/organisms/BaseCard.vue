@@ -1,7 +1,7 @@
 <template>
   <div :class="['rounded-2xl py-5 px-3 shadow-md', bgClasses]">
     <!-- Card header -->
-    <div :class="{ '-mt-16': noOffset }" v-if="!noHeader">
+    <div v-if="!noHeader">
       <slot name="header">
         <div class="flex justify-between">
           <h4 class="text-lg font-medium">{{ title }}</h4>
@@ -35,7 +35,7 @@
                   :placeholder="$t('dashboard.search')"
                   withIcon
                   :class="{ 'bg-gray-200': noOffset }"
-                  class="block w-full rounded-lg border border-transparent bg-gray-50 p-4 pl-10 text-sm text-gray-900"
+                  class="w-full rounded-full bg-[#F3F3F3] px-10 py-2.5 !shadow-md focus:shadow-none"
                 />
               </InputIconWrapper>
             </div>
@@ -56,10 +56,6 @@ import { ref } from 'vue'
 
 const props = defineProps({
   noHeader: {
-    type: Boolean,
-    default: false,
-  },
-  noOffset: {
     type: Boolean,
     default: false,
   },

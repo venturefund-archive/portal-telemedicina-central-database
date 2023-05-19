@@ -1,8 +1,8 @@
 <template>
   <PageWrapper>
     <div class="pb-10">
-      <div class="flex flex-col items-baseline justify-center pt-10 md:flex-row">
-        <div class="md:flex-1">
+      <div class="flex items-baseline justify-center py-10">
+        <div class="mr-4 md:flex-1">
           <MapGoogle />
         </div>
         <div class="md:w-1/3">

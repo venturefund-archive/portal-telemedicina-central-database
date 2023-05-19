@@ -22,7 +22,8 @@ export const usePatientsStore = defineStore('patients', () => {
       })
       this.items = response.data
     } catch (err) {
-      errorToast({ text: err.response.data.detail })
+      console.log(err)
+      err.response && errorToast({ text: err.response.data.detail })
     }
   }
   async function fetchPatient(id) {

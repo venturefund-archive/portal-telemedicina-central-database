@@ -6,5 +6,11 @@
   "details": "Detalles",
   "district": "El barrio",
   "save": "Guardar editar",
-  "vaccination-map": "Mapa de cobertura vacunal"
+  "vaccination-map": "Mapa del esquema vacunal",
+  "search":"Buscar",
+  "table-view-text":"Tabla de datos del esquema vacunal",
+  "no-results":"No hay resultados",
+  "no-results-description":"No hay resultados para tu búsqueda, prueba con otras palabras o términos",
+  "no-data":"Sin datos",
+  "no-data-description": "No hay datos para su selección"
 }

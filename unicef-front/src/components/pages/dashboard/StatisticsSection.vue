@@ -4,7 +4,7 @@
       <QuickStatisticsCard
         :title="$t('dashboard.total-alerts')"
         :result="protocolStore.item.alert_doses_count"
-        class="word-break flex min-h-full w-auto overflow-hidden bg-red-500"
+        class="word-break my-2 flex min-h-full bg-red-500"
       >
         <template #icon="{ sizeClasses }">
           <ExclamationCircleIcon aria-hidden="true" class="mr-4 h-12 w-12 text-white" />
@@ -14,7 +14,7 @@
       <QuickStatisticsCard
         :title="$t('dashboard.completed-doses')"
         :result="protocolStore.item.completed_doses_percentage + `%`"
-        class="word-break flex min-h-full w-auto overflow-hidden bg-yellow-500"
+        class="word-break my-2 flex min-h-full bg-yellow-500"
       >
         <template #icon="{ sizeClasses }">
           <CheckCircleIcon aria-hidden="true" class="break-word mr-4 h-12 w-12 text-white" />
@@ -27,7 +27,7 @@
         :class="{ 'bg-blue-500': k == 0, 'bg-[#7A6EFE]': k > 0 }"
         :title="dose.vaccine.name"
         :result="`${dose.completed_percentage}%`"
-        class="word-break flex min-h-full w-auto overflow-hidden"
+        class="word-break my-2 flex min-h-full"
       >
         <template #icon="{ sizeClasses }">
           <CheckCircleIcon aria-hidden="true" class="h-12 w-12 text-white" />

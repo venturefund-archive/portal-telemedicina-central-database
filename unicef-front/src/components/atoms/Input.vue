@@ -2,7 +2,7 @@
   <input
     :class="[
       'rounded-md py-2',
-      'focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white',
+      'focus:outline-none',
       {
         'px-4': !withIcon,
         'pl-8 pr-2': withIcon,
