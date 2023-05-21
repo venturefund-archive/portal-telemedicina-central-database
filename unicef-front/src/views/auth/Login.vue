@@ -21,7 +21,7 @@
             :placeholder="$t('auth.username')"
             v-model="loginForm.username"
             autofocus
-            autocomplete="username"
+            autocomplete="email"
             autocapitalize="none"
             autocorrect="off"
           />

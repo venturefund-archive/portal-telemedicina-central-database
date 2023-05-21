@@ -38,7 +38,7 @@
     </ul>
     <div class="mt-4">
       <ul class="divide-y divide-gray-200 text-sm font-semibold">
-        <li class="flex items-center py-4 opacity-50">
+        <li class="flex items-center py-4 opacity-50 grayscale">
           <div class="mr-2 h-12 w-12 rounded-full border border-gray-200 bg-[#F8F9FB] p-2">
             <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-01.png" />
           </div>
@@ -50,31 +50,31 @@
           </div>
           <span class="pl-3">{{ $t('patient-details.booklet') }}</span>
         </li>
-        <li class="flex items-center py-4 opacity-50">
+        <li class="flex items-center py-4 opacity-50 grayscale">
           <div class="mr-2 h-12 w-12 rounded-full border border-gray-200 bg-[#F8F9FB] p-2">
             <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-03.png" />
           </div>
           <span class="pl-3">Período fetal</span>
         </li>
-        <li class="flex items-center py-4 opacity-50">
+        <li class="flex items-center py-4 opacity-50 grayscale">
           <div class="mr-2 h-12 w-12 rounded-full border border-gray-200 bg-[#F8F9FB] p-2">
             <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-04.png" />
           </div>
           <span class="pl-3">Alergias</span>
         </li>
-        <li class="flex items-center py-4 opacity-50">
+        <li class="flex items-center py-4 opacity-50 grayscale">
           <div class="mr-2 h-12 w-12 rounded-full border border-gray-200 bg-[#F8F9FB] p-2">
             <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-05.png" />
           </div>
           <span class="pl-3">Medicamentos</span>
         </li>
-        <li class="flex items-center py-4 opacity-50">
+        <li class="flex items-center py-4 opacity-50 grayscale">
           <div class="mr-2 h-12 w-12 rounded-full border border-gray-200 bg-[#F8F9FB] p-2">
             <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-06.png" />
           </div>
           <span class="pl-3">Doenças</span>
         </li>
-        <li class="flex items-center py-4 opacity-50">
+        <li class="flex items-center py-4 opacity-50 grayscale">
           <div class="mr-2 h-12 w-12 rounded-full border border-gray-200 bg-[#F8F9FB] p-2">
             <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-07.png" />
           </div>
