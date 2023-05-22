@@ -105,7 +105,7 @@
 import { DotsHorizontalIcon } from '@heroicons/vue/outline'
 import { ref, watch, defineExpose } from 'vue'
 
-const isOpen = ref(false)
+const isOpen = ref(true)
 
 const closeModal = function () {
   isOpen.value = false

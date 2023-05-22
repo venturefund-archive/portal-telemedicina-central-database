@@ -30,5 +30,8 @@
   "age":"Edad",
   "region":"Región",
   "document": "Documento",
-  "no-selected":"Ningún paciente seleccionado"
+  "no-selected":"Ningún paciente seleccionado",
+  "patients":"Pacientes",
+  "patient":"Paciente",
+  "search-patients":"Buscar pacientes"
 }

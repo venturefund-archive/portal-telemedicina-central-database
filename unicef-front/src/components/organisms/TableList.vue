@@ -1,12 +1,9 @@
 <template>
-  <div class="overflow-hidden rounded-b-2xl text-sm shadow" style="min-height: 790px">
-    <table class="min-w-full divide-y divide-gray-200 rounded-2xl">
+  <div class="overflow-hidden rounded rounded-b-2xl text-sm shadow" style="min-height: 793px">
+    <table class="min-w-full divide-y divide-gray-200">
       <thead class="bg-white">
         <tr>
-          <th
-            scope="col"
-            class="rounded-tl-2xl px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
-          >
+          <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
             Grupo populacional
           </th>
           <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
@@ -18,10 +15,7 @@
           <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
             Área
           </th>
-          <th
-            scope="col"
-            class="rounded-tr-2xl px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600"
-          >
+          <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
             Rua
           </th>
         </tr>
@@ -33,14 +27,14 @@
           class="hover:bg-gray-100"
           :class="index % 2 == 1 ? 'bg-[#F9FAFB]' : 'bg-white'"
         >
-          <td class="whitespace-nowrap rounded-bl-2xl px-6 py-4 font-semibold" v-if="index === users.length - 1">
+          <td class="whitespace-nowrap px-6 py-4 font-semibold" v-if="index === users.length - 1">
             {{ user.group }}
           </td>
           <td class="whitespace-nowrap px-6 py-4 font-semibold" v-else>{{ user.group }}</td>
           <td class="whitespace-nowrap px-6 py-4 text-gray-500">{{ user.qtd }}</td>
           <td class="whitespace-nowrap px-6 py-4 text-gray-500">{{ user.team }}</td>
           <td class="whitespace-nowrap px-6 py-4 text-gray-500">{{ user.area }}</td>
-          <td class="whitespace-nowrap rounded-br-2xl px-6 py-4 text-gray-500" v-if="index === users.length - 1">
+          <td class="whitespace-nowrap px-6 py-4 text-gray-500" v-if="index === users.length - 1">
             {{ user.street }}
           </td>
           <td class="whitespace-nowrap px-6 py-4 text-gray-500" v-else>{{ user.street }}</td>

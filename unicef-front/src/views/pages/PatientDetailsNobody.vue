@@ -1,9 +1,9 @@
 <template>
   <PageWrapper>
     <div class="flex flex-col items-center justify-center p-20">
-      <EmptyResultPhoto />
+    <img src="@/assets/images/search-patient.png" class="w-64 h-64" />
       <p class="font-semibold">{{ $t('patient-details.no-selected') }}</p>
-      <form class="w-full sm:w-96 pt-16 flex flex-col items-center justify-center">
+      <form class="flex w-full flex-col items-center justify-center pt-16 sm:w-96">
         <span class="py-3">{{ $t('patient-details.no-patient-selected-text') }}</span>
         <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900">Procurar</label>
         <InputIconWrapper>

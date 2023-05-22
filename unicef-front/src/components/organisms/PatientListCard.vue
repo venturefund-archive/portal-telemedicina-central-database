@@ -6,14 +6,18 @@
         <div class="flex">
           <button
             class="border-1 rounded-l-md border border-gray-300 py-2 px-4 text-sm hover:text-green-500"
-            :class="{ 'bg-green-500 border-green-500 text-white hover:!text-white hover:cursor-default': mode == 'cpfs' }"
+            :class="{
+              'border-green-500 bg-green-500 text-white hover:cursor-default hover:!text-white': mode == 'cpfs',
+            }"
             @click="mode = 'cpfs'"
           >
             CPFS
           </button>
           <button
             class="border-1 rounded-r-md border border-gray-300 py-2 px-4 text-sm hover:text-green-500"
-            :class="{ 'bg-green-500 border-green-500 text-white hover:!text-white hover:cursor-default': mode != 'cpfs' }"
+            :class="{
+              'border-green-500 bg-green-500 text-white hover:cursor-default hover:!text-white': mode != 'cpfs',
+            }"
             @click="mode = 'bairro'"
           >
             {{ $t('manager.district') }}
