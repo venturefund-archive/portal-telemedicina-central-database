@@ -11,7 +11,7 @@
     </SidebarLink>
 
     <SidebarLink
-      :title="$t('dashboard.vaccines')"
+      :title="$t('dashboard.patients')"
       class="capitalize"
       :to="{ name: 'PatientDetailsNobody' }"
       :active="isCurrentRoute('PatientDetails') || isCurrentRoute('PatientDetailsNobody')"

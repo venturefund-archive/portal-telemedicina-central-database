@@ -9,7 +9,7 @@
   "generated-date": "Gerado dia {0}",
   "month": "Mês",
   "months": "Meses",
-  "no-patient-selected-text": "Pesquise por um paciente",
+  "no-patient-selected-text": "Pesquise por um paciente para começar",
   "patient-details-title": "Dealhes do paciente",
   "recommended": "Recomendado",
   "recommended-age": "Idade recomendada",
@@ -30,5 +30,9 @@
   "age":"Idade",
   "region":"Região",
   "document": "CEP",
-  "no-selected":"Nenhum paciente selecionado"
+  "no-selected":"Nenhum paciente selecionado",
+  "patients":"Pacientes",
+  "patient":"Paciente",
+  "search-patients":"Procurar pacientes"
+
 }

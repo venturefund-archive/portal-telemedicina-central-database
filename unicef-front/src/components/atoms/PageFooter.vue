@@ -3,7 +3,7 @@
     <div class="flex w-full px-10 py-4 text-gray-500 dark:text-gray-400 lg:flex-row lg:justify-between">
       <p class="text-sm">
         &#169;
-        <span>{{ new Date().getFullYear() }}</span>
+        <span class="pr-0.5">{{ new Date().getFullYear() }}</span>
         <a href="https://portaltelemedicina.com.br/" target="_blank" class="text-blue-600 hover:underline"
           >Portal Telemedicina</a
         >. {{ $t('dashboard.all-rights-reserved') }}
@@ -20,6 +20,13 @@
           >.
         </span>
       </p>
+    </div>
+    <div class="hidden">
+      site_name: {{ site_name }}<br />
+      repository_url: {{ repository_url }}<br />
+      branch: {{ branch }}<br />
+      commit_ref: {{ commit_ref }}<br />
+      url: {{ url }}<br />
     </div>
   </footer>
 </template>

@@ -10,7 +10,7 @@
   "gender": "Género",
   "month": "Mes",
   "months": "meses",
-  "no-patient-selected-text": "Búsqueda de un paciente",
+  "no-patient-selected-text": "Pesquise por un paciente para começar",
   "patient-details-title": "Detalles del paciente",
   "recommended": "Recomendado",
   "recommended-age": "Edad recomendada",
@@ -30,5 +30,8 @@
   "age":"Edad",
   "region":"Región",
   "document": "Documento",
-  "no-selected":"Ningún paciente seleccionado"
+  "no-selected":"Ningún paciente seleccionado",
+  "patients":"Pacientes",
+  "patient":"Paciente",
+  "search-patients":"Buscar pacientes"
 }

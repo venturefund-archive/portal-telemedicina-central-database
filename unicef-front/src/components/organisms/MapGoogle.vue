@@ -3,101 +3,103 @@
     <p class="mb-4 text-xl font-semibold text-gray-700">
       {{ isTableView ? $t('manager.table-view-text') : $t('manager.vaccination-map') }}
     </p>
-    <div>
-      <!-- People with vaccines delayed -->
-      <div class="flex items-center justify-between rounded-t-2xl border bg-gray-50 p-5 drop-shadow-lg">
-        <div class="flex items-center space-x-5">
-          <div v-if="isTableView">
-            <div class="flex">
-              <input
-                type="date"
-                class="rounded-lg border border-gray-300 shadow focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
-              />
-            </div>
-          </div>
-          <div class="flex items-center space-x-2">
-            <form @submit.prevent="searchAddress">
-              <label for="default-search" class="sr-only">Procurar</label>
-              <div class="relative flex items-center">
-                <svg
-                  class="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-500"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  ></path>
-                </svg>
-                <div v-if="isTableView">
-                  <Input
-                    :placeholder="$t('manager.search')"
-                    v-model="asd"
-                    class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
-                  />
-                </div>
-                <div v-if="!isTableView">
-                  <Input
-                    :placeholder="$t('manager.search-map')"
-                    v-model="geoCoderQuery"
-                    class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
-                  />
-                </div>
+
+    <div class="!z-50 h-[106px] w-full rounded-t-2xl border !bg-gray-50 drop-shadow-lg drop-shadow-lg">
+      <div>
+        <!-- People with vaccines delayed -->
+        <div class="flex flex-col items-center justify-between space-y-5 p-5 md:flex-row md:space-y-0 md:space-x-5">
+          <div class="flex items-center space-x-5">
+            <div v-if="isTableView">
+              <div class="flex">
+                <input
+                  type="date"
+                  class="rounded-lg border border-gray-300 shadow focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
+                />
               </div>
-            </form>
-          </div>
+            </div>
+            <div class="flex items-center space-x-2">
+              <form @submit.prevent="searchAddress">
+                <label for="default-search" class="sr-only">Procurar</label>
+                <div class="relative flex items-center">
+                  <svg
+                    class="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 transform text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    ></path>
+                  </svg>
+                  <div v-if="isTableView">
+                    <Input
+                      :placeholder="$t('manager.search')"
+                      v-model="asd"
+                      class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
+                    />
+                  </div>
+                  <div v-if="!isTableView">
+                    <Input
+                      :placeholder="$t('manager.search-map')"
+                      v-model="geoCoderQuery"
+                      class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>
 
-          <!-- User List and Alerts -->
-          <div class="flex items-center space-x-10">
-            <div>
-              <button
-                @click="showList = !showList"
-                class="relative flex flex-col items-center rounded-md py-2 px-4 text-gray-500"
-              >
-                <UsersIcon title="{{ $t('manager.population') }}" class="h-6 w-6 text-green-500" />
-                <span class="text-sm">{{ $t('manager.population') }}</span>
-              </button>
-              <ul v-if="showList" class="absolute z-50 -ml-8 rounded-md bg-white shadow-md">
-                <li
-                  v-for="item in items"
-                  :class="{ 'font-bold': item === selectedItem }"
-                  class="cursor-pointer py-2 px-4 font-normal hover:bg-gray-100"
-                  :key="item"
+            <!-- User List and Alerts -->
+            <div class="flex items-center space-x-10">
+              <div>
+                <button
+                  @click="showList = !showList"
+                  class="relative flex flex-col items-center rounded-md py-2 px-4 text-gray-500"
                 >
-                  {{ item }}
-                </li>
-              </ul>
-            </div>
+                  <UsersIcon title="{{ $t('manager.population') }}" class="h-6 w-6 text-green-500" />
+                  <span class="text-sm">{{ $t('manager.population') }}</span>
+                </button>
+                <ul v-if="showList" class="absolute z-50 -ml-8 rounded-md bg-white shadow-md">
+                  <li
+                    v-for="item in items"
+                    :class="{ 'font-bold': item === selectedItem }"
+                    class="cursor-pointer py-2 px-4 font-normal hover:bg-gray-100"
+                    :key="item"
+                  >
+                    {{ item }}
+                  </li>
+                </ul>
+              </div>
 
-            <div v-if="!isTableView" class="flex flex-col items-center rounded-md py-2 px-4 text-gray-500">
-              <Switch
-                v-model="onlyAlerts"
-                :class="onlyAlerts ? 'bg-green-500' : 'bg-gray-200'"
-                class="relative inline-flex h-5 w-12 items-center rounded-full"
-              >
-                <span
-                  :class="onlyAlerts ? 'translate-x-6' : 'translate-x-0'"
-                  class="inline-block h-6 w-6 transform rounded-full border border-gray-300 bg-white shadow transition"
-                ></span>
-              </Switch>
-              <span class="pt-2 text-sm">{{ $t('manager.alerts') }}</span>
-            </div>
+              <div v-if="!isTableView" class="flex flex-col items-center rounded-md py-2 px-4 text-gray-500">
+                <Switch
+                  v-model="onlyAlerts"
+                  :class="onlyAlerts ? 'bg-green-500' : 'bg-gray-200'"
+                  class="relative inline-flex h-5 w-12 items-center rounded-full"
+                >
+                  <span
+                    :class="onlyAlerts ? 'translate-x-6' : 'translate-x-0'"
+                    class="inline-block h-6 w-6 transform rounded-full border border-gray-300 bg-white shadow transition"
+                  ></span>
+                </Switch>
+                <span class="pt-2 text-sm">{{ $t('manager.alerts') }}</span>
+              </div>
 
-            <div class="flex cursor-pointer items-center space-x-10">
-              <button @click="toggleView" class="flex flex-col items-center">
-                <TableIcon v-if="!isTableView" class="h-8 w-9 text-gray-500" />
-                <MapIcon v-else class="h-7 w-10 text-gray-500" />
-                <span class="text-sm text-gray-500">Visualização</span>
-              </button>
+              <div class="flex cursor-pointer items-center space-x-10">
+                <button @click="toggleView" class="flex flex-col items-center">
+                  <TableIcon v-if="!isTableView" class="h-8 w-9 text-gray-500" />
+                  <MapIcon v-else class="h-7 w-10 text-gray-500" />
+                  <span class="text-sm text-gray-500">Visualização</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
       <!-- Save Button -->
       <!-- <Button
             v-if="!isTableView"
@@ -113,12 +115,12 @@
       <TableList v-show="isTableView" />
       <!-- Map content -->
       <div
-        class="border-1 -z-10 flex justify-start border bg-white shadow-2xl"
+        class="border-1 -z-10 flex justify-start border bg-white drop-shadow-lg"
         v-show="!isTableView && !showEmptyResult"
       >
         <GoogleMap
           :api-key="GOOGLE_MAP_API_KEY"
-          style="width: 100%; height: 800px"
+          style="width: 100%; height: 790px"
           id="map"
           :center="center"
           :zoom="14"
@@ -335,7 +337,7 @@
       <div
         v-if="showEmptyResult"
         class="shadow-b-md shadow-l-md shadow-r-md flex flex-col rounded rounded-b-2xl border border-gray-200 bg-white py-60 shadow"
-        style="min-height: 790px"
+        style="min-height: 793px"
       >
         <div class="flex justify-center">
           <EmptyResultPhoto />
