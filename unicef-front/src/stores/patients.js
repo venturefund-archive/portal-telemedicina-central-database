@@ -20,7 +20,7 @@ export const usePatientsStore = defineStore('patients', () => {
           Authorization: `token ${state.value.token}`,
         },
       })
-      this.items = response.data
+      this.items = response.data.results
     } catch (err) {
       console.log(err)
       err.response && errorToast({ text: err.response.data.detail })
