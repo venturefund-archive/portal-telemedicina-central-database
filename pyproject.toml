@@ -6,6 +6,7 @@ authors = ["Your Name <you@example.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+urllib3 = "^1.26"
 pytz = "2022.1"  # https://github.com/stub42/pytz
 python-slugify = "6.1.2"  # https://github.com/un33k/python-slugify
 Pillow = "9.1.1"  # https://github.com/python-pillow/Pillow
@@ -42,6 +43,8 @@ django-simple-history = "^3.2.0"
 rules = "^3.3"
 django-filter = "^22.1"
 fhirclient = "^4.1.0"
+django-leaflet = "^0.29.0"
+djangorestframework-gis = "^1.0"
 
 [tool.poetry.dev-dependencies]
 Werkzeug = {extras = ["watchdog"], version = "2.0.3"} # https://github.com/pallets/werkzeug
@@ -87,7 +90,9 @@ pydotplus = "2.0.2"
 graphviz = "^0.20.1"
 
 [build-system]
-requires = ["poetry==1.4.2"]
+requires = [
+    "poetry==1.4.2"
+]
 build-backend = "poetry.core.masonry.api"
 
 [tool.mypy]
