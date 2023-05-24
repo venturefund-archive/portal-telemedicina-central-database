@@ -4,8 +4,8 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-
-
+export GDAL_LIBRARY_PATH=$(gdal-config --dep-libs | grep -o '/usr/lib/.*libgdal.so')
+exec "$@"
 
 if [ -z "${POSTGRES_USER}" ]; then
     base_postgres_image_default_user='postgres'
