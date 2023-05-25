@@ -5,7 +5,7 @@ from rest_framework import serializers
 from rest_framework.serializers import ListSerializer
 
 from central_database.patients.helpers import calculate_age_in_days
-from central_database.vaccines.models import VaccineProtocol
+from central_database.vaccines.models import VaccineAlert, VaccineProtocol
 
 
 class FHIRDateField(serializers.Field):
@@ -51,10 +51,13 @@ class AddressSerializer(serializers.Serializer):
 class PatientListSerializer(ListSerializer):
     def to_representation(self, data):
         instances = super().to_representation(data)
-        keys_to_remove = ["telecom", "gender", "address", "marital_status"]
+        keys_to_remove = ["telecom", "gender", "marital_status"]
 
         protocol = VaccineProtocol.get_vaccine_protocol_by_client()
         alerts = protocol.get_number_of_doses_with_alerts_by_patient()
+
+        patient_ids = [instance["id"] for instance in instances]
+        all_alerts = VaccineAlert.get_alerts_by_patient(patient_ids)
 
         updated_instances = [
             {
@@ -65,6 +68,11 @@ class PatientListSerializer(ListSerializer):
                 },
                 "number_of_alerts_by_protocol": alerts.get(instance["id"], 0),
                 "age_in_days": calculate_age_in_days(instance["birth_date"]),
+                "alerts": all_alerts.get(instance["id"], []),
+                "address": {
+                    "latitude": instance["address"][0]["latitude"],
+                    "longitude": instance["address"][0]["longitude"],
+                },
             }
             for instance in instances
         ]

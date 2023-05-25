@@ -1,3 +1,4 @@
+from collections import defaultdict
 from datetime import datetime
 
 from django.core.exceptions import ValidationError
@@ -275,6 +276,22 @@ class VaccineAlert(Alert, models.Model):
     @staticmethod
     def get_alerts_by_doses(vaccine_doses):
         return VaccineAlert.objects.filter(vaccine_dose__in=vaccine_doses)
+
+    @staticmethod
+    def get_alerts_by_patient(patient_ids):
+        alerts = (
+            VaccineAlert.objects.filter(patient_id__in=patient_ids)
+            .select_related("vaccine_dose__vaccine")
+            .values("patient_id", "vaccine_dose__vaccine__display")
+        )
+
+        alerts_dict = defaultdict(list)
+        for alert in alerts:
+            alerts_dict[alert["patient_id"]].append(
+                alert["vaccine_dose__vaccine__display"]
+            )
+
+        return dict(alerts_dict)
 
 
 class VaccineProtocol(models.Model):

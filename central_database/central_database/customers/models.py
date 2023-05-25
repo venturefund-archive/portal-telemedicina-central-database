@@ -7,6 +7,7 @@ class Client(CDModel):
     dataset_id = models.CharField(max_length=255)
     fhir_store_id = models.CharField(max_length=255)
     client_name = models.CharField(max_length=255)
+    city = models.CharField(max_length=255, default="test_city", null=True)
 
     def __str__(self):
         return self.client_name
