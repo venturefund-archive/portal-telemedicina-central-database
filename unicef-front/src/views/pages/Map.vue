@@ -3,7 +3,12 @@
     <div class="pb-10">
       <div class="flex items-baseline justify-center py-10">
         <div class="mr-4 md:flex-1">
-          <MapGoogle :patients="markers" @update:markers-in-view="updateMarkersFiltered" :center="currentCenter" />
+          <MapGoogle
+            :patients="markers"
+            @update:markers-in-view="updateMarkersFiltered"
+            :center="currentCenter"
+            :zoom="currentZoom"
+          />
         </div>
         <div class="md:w-1/3">
           <div class="m-3">
@@ -30,10 +35,11 @@ const markers = ref([])
 const filteredMarkers = ref([])
 onMounted(async () => {
   await patientsStore.fetchPatients()
-  markers.value = patientsStore.items
+  markers.value = filteredMarkers.value = patientsStore.items
 })
 
 const currentCenter = ref(undefined)
+const currentZoom = ref(undefined)
 
 // Função para atualizar os marcadores em vista
 const updateMarkersFiltered = (newMarkers) => {
@@ -42,5 +48,6 @@ const updateMarkersFiltered = (newMarkers) => {
 // Função para atualizar o centro em vista
 const updateCenterInView = (newCenter) => {
   currentCenter.value = newCenter
+  currentZoom.value = 9
 }
 </script>

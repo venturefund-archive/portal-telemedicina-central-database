@@ -123,7 +123,7 @@
           style="width: 100%; height: 790px"
           id="map"
           :center="props.center"
-          :zoom="4"
+          :zoom="props.zoom"
           :libraries="['drawing']"
           @idle="getMarkersInView"
           ref="mapRef"
@@ -164,7 +164,7 @@
             <MarkerCluster>
               <div v-for="(marker, i) in props.patients" :key="i">
                 <Marker
-                  v-if="(onlyAlerts && marker.alert == true) || !onlyAlerts"
+                  v-if="(onlyAlerts && 0 != marker.alerts.length) || !onlyAlerts"
                   :ref="
                     (el) => {
                       markers[i] = el
@@ -173,7 +173,11 @@
                   :options="{
                     position: patientLocation(marker),
                     draggable: isDraggable(i),
-                    icon: isDraggable(i) ? markerIconEditing : marker.alert ? markerIconAlert : markerIconNormal,
+                    icon: isDraggable(i)
+                      ? markerIconEditing
+                      : 0 !== marker.alerts.length
+                      ? markerIconAlert
+                      : markerIconNormal,
                     // opacity: isDraggable(i) ? 1 : 0.5
                   }"
                   @dragend="handleMarkerDrag($event, i)"
@@ -383,6 +387,10 @@ const props = defineProps({
     type: Object,
     default: { lat: -22.74895, lng: -50.57253 },
   },
+  zoom: {
+    type: Number,
+    default: 5,
+  },
   patients: {
     type: Array,
     default: [],
@@ -416,7 +424,7 @@ const markerIconDisabled = ref({
   },
 })
 const markerIconAlert = ref({
-  url: 'marker-disabled.png',
+  url: 'marker-alert.png',
   scaledSize: {
     width: 40,
     height: 50,
@@ -798,7 +806,7 @@ onBeforeUpdate(() => {
 const isDraggable = computed(() => (index) => index == movingIndex.value)
 const patients = computed(() => {
   if (onlyAlerts.value) {
-    return props.patients.filter((p) => p.number_of_alerts_by_protocol > 0)
+    return props.patients.filter((p) => p.alert.length > 0)
   }
   return props.patients
 })
@@ -824,7 +832,17 @@ async function handleMarkerDrag(event, index) {
   // })
   // console.log(markers.value[index])
   // console.log(coords)
-
+  if (index !== -1) {
+    // Atualiza o item se encontrado
+    patientsStore.items.splice(index, 1, {
+      ...patientsStore.items[index],
+      address: {
+        latitude: event.latLng.lat(),
+        longitude: event.latLng.lng(),
+      },
+    })
+  }
+  movingIndex.value = null
   const response = await patientsStore.movePatient(props.patients[index].id, {
     address: [
       {
@@ -834,8 +852,6 @@ async function handleMarkerDrag(event, index) {
       },
     ],
   })
-  await patientsStore.fetchPatients()
-  movingIndex.value = null
 
   // LocalStorage Method #1
   // markers.value[index] = coords
