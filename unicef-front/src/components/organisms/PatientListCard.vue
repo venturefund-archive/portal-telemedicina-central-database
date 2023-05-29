@@ -2,49 +2,50 @@
   <div class="flex h-screen flex-col">
     <p class="mb-4 text-xl font-semibold text-gray-700">{{ $t('manager.patients-delayed') }}</p>
 
-    <div class="flex">
-      <button
-        class="border-1 rounded-l-md border border-gray-300 py-2 px-4 text-sm hover:text-green-500"
-        :class="{
-          'border-green-500 bg-green-500 text-white hover:cursor-default hover:!text-white': mode == 'cpfs',
-        }"
-        @click="mode = 'cpfs'"
-      >
-        CPFS
-      </button>
-      <button
-        class="border-1 rounded-r-md border border-gray-300 py-2 px-4 text-sm hover:text-green-500"
-        :class="{
-          'border-green-500 bg-green-500 text-white hover:cursor-default hover:!text-white': mode != 'cpfs',
-        }"
-        @click="mode = 'bairro'"
-      >
-        {{ $t('manager.district') }}
-      </button>
-
-      <button
-        @click="showList = !showList"
-        class="z-5 bg-primary relative flex flex-col items-center rounded-md py-2 px-4 text-gray-500"
-      >
-        <UsersIcon title="População" class="h-6 w-6 text-green-500" />
-      </button>
-      <ul v-if="showList" class="absolute z-20 mt-12 ml-40 rounded-md bg-white shadow-md">
-        <li
-          v-for="item in items"
-          :class="{ 'font-bold': item === selectedItem }"
-          class="cursor-pointer py-2 px-4 font-normal hover:bg-gray-100"
-          :key="item"
-        >
-          {{ item }}
-        </li>
-      </ul>
-    </div>
-
     <div
       class="border-1 float-right flex h-full w-full flex-col justify-between rounded-2xl border border-gray-200 bg-white p-4"
     >
+
       <!-- List contents here -->
       <BaseCard class="px-1" @update:query="handleMarkerChange">
+        <div class="flex -mt-10 pb-7">
+          <button
+            class="border-1 rounded-l-md border border-gray-300 py-2 px-4 text-sm hover:text-green-500"
+            :class="{
+              'border-green-500 bg-green-500 text-white hover:cursor-default hover:!text-white': mode == 'cpfs',
+            }"
+            @click="mode = 'cpfs'"
+          >
+            CPFS
+          </button>
+          <button
+            class="border-1 rounded-r-md border border-gray-300 py-2 px-4 text-sm hover:text-green-500"
+            :class="{
+              'border-green-500 bg-green-500 text-white hover:cursor-default hover:!text-white': mode != 'cpfs',
+            }"
+            @click="mode = 'bairro'"
+          >
+            {{ $t('manager.district') }}
+          </button>
+
+          <button
+            @click="showList = !showList"
+            class="z-5 bg-primary relative flex flex-col items-center rounded-md py-2 px-4 text-gray-500"
+          >
+            <UsersIcon title="População" class="h-6 w-6 text-green-500" />
+          </button>
+          <ul v-if="showList" class="absolute z-20 mt-12 ml-40 rounded-md bg-white shadow-md">
+            <li
+              v-for="item in items"
+              :class="{ 'font-bold': item === selectedItem }"
+              class="cursor-pointer py-2 px-4 font-normal hover:bg-gray-100"
+              :key="item"
+            >
+              {{ item }}
+            </li>
+          </ul>
+        </div>
+
         <div
           class="flex items-center justify-between border-b border-gray-200 px-2 pb-1 pt-4 hover:rounded hover:bg-gray-100"
           v-for="(patient, index) in paginated"
