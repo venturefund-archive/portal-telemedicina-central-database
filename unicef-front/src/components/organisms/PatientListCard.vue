@@ -41,20 +41,25 @@
           </ul>
         </div>
       </div>
-
       <div class="grid grid-cols-1 gap-2 py-5" v-if="paginated">
-        <div @update:query="patientQuery = $event">
+        <BaseCard class="flex flex-col rounded-xl bg-[#F2F2F2]" @update:query="handleMarkerChange">
           <div
-            class="mt-4 flex items-center justify-between border-b-2 border-gray-200 px-2 py-1 hover:rounded hover:bg-gray-100"
+            class="flex items-center justify-between border-b border-white px-2 py-4 hover:rounded hover:bg-gray-100"
             v-for="(patient, index) in paginated"
             :key="index"
           >
             <div class="flex flex-auto items-center gap-2">
               <span class="hidden align-baseline text-xs text-gray-500">{{ indexStart + ++index }}.</span>
               <div>
-                <router-link :to="{ name: 'PatientDetails', params: { id: patient.id } }">
-                  <p class="text-lg font-semibold capitalize">{{ patient.name.toLowerCase() }}</p>
-                </router-link>
+                <p
+                  @click="
+                    $emit('centralize-on-location', { lat: patient.address.latitude, lng: patient.address.longitude })
+                  "
+                  class="text-lg font-semibold capitalize hover:cursor-pointer hover:underline"
+                >
+                  {{ patient.name.toLowerCase() }}
+                </p>
+
                 <span class="text-sm text-gray-500"> Street xxx, district xxx </span>
               </div>
             </div>
@@ -62,11 +67,13 @@
               <div v-if="patient.number_of_alerts_by_protocol != false">
                 <!-- <span class="flex-none pr-14">{{ patient.number_of_alerts_by_protocol }}</span> -->
               </div>
-              <button
-                class="border-1 cursor-pointer rounded border border-green-500 py-2 px-4 text-sm font-normal text-green-500 hover:bg-green-500 hover:text-white"
+
+              <router-link
+                :to="{ name: 'PatientDetails', params: { id: patient.id } }"
+                class="border-1 cursor-pointer rounded border border-green-500 py-2 px-4 text-sm font-normal text-green-500 hover:bg-green-500 hover:text-white hover:no-underline"
               >
                 {{ $t('manager.details') }}
-              </button>
+              </router-link>
             </div>
           </div>
 
@@ -91,7 +98,7 @@
               <span class="text-xs lowercase text-neutral-400">
                 <span class="font-semibold">{{ filteredPatients.length }}</span> {{ $t('dashboard.result')
                 }}<span v-if="filteredPatients.length > 1">s</span> {{ $t('dashboard.of-total-of') }}
-                <span class="font-semibold">{{ patientsStore.items.length }}</span> {{ $t('dashboard.patients') }}</span
+                <span class="font-semibold">{{ patients.length }}</span> {{ $t('dashboard.patients') }}</span
               >
             </div>
 
@@ -108,21 +115,24 @@
               </Button>
             </div>
           </div>
-          <div v-else class="flex flex-col py-60">
-            <div class="flex justify-center">
-              <EmptyResultPhoto />
-            </div>
-            <span class="flex justify-center font-semibold">{{ $t('manager.no-data') }}</span>
-            <span class="flex justify-center text-gray-500"> {{ $t('manager.no-data-description') }}</span>
-          </div>
-        </div>
+        </BaseCard>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineComponent, reactive, computed, onBeforeUpdate, onMounted, watch, ref, onUnmounted } from 'vue'
+import {
+  defineComponent,
+  reactive,
+  computed,
+  onBeforeUpdate,
+  onMounted,
+  watch,
+  ref,
+  onUnmounted,
+  defineExpose,
+} from 'vue'
 import {
   HandIcon,
   PencilIcon,
@@ -132,12 +142,8 @@ import {
   DownloadIcon,
   ShareIcon,
 } from '@heroicons/vue/solid'
-import { useRouter } from 'vue-router'
 import { usePatientsStore } from '@/stores/patients'
-import { useLoggedUserStore } from '@/stores/loggedUser'
-const loggedUserStore = useLoggedUserStore()
 const patientsStore = usePatientsStore()
-const router = useRouter()
 
 const mode = ref('cpfs')
 const patientQuery = ref('')
@@ -148,10 +154,14 @@ const isFirstPage = computed(() => current.value == 1)
 const indexStart = computed(() => (current.value - 1) * pageSize.value)
 const indexEnd = computed(() => indexStart.value + pageSize.value)
 const filteredPatients = computed(() => {
-  return patientsStore.items.filter((patient) => {
+  return props.patients.filter((patient) => {
     return patient.name.toLowerCase().includes(patientQuery.value.toLowerCase())
   })
 })
+const handleMarkerChange = (event) => {
+  patientQuery.value = event
+}
+
 const totalPages = computed(() => Math.ceil(filteredPatients.value.length / pageSize.value))
 const paginated = computed(() => filteredPatients.value.slice(indexStart.value, indexEnd.value))
 
@@ -173,10 +183,6 @@ const props = defineProps({
     type: Array,
     default: [],
   },
-})
-
-onMounted(async () => {
-  await patientsStore.fetchPatients()
 })
 
 const handleClickOutside = (event) => {
@@ -206,6 +212,7 @@ const items = [
   'Adolescência',
 ]
 </script>
+
 <style>
 .container {
   padding: 5px;

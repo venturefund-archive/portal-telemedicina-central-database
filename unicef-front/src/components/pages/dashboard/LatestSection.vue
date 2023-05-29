@@ -111,8 +111,4 @@ const props = defineProps({
     default: '',
   },
 })
-
-onMounted(async () => {
-  await patientsStore.fetchPatients()
-})
 </script>

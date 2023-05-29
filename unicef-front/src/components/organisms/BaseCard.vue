@@ -5,7 +5,7 @@
       <slot name="header">
         <div class="flex justify-between">
           <h4 class="text-lg font-medium">{{ title }}</h4>
-          <form>
+          <form @submit.prevent="">
             <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{
               $t('dashboard.search')
             }}</label>
