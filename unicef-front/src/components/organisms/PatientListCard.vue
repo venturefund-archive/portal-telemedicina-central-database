@@ -1,121 +1,126 @@
 <template>
-  <div>
+  <div class="flex h-screen flex-col">
     <p class="mb-4 text-xl font-semibold text-gray-700">{{ $t('manager.patients-delayed') }}</p>
-    <div class="border-1 float-right w-full rounded-2xl border border-gray-200 bg-white p-4" style="min-height: 900px">
-      <div class="flex justify-between">
-        <div class="flex">
-          <button
-            class="border-1 rounded-l-md border border-gray-300 py-2 px-4 text-sm hover:text-green-500"
-            :class="{
-              'border-green-500 bg-green-500 text-white hover:cursor-default hover:!text-white': mode == 'cpfs',
-            }"
-            @click="mode = 'cpfs'"
-          >
-            CPFS
-          </button>
-          <button
-            class="border-1 rounded-r-md border border-gray-300 py-2 px-4 text-sm hover:text-green-500"
-            :class="{
-              'border-green-500 bg-green-500 text-white hover:cursor-default hover:!text-white': mode != 'cpfs',
-            }"
-            @click="mode = 'bairro'"
-          >
-            {{ $t('manager.district') }}
-          </button>
 
-          <button
-            @click="showList = !showList"
-            class="z-5 bg-primary relative flex flex-col items-center rounded-md py-2 px-4 text-gray-500"
-          >
-            <UsersIcon title="População" class="h-6 w-6 text-green-500" />
-          </button>
-          <ul v-if="showList" class="absolute z-20 mt-12 ml-40 rounded-md bg-white shadow-md">
-            <li
-              v-for="item in items"
-              :class="{ 'font-bold': item === selectedItem }"
-              class="cursor-pointer py-2 px-4 font-normal hover:bg-gray-100"
-              :key="item"
+    <div class="flex">
+      <button
+        class="border-1 rounded-l-md border border-gray-300 py-2 px-4 text-sm hover:text-green-500"
+        :class="{
+          'border-green-500 bg-green-500 text-white hover:cursor-default hover:!text-white': mode == 'cpfs',
+        }"
+        @click="mode = 'cpfs'"
+      >
+        CPFS
+      </button>
+      <button
+        class="border-1 rounded-r-md border border-gray-300 py-2 px-4 text-sm hover:text-green-500"
+        :class="{
+          'border-green-500 bg-green-500 text-white hover:cursor-default hover:!text-white': mode != 'cpfs',
+        }"
+        @click="mode = 'bairro'"
+      >
+        {{ $t('manager.district') }}
+      </button>
+
+      <button
+        @click="showList = !showList"
+        class="z-5 bg-primary relative flex flex-col items-center rounded-md py-2 px-4 text-gray-500"
+      >
+        <UsersIcon title="População" class="h-6 w-6 text-green-500" />
+      </button>
+      <ul v-if="showList" class="absolute z-20 mt-12 ml-40 rounded-md bg-white shadow-md">
+        <li
+          v-for="item in items"
+          :class="{ 'font-bold': item === selectedItem }"
+          class="cursor-pointer py-2 px-4 font-normal hover:bg-gray-100"
+          :key="item"
+        >
+          {{ item }}
+        </li>
+      </ul>
+    </div>
+
+    <div
+      class="border-1 float-right flex h-full w-full flex-col justify-between rounded-2xl border border-gray-200 bg-white p-4"
+    >
+      <!-- List contents here -->
+      <BaseCard class="px-1" @update:query="handleMarkerChange">
+        <div
+          class="flex items-center justify-between border-b border-gray-200 px-2 pb-1 pt-4 hover:rounded hover:bg-gray-100"
+          v-for="(patient, index) in paginated"
+          :key="index"
+        >
+          <div class="flex flex-auto items-center gap-2">
+            <span class="hidden align-baseline text-xs text-gray-500">{{ indexStart + ++index }}.</span>
+            <div>
+              <p
+                @click="
+                  $emit('centralize-on-location', { lat: patient.address.latitude, lng: patient.address.longitude })
+                "
+                class="text-lg font-semibold capitalize hover:cursor-pointer hover:underline"
+              >
+                {{ patient.name.toLowerCase() }}
+              </p>
+
+              <span class="text-sm text-gray-500"> Street xxx, district xxx </span>
+            </div>
+          </div>
+          <div>
+            <div v-if="patient.number_of_alerts_by_protocol != false">
+              <!-- <span class="flex-none pr-14">{{ patient.number_of_alerts_by_protocol }}</span> -->
+            </div>
+
+            <router-link
+              :to="{ name: 'PatientDetails', params: { id: patient.id } }"
+              class="border-1 cursor-pointer rounded border border-green-500 py-2 px-4 text-sm font-normal text-green-500 hover:bg-green-500 hover:text-white hover:no-underline"
             >
-              {{ item }}
-            </li>
-          </ul>
+              {{ $t('manager.details') }}
+            </router-link>
+          </div>
         </div>
-      </div>
-      <div class="grid grid-cols-1 gap-2 py-5" v-if="paginated">
-        <BaseCard class="flex flex-col rounded-xl bg-[#F2F2F2]" @update:query="handleMarkerChange">
-          <div
-            class="flex items-center justify-between border-b border-white px-2 py-4 hover:rounded hover:bg-gray-100"
-            v-for="(patient, index) in paginated"
-            :key="index"
-          >
-            <div class="flex flex-auto items-center gap-2">
-              <span class="hidden align-baseline text-xs text-gray-500">{{ indexStart + ++index }}.</span>
-              <div>
-                <p
-                  @click="
-                    $emit('centralize-on-location', { lat: patient.address.latitude, lng: patient.address.longitude })
-                  "
-                  class="text-lg font-semibold capitalize hover:cursor-pointer hover:underline"
-                >
-                  {{ patient.name.toLowerCase() }}
-                </p>
+      </BaseCard>
 
-                <span class="text-sm text-gray-500"> Street xxx, district xxx </span>
-              </div>
-            </div>
-            <div>
-              <div v-if="patient.number_of_alerts_by_protocol != false">
-                <!-- <span class="flex-none pr-14">{{ patient.number_of_alerts_by_protocol }}</span> -->
-              </div>
-
-              <router-link
-                :to="{ name: 'PatientDetails', params: { id: patient.id } }"
-                class="border-1 cursor-pointer rounded border border-green-500 py-2 px-4 text-sm font-normal text-green-500 hover:bg-green-500 hover:text-white hover:no-underline"
-              >
-                {{ $t('manager.details') }}
-              </router-link>
-            </div>
+      <div class="py-5" v-if="paginated">
+        <!-- Pagination contents here -->
+        <div class="flex justify-between p-4" v-if="0 != totalPages">
+          <!-- Pagination contents here -->
+          <div>
+            <Button
+              :disabled="isFirstPage"
+              size="sm"
+              iconOnly
+              variant="secondary"
+              v-slot="{ iconSizeClasses }"
+              @click="prev"
+            >
+              <ArrowLeftIcon aria-hidden="true" :class="iconSizeClasses" />
+            </Button>
+          </div>
+          <div class="flex flex-col items-center">
+            <span class="text-sm">
+              <span class="font-semibold">{{ current }} / {{ totalPages }}</span> {{ $t('dashboard.page')
+              }}<span v-if="totalPages > 1">s</span></span
+            >
+            <span class="text-xs lowercase text-neutral-400">
+              <span class="font-semibold">{{ filteredPatients.length }}</span> {{ $t('dashboard.result')
+              }}<span v-if="filteredPatients.length > 1">s</span> {{ $t('dashboard.of-total-of') }}
+              <span class="font-semibold">{{ patients.length }}</span> {{ $t('dashboard.patients') }}</span
+            >
           </div>
 
-          <div class="flex justify-between p-4" v-if="0 != totalPages">
-            <div>
-              <Button
-                :disabled="isFirstPage"
-                size="sm"
-                iconOnly
-                variant="secondary"
-                v-slot="{ iconSizeClasses }"
-                @click="prev"
-              >
-                <ArrowLeftIcon aria-hidden="true" :class="iconSizeClasses" />
-              </Button>
-            </div>
-            <div class="flex flex-col items-center">
-              <span class="text-sm">
-                <span class="font-semibold">{{ current }} / {{ totalPages }}</span> {{ $t('dashboard.page')
-                }}<span v-if="totalPages > 1">s</span></span
-              >
-              <span class="text-xs lowercase text-neutral-400">
-                <span class="font-semibold">{{ filteredPatients.length }}</span> {{ $t('dashboard.result')
-                }}<span v-if="filteredPatients.length > 1">s</span> {{ $t('dashboard.of-total-of') }}
-                <span class="font-semibold">{{ patients.length }}</span> {{ $t('dashboard.patients') }}</span
-              >
-            </div>
-
-            <div>
-              <Button
-                :disabled="isLastPage"
-                size="sm"
-                iconOnly
-                variant="secondary"
-                v-slot="{ iconSizeClasses }"
-                @click="next()"
-              >
-                <ArrowRightIcon aria-hidden="true" :class="iconSizeClasses" />
-              </Button>
-            </div>
+          <div>
+            <Button
+              :disabled="isLastPage"
+              size="sm"
+              iconOnly
+              variant="secondary"
+              v-slot="{ iconSizeClasses }"
+              @click="next()"
+            >
+              <ArrowRightIcon aria-hidden="true" :class="iconSizeClasses" />
+            </Button>
           </div>
-        </BaseCard>
+        </div>
       </div>
     </div>
   </div>
