@@ -50,7 +50,7 @@ RUN sed -i 's/\r$//g' /start
 RUN chmod +x /start
 
 # copy application code to WORKDIR
-COPY . ${APP_HOME}
+COPY ./central_database ${APP_HOME}
 
 COPY ./central_database/hook.sh /hook
 
