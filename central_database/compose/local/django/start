@@ -5,5 +5,10 @@ set -o pipefail
 set -o nounset
 
 
+
+python manage.py flush --no-input
 python manage.py migrate
-uvicorn config.asgi:application --host 0.0.0.0 --reload
+python manage.py loaddata central_database/vaccines/fixtures/*.json
+python manage.py createsuperuser --noinput
+
+python -m debugpy --listen 0.0.0.0:5678 -m uvicorn config.asgi:application --reload --host 0.0.0.0 --port 8000
