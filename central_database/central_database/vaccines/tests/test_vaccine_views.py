@@ -181,3 +181,40 @@ class VaccineAlertsCountTestCase(APITestCase):
                 "permissions": {},
             },
         )
+
+
+class TestVaccineAlertViewSet(APITestCase):
+    def setUp(self):
+        self.user = UserFactory()
+
+    def test_silence_alert(self):
+        vaccine_dose = VaccineDoseFactory(
+            minimum_recommended_age=1,
+            maximum_recommended_age=2,
+        )
+
+        vaccine_alert_type = VaccineAlertTypeFactory()
+        vaccine_alert = VaccineAlertFactory(
+            vaccine_dose=vaccine_dose,
+            alert_type=vaccine_alert_type,
+            active=True,  # noqa: E501
+        )
+
+        url = reverse(
+            "api:vaccine-alerts-silence-alert", kwargs={"pk": vaccine_alert.id}
+        )
+
+        self.client.force_authenticate(self.user)
+        response = self.client.patch(url)
+        vaccine_alert.refresh_from_db()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(vaccine_alert.active, False)
+        self.assertEqual(response.data["active"], False)
+
+    def test_silence_non_existent_alert(self):
+        url = reverse("api:vaccine-alerts-silence-alert", kwargs={"pk": 99999})
+
+        self.client.force_authenticate(self.user)
+        response = self.client.patch(url)
+        self.assertEqual(response.status_code, 404)
