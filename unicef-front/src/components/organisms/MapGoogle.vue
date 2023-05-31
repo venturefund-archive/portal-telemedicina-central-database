@@ -772,6 +772,7 @@ const geocodeAddress = (geoCoder, resultsMap) => {
 const patientMarkers = ref([])
 
 onMounted(async () => {
+  await patientsStore.fetchPatients()
   document.addEventListener('click', handleClickOutside)
 
   //   state.value.markers = [
