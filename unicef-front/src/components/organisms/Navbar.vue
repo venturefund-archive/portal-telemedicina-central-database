@@ -162,6 +162,7 @@ const filteredResults = computed(() => {
 onMounted(async () => {
   document.addEventListener('scroll', handleScroll)
   await loggedUserStore.fetchMe()
+  await patientsStore.searchPatients()
 })
 
 onUnmounted(() => {
