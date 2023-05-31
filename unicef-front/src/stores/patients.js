@@ -35,7 +35,7 @@ export const usePatientsStore = defineStore('patients', () => {
           Authorization: `token ${state.value.token}`,
         },
       })
-      this.item = response.data
+      this.item = response.data.filter(patient => !patient.address[0].latitude || !patient.address.latitude)
     } catch (err) {
       errorToast({ text: err.message })
     }
