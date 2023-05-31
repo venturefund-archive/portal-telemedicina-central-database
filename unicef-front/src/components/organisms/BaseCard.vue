@@ -1,11 +1,11 @@
 <template>
-  <div :class="['rounded-2xl py-5 px-3 shadow-md', bgClasses]">
+  <div :class="['rounded-2xl py-5', bgClasses]">
     <!-- Card header -->
     <div v-if="!noHeader">
       <slot name="header">
         <div class="flex justify-between">
           <h4 class="text-lg font-medium">{{ title }}</h4>
-          <form>
+          <form @submit.prevent="">
             <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{
               $t('dashboard.search')
             }}</label>

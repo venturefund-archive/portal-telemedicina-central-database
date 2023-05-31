@@ -40,6 +40,20 @@ export const usePatientsStore = defineStore('patients', () => {
       errorToast({ text: err.message })
     }
   }
+  async function movePatient(id, data) {
+    const state = useStorage('app-store', { token: '' })
+    try {
+      const response = await axios.patch(import.meta.env.VITE_API_URL + `/api/patients/${id}/`, data, {
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `token ${state.value.token}`,
+        },
+      })
+      return response
+    } catch (err) {
+      errorToast({ text: err.message })
+    }
+  }
 
   return {
     items,
@@ -47,5 +61,6 @@ export const usePatientsStore = defineStore('patients', () => {
     searchPatients,
     fetchPatients,
     fetchPatient,
+    movePatient,
   }
 })

@@ -122,9 +122,10 @@
           :api-key="GOOGLE_MAP_API_KEY"
           style="width: 100%; height: 790px"
           id="map"
-          :center="center"
-          :zoom="14"
+          :center="props.center"
+          :zoom="props.zoom"
           :libraries="['drawing']"
+          @idle="getMarkersInView"
           ref="mapRef"
         >
           <template #default="{ ready, api, map, mapTilesLoaded }"
@@ -161,18 +162,23 @@
               </InfoWindow>
             </div>
             <MarkerCluster>
-              <div v-for="(location, i) in state.markers" :key="i">
+              <div v-for="(marker, i) in props.patients" :key="i">
                 <Marker
-                  v-if="(onlyAlerts && location.alert == true) || !onlyAlerts"
+                  v-if="(onlyAlerts && 0 != marker.alerts.length) || !onlyAlerts"
                   :ref="
                     (el) => {
                       markers[i] = el
                     }
                   "
                   :options="{
-                    position: location,
+                    position: patientLocation(marker),
                     draggable: isDraggable(i),
-                    icon: location.alert ? markerIconAlert : markerIconNormal,
+                    icon: isDraggable(i)
+                      ? markerIconEditing
+                      : 0 !== marker.alerts.length
+                      ? markerIconAlert
+                      : markerIconNormal,
+                    // opacity: isDraggable(i) ? 1 : 0.5
                   }"
                   @dragend="handleMarkerDrag($event, i)"
                 >
@@ -267,16 +273,14 @@
                         <div id="content">
                           <div id="bodyContent" class="p-1">
                             <div class="flex flex-col justify-between rounded-2xl bg-white p-5">
-                              <router-link
-                                v-if="patientsStore.items[i]"
-                                :to="{ name: 'PatientDetails', params: { id: patientsStore.items[i].id } }"
-                              >
+                              <!-- <pre>{{ marker }}</pre> -->
+                              <router-link v-if="marker" :to="{ name: 'PatientDetails', params: { id: marker.id } }">
                                 <p class="py-3 text-xl font-semibold capitalize">
-                                  {{ patientsStore.items[i] && patientsStore.items[i].name.toLowerCase() }}
+                                  {{ marker && marker.name.toLowerCase() }}
                                 </p>
                               </router-link>
                               <hr class="border-1 border border-dashed border-gray-300" />
-                              <!-- <span>{{ patientsStore.items[i] && patientsStore.items[i].number_of_alerts_by_protocol > 0 ?
+                              <!-- <span>{{ marker && marker.number_of_alerts_by_protocol > 0 ?
                                 'Com alertas' : 'Sem alertas' }}</span> -->
                               <div class="flex justify-between py-5">
                                 <p
@@ -377,10 +381,43 @@ const onlyAlerts = ref(false)
 const selectedItem = ref(null)
 const drawingManager = ref(null)
 const movingIndex = ref(null)
-const center = ref({ lat: -22.74895, lng: -50.57253 })
+
+const props = defineProps({
+  center: {
+    type: Object,
+    default: { lat: -22.74895, lng: -50.57253 },
+  },
+  zoom: {
+    type: Number,
+    default: 5,
+  },
+  patients: {
+    type: Array,
+    default: [],
+  },
+  combinedFilteredMarkers: {
+    type: Array,
+    default: [],
+  },
+})
+
 const showList = ref(false)
 const markerIconNormal = ref({
   url: 'marker-normal.png',
+  scaledSize: {
+    width: 40,
+    height: 50,
+  },
+})
+const markerIconEditing = ref({
+  url: 'marker-editing.png',
+  scaledSize: {
+    width: 40,
+    height: 50,
+  },
+})
+const markerIconDisabled = ref({
+  url: 'marker-disabled.png',
   scaledSize: {
     width: 40,
     height: 50,
@@ -449,7 +486,6 @@ const searchAddress = () => {
   geocodeAddress(geoCoder.value, map.value)
 }
 const query = ref('')
-center.value = { lat: -4.269812, lng: -41.789923 }
 
 function loadPolygons() {
   const state = useStorage('app-store', { polygons: [] })
@@ -576,28 +612,29 @@ const updateLabel = ({ polygonName, polygonIndex }) => {
 const state = useStorage('app-store', { polygons: [], polygonNames: [], markers: [] })
 state.value.polygonNames = state.value.polygonNames || []
 state.value.polygons = state.value.polygons || []
-state.value.markers = state.value.markers || [
-  { lat: -4.27079, lng: -41.78667, alert: false },
-  { lat: -4.26778, lng: -41.78648, alert: false },
-  { lat: -4.281896, lng: -41.772761, alert: false },
-  { lat: -4.278861, lng: -41.794099, alert: true },
-  { lat: -4.277929, lng: -41.776558, alert: true },
-  { lat: -4.25565, lng: -41.805445, alert: true },
-  { lat: -4.279603, lng: -41.775932, alert: true },
-  { lat: -4.279603, lng: -41.775932, alert: true },
-  { lat: -4.285898, lng: -41.800961, alert: true },
-  { lat: -4.282285, lng: -41.772658, alert: true },
-  { lat: -4.26606, lng: -41.806942, alert: true },
-  { lat: -4.289922, lng: -41.807408, alert: true },
-  { lat: -4.281836, lng: -41.779707, alert: true },
-  { lat: -4.282848, lng: -41.774176, alert: true },
-  { lat: -4.273743, lng: -41.78129, alert: true },
-  { lat: -4.263637, lng: -41.797071, alert: true },
-  { lat: -4.276892, lng: -41.779148, alert: true },
-  { lat: -4.256098, lng: -41.773501, alert: true },
-  { lat: -4.25533, lng: -41.779087, alert: true },
-  { lat: -4.263637, lng: -41.795704, alert: true },
-]
+
+// state.value.markers = state.value.markers || [
+//   { lat: -4.27079, lng: -41.78667, alert: false },
+//   { lat: -4.26778, lng: -41.78648, alert: false },
+//   { lat: -4.281896, lng: -41.772761, alert: false },
+//   { lat: -4.278861, lng: -41.794099, alert: true },
+//   { lat: -4.277929, lng: -41.776558, alert: true },
+//   { lat: -4.25565, lng: -41.805445, alert: true },
+//   { lat: -4.279603, lng: -41.775932, alert: true },
+//   { lat: -4.279603, lng: -41.775932, alert: true },
+//   { lat: -4.285898, lng: -41.800961, alert: true },
+//   { lat: -4.282285, lng: -41.772658, alert: true },
+//   { lat: -4.26606, lng: -41.806942, alert: true },
+//   { lat: -4.289922, lng: -41.807408, alert: true },
+//   { lat: -4.281836, lng: -41.779707, alert: true },
+//   { lat: -4.282848, lng: -41.774176, alert: true },
+//   { lat: -4.273743, lng: -41.78129, alert: true },
+//   { lat: -4.263637, lng: -41.797071, alert: true },
+//   { lat: -4.276892, lng: -41.779148, alert: true },
+//   { lat: -4.256098, lng: -41.773501, alert: true },
+//   { lat: -4.25533, lng: -41.779087, alert: true },
+//   { lat: -4.263637, lng: -41.795704, alert: true },
+// ]
 
 // Third pattern: watch for "ready" then do something with the API or map instance
 watch(
@@ -732,9 +769,33 @@ const geocodeAddress = (geoCoder, resultsMap) => {
   })
 }
 
+const patientMarkers = ref([])
+
 onMounted(async () => {
-  await patientsStore.fetchPatients()
   document.addEventListener('click', handleClickOutside)
+
+  //   state.value.markers = [
+  //    { lat: -4.27079, lng: -41.78667, alert: false },
+  //    { lat: -4.26778, lng: -41.78648, alert: false },
+  //    { lat: -4.281896, lng: -41.772761, alert: false },
+  //    { lat: -4.278861, lng: -41.794099, alert: true },
+  //    { lat: -4.277929, lng: -41.776558, alert: true },
+  //    { lat: -4.25565, lng: -41.805445, alert: true },
+  //    { lat: -4.279603, lng: -41.775932, alert: true },
+  //    { lat: -4.279603, lng: -41.775932, alert: true },
+  //    { lat: -4.285898, lng: -41.800961, alert: true },
+  //    { lat: -4.282285, lng: -41.772658, alert: true },
+  //    { lat: -4.26606, lng: -41.806942, alert: true },
+  //    { lat: -4.289922, lng: -41.807408, alert: true },
+  //    { lat: -4.281836, lng: -41.779707, alert: true },
+  //    { lat: -4.282848, lng: -41.774176, alert: true },
+  //    { lat: -4.273743, lng: -41.78129, alert: true },
+  //    { lat: -4.263637, lng: -41.797071, alert: true },
+  //    { lat: -4.276892, lng: -41.779148, alert: true },
+  //    { lat: -4.256098, lng: -41.773501, alert: true },
+  //    { lat: -4.25533, lng: -41.779087, alert: true },
+  //    { lat: -4.263637, lng: -41.795704, alert: true },
+  //  ]
 })
 
 const markers = ref([])
@@ -745,22 +806,23 @@ onBeforeUpdate(() => {
 const isDraggable = computed(() => (index) => index == movingIndex.value)
 const patients = computed(() => {
   if (onlyAlerts.value) {
-    return patientsStore.items.filter((p) => p.number_of_alerts_by_protocol > 0)
+    return props.patients.filter((p) => p.alert.length > 0)
   }
-  return patientsStore.items
+  return props.patients
 })
 
 function moveMarker(event, index) {
   movingIndex.value = index
 }
 
-function handleMarkerDrag(event, index) {
+async function handleMarkerDrag(event, index) {
   // console.log('dragend', event.latLng.lat(), event.latLng.lng())
-  const coords = {
-    lat: event.latLng.lat(),
-    lng: event.latLng.lng(),
-    alert: state.value.markers[index].alert || false,
-  }
+
+  // const coords = {
+  //   lat: event.latLng.lat(),
+  //   lng: event.latLng.lng(),
+  //   alert: state.value.markers[index].alert || false,
+  // }
 
   // polygonCoordinates.forEach(function (p, k) {
   //   state.value.polygons[polygonIndex][k] = p
@@ -768,11 +830,41 @@ function handleMarkerDrag(event, index) {
   // state.value.polygons[polygonIndex].forEach(function (p, k) {
   //   polygonCoordinates[k] = p
   // })
-
   // console.log(markers.value[index])
   // console.log(coords)
-  markers.value[index] = coords
-  state.value.markers[index] = coords
+  if (index !== -1) {
+    // Atualiza o item se encontrado
+    patientsStore.items.splice(index, 1, {
+      ...patientsStore.items[index],
+      address: {
+        latitude: event.latLng.lat(),
+        longitude: event.latLng.lng(),
+      },
+    })
+  }
+  movingIndex.value = null
+  const response = await patientsStore.movePatient(props.patients[index].id, {
+    address: [
+      {
+        id: 1,
+        latitude: event.latLng.lat(),
+        longitude: event.latLng.lng(),
+      },
+    ],
+  })
+
+  // LocalStorage Method #1
+  // markers.value[index] = coords
+  // state.value.markers[index] = coords
+}
+
+const emit = defineEmits(['update:markers-in-view'])
+
+const patientsInView = ref([])
+const getMarkersInView = () => {
+  const mapBounds = mapRef.value.map.getBounds()
+  patientsInView.value = props.patients.filter((marker) => mapBounds.contains(patientLocation.value(marker)))
+  emit('update:markers-in-view', patientsInView.value)
 }
 
 function deletePolygon(polygonIndex) {
@@ -791,12 +883,18 @@ const userLocation = computed(() => ({
   lat: coords.value.latitude,
   lng: coords.value.longitude,
 }))
+const patientLocation = computed(() => (patientMarker) => {
+  // return patientMarker.address
+  return { lat: patientMarker.address.latitude, lng: patientMarker.address.longitude, alert: true }
+})
 const dddd = computed(() => (polygonIndex) => {
   console.log('asd dddd')
 })
 const ddd = () => {
   console.log('asd ddd')
 }
+
+defineExpose({ patientsInView })
 </script>
 
 <style type="text/css">

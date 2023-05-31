@@ -1,7 +1,7 @@
 <template>
   <PageWrapper>
     <div class="flex flex-col items-center justify-center p-20">
-    <img src="@/assets/images/search-patient.png" class="w-64 h-64" />
+      <img src="@/assets/images/search-patient.png" class="h-64 w-64" />
       <p class="font-semibold">{{ $t('patient-details.no-selected') }}</p>
       <form class="flex w-full flex-col items-center justify-center pt-16 sm:w-96">
         <span class="py-3">{{ $t('patient-details.no-patient-selected-text') }}</span>

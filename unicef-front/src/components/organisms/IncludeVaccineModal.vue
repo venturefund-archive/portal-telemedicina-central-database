@@ -48,9 +48,9 @@
                       <button
                         type="button"
                         @click="closeModal"
-                        class="absolute right-2 ml-auto inline-flex items-center rounded bg-transparent p-1.5 text-sm text-white hover:bg-[#F3F3F3]  hover:text-blue-500"
+                        class="absolute right-2 ml-auto inline-flex items-center rounded bg-transparent p-1.5 text-sm text-white hover:bg-[#F3F3F3] hover:text-blue-500"
                       >
-                      <XIcon @click="closeModal" class="flex h-5 w-5 justify-end hover:cursor-pointer" />
+                        <XIcon @click="closeModal" class="flex h-5 w-5 justify-end hover:cursor-pointer" />
                       </button>
                     </div>
                   </DialogTitle>
@@ -173,16 +173,16 @@
                     <div class=""></div>
                     <div class="rounded bg-blue-500 p-4 shadow-2xl" style="height: 250px">
                       <div class="flex justify-between">
-                        <CloudUploadIcon class=" h-7 w-7 text-white" />
+                        <CloudUploadIcon class="h-7 w-7 text-white" />
                         <h3 class="text-lg font-medium text-white">Enviar cartão de vacina</h3>
                         <div class="flex justify-end">
-                      <button
-                        type="button"
-                        @click="closeModal2"
-                        class="right-2 ml-auto inline-flex items-center rounded bg-transparent p-1.5 text-sm text-white hover:bg-[#F3F3F3]  hover:text-blue-500"
-                      >
-                      <XIcon @click="closeModal2" class="flex h-5 w-5 justify-end hover:cursor-pointer" />
-                      </button>
+                          <button
+                            type="button"
+                            @click="closeModal2"
+                            class="right-2 ml-auto inline-flex items-center rounded bg-transparent p-1.5 text-sm text-white hover:bg-[#F3F3F3] hover:text-blue-500"
+                          >
+                            <XIcon @click="closeModal2" class="flex h-5 w-5 justify-end hover:cursor-pointer" />
+                          </button>
                         </div>
                       </div>
                       <hr class="my-4 border-white" />
@@ -190,13 +190,13 @@
                         <input type="file" id="fotoVacina" name="fotoVacina" class="my-3 flex w-full" @click.stop />
                       </div>
                       <div class="flex justify-end pt-3">
-                      <button
-                    type="button"
-                    class="mr-3 inline-flex justify-center rounded-full bg-[#F3F3F3] px-12 py-2 text-xs font-medium uppercase tracking-wide text-blue-500 shadow-lg hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                  >
-                    Enviar
-                  </button>
-                </div>
+                        <button
+                          type="button"
+                          class="mr-3 inline-flex justify-center rounded-full bg-[#F3F3F3] px-12 py-2 text-xs font-medium uppercase tracking-wide text-blue-500 shadow-lg hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                        >
+                          Enviar
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
