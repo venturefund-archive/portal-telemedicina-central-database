@@ -1,14 +1,13 @@
 <template>
-  <div class="flex h-screen flex-col" >
+  <div class="flex h-screen flex-col">
     <p class="mb-4 text-xl font-semibold text-gray-700">{{ $t('manager.patients-delayed') }}</p>
 
     <div
       class="border-1 float-right flex h-full w-full flex-col justify-between rounded-2xl border border-gray-200 bg-white p-4"
-      >
-
+    >
       <!-- List contents here -->
       <BaseCard class="px-1" @update:query="handleMarkerChange">
-        <div class="flex -mt-10 pb-10 hidden">
+        <div class="-mt-10 flex hidden pb-10">
           <button
             class="border-1 rounded-l-md border border-gray-300 py-2 px-4 text-sm hover:text-green-500"
             :class="{

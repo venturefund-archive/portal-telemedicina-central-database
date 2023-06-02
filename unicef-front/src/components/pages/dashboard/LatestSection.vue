@@ -113,6 +113,8 @@ const props = defineProps({
 })
 
 onMounted(async () => {
-  await patientsStore.fetchPatients()
+  if (patientsStore.items.length !== 0) {
+    await patientsStore.fetchPatients()
+  }
 })
 </script>
