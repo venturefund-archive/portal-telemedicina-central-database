@@ -1,8 +1,14 @@
 from django.db.models import Prefetch
 from django.shortcuts import render  # noqa: F401
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
+from rest_framework.decorators import action
+from rest_framework.mixins import (  # noqa: E501
+    ListModelMixin,
+    RetrieveModelMixin,
+    UpdateModelMixin,
+)
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from central_database.permissions_manager.rest_api.permission_classes import (
@@ -10,6 +16,7 @@ from central_database.permissions_manager.rest_api.permission_classes import (
 )
 from central_database.vaccines.api.filters import VaccineFilterSet
 from central_database.vaccines.api.serializers import (
+    VaccineAlertSerializer,
     VaccineDosesSerializer,
     VaccineProtocolSerializer,
     VaccineSerializer,
@@ -85,3 +92,26 @@ class VaccineProtocolMetricsViewSet(GenericViewSet, RetrieveModelMixin):
 
     def get_queryset(self):
         return VaccineProtocol.objects.all()
+
+
+class VaccineAlertViewSet(GenericViewSet, UpdateModelMixin):
+    serializer_class = VaccineAlertSerializer
+
+    def get_queryset(self):
+        return VaccineAlert.objects.all()
+
+    @action(detail=True, methods=["patch"], url_path="deactivate")
+    def deactivate_alert(self, request, pk=None):
+        alert = self.get_object()
+        alert.active = False
+        alert.save()
+        serializer = self.get_serializer(alert)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=["patch"], url_path="activate")
+    def activate_alert(self, request, pk=None):
+        alert = self.get_object()
+        alert.active = True
+        alert.save()
+        serializer = self.get_serializer(alert)
+        return Response(serializer.data)
