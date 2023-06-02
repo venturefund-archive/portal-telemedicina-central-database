@@ -104,9 +104,10 @@ const loginForm = reactive({
 })
 
 const login = async () => {
-  const state = useStorage('app-store', { token: '' })
+  const state = useStorage('app-store', { token: '', intendedRoute: '' })
   try {
     const response = await axios.post(import.meta.env.VITE_API_URL + '/api/dj-rest-auth/login/', loginForm)
+    const intendedRoute = state.value.intendedRoute
 
     if (response.data.non_field_errors) {
       errorToast({ text: err.message })
@@ -114,7 +115,11 @@ const login = async () => {
     }
     state.value.token = response.data.key
     successToast({ text: t('auth.you-connected-successfully') })
-    router.replace({ name: 'Dashboard' })
+    if (state.value.intendedRoute) {
+      router.replace(state.value.intendedRoute)
+    } else {
+      router.replace({ name: 'Dashboard' })
+    }
   } catch (err) {
     console.log(err)
     if (err.response.data.non_field_errors) {

@@ -3,6 +3,7 @@
 .Vue-Toastification__toast {
   padding: 0 !important;
   box-shadow: none !important;
+  margin-top: 50px
 }
 
 .Vue-Toastification__toast--default,
