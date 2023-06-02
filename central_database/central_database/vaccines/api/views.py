@@ -100,10 +100,18 @@ class VaccineAlertViewSet(GenericViewSet, UpdateModelMixin):
     def get_queryset(self):
         return VaccineAlert.objects.all()
 
-    @action(detail=True, methods=["patch"], url_path="silence")
-    def silence_alert(self, request, pk=None):
+    @action(detail=True, methods=["patch"], url_path="deactivate")
+    def deactivate_alert(self, request, pk=None):
         alert = self.get_object()
         alert.active = False
+        alert.save()
+        serializer = self.get_serializer(alert)
+        return Response(serializer.data)
+
+    @action(detail=True, methods=["patch"], url_path="activate")
+    def activate_alert(self, request, pk=None):
+        alert = self.get_object()
+        alert.active = True
         alert.save()
         serializer = self.get_serializer(alert)
         return Response(serializer.data)

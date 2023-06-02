@@ -119,7 +119,6 @@ class PatientsViewSet(
         return Response({"results": serializer.data, "next_url": next_url})
 
     def update(self, request, *args, **kwargs):
-        print(request.data)
         partial = kwargs.pop("partial", False)
         instance = self.get_object()
         serializer = self.get_serializer(
