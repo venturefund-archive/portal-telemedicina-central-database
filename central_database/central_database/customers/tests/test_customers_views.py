@@ -10,7 +10,7 @@ from central_database.customers.factories import (  # noqa: E501
 from central_database.users.tests.factories import UserFactory
 
 
-class TestVaccineDoseViewSet(APITestCase):
+class TestMicroRegionViewSet(APITestCase):
     def setUp(self):
         self.client_customer = ClientFactory()
         self.user = UserFactory(client=self.client_customer)
@@ -47,3 +47,71 @@ class TestVaccineDoseViewSet(APITestCase):
 
         data = json.loads(response.content)
         self.assertEqual(len(data["features"]), 0)
+
+    def test_it_create_microregions(self):
+        payload = {
+            "name": "test1",
+            "polygon": {
+                "type": "Polygon",
+                "coordinates": [
+                    [
+                        [100.0, 0.0],
+                        [101.0, 0.0],
+                        [101.0, 1.0],
+                        [110.0, 1.0],
+                        [100.0, 0.0],
+                    ]
+                ],
+            },
+            "client": self.client_customer.id,
+        }
+        url = reverse("api:microregion-list")
+
+        self.client.force_authenticate(self.user)
+        response = self.client.post(url, data=payload, format="json")
+        self.assertEqual(response.status_code, 201)
+
+        data = json.loads(response.content)
+        self.assertEqual(data["type"], "Feature")
+
+    def test_it_updates_microregions(self):
+        micro_region = MicroRegionFactory(client=self.client_customer)
+        payload = {
+            "name": micro_region.name,
+            "polygon": {
+                "type": "Polygon",
+                "coordinates": [
+                    [[0.0, 0.0], [0.0, 1.1], [1.0, 1.0], [0.0, 0.0]]
+                ],  # noqa: E501
+            },
+            "client": micro_region.client.id,
+        }
+        url = reverse("api:microregion-detail", kwargs={"pk": micro_region.id})
+
+        self.client.force_authenticate(self.user)
+        response = self.client.put(url, data=payload, format="json")
+        self.assertEqual(response.status_code, 200)
+
+        data = json.loads(response.content)
+        self.assertEqual(data["type"], "Feature")
+        self.assertEqual(data["geometry"]["coordinates"][0][1][1], 1.1)
+
+    def test_it_partial_updates_microregions(self):
+        micro_region = MicroRegionFactory(client=self.client_customer)
+        payload = {
+            "polygon": {
+                "type": "Polygon",
+                "coordinates": [
+                    [[0.0, 0.0], [0.0, 1.1], [1.0, 1.0], [0.0, 0.0]]
+                ],  # noqa: E501
+            },
+        }
+        url = reverse("api:microregion-detail", kwargs={"pk": micro_region.id})
+
+        self.client.force_authenticate(self.user)
+        response = self.client.patch(url, data=payload, format="json")
+        self.assertEqual(response.status_code, 200)
+
+        data = json.loads(response.content)
+        self.assertEqual(data["type"], "Feature")
+        self.assertEqual(data["geometry"]["coordinates"][0][1][1], 1.1)
