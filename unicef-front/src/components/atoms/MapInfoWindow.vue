@@ -30,8 +30,11 @@
 </template>
 
 <script setup>
+import { computed, onMounted, ref } from 'vue'
 import { HandIcon, PencilIcon, TagIcon } from '@heroicons/vue/outline'
 import { useStorage } from '@vueuse/core'
+import { useMicroRegionsStore } from '@/stores/microregions'
+const microregionsStore = useMicroRegionsStore()
 
 const props = defineProps({
   content: {
@@ -53,4 +56,8 @@ const state = useStorage('app-store', { polygons: [], polygonNames: [], markers:
 if (undefined == state.value.polygonNames) {
   state.value.polygonNames = []
 }
+
+// onMounted(async () => {
+//   await microregionsStore.fetchMicroRegion(polygonIndex)
+// })
 </script>

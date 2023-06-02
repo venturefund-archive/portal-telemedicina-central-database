@@ -354,7 +354,7 @@
 </template>
 
 <script setup>
-import { defineComponent, reactive, computed, onBeforeUpdate, onMounted, watch, ref, onUnmounted, createApp } from 'vue'
+import { defineComponent, reactive, computed, onBeforeUpdate, onMounted, watch, ref, onUnmounted } from 'vue'
 import { GoogleMap, Marker, CustomMarker, MarkerCluster, InfoWindow, Polygon } from 'vue3-google-map'
 import { useGeolocation } from '@/composables/useGeolocation'
 import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue'
@@ -362,6 +362,7 @@ import { HandIcon, PencilIcon, SaveIcon } from '@heroicons/vue/solid'
 import { MapIcon, TableIcon, UsersIcon } from '@heroicons/vue/outline'
 import { useRouter } from 'vue-router'
 import { usePatientsStore } from '@/stores/patients'
+import { useMicroRegionsStore } from '@/stores/microregions'
 import { useStorage } from '@vueuse/core'
 import { Switch } from '@headlessui/vue'
 
@@ -373,6 +374,7 @@ const itemRefs = ref([])
 
 const GOOGLE_MAP_API_KEY = ref(import.meta.env.VITE_GOOGLE_MAP_API_KEY)
 const patientsStore = usePatientsStore()
+const microregionsStore = useMicroRegionsStore()
 const router = useRouter()
 const map = ref(null)
 const mapRef = ref(null)
@@ -610,8 +612,8 @@ const updateLabel = ({ polygonName, polygonIndex }) => {
 }
 
 const state = useStorage('app-store', { polygons: [], polygonNames: [], markers: [] })
-state.value.polygonNames = state.value.polygonNames || []
-state.value.polygons = state.value.polygons || []
+// state.value.polygonNames = state.value.polygonNames || []
+// state.value.polygons = state.value.polygons || []
 
 // state.value.markers = state.value.markers || [
 //   { lat: -4.27079, lng: -41.78667, alert: false },
@@ -775,6 +777,14 @@ onMounted(async () => {
   await patientsStore.fetchPatients()
   document.addEventListener('click', handleClickOutside)
 
+  await microregionsStore.fetchMicroRegions()
+  state.value.polygons = microregionsStore.items.map((polygon) => {
+    return polygon.geometry.coordinates[0].map((coordinate) => {
+      return { lat: coordinate[1], lng: coordinate[0] }
+    })
+  })
+  state.value.polygonNames = microregionsStore.items.map((polygon) => polygon.properties.name)
+
   //   state.value.markers = [
   //    { lat: -4.27079, lng: -41.78667, alert: false },
   //    { lat: -4.26778, lng: -41.78648, alert: false },
@@ -806,10 +816,11 @@ onBeforeUpdate(() => {
 
 const isDraggable = computed(() => (index) => index == movingIndex.value)
 const patients = computed(() => {
+  const notNullPatients = props.patients.filter((patient) => patient.address.latitude)
   if (onlyAlerts.value) {
-    return props.patients.filter((p) => p.alert.length > 0)
+    return notNullPatients.filter((p) => p.alert.length > 0)
   }
-  return props.patients
+  return notNullPatients
 })
 
 function moveMarker(event, index) {

@@ -123,6 +123,7 @@ import { useLoggedUserStore } from '@/stores/loggedUser'
 const loggedUserStore = useLoggedUserStore()
 const patientsStore = usePatientsStore()
 
+const items = ref([])
 const queryText = ref('')
 
 const router = useRouter()
@@ -147,7 +148,7 @@ const filteredResults = computed(() => {
 
   let matches = 0
 
-  return patientsStore.items.filter((patient) => {
+  return items.value.filter((patient) => {
     if (
       (patient.name.toLowerCase().includes(queryText.value.toLowerCase()) ||
         patient.id.toLowerCase().includes(queryText.value.toLowerCase())) &&
@@ -162,7 +163,7 @@ const filteredResults = computed(() => {
 onMounted(async () => {
   document.addEventListener('scroll', handleScroll)
   await loggedUserStore.fetchMe()
-  await patientsStore.searchPatients()
+  items.value = await patientsStore.searchPatients()
 })
 
 onUnmounted(() => {
