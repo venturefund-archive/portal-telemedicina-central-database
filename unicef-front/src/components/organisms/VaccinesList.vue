@@ -25,8 +25,9 @@
           <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li>
               <div class="flex items-center">
-
-                <router-link class="ml-1 text-gray-500 hover:text-blue-600 " to="/patients">{{ $t('patient-details.search-patients') }}</router-link>
+                <router-link class="ml-1 text-gray-500 hover:text-blue-600" to="/patients">{{
+                  $t('patient-details.search-patients')
+                }}</router-link>
                 <!-- <a href="#" class="ml-1  text-gray-500">vacinas</a> -->
               </div>
             </li>
@@ -66,9 +67,7 @@
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <span class="ml-1 font-medium text-gray-500 md:ml-2">{{
-                  $t('patient-details.booklet')
-                }}</span>
+                <span class="ml-1 font-medium text-gray-500 md:ml-2">{{ $t('patient-details.booklet') }}</span>
               </div>
             </li>
           </ol>
