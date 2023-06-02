@@ -1,5 +1,5 @@
 <template>
-  <BaseCard :actions="actions" class="flex items-start">
+  <BaseCard :actions="actions" class="flex items-start px-4">
     <template #header>
       <div class="flex pt-1">
         <slot name="icon" :sizeClasses="'w-8 h-8 text-blue-500'"> </slot>

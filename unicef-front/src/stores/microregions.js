@@ -14,6 +14,7 @@ export const useMicroRegionsStore = defineStore('microregions', () => {
   }
 
   async function fetchMicroRegions() {
+    const state = useStorage('app-store', { token: '' })
     try {
       const response = await axios.get(import.meta.env.VITE_API_URL + '/api/microregion/', {
         headers: {
@@ -21,9 +22,9 @@ export const useMicroRegionsStore = defineStore('microregions', () => {
           Authorization: `token ${state.value.token}`,
         },
       })
-      items.value = response.data.features // verifique se 'features' existe na resposta
+      items.value = response.data.features
     } catch (err) {
-      console.log(err)
+      console.log(err.response)
       err.response && errorToast({ text: err.response.data.detail })
     }
     return items.value

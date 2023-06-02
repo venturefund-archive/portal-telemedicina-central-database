@@ -6,18 +6,18 @@
           <MapGoogle
             :patients="markers"
             @update:markers-in-view="updateMarkersFiltered"
+            @update:onlyAlerts="updateOnlyAlerts"
             :center="currentCenter"
             :zoom="currentZoom"
           />
         </div>
-        <div class="md:w-1/3">
-          <div class="m-3">
-            <PatientListCard
-              :patients="filteredMarkers"
-              @update:markers-in-search="updateMarkersFiltered"
-              @centralize-on-location="updateCenterInView"
-            />
-          </div>
+        <div class="m-3 h-[59rem] md:w-1/3">
+          <PatientListCard
+            :patients="filteredMarkers"
+            :onlyAlerts="onlyAlerts"
+            @update:markers-in-search="updateMarkersFiltered"
+            @centralize-on-location="updateCenterInView"
+          />
         </div>
       </div>
     </div>
@@ -32,6 +32,7 @@ import { usePatientsStore } from '@/stores/patients'
 const patientsStore = usePatientsStore()
 
 const markers = ref([])
+const onlyAlerts = ref(undefined)
 const filteredMarkers = ref([])
 onMounted(async () => {
   await patientsStore.fetchPatients()
@@ -49,5 +50,8 @@ const updateMarkersFiltered = (newMarkers) => {
 const updateCenterInView = (newCenter) => {
   currentCenter.value = newCenter
   currentZoom.value = 9
+}
+const updateOnlyAlerts = (newOnlyAlerts) => {
+  onlyAlerts.value = newOnlyAlerts
 }
 </script>

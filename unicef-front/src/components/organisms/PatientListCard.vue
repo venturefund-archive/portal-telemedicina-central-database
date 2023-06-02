@@ -1,5 +1,5 @@
 <template>
-  <div class="flex h-screen flex-col">
+  <div class="flex h-full flex-col">
     <p class="mb-4 text-xl font-semibold text-gray-700">{{ $t('manager.patients-delayed') }}</p>
 
     <div
@@ -159,6 +159,11 @@ const isFirstPage = computed(() => current.value == 1)
 const indexStart = computed(() => (current.value - 1) * pageSize.value)
 const indexEnd = computed(() => indexStart.value + pageSize.value)
 const filteredPatients = computed(() => {
+  return filteredPatientsQuery.value.filter(
+    (patient) => !props.onlyAlerts || (props.onlyAlerts && 0 !== patient.alerts.length)
+  )
+})
+const filteredPatientsQuery = computed(() => {
   return props.patients.filter((patient) => {
     return patient.name.toLowerCase().includes(patientQuery.value.toLowerCase())
   })
@@ -187,6 +192,10 @@ const props = defineProps({
   patients: {
     type: Array,
     default: [],
+  },
+  onlyAlerts: {
+    type: Boolean,
+    default: false,
   },
 })
 

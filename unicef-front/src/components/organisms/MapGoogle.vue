@@ -818,9 +818,12 @@ const isDraggable = computed(() => (index) => index == movingIndex.value)
 const patients = computed(() => {
   const notNullPatients = props.patients.filter((patient) => patient.address.latitude)
   if (onlyAlerts.value) {
-    return notNullPatients.filter((p) => p.alert.length > 0)
+    return notNullPatients.filter((p) => p.alerts.length > 0)
   }
   return notNullPatients
+})
+watch(onlyAlerts, (newOnlyAlerts, oldValue) => {
+  emit('update:onlyAlerts', newOnlyAlerts)
 })
 
 function moveMarker(event, index) {
@@ -870,12 +873,12 @@ async function handleMarkerDrag(event, index) {
   // state.value.markers[index] = coords
 }
 
-const emit = defineEmits(['update:markers-in-view'])
+const emit = defineEmits(['update:markers-in-view', 'update:onlyAlerts'])
 
 const patientsInView = ref([])
 const getMarkersInView = () => {
   const mapBounds = mapRef.value.map.getBounds()
-  patientsInView.value = props.patients.filter((marker) => mapBounds.contains(patientLocation.value(marker)))
+  patientsInView.value = patients.value.filter((marker) => mapBounds.contains(patientLocation.value(marker)))
   emit('update:markers-in-view', patientsInView.value)
 }
 
@@ -896,7 +899,6 @@ const userLocation = computed(() => ({
   lng: coords.value.longitude,
 }))
 const patientLocation = computed(() => (patientMarker) => {
-  // return patientMarker.address
   return { lat: patientMarker.address.latitude, lng: patientMarker.address.longitude, alert: true }
 })
 const dddd = computed(() => (polygonIndex) => {
