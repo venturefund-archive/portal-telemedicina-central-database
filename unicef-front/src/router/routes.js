@@ -36,8 +36,6 @@ export default [
       const state = useStorage('app-store', { token: '' })
       state.value.intendedRoute = to.fullPath
 
-      console.log(state.value.intendedRoute)
-
       if (Boolean(state.value.token)) {
         const loggedUserStore = useLoggedUserStore()
         try {
