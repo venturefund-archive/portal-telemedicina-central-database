@@ -6,10 +6,16 @@
 
         <span v-else-if="2 == status" class="flex h-9 w-9">
           <span class="absolute inline-flex h-9 w-9 animate-ping rounded-full bg-red-500 opacity-75"></span>
-          <span class="relative inline-flex h-9 w-9 rounded-full bg-red-500"></span>
+          <span class="relative inline-flex h-9 w-9 rounded-full bg-red-500">
+            <span class="flex h-full w-full items-center justify-center align-middle text-2xl font-semibold text-white"
+              >!</span
+            >
+          </span>
         </span>
 
-        <div v-else-if="3 == status" class="border-tranparent h-9 w-9 rounded-full border bg-red-500 shadow-md"></div>
+        <div v-else-if="3 == status" class="h-9 w-9 rounded-full border bg-red-500">
+          <span class="text-2xl font-semibold text-white">!</span>
+        </div>
         <div v-else-if="4 == status" class="border-tranparent h-9 w-9 rounded-full border bg-blue-300 shadow-md"></div>
         <div v-else class=""></div>
       </div>

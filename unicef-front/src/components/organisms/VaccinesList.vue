@@ -80,7 +80,6 @@
           <div class="flex items-center">
             <IncludeVaccineModal />
           </div>
-
           <div scope="col" colspan="2" class="px-6 pt-8 text-center uppercase">
             <InputIconWrapper>
               <template #icon>
@@ -113,25 +112,6 @@
             </div>
           </div>
         </div>
-        <div class="flex flex-col justify-between sm:flex-row">
-          <div class="pl-2">
-            <div class="flex place-items-end md:mt-0">
-              <div
-                class="flex flex-col items-end rounded-md px-3 py-2 text-sm font-semibold text-gray-600 md:flex-row md:items-center"
-              >
-                <span class="flex w-40 items-center px-2 text-[#636464]">
-                  <VaccineAlert :status="3" class="pr-3" />{{ $t('patient-details.overdue-doses') }}</span
-                >
-                <span class="flex w-40 items-center px-2 text-[#636464]">
-                  <VaccineAlert :status="1" class="pr-3" />{{ $t('patient-details.completed-doses') }}</span
-                >
-                <span class="flex w-40 items-center px-2 text-[#636464]">
-                  <VaccineAlert :status="4" class="pr-3" />{{ $t('patient-details.recommended-doses') }}</span
-                >
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="py-2">
           <div class="overflow-auto px-2 pt-2 pb-52">
             <table class="w-full table-auto text-left tracking-wide md:table-fixed lg:table-fixed">
@@ -152,10 +132,19 @@
                   <th
                     scope="col"
                     colspan="2"
-                    class="whitespace-nowrap px-2.5 pt-2 pl-6 text-left !font-semibold uppercase text-gray-700"
+                    class="-mt-10 whitespace-nowrap px-2.5 pl-6 text-left !font-semibold uppercase text-gray-700"
                   >
-                    {{ $t('patient-details.vaccines') }}
+                    <div class="flex flex-col">
+                      <div class="flex items-center text-[#636464]">
+                        <VaccineAlert :status="3" class="-mt-20 pr-2" />
+                        <span class="-mt-20 text-sm normal-case" v-html="$t('patient-details.overdue-doses')"></span>
+                      </div>
+                      <div>
+                        {{ $t('patient-details.vaccines') }}
+                      </div>
+                    </div>
                   </th>
+
                   <th
                     scope="col"
                     :class="{ 'border-x-2 border-t-2 border-sky-500': ageInMonths >= 0 && ageInMonths < 2 }"
@@ -258,18 +247,31 @@
               </thead>
               <tbody class="divide-y-4 divide-[#F8F9FB]">
                 <tr
-                  class="h-16 divide-x-4 divide-[#F8F9FB]"
+                  class="h-16 divide-x-4 divide-[#F8F9FB] truncate"
                   v-for="(vaccine, k) in orderedVaccinesByDoseAlerts"
                   :key="k"
                 >
-                  <td colspan="2" class="rounded-l-full bg-[#F1F1F1] px-6 py-1 text-sm">
-                    <span class="">{{ vaccine.display }}</span> <span class="">{{ vaccine.description }}</span>
+                  <td colspan="2" class="truncate rounded-l-full bg-[#F1F1F1] px-6 py-1 text-sm">
+                    <span
+                      data-tooltip-target="tooltip-default"
+                      type="button"
+                      class="rounded-lg px-5 py-2.5 text-center text-sm font-medium"
+                      >{{ vaccine.display }} {{ vaccine.description }}</span
+                    >
+                    <div
+                      id="tooltip-default"
+                      role="tooltip"
+                      class="duration-400 tooltip invisible absolute z-10 inline-block rounded-lg bg-blue-200 bg-opacity-60 px-3 py-2 text-sm font-medium shadow-sm transition-opacity"
+                    >
+                      <div>{{ vaccine.description }}<br />{{ vaccine.display }}</div>
+                      <div class="tooltip-arrow" data-popper-arrow></div>
+                    </div>
                   </td>
 
                   <td
                     :class="{
                       'col-birth box-border border-x-2 border-sky-500':
-                        ageInMonthss >= monthRanges[rangeIndex].start && ageInMonths < monthRanges[rangeIndex].end,
+                        ageInMonths >= monthRanges[rangeIndex].start && ageInMonths < monthRanges[rangeIndex].end,
                       'rounded-r-full': rangeIndex == monthRanges.length - 1,
                       'bg-[#E9E9E9]': rangeIndex == 0,
                       'bg-[#DDDDDD]': rangeIndex > 0 && rangeIndex < 10,
@@ -367,6 +369,7 @@ import { useDosesStore } from '@/stores/doses'
 import { useVaccinesStore } from '@/stores/vaccines'
 import { useLoggedUserStore } from '@/stores/loggedUser'
 import VaccineAlert from '../atoms/VaccineAlert.vue'
+import { createPopper } from '@popperjs/core'
 import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } from '@headlessui/vue'
 
 const patientsStore = usePatientsStore()
@@ -488,6 +491,15 @@ const props = defineProps({
 </script>
 
 <style scoped>
+.tooltip {
+  visibility: hidden;
+}
+
+[data-tooltip-target]:hover + .tooltip,
+[data-tooltip-target]:focus + .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
 .table-row:hover > td:not(.col-birth) {
   @apply border-none;
 }
