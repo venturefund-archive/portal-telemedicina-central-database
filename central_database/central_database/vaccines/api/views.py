@@ -1,6 +1,7 @@
 from django.db.models import Prefetch
 from django.shortcuts import render  # noqa: F401
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework.decorators import action
 from rest_framework.mixins import (  # noqa: E501
     ListModelMixin,
@@ -42,6 +43,21 @@ class VaccineDosesViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
             }
         ),
     ]
+
+    @extend_schema(
+        parameters=[
+            OpenApiParameter(
+                name="patient_id",
+                description="ID of the patient",
+                required=True,
+                type=OpenApiTypes.UUID,
+                location=OpenApiParameter.QUERY,
+            )
+        ],
+        responses={200: VaccineDosesSerializer(many=True)},
+    )
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
 
     def get_queryset(self):
         patient_id = self.request.query_params.get("patient_id")
