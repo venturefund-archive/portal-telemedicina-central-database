@@ -26,7 +26,7 @@ class VaccineAlertSerializer(serializers.ModelSerializer):
 
 class VaccineDosesSerializer(serializers.ModelSerializer):  # noqa: E501
     alerts = serializers.SerializerMethodField()
-    is_completed = serializers.SerializerMethodField(method_name="get_status")
+    status = serializers.SerializerMethodField()
 
     class Meta:
         model = VaccineDose
@@ -38,7 +38,7 @@ class VaccineDosesSerializer(serializers.ModelSerializer):  # noqa: E501
             "dose_order",
             "gender_recommendation",
             "alerts",
-            "is_completed",
+            "status",
         ]
 
     def get_alerts(self, vaccine_dose_instance):
@@ -50,7 +50,12 @@ class VaccineDosesSerializer(serializers.ModelSerializer):  # noqa: E501
     def get_status(self, vaccine_dose_instance):
         status = getattr(vaccine_dose_instance, "patient_status", None)
         if status:
-            return status[0].completed if status else None
+            return {
+                "is_completed": status[0].completed if status else None,
+                "application_date": status[0].application_date
+                if status
+                else None,  # noqa: E501
+            }
         return None
 
 
