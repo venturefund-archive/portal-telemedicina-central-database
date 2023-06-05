@@ -1,6 +1,7 @@
 from drf_spectacular.utils import extend_schema
 from rest_framework.mixins import (
     CreateModelMixin,
+    DestroyModelMixin,
     ListModelMixin,
     RetrieveModelMixin,
     UpdateModelMixin,
@@ -29,6 +30,7 @@ class MicroRegionViewSet(
     RetrieveModelMixin,
     CreateModelMixin,
     UpdateModelMixin,
+    DestroyModelMixin,
 ):
     serializer_class = MicroRegionSerializer
     permission_classes = [IsAuthenticated]
