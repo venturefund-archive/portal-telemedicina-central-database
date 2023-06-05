@@ -115,3 +115,11 @@ class TestMicroRegionViewSet(APITestCase):
         data = json.loads(response.content)
         self.assertEqual(data["type"], "Feature")
         self.assertEqual(data["geometry"]["coordinates"][0][1][1], 1.1)
+
+    def test_it_deletes_microregion(self):
+        micro_region = MicroRegionFactory(client=self.client_customer)
+        url = reverse("api:microregion-detail", kwargs={"pk": micro_region.id})
+
+        self.client.force_authenticate(self.user)
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, 204)
