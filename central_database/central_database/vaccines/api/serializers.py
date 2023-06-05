@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from central_database.permissions_manager.rest_api.mixins import (
@@ -24,9 +25,15 @@ class VaccineAlertSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class VaccineStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VaccineStatus
+        fields = ["completed", "application_date"]
+
+
 class VaccineDosesSerializer(serializers.ModelSerializer):  # noqa: E501
     alerts = serializers.SerializerMethodField()
-    is_completed = serializers.SerializerMethodField(method_name="get_status")
+    status = serializers.SerializerMethodField()
 
     class Meta:
         model = VaccineDose
@@ -38,19 +45,21 @@ class VaccineDosesSerializer(serializers.ModelSerializer):  # noqa: E501
             "dose_order",
             "gender_recommendation",
             "alerts",
-            "is_completed",
+            "status",
         ]
 
+    @extend_schema_field(VaccineAlertSerializer(many=True))
     def get_alerts(self, vaccine_dose_instance):
         alerts = getattr(vaccine_dose_instance, "active_alerts", None)
         if alerts is not None:
             return VaccineAlertSerializer(alerts, many=True).data
         return None
 
+    @extend_schema_field(VaccineStatusSerializer(many=False))
     def get_status(self, vaccine_dose_instance):
         status = getattr(vaccine_dose_instance, "patient_status", None)
         if status:
-            return status[0].completed if status else None
+            return VaccineStatusSerializer(status[0]).data
         return None
 
 
