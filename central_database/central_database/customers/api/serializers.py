@@ -7,6 +7,12 @@ from rest_framework_gis.fields import GeometryField
 from central_database.customers.models import Client, MicroRegion
 
 
+class ClientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Client
+        fields = ["client_name", "city"]
+
+
 class MicroRegionSerializer(gis_serializers.GeoFeatureModelSerializer):
     polygon = gis_models.PolygonField(
         help_text="The GeoJSON representation of the polygon"
