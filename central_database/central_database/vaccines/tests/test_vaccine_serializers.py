@@ -142,11 +142,11 @@ class TestVaccineDoseSerializer(APITestCase):
             vaccine_dose.gender_recommendation,
         )
         self.assertEqual(
-            serialized_vaccine_dose["status"]["is_completed"], status.completed
+            serialized_vaccine_dose["status"]["completed"], status.completed
         )
         self.assertEqual(
             serialized_vaccine_dose["status"]["application_date"],
-            status.application_date,
+            status.application_date.strftime("%Y-%m-%d"),
         )
 
 
