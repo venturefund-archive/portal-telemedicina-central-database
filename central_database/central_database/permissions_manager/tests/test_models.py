@@ -184,13 +184,13 @@ class TestRoleModel(APITestCase):
         permission = Permission.objects.filter(codename=permission_tag)[0]
 
         # assign permission to a role with a user
-        user = UserFactory(email="user@test.com", is_active=False)
+        user_1 = UserFactory(email="user@test.com", is_active=False)
 
         role = RoleFactory()
         role.permissions.set(
             Permission.objects.filter(codename=permission_tag)
         )  # E501: noqa
-        role.assign_to_user(user)
+        role.assign_to_user(user_1)
         role.save()
 
         # assign permission to user
@@ -204,5 +204,5 @@ class TestRoleModel(APITestCase):
             Q(user_permissions=permission) | Q(role__permissions=permission)
         )
         self.assertEqual(users_list.count(), 2)
-        self.assertEqual(users_list[0], user)
+        self.assertEqual(users_list[0], user_1)
         self.assertEqual(users_list[1], user_2)
