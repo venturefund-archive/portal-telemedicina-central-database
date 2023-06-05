@@ -1,6 +1,6 @@
 <template>
-  <div class="min-w-96 text-lg font-normal">
-    <div class="relative bg-neutral-50 p-4">
+  <div class="min-w-96 bg-neutral-50 p-4 text-lg font-normal">
+    <div class="relative">
       <div class="flex items-center justify-between pt-1 pb-2.5">
         <div class="flex">
           <div v-if="!props.withoutDetails">
@@ -18,14 +18,18 @@
       </p>
       <p>{{ $t('patient-details.gender') }}: {{ props.dose.gender_recommendation }}</p>
     </div>
-    <div class="bg-neutral-200 p-4 font-normal" v-if="props.dose.alerts.length > 0">
-      <p class="font-semibold">Alerts</p>
-      <div v-for="(alert, k) in props.dose.alerts" :key="k">
-        Id: {{ alert.id }} <br />
-        Tipo de alerta: {{ alert.alert_type }}<br />
-        Criado em: {{ formatRelative(parseISO(alert.created_at), new Date()) }}
+    <div class="font-normal" v-if="props.dose.alerts.length > 0">
+      <div class="bg-neutral-200">
+        <p class="font-semibold">Alerts</p>
+        <div v-for="(alert, k) in props.dose.alerts" :key="k">
+          Id: {{ alert.id }} <br />
+          Tipo de alerta: {{ alert.alert_type }}<br />
+          Data de aplicação:
+          <!-- {{ formatRelative(parseISO(alert.application_at), new Date()) }} --><br />
+          Data do registro: {{ formatRelative(parseISO(alert.created_at), new Date()) }}
+        </div>
       </div>
-      <span>Total: {{ props.dose.alerts.length }} alertas</span>
+      <p class="pt-3">Total: {{ props.dose.alerts.length }} alertas</p>
     </div>
   </div>
 </template>

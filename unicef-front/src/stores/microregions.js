@@ -44,6 +44,22 @@ export const useMicroRegionsStore = defineStore('microregions', () => {
       errorToast({ text: err.message })
     }
   }
+  async function updateMicroRegion(id, data) {
+    const state = useStorage('app-store', { token: '' })
+    try {
+      const response = await axios.patch(import.meta.env.VITE_API_URL + `/api/microregion/${id}/`, data, {
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `token ${state.value.token}`,
+        },
+      })
+      console.log(response.data)
+      this.item = response.data
+      return this.item
+    } catch (err) {
+      errorToast({ text: err.message })
+    }
+  }
 
   return {
     items,
@@ -51,5 +67,6 @@ export const useMicroRegionsStore = defineStore('microregions', () => {
     fetchMicroRegions,
     searchMicroRegions,
     fetchMicroRegion,
+    updateMicroRegion,
   }
 })

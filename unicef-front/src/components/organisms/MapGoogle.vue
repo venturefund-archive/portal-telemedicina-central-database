@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="mb-4 text-xl font-semibold text-gray-700">
-      {{ isTableView ? $t('manager.table-view-text') : $t('manager.vaccination-map') }}
+      {{ !isMapView ? $t('manager.table-view-text') : $t('manager.vaccination-map') }}
     </p>
 
     <div class="!z-50 h-[106px] w-full rounded-t-2xl border !bg-gray-50 drop-shadow-lg drop-shadow-lg">
@@ -9,7 +9,7 @@
         <!-- People with vaccines delayed -->
         <div class="flex flex-col items-center justify-between space-y-5 p-5 md:flex-row md:space-y-0 md:space-x-5">
           <div class="flex items-center space-x-5">
-            <div v-if="isTableView">
+            <div v-if="!isMapView">
               <div class="flex">
                 <input
                   type="date"
@@ -35,14 +35,14 @@
                       d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                     ></path>
                   </svg>
-                  <div v-if="isTableView">
+                  <div v-if="!isMapView">
                     <Input
                       :placeholder="$t('manager.search')"
                       v-model="asd"
                       class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
                     />
                   </div>
-                  <div v-if="!isTableView">
+                  <div v-if="isMapView">
                     <Input
                       :placeholder="$t('manager.search-map')"
                       v-model="geoCoderQuery"
@@ -75,7 +75,7 @@
                 </ul>
               </div>
 
-              <div v-if="!isTableView" class="flex flex-col items-center rounded-md py-2 px-4 text-gray-500">
+              <div v-if="isMapView" class="flex flex-col items-center rounded-md py-2 px-4 text-gray-500">
                 <Switch
                   v-model="onlyAlerts"
                   :class="onlyAlerts ? 'bg-green-500' : 'bg-gray-200'"
@@ -91,7 +91,7 @@
 
               <div class="flex cursor-pointer items-center space-x-10">
                 <button @click="toggleView" class="flex flex-col items-center">
-                  <TableIcon v-if="!isTableView" class="h-8 w-9 text-gray-500" />
+                  <TableIcon v-if="isMapView" class="h-8 w-9 text-gray-500" />
                   <MapIcon v-else class="h-7 w-10 text-gray-500" />
                   <span class="text-sm text-gray-500">Visualização</span>
                 </button>
@@ -102,7 +102,7 @@
       </div>
       <!-- Save Button -->
       <!-- <Button
-            v-if="!isTableView"
+            v-if="!isMapView"
             @click="savePolygons"
             class="border-gray-400 bg-transparent hover:bg-green-500 p-2 text-gray-400 shadow-md hover:border-green-500 hover:text-white"
           >
@@ -112,12 +112,9 @@
 
       <!-- Toggle View Button -->
 
-      <TableList v-show="isTableView" />
+      <TableList v-show="!isMapView" />
       <!-- Map content -->
-      <div
-        class="border-1 -z-10 flex justify-start border bg-white drop-shadow-lg"
-        v-show="!isTableView && !showEmptyResult"
-      >
+      <div class="border-1 -z-10 flex justify-start border bg-white drop-shadow-lg" v-if="isMapView">
         <GoogleMap
           :api-key="GOOGLE_MAP_API_KEY"
           style="width: 100%; height: 790px"
@@ -157,6 +154,7 @@
                 <MapInfoWindow
                   @delete="deletePolygon(polygonIndex)"
                   :polygonIndex="polygonIndex"
+                  :polygonNames="state.polygonNames"
                   @saved="updateLabel"
                 />
               </InfoWindow>
@@ -337,17 +335,18 @@
             </MarkerCluster>
           </template>
         </GoogleMap>
-      </div>
-      <div
-        v-if="showEmptyResult"
-        class="shadow-b-md shadow-l-md shadow-r-md flex flex-col rounded rounded-b-2xl border border-gray-200 bg-white py-60 shadow"
-        style="min-height: 793px"
-      >
-        <div class="flex justify-center">
-          <EmptyResultPhoto />
+
+        <div
+          v-if="showEmptyResult && geoCoderQuery"
+          class="shadow-b-md shadow-l-md shadow-r-md absolute flex w-full flex-col rounded rounded-b-2xl border border-gray-200 bg-white py-60 shadow"
+          style="min-height: 793px"
+        >
+          <div class="flex justify-center">
+            <EmptyResultPhoto />
+          </div>
+          <span class="flex justify-center font-semibold">{{ $t('manager.no-results') }}</span>
+          <span class="flex justify-center text-gray-500">{{ $t('manager.no-results-description') }}. </span>
         </div>
-        <span class="flex justify-center font-semibold">{{ $t('manager.no-results') }}</span>
-        <span class="flex justify-center text-gray-500">{{ $t('manager.no-results-description') }}. </span>
       </div>
     </div>
   </div>
@@ -451,10 +450,10 @@ const items = [
   'Terceira Infância',
   'Adolescência',
 ]
-const isTableView = ref(false)
+const isMapView = ref(true)
 
 const toggleView = () => {
-  isTableView.value = !isTableView.value
+  isMapView.value = !isMapView.value
 }
 const handleClickOutside = (event) => {
   if (!event.target.closest('.mt-4')) {
@@ -606,7 +605,9 @@ const infoWindowsOpened = ref([])
 
 const polygonLabels = ref([])
 
-const updateLabel = ({ polygonName, polygonIndex }) => {
+const updateLabel = async ({ polygonName, polygonIndex }) => {
+  await microregionsStore.updateMicroRegion(polygonIndex, { name: polygonName })
+  state.value.polygonNames = microregionsStore.items.map((polygon) => polygon.properties.name)
   polygonLabels.value[polygonIndex].setLabel(polygonName)
   currentInfoWindowIndex.value = null
 }

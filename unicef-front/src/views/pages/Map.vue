@@ -25,11 +25,38 @@
 </template>
 
 <script setup>
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, onUpdated, reactive, ref } from 'vue'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
+import { useStorage } from '@vueuse/core'
+import { errorToast, successToast } from '@/toast'
+import { watch, computed } from 'vue'
+import { usePatientsStore } from '@/stores/patients'
+import { useVaccinesStore } from '@/stores/vaccines'
+import { useLoggedUserStore } from '@/stores/loggedUser'
+import { useDosesStore } from '@/stores/doses'
+const loggedUserStore = useLoggedUserStore()
 import MapGoogle from '@/components/organisms/MapGoogle.vue'
 import PatientListCard from '@/components/organisms/PatientListCard.vue'
-import { usePatientsStore } from '@/stores/patients'
 const patientsStore = usePatientsStore()
+const vaccinesStore = useVaccinesStore()
+const router = useRouter()
+const dosesStore = useDosesStore()
+
+const props = defineProps({
+  id: {
+    type: String,
+    default: '0',
+  },
+})
+
+watch(
+  () => props.id,
+  async (id) => {
+    0 != props.id && (await patientsStore.fetchPatient(props.id))
+  },
+  { immediate: true }
+)
 
 const markers = ref([])
 const onlyAlerts = ref(undefined)

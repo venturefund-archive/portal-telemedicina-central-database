@@ -45,7 +45,15 @@
           </ul>
         </div>
 
+        <div class="flex h-full flex-col items-center justify-center" v-if="0 == paginated.length">
+          <div class="flex justify-center">
+            <EmptyResultPhoto />
+          </div>
+          <span class="flex justify-center font-semibold">{{ $t('manager.no-results') }}</span>
+          <span class="flex justify-center text-gray-500">{{ $t('manager.no-results-description') }}. </span>
+        </div>
         <div
+          v-else
           class="flex items-center justify-between border-b border-gray-200 px-2 pb-1 pt-4 hover:rounded hover:bg-gray-100"
           v-for="(patient, index) in paginated"
           :key="index"
@@ -70,12 +78,18 @@
               <!-- <span class="flex-none pr-14">{{ patient.number_of_alerts_by_protocol }}</span> -->
             </div>
 
-            <router-link
-              :to="{ name: 'PatientDetails', params: { id: patient.id } }"
-              class="border-1 cursor-pointer rounded border border-green-500 py-2 px-4 text-sm font-normal text-green-500 hover:bg-green-500 hover:text-white hover:no-underline"
+            <a
+              :href="`/patients/${patient.id}`"
+              class="border-1 cursor-pointer rounded border border-green-500 py-2 px-4 text-sm font-normal uppercase tracking-wide text-green-500 hover:bg-green-500 hover:text-white hover:no-underline"
+              @click.prevent="vaccineModalIndex = patient.id; patientsStore.item = patient"
+              >{{ $t('manager.details') }}</a
             >
-              {{ $t('manager.details') }}
-            </router-link>
+            <VaccineTableModal
+              v-if="patient.id === vaccineModalIndex"
+              :patient="patientsStore.item"
+              :is-open="patient.id === vaccineModalIndex"
+              @on-close="vaccineModalIndex = null"
+            />
           </div>
         </div>
       </BaseCard>
@@ -198,6 +212,10 @@ const props = defineProps({
     default: false,
   },
 })
+const vaccineModalIndex = ref(null)
+// const openVaccineModal = (patientId) => {
+//   vaccineModalIndex.va
+// }
 
 const handleClickOutside = (event) => {
   if (!event.target.closest('.mt-4')) {

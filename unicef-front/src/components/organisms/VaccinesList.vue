@@ -15,13 +15,13 @@
         ></path>
       </svg>
     </div>
-    <div class="mt-16 flex bg-[#F8F9FB]" v-else>
+    <div class="mt-16 flex flex-col-reverse md:flex-row" v-else>
       <div class="p-8">
         <ProfileCard :id="id" class="mt-10" />
       </div>
 
-      <div class="-mt-16 flex flex-col pt-20">
-        <nav class="flex" aria-label="Breadcrumb">
+      <div class="-mt-16 flex w-full flex-col pt-20">
+        <nav v-if="!props.noMenubar" class="flex" aria-label="Breadcrumb">
           <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li>
               <div class="flex items-center">
@@ -76,9 +76,9 @@
         <p class="pt-4 text-2xl font-semibold tracking-tight text-gray-700">
           {{ $t('patient-details.booklet') }} <span class="font-normal"> {{ $t('patient-details.zero-to-fif') }}</span>
         </p>
-        <div class="flex justify-end">
+        <div class="flex justify-end -mt-24">
           <div class="flex items-center">
-            <IncludeVaccineModal />
+            <IncludeVaccineModal v-if="!props.noMenubar" />
           </div>
           <div scope="col" colspan="2" class="px-6 pt-8 text-center uppercase">
             <InputIconWrapper>
@@ -282,53 +282,78 @@
                     :key="rangeIndex"
                   >
                     <div v-for="(dose, dk) in filteredDosesByVaccine(vaccine)" :key="dk" class="flex justify-center">
-                      <VaccineAlert
-                        v-if="
-                          dose.is_completed &&
-                          null != dose.maximum_recommended_age &&
-                          isWithinInterval(add(birthDate, { months: dose.maximum_recommended_age }), {
-                            start: range.start,
-                            end: range.end,
-                          })
-                        "
-                        :rangeIndex="rangeIndex"
-                        :status="1"
-                      >
-                        <VaccineAlertInfo :vaccine="vaccine" :dose="dose" />
-                      </VaccineAlert>
-
-                      <div v-else-if="dose.alerts.length > 0" v-for="(alert, ak) in dose.alerts" :key="ak">
+                      <div class="group relative">
                         <VaccineAlert
-                          :rangeIndex="rangeIndex"
-                          :status="2"
                           v-if="
+                            dose.is_completed &&
                             null != dose.maximum_recommended_age &&
                             isWithinInterval(add(birthDate, { months: dose.maximum_recommended_age }), {
                               start: range.start,
                               end: range.end,
                             })
                           "
+                          :rangeIndex="rangeIndex"
+                          :status="1"
                         >
                           <VaccineAlertInfo :vaccine="vaccine" :dose="dose" />
                         </VaccineAlert>
-                      </div>
+                        <div v-else-if="dose.alerts.length > 0" v-for="(alert, ak) in dose.alerts" :key="ak">
+                          <VaccineAlert
+                            :rangeIndex="rangeIndex"
+                            :status="2"
+                            v-if="
+                              null != dose.maximum_recommended_age &&
+                              isWithinInterval(add(birthDate, { months: dose.maximum_recommended_age }), {
+                                start: range.start,
+                                end: range.end,
+                              })
+                            "
+                          >
+                            <VaccineAlertInfo :vaccine="vaccine" :dose="dose" />
+                          </VaccineAlert>
+                        </div>
 
-                      <VaccineAlert
-                        :rangeIndex="rangeIndex"
-                        :status="4"
-                        v-else-if="
-                          dose.alerts.length == 0 &&
-                          null != dose.maximum_recommended_age &&
-                          (Math.floor(dose.minimum_recommended_age / 13) >= rangeIndex + 1 ||
-                            Math.floor(dose.maximum_recommended_age / 13) <= rangeIndex + 1) &&
-                          isWithinInterval(add(birthDate, { months: dose.maximum_recommended_age }), {
-                            start: range.start,
-                            end: range.end,
-                          })
-                        "
-                      >
-                        <VaccineAlertInfo :vaccine="vaccine" :dose="dose" :withoutDetails="true" />
-                      </VaccineAlert>
+                        <VaccineAlert
+                          :rangeIndex="rangeIndex"
+                          :status="4"
+                          v-else-if="
+                            dose.alerts.length == 0 &&
+                            null != dose.maximum_recommended_age &&
+                            (Math.floor(dose.minimum_recommended_age / 13) >= rangeIndex + 1 ||
+                              Math.floor(dose.maximum_recommended_age / 13) <= rangeIndex + 1) &&
+                            isWithinInterval(add(birthDate, { months: dose.maximum_recommended_age }), {
+                              start: range.start,
+                              end: range.end,
+                            })
+                          "
+                        >
+                          <VaccineAlertInfo :vaccine="vaccine" :dose="dose" :withoutDetails="true" />
+                        </VaccineAlert>
+                        <div
+                          class="invisible shadow-md absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 transform rounded-full bg-white px-2 py-1 text-sm text-black group-hover:visible"
+                        >
+                          <div class="flex items-center space-x-2 p-3">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                              class="h-8 w-8 text-green-500"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M5 13l4 4L19 7"
+                              ></path>
+                            </svg>
+                            <div>
+                              <p class="text-base font-bold">Vacinação Concluída</p>
+                              <span>1ª e 2ª doses recebidas</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -486,6 +511,10 @@ const props = defineProps({
   id: {
     type: String,
     default: '0',
+  },
+  noMenubar: {
+    type: Boolean,
+    default: false,
   },
 })
 </script>

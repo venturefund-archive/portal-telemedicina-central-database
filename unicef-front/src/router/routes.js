@@ -31,6 +31,12 @@ export default [
         component: () => import('@/views/pages/Map.vue'),
         props: true,
       },
+      {
+        path: '/map/:id',
+        name: 'MapPatient',
+        component: () => import('@/views/pages/Map.vue'),
+        props: true,
+      },
     ],
     beforeEnter: async (to, from, next) => {
       const state = useStorage('app-store', { token: '' })

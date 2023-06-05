@@ -1,13 +1,13 @@
 <template>
   <div class="h-[888px] w-72 rounded-full bg-white shadow">
-    <div class="-mt-16 flex justify-center">
+    <div class="flex justify-center">
       <img
-        class="h-16 w-16 rounded-full border border-2 border-white bg-white object-cover"
+        class="-mt-7 h-20 w-20 rounded-full border border-2 border-white bg-white object-cover"
         src="/avatar.png"
         alt="Profile picture"
       />
     </div>
-    <div class="p-3 pt-12">
+    <div class="p-3 pt-14">
       <p class="text-sm font-semibold capitalize">{{ name }}</p>
     </div>
     <ul class="px-3 text-sm text-neutral-500">
