@@ -202,6 +202,8 @@ class VaccineStatus(CDModel, models.Model):
     )  # noqa: E501
     completed = models.BooleanField(default=False)
 
+    application_date = models.DateField(blank=True, null=True)
+
     class Meta:
         indexes = [models.Index(fields=["patient_id"])]  # noqa: E501
 
