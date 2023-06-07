@@ -76,7 +76,7 @@
         <p class="pt-4 text-2xl font-semibold tracking-tight text-gray-700">
           {{ $t('patient-details.booklet') }} <span class="font-normal"> {{ $t('patient-details.zero-to-fif') }}</span>
         </p>
-        <div class="flex justify-end -mt-24">
+        <div class="-mt-24 flex justify-end">
           <div class="flex items-center">
             <IncludeVaccineModal v-if="!props.noMenubar" />
           </div>
@@ -148,7 +148,7 @@
                   <th
                     scope="col"
                     :class="{ 'border-x-2 border-t-2 border-sky-500': ageInMonths >= 0 && ageInMonths < 2 }"
-                    class="whitespace-nowrap rounded-l-3xl bg-[#E9E9E9] px-6 py-4"
+                    class="whitespace-nowrap rounded-tl-3xl bg-[#E9E9E9] px-6 py-4"
                   >
                     0
                   </th>
@@ -284,8 +284,11 @@
                     <div v-for="(dose, dk) in filteredDosesByVaccine(vaccine)" :key="dk" class="flex justify-center">
                       <div class="group relative">
                         <VaccineAlert
+                          :vaccine="vaccine"
+                          :dose="dose"
                           v-if="
-                            dose.is_completed &&
+                            dose.status &&
+                            dose.status.completed &&
                             null != dose.maximum_recommended_age &&
                             isWithinInterval(add(birthDate, { months: dose.maximum_recommended_age }), {
                               start: range.start,
@@ -295,10 +298,12 @@
                           :rangeIndex="rangeIndex"
                           :status="1"
                         >
-                          <VaccineAlertInfo :vaccine="vaccine" :dose="dose" />
+                          <VaccineAlertInfo @update:toggle-active="asd" :vaccine="vaccine" :dose="dose" />
                         </VaccineAlert>
                         <div v-else-if="dose.alerts.length > 0" v-for="(alert, ak) in dose.alerts" :key="ak">
                           <VaccineAlert
+                            :vaccine="vaccine"
+                            :dose="dose"
                             :rangeIndex="rangeIndex"
                             :status="2"
                             v-if="
@@ -309,11 +314,13 @@
                               })
                             "
                           >
-                            <VaccineAlertInfo :vaccine="vaccine" :dose="dose" />
+                            <VaccineAlertInfo @update:toggle-active="asd" :vaccine="vaccine" :dose="dose" />
                           </VaccineAlert>
                         </div>
 
                         <VaccineAlert
+                          :vaccine="vaccine"
+                          :dose="dose"
                           :rangeIndex="rangeIndex"
                           :status="4"
                           v-else-if="
@@ -327,10 +334,10 @@
                             })
                           "
                         >
-                          <VaccineAlertInfo :vaccine="vaccine" :dose="dose" :withoutDetails="true" />
+                          <VaccineAlertInfo @update:toggle-active="asd" :vaccine="vaccine" :dose="dose" />
                         </VaccineAlert>
                         <div
-                          class="invisible shadow-md absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 transform rounded-full bg-white px-2 py-1 text-sm text-black group-hover:visible"
+                          class="invisible absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 transform rounded-full bg-white px-2 py-1 text-sm text-black shadow-md group-hover:visible"
                         >
                           <div class="flex items-center space-x-2 p-3">
                             <svg
@@ -401,7 +408,9 @@ const patientsStore = usePatientsStore()
 const dosesStore = useDosesStore()
 const vaccinesStore = useVaccinesStore()
 const loggedUserStore = useLoggedUserStore()
-
+const asd = async ({ dose, active }) => {
+  await dosesStore.updateDose(dose.id, { active })
+}
 const router = useRouter()
 const isModalOpen = ref(false)
 

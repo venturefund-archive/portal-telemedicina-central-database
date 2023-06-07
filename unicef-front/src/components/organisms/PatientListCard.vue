@@ -70,7 +70,7 @@
                 {{ patient.name.toLowerCase() }}
               </p>
 
-              <span class="text-sm text-gray-500"> Street xxx, district xxx </span>
+              <span class="text-sm text-gray-500"> {{ patient.address }} </span>
             </div>
           </div>
           <div>

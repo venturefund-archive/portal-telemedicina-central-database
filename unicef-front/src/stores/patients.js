@@ -40,6 +40,7 @@ export const usePatientsStore = defineStore('patients', () => {
       item.value = response.data
     } catch (err) {
       errorToast({ text: err.response.data.detail })
+      console.log(err)
     }
   }
 
@@ -54,6 +55,7 @@ export const usePatientsStore = defineStore('patients', () => {
       return response
     } catch (err) {
       errorToast({ text: err.response.data.detail })
+      console.log(err)
     }
   }
 

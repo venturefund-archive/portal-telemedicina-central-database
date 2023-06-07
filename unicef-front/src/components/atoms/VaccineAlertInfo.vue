@@ -1,35 +1,103 @@
 <template>
-  <div class="min-w-96 bg-neutral-50 p-4 text-lg font-normal">
-    <div class="relative">
-      <div class="flex items-center justify-between pt-1 pb-2.5">
-        <div class="flex">
-          <div v-if="!props.withoutDetails">
-            <CheckCircleIcon class="h-7 w-7 rounded-full bg-lime-600 text-white" v-if="dose.is_completed" />
-            <ExclamationCircleIcon class="h-7 w-7 rounded-full bg-red-500 text-white" v-else />
+  <div class="p-4 text-lg font-normal">
+    <div class="shadow-b-3xl z-10 h-[900px] rounded-t p-10 shadow-md">
+      <div class="relative">
+        <div class="flex items-center justify-between pt-1 pb-10">
+          <div class="flex items-center">
+            <CheckCircleIcon class="h-8 w-8 rounded-full bg-lime-600 text-white" v-if="isCompleted" />
+            <ExclamationCircleIcon class="h-8 w-8 rounded-full bg-red-500 text-white" v-else-if="hasAlerts && active" />
+            <VolumeOffIcon class="h-8 w-8 rounded-full bg-red-900 p-2 text-white" v-else-if="hasAlerts && !active" />
+            <LightBulbIcon class="h-8 w-8 rounded-full bg-blue-300 text-white" v-else></LightBulbIcon>
           </div>
-          <p class="px-2 font-semibold">{{ props.vaccine.description }}</p>
+          <div class="flex items-center p-2">
+            <div>
+              <h2 v-if="isCompleted">Dose Completa</h2>
+              <h2 v-else-if="hasAlerts && active">Dose em Alerta</h2>
+              <h2 v-else-if="hasAlerts && !active">Dose em Alerta Silenciado</h2>
+              <h2 v-else>Dose Recomendada</h2>
+            </div>
+          </div>
+          <div class="ml-auto">
+            <span class="rounded-lg bg-blue-500 p-1.5 text-sm uppercase text-white">
+              {{ $t('patient-details.dose') }} <span class="font-semibold">#{{ props.dose.dose_order }}</span>
+            </span>
+          </div>
         </div>
-        <span class="rounded-lg bg-green-200 bg-opacity-50 p-1.5 text-sm uppercase text-green-800"
-          >{{ $t('patient-details.dose') }} <span class="font-semibold">#{{ props.dose.dose_order }}</span></span
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="vaccine" class="block p-2 text-sm font-medium text-gray-700">{{
+              $t('patient-details.vaccine')
+            }}</label>
+            <input
+              id="vaccine"
+              type="text"
+              :value="props.vaccine.description"
+              class="block w-auto rounded-full border-none bg-gray-100 py-2 px-4"
+              readonly
+            />
+          </div>
+
+          <div>
+            <label for="recommended" class="block p-2 text-sm font-medium text-gray-700">{{
+              $t('patient-details.recommended')
+            }}</label>
+            <input
+              id="recommended"
+              type="text"
+              :value="formatDuration({ months: props.dose.maximum_recommended_age })"
+              class="block w-auto rounded-full border-none bg-gray-100 py-2 px-4"
+              readonly
+            />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="gender" class="block p-2 text-sm font-medium text-gray-700">{{
+              $t('patient-details.gender')
+            }}</label>
+            <input
+              id="gender"
+              type="text"
+              :value="props.dose.gender_recommendation"
+              class="block w-auto rounded-full border-none bg-gray-100 py-2 px-4"
+              readonly
+            />
+          </div>
+
+          <div v-if="props.dose.status && props.dose.status.completed">
+            <label for="gender" class="block py-2 px-4 text-sm font-medium text-gray-700">Data aplicacao</label>
+            <input
+              type="text"
+              :value="props.dose.status.application_date"
+              class="mb-2 w-auto rounded-full border-none bg-gray-100 py-2 px-4"
+              readonly
+            />
+          </div>
+        </div>
+      </div>
+      <div v-if="props.dose.alerts.length > 0" class="py-10">
+        <button
+          @click="toggleActive"
+          class="ml-2 flex items-center rounded-lg py-1 px-2"
+          :class="!active ? 'bg-blue-500' : 'bg-red-500'"
         >
+          <VolumeOffIcon v-if="active" class="h-8 w-8 p-1 text-white" />
+          <VolumeUpIcon v-if="!active" class="h-8 w-8 p-1 text-white" />
+          <span v-if="active" class="ml-1 text-sm font-semibold text-white">Silenciar notificacao de alerta</span>
+          <span v-if="!active" class="ml-1 text-sm font-semibold text-white">Ativar notificacao de alerta</span>
+        </button>
       </div>
-      <p>
-        {{ $t('patient-details.recommended') }}: {{ formatDuration({ months: props.dose.maximum_recommended_age }) }}
-      </p>
-      <p>{{ $t('patient-details.gender') }}: {{ props.dose.gender_recommendation }}</p>
-    </div>
-    <div class="font-normal" v-if="props.dose.alerts.length > 0">
-      <div class="bg-neutral-200">
-        <p class="font-semibold">Alerts</p>
-        <div v-for="(alert, k) in props.dose.alerts" :key="k">
-          Id: {{ alert.id }} <br />
-          Tipo de alerta: {{ alert.alert_type }}<br />
-          Data de aplicação:
-          <!-- {{ formatRelative(parseISO(alert.application_at), new Date()) }} --><br />
-          Data do registro: {{ formatRelative(parseISO(alert.created_at), new Date()) }}
+      <div class="font-normal" v-if="props.dose.alerts.length > 0">
+        <div>
+          <div v-for="(alert, k) in props.dose.alerts" :key="k">
+            <span class="flex justify-end text-sm text-gray-500">
+              Registrado {{ formatRelative(parseISO(alert.created_at), new Date()) }}</span
+            >
+          </div>
         </div>
       </div>
-      <p class="pt-3">Total: {{ props.dose.alerts.length }} alertas</p>
     </div>
   </div>
 </template>
@@ -37,19 +105,31 @@
 <script setup>
 import { onMounted, onUnmounted, ref, computed } from 'vue'
 import PerfectScrollbar from 'perfect-scrollbar'
-import { CheckCircleIcon, ExclamationCircleIcon } from '@heroicons/vue/outline'
+import {
+  CheckCircleIcon,
+  ExclamationCircleIcon,
+  LightBulbIcon,
+  VolumeOffIcon,
+  VolumeUpIcon,
+  CheckIcon,
+  XIcon,
+} from '@heroicons/vue/outline'
 import { usePatientsStore } from '@/stores/patients'
 import { parseISO, formatRelative, formatDuration, add, setDefaultOptions, differenceInMonths } from 'date-fns'
+import { Switch } from '@headlessui/vue'
+import { useToggle } from '@vueuse/core'
+const emit = defineEmits(['update:toggle-active'])
+
+const state = ref(false)
+const enabled = ref(false)
+
 const patientsStore = usePatientsStore()
 
 const birthDate = ref(parseISO(patientsStore.item.birth_date))
 const recommendedDate = ref(add(birthDate.value, { months: props.dose.maximum_recommended_age }))
-
+const isCompleted = computed(() => props.dose.status && props.dose.status.completed)
+const hasAlerts = computed(() => props.dose.alerts.length > 0)
 const props = defineProps({
-  withoutDetails: {
-    type: Boolean,
-    default: false,
-  },
   vaccine: {
     type: Object,
     default: {},
@@ -59,4 +139,11 @@ const props = defineProps({
     default: {},
   },
 })
+
+let active = ref(true)
+
+const toggleActive = () => {
+  emit('update:toggle-active', { dose: props.dose, active: active.value })
+  active.value = !active.value
+}
 </script>

@@ -76,7 +76,7 @@ const updateMarkersFiltered = (newMarkers) => {
 // Função para atualizar o centro em vista
 const updateCenterInView = (newCenter) => {
   currentCenter.value = newCenter
-  currentZoom.value = 9
+  currentZoom.value = 15
 }
 const updateOnlyAlerts = (newOnlyAlerts) => {
   onlyAlerts.value = newOnlyAlerts
