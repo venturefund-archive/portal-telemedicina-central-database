@@ -148,3 +148,6 @@ data/synthetic/synthea/fhir/
 poc/
 data/vaccine_codes
 credentials.json
+
+#automatic import lib
+components.d.ts

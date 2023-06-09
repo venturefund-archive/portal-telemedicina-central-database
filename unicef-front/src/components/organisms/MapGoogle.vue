@@ -1,7 +1,7 @@
 <template>
   <div>
     <p class="mb-4 text-xl font-semibold text-gray-700">
-      {{ isTableView ? $t('manager.table-view-text') : $t('manager.vaccination-map') }}
+      {{ !isMapView ? $t('manager.table-view-text') : $t('manager.vaccination-map') }}
     </p>
 
     <div class="!z-50 h-[106px] w-full rounded-t-2xl border !bg-gray-50 drop-shadow-lg drop-shadow-lg">
@@ -9,7 +9,7 @@
         <!-- People with vaccines delayed -->
         <div class="flex flex-col items-center justify-between space-y-5 p-5 md:flex-row md:space-y-0 md:space-x-5">
           <div class="flex items-center space-x-5">
-            <div v-if="isTableView">
+            <div v-if="!isMapView">
               <div class="flex">
                 <input
                   type="date"
@@ -35,14 +35,14 @@
                       d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                     ></path>
                   </svg>
-                  <div v-if="isTableView">
+                  <div v-if="!isMapView">
                     <Input
                       :placeholder="$t('manager.search')"
-                      v-model="asd"
+                      v-model="addressQuery"
                       class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
                     />
                   </div>
-                  <div v-if="!isTableView">
+                  <div v-if="isMapView">
                     <Input
                       :placeholder="$t('manager.search-map')"
                       v-model="geoCoderQuery"
@@ -75,7 +75,7 @@
                 </ul>
               </div>
 
-              <div v-if="!isTableView" class="flex flex-col items-center rounded-md py-2 px-4 text-gray-500">
+              <div v-if="isMapView" class="flex flex-col items-center rounded-md py-2 px-4 text-gray-500">
                 <Switch
                   v-model="onlyAlerts"
                   :class="onlyAlerts ? 'bg-green-500' : 'bg-gray-200'"
@@ -91,7 +91,7 @@
 
               <div class="flex cursor-pointer items-center space-x-10">
                 <button @click="toggleView" class="flex flex-col items-center">
-                  <TableIcon v-if="!isTableView" class="h-8 w-9 text-gray-500" />
+                  <TableIcon v-if="isMapView" class="h-8 w-9 text-gray-500" />
                   <MapIcon v-else class="h-7 w-10 text-gray-500" />
                   <span class="text-sm text-gray-500">Visualização</span>
                 </button>
@@ -102,8 +102,8 @@
       </div>
       <!-- Save Button -->
       <!-- <Button
-            v-if="!isTableView"
-            @click="savePolygons"
+            v-if="!isMapView"
+            @click=""
             class="border-gray-400 bg-transparent hover:bg-green-500 p-2 text-gray-400 shadow-md hover:border-green-500 hover:text-white"
           >
             <SaveIcon class="h-5 w-5" />
@@ -112,12 +112,9 @@
 
       <!-- Toggle View Button -->
 
-      <TableList v-show="isTableView" />
+      <TableList v-show="!isMapView" />
       <!-- Map content -->
-      <div
-        class="border-1 -z-10 flex justify-start border bg-white drop-shadow-lg"
-        v-show="!isTableView && !showEmptyResult"
-      >
+      <div class="border-1 -z-10 flex justify-start border bg-white drop-shadow-lg" v-if="isMapView">
         <GoogleMap
           :api-key="GOOGLE_MAP_API_KEY"
           style="width: 100%; height: 790px"
@@ -133,7 +130,7 @@
             <!-- First pattern: Here you have access to the API and map instance.
           "ready" is a boolean that indicates when the Google Maps script
           has been loaded and the api and map instance are ready to be used -->
-            <div v-for="(polygon, polygonIndex) in polygons" :key="polygonIndex">
+            <div v-for="(polygon, polygonIndex) in googlePolygons" :key="polygonIndex">
               <Polygon
                 ref="itemRefs"
                 :options="{
@@ -154,8 +151,10 @@
                   position: calculatePolygonCenter(polygon.getPath()),
                 }"
               >
-                <MapInfoWindow
+                <RegionForm
                   @delete="deletePolygon(polygonIndex)"
+                  :polygon="polygons[polygonIndex]"
+                  :googlePolygon="polygon"
                   :polygonIndex="polygonIndex"
                   @saved="updateLabel"
                 />
@@ -288,14 +287,18 @@
                                 >
                                   3 months
                                 </p>
-                                <p class="rounded-full bg-red-100 px-3 py-1 text-sm font-normal text-red-900">
-                                  vaccine with delay: BCG
+                                <p
+                                  v-if="0 !== marker.alerts.length"
+                                  class="rounded-full bg-red-100 px-3 py-1 text-sm font-normal text-red-900"
+                                >
+                                  vaccine with delay: {{ marker.alerts.join(', ') }}
                                 </p>
                               </div>
                               <div class="font-normal">
-                                <p>Document: xxxx</p>
-                                <p>Birthdate: xx/xx/xx</p>
-                                <p>Address: xxxxx</p>
+                                <p>ID: {{ marker.id }}</p>
+                                <p>Alertas por protocolo: {{ marker.number_of_alerts_by_protocol }} alertas</p>
+                                <p>Birthdate: {{ marker.birth_date }}</p>
+                                <p>Address: {{ marker.address }}</p>
                               </div>
                               <span class="mt-5 flex justify-end text-sm text-gray-400"
                                 >Última alteração: 08/02/2023</span
@@ -337,17 +340,18 @@
             </MarkerCluster>
           </template>
         </GoogleMap>
-      </div>
-      <div
-        v-if="showEmptyResult"
-        class="shadow-b-md shadow-l-md shadow-r-md flex flex-col rounded rounded-b-2xl border border-gray-200 bg-white py-60 shadow"
-        style="min-height: 793px"
-      >
-        <div class="flex justify-center">
-          <EmptyResultPhoto />
+
+        <div
+          v-if="showEmptyResult && geoCoderQuery"
+          class="shadow-b-md shadow-l-md shadow-r-md absolute flex w-full flex-col rounded rounded-b-2xl border border-gray-200 bg-white py-60 shadow"
+          style="min-height: 793px"
+        >
+          <div class="flex justify-center">
+            <EmptyResultPhoto />
+          </div>
+          <span class="flex justify-center font-semibold">{{ $t('manager.no-results') }}</span>
+          <span class="flex justify-center text-gray-500">{{ $t('manager.no-results-description') }}. </span>
         </div>
-        <span class="flex justify-center font-semibold">{{ $t('manager.no-results') }}</span>
-        <span class="flex justify-center text-gray-500">{{ $t('manager.no-results-description') }}. </span>
       </div>
     </div>
   </div>
@@ -368,7 +372,7 @@ import { Switch } from '@headlessui/vue'
 
 const enabled = ref(false)
 
-import MapInfoWindow from '@/components/atoms/MapInfoWindow.vue'
+import RegionForm from '@/components/atoms/RegionForm.vue'
 
 const itemRefs = ref([])
 
@@ -404,33 +408,30 @@ const props = defineProps({
 })
 
 const showList = ref(false)
+
 const markerIconNormal = ref({
-  url: 'marker-normal.png',
-  scaledSize: {
-    width: 40,
-    height: 50,
-  },
+  url: 'marker.svg',
+  fillOpacity: 0.6,
+  strokeWeight: 0,
+  scale: 2,
 })
 const markerIconEditing = ref({
-  url: 'marker-editing.png',
-  scaledSize: {
-    width: 40,
-    height: 50,
-  },
+  url: 'marker-editing.svg',
+  fillOpacity: 0.6,
+  strokeWeight: 0,
+  scale: 2,
 })
 const markerIconDisabled = ref({
-  url: 'marker-disabled.png',
-  scaledSize: {
-    width: 40,
-    height: 50,
-  },
+  url: 'marker-disabled.svg',
+  fillOpacity: 0.6,
+  strokeWeight: 0,
+  scale: 2,
 })
 const markerIconAlert = ref({
-  url: 'marker-alert.png',
-  scaledSize: {
-    width: 40,
-    height: 50,
-  },
+  url: 'marker-alert.svg',
+  fillOpacity: 0.6,
+  strokeWeight: 0,
+  scale: 2,
 })
 
 const editForm = reactive({
@@ -451,10 +452,10 @@ const items = [
   'Terceira Infância',
   'Adolescência',
 ]
-const isTableView = ref(false)
+const isMapView = ref(true)
 
 const toggleView = () => {
-  isTableView.value = !isTableView.value
+  isMapView.value = !isMapView.value
 }
 const handleClickOutside = (event) => {
   if (!event.target.closest('.mt-4')) {
@@ -467,7 +468,6 @@ function onItemClick(item) {
   console.log(`Item clicado: ${item}`)
 }
 
-const polygons = ref([])
 // const customPolygons = (key) => {
 //   return {
 //     paths: polygons.value[key].polygon || [],
@@ -486,61 +486,6 @@ const searchAddress = () => {
   //center.value = { lat: -22.749940, lng: -50.576540 }
 
   geocodeAddress(geoCoder.value, map.value)
-}
-const query = ref('')
-
-function loadPolygons() {
-  const state = useStorage('app-store', { polygons: [] })
-  if (undefined == state.value.polygons) {
-    state.value.polygons = []
-  }
-  if (state.value.polygons) {
-    // asd.value = state.value.polygons
-    state.value.polygons.forEach(function (polygonCoordinates, index) {
-      // const polygon = new google.maps.Polygon({
-      //   paths: polygonCoordinates,
-      //   fillColor: '#FFA901',
-      //   strokeColor: '#4FA9DD',
-      //   fillOpacity: 0.5,
-      //   strokeWeight: 1,
-      //   clickable: false,
-      //   editable: true,
-      //   zIndex: 1,
-      // })
-
-      // // Detecta o evento de clique no mapa
-      // google.maps.event.addListener(map.value, 'click', (event) => {
-      //   // Verifica se o ponto do clique está dentro dos limites do polígono
-      //   if (google.maps.geometry.poly.containsLocation(event.latLng, polygon)) {
-      //     if (infoWindowsOpened.value.includes(index)) {
-      //       return
-      //     }
-      //     //MapInfoWindow.emits = ['asd'];
-      //     // var app = createApp(MapInfoWindow, { content: 'Seu conteúdo aqui' })
-      //     // app.component('MapInfoWindow', MapInfoWindow);
-      //     // const content = document.createElement('div')
-      //     // console.log(MapInfoWindow)
-      //     // app.mount(content, { asd: MapInfoWindow.emits.asd })
-
-      //     const content = '<div id="asd"></div>'
-      //     let infoWindow = new google.maps.InfoWindow({
-      //       content: content,
-      //       pixelOffset: new google.maps.Size(0, -30),
-      //     })
-      //     infoWindow.setPosition(center)
-      //     infoWindow.addListener('closeclick', () => {
-      //       infoWindowsOpened.value.splice(infoWindowsOpened.value.indexOf(index))
-      //     })
-
-      //     infoWindow.open(map.value)
-      //     infoWindowsOpened.value.push(index)
-      //   }
-      // })
-
-      polygons.value.push(polygon)
-      // polygon.setMap(mapRef.value.map)
-    })
-  }
 }
 
 const currentInfoWindowIndex = ref(null)
@@ -569,79 +514,60 @@ const getCenterOfPolygon = computed(() => (index) => {
   infoWindow.setPosition(center)
 })
 
-function serializeOne(polygon) {
-  const polygonCoordinates = []
-  const vertices = polygon.getPath()
-  vertices.forEach(function (vertex) {
-    polygonCoordinates.push({
-      lat: vertex.lat(),
-      lng: vertex.lng(),
-    })
-  })
-  return polygonCoordinates
-}
-function serialize() {
-  const polygonCoordinates = []
-  polygons.value.forEach(function (polygon) {
-    polygonCoordinates.push(serializeOne(polygon))
-  })
-  return polygonCoordinates
-}
-
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
 })
 
-function savePolygons() {
-  const savedPolygons = []
-  if (!polygons.value) {
-    return
-  }
-
-  state.value.polygons = serialize()
-}
-
-const asd = ref([])
+const addressQuery = ref([])
 const infoWindowsOpened = ref([])
 
-const polygonLabels = ref([])
+const googleLabels = ref([])
 
-const updateLabel = ({ polygonName, polygonIndex }) => {
-  polygonLabels.value[polygonIndex].setLabel(polygonName)
-  currentInfoWindowIndex.value = null
+const updateLabel = async ({ localPolygon, polygonIndex }) => {
+  try {
+    if (0 === localPolygon.id) {
+      await microregionsStore.createMicroRegion(localPolygon)
+    } else {
+      await microregionsStore.updateMicroRegion(localPolygon.id, { name: localPolygon.name })
+    }
+
+    googleLabels.value[polygonIndex].setLabel(localPolygon.name)
+
+    let bounds = new google.maps.LatLngBounds()
+    googlePolygons.value[polygonIndex].getPath().forEach((latLng) => bounds.extend(latLng))
+    // map.value.fitBounds(bounds) // centraliza
+
+    let center = bounds.getCenter()
+    // polygon name text label
+    googleLabels.value.push(
+      new google.maps.Marker({
+        position: center,
+        label: {
+          text: `${localPolygon.name}`,
+          color: 'black',
+          fontWeight: 'bold',
+        },
+        icon: {
+          path: google.maps.SymbolPath.CIRCLE,
+          fillColor: 'transparent',
+          fillOpacity: 0,
+          strokeColor: 'transparent',
+          strokeWeight: 0,
+          scale: 0,
+        },
+        map: map.value,
+      })
+    )
+    currentInfoWindowIndex.value = null
+  } catch (error) {
+    console.log(error)
+  }
 }
 
-const state = useStorage('app-store', { polygons: [], polygonNames: [], markers: [] })
-// state.value.polygonNames = state.value.polygonNames || []
-// state.value.polygons = state.value.polygons || []
-
-// state.value.markers = state.value.markers || [
-//   { lat: -4.27079, lng: -41.78667, alert: false },
-//   { lat: -4.26778, lng: -41.78648, alert: false },
-//   { lat: -4.281896, lng: -41.772761, alert: false },
-//   { lat: -4.278861, lng: -41.794099, alert: true },
-//   { lat: -4.277929, lng: -41.776558, alert: true },
-//   { lat: -4.25565, lng: -41.805445, alert: true },
-//   { lat: -4.279603, lng: -41.775932, alert: true },
-//   { lat: -4.279603, lng: -41.775932, alert: true },
-//   { lat: -4.285898, lng: -41.800961, alert: true },
-//   { lat: -4.282285, lng: -41.772658, alert: true },
-//   { lat: -4.26606, lng: -41.806942, alert: true },
-//   { lat: -4.289922, lng: -41.807408, alert: true },
-//   { lat: -4.281836, lng: -41.779707, alert: true },
-//   { lat: -4.282848, lng: -41.774176, alert: true },
-//   { lat: -4.273743, lng: -41.78129, alert: true },
-//   { lat: -4.263637, lng: -41.797071, alert: true },
-//   { lat: -4.276892, lng: -41.779148, alert: true },
-//   { lat: -4.256098, lng: -41.773501, alert: true },
-//   { lat: -4.25533, lng: -41.779087, alert: true },
-//   { lat: -4.263637, lng: -41.795704, alert: true },
-// ]
-
-// Third pattern: watch for "ready" then do something with the API or map instance
+const googlePolygons = ref([])
 watch(
   () => mapRef.value?.ready,
-  (ready) => {
+  async (ready) => {
     if (!ready) return
     map.value = mapRef.value.map
     geoCoder.value = new mapRef.value.api.Geocoder()
@@ -673,28 +599,28 @@ watch(
     // Add an event listener for when the user finishes drawing a polygon
     google.maps.event.addListener(drawingManager.value, 'overlaycomplete', (event) => {
       if (event.type === google.maps.drawing.OverlayType.POLYGON) {
-        const polygon = event.overlay
-        //console.log(state.value.polygons)
-        polygons.value.push(polygon)
-        savePolygons()
-        showInfoWindow(polygons.value.length - 1)
+        const newPolygon = event.overlay
+        googlePolygons.value.push(newPolygon)
+        showInfoWindow(googlePolygons.value.length - 1)
       }
     })
 
     google.maps.event.addListener(map.value, 'click', (event) => {
       // Verifica se o clique ocorreu dentro de algum polígono
-      polygons.value.forEach((polygon, polygonIndex) => {
+      googlePolygons.value.forEach((polygon, polygonIndex) => {
         if (google.maps.geometry.poly.containsLocation(event.latLng, polygon)) {
           showInfoWindow(polygonIndex)
         }
       })
     })
 
-    // Carrega polígonos salvos do localStorage ao inicializar o mapa
-    // loadPolygons()
-    state.value.polygons.forEach(function (polygonCoordinates, index) {
-      const polygon = new google.maps.Polygon({
-        paths: polygonCoordinates,
+    await microregionsStore.fetchMicroRegions()
+    polygons.value = microregionsStore.items
+
+    // Carrega polígonos salvos da API ao inicializar o mapa
+    polygons.value.map((polygon) => {
+      const googlePolygon = new google.maps.Polygon({
+        paths: polygon.coordinates,
         fillColor: '#FFA901',
         strokeColor: '#4FA9DD',
         fillOpacity: 0.5,
@@ -703,39 +629,34 @@ watch(
         editable: true,
         zIndex: 1,
       })
+      googlePolygons.value.push(googlePolygon)
 
-      polygon.getPath().forEach(function (latLng, index) {
-        const polygonIndex = polygons.value.length
-        const vertices = polygon.getPath()
-        google.maps.event.addListener(vertices, 'set_at', function (event) {
-          // console.log('A vértice ' + index + ' do polígono foi movida pa
-          const polygonCoordinates = []
-          vertices.forEach(function (vertex) {
-            polygonCoordinates.push({
-              lat: vertex.lat(),
-              lng: vertex.lng(),
-            })
-          })
-          // state.value.polygons[polygonIndex] = polygonCoordinates
-          polygonCoordinates.forEach(function (p, k) {
-            state.value.polygons[polygonIndex][k] = { ...p, ...state.value.polygons[polygonIndex][k].alert }
-          })
-        })
-      })
-
-      polygons.value.push(polygon)
+      const vertices = googlePolygon.getPath()
+      // google.maps.event.addListener(vertices, 'set_at', function (event) {
+      //   // console.log('A vértice ' + index + ' do polígono foi movida pa
+      //   const polygonCoordinates = []
+      //   vertices.forEach(function (vertex) {
+      //     polygonCoordinates.push({
+      //       lat: vertex.lat(),
+      //       lng: vertex.lng(),
+      //     })
+      //   })
+      //   polygonCoordinates.forEach(function (p, k) {
+      //     googlePolygons.value[polygonIndex][k] = { ...p, ...googlePolygons.value[polygonIndex][k].alert }
+      //   })
+      // })
 
       let bounds = new google.maps.LatLngBounds()
-      polygon.getPath().forEach((latLng) => bounds.extend(latLng))
-      map.value.fitBounds(bounds)
+      googlePolygon.getPath().forEach((latLng) => bounds.extend(latLng))
+      // map.value.fitBounds(bounds) // centraliza
 
       let center = bounds.getCenter()
       // polygon name text label
-      polygonLabels.value.push(
+      googleLabels.value.push(
         new google.maps.Marker({
           position: center,
           label: {
-            text: `${state.value.polygonNames[index]}`,
+            text: `${polygon.name}`,
             color: 'black',
             fontWeight: 'bold',
           },
@@ -759,54 +680,21 @@ const geocodeAddress = (geoCoder, resultsMap) => {
     if (status === 'OK') {
       resultsMap.setCenter(results[0].geometry.location)
       showEmptyResult.value = false
-      console.log(showEmptyResult.value)
       //const marker = new google.maps.Marker({
       //  map: resultsMap,
       //  position: results[0].geometry.location
       //})
     } else {
       showEmptyResult.value = true
-      console.log(showEmptyResult.value)
     }
   })
 }
 
-const patientMarkers = ref([])
+const polygons = ref([])
 
 onMounted(async () => {
   await patientsStore.fetchPatients()
   document.addEventListener('click', handleClickOutside)
-
-  await microregionsStore.fetchMicroRegions()
-  state.value.polygons = microregionsStore.items.map((polygon) => {
-    return polygon.geometry.coordinates[0].map((coordinate) => {
-      return { lat: coordinate[1], lng: coordinate[0] }
-    })
-  })
-  state.value.polygonNames = microregionsStore.items.map((polygon) => polygon.properties.name)
-
-  //   state.value.markers = [
-  //    { lat: -4.27079, lng: -41.78667, alert: false },
-  //    { lat: -4.26778, lng: -41.78648, alert: false },
-  //    { lat: -4.281896, lng: -41.772761, alert: false },
-  //    { lat: -4.278861, lng: -41.794099, alert: true },
-  //    { lat: -4.277929, lng: -41.776558, alert: true },
-  //    { lat: -4.25565, lng: -41.805445, alert: true },
-  //    { lat: -4.279603, lng: -41.775932, alert: true },
-  //    { lat: -4.279603, lng: -41.775932, alert: true },
-  //    { lat: -4.285898, lng: -41.800961, alert: true },
-  //    { lat: -4.282285, lng: -41.772658, alert: true },
-  //    { lat: -4.26606, lng: -41.806942, alert: true },
-  //    { lat: -4.289922, lng: -41.807408, alert: true },
-  //    { lat: -4.281836, lng: -41.779707, alert: true },
-  //    { lat: -4.282848, lng: -41.774176, alert: true },
-  //    { lat: -4.273743, lng: -41.78129, alert: true },
-  //    { lat: -4.263637, lng: -41.797071, alert: true },
-  //    { lat: -4.276892, lng: -41.779148, alert: true },
-  //    { lat: -4.256098, lng: -41.773501, alert: true },
-  //    { lat: -4.25533, lng: -41.779087, alert: true },
-  //    { lat: -4.263637, lng: -41.795704, alert: true },
-  //  ]
 })
 
 const markers = ref([])
@@ -832,45 +720,20 @@ function moveMarker(event, index) {
 
 async function handleMarkerDrag(event, index) {
   // console.log('dragend', event.latLng.lat(), event.latLng.lng())
-
-  // const coords = {
-  //   lat: event.latLng.lat(),
-  //   lng: event.latLng.lng(),
-  //   alert: state.value.markers[index].alert || false,
-  // }
-
-  // polygonCoordinates.forEach(function (p, k) {
-  //   state.value.polygons[polygonIndex][k] = p
-  // })
-  // state.value.polygons[polygonIndex].forEach(function (p, k) {
-  //   polygonCoordinates[k] = p
-  // })
-  // console.log(markers.value[index])
-  // console.log(coords)
+  const newPatient = {
+    ...patientsStore.items[index],
+    address: {
+      latitude: event.latLng.lat(),
+      longitude: event.latLng.lng(),
+    },
+  }
+  console.log(newPatient)
   if (index !== -1) {
     // Atualiza o item se encontrado
-    patientsStore.items.splice(index, 1, {
-      ...patientsStore.items[index],
-      address: {
-        latitude: event.latLng.lat(),
-        longitude: event.latLng.lng(),
-      },
-    })
+    patientsStore.items.splice(index, 1, newPatient)
   }
   movingIndex.value = null
-  const response = await patientsStore.movePatient(props.patients[index].id, {
-    address: [
-      {
-        id: 1,
-        latitude: event.latLng.lat(),
-        longitude: event.latLng.lng(),
-      },
-    ],
-  })
-
-  // LocalStorage Method #1
-  // markers.value[index] = coords
-  // state.value.markers[index] = coords
+  await patientsStore.movePatient(newPatient.id, { ...newPatient.address })
 }
 
 const emit = defineEmits(['update:markers-in-view', 'update:onlyAlerts'])
@@ -887,9 +750,8 @@ function deletePolygon(polygonIndex) {
   if (confirmed) {
     polygons.value.splice(polygonIndex, 1)
     currentInfoWindowIndex.value = null
-    savePolygons()
-    polygonLabels.value[polygonIndex].setLabel('')
-    polygonLabels.value.splice(polygonIndex, 1)
+    googleLabels.value[polygonIndex].setLabel('')
+    googleLabels.value.splice(polygonIndex, 1)
   }
 }
 
