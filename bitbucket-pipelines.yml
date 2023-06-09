@@ -14,8 +14,6 @@ pipelines:
             script:
               - pip install poetry==1.4.2
               - pip install virtualenv
-              - poetry config virtualenvs.in-project false
-              - poetry config virtualenvs.create false
               - poetry install --no-interaction --no-root
               - export DATABASE_URL=postgres://debug:debug@127.0.0.0:5432/central_database
               - export POSTGRES_HOST=127.0.0.0
