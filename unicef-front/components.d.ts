@@ -36,6 +36,7 @@ declare module '@vue/runtime-core' {
     PerfectScrollbar: typeof import('./src/components/PerfectScrollbar.vue')['default']
     ProfileCard: typeof import('./src/components/organisms/ProfileCard.vue')['default']
     QuickStatisticsCard: typeof import('./src/components/atoms/QuickStatisticsCard.vue')['default']
+    RegionForm: typeof import('./src/components/atoms/RegionForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SalesSection: typeof import('./src/components/pages/dashboard/SalesSection.vue')['default']
@@ -51,5 +52,6 @@ declare module '@vue/runtime-core' {
     VaccineAlert: typeof import('./src/components/atoms/VaccineAlert.vue')['default']
     VaccineAlertInfo: typeof import('./src/components/atoms/VaccineAlertInfo.vue')['default']
     VaccinesList: typeof import('./src/components/organisms/VaccinesList.vue')['default']
+    VaccineTableModal: typeof import('./src/components/organisms/VaccineTableModal.vue')['default']
   }
 }
