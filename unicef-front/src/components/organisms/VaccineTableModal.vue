@@ -14,7 +14,7 @@
         <div class="relative h-full w-2/3">
           <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
             <DialogPanel class="flex h-full flex-col bg-[#F8F9FB]">
-              <div class="shadow-b-3xl z-10 flex items-start justify-between rounded-t bg-gray-50 p-2 shadow-md">
+              <div class="z-10 flex items-start justify-between rounded-t bg-gray-50 p-2 shadow-md">
                 <DialogTitle
                   as="h3"
                   class="flex items-center bg-gray-50 py-5 px-6 text-2xl text-xl font-semibold leading-6 text-gray-700"

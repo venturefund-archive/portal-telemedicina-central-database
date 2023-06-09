@@ -247,21 +247,21 @@
               </thead>
               <tbody class="divide-y-4 divide-[#F8F9FB]">
                 <tr
-                  class="h-16 divide-x-4 divide-[#F8F9FB] truncate"
+                  class="h-16 divide-x-4 divide-[#F8F9FB]"
                   v-for="(vaccine, k) in orderedVaccinesByDoseAlerts"
                   :key="k"
                 >
-                  <td colspan="2" class="truncate rounded-l-full bg-[#F1F1F1] px-6 py-1 text-sm">
-                    <span
+                  <td colspan="2" class="rounded-l-full bg-[#F1F1F1] py-1 text-sm relative">
+                    <p
                       data-tooltip-target="tooltip-default"
                       type="button"
-                      class="rounded-lg px-5 py-2.5 text-center text-sm font-medium"
-                      >{{ vaccine.display }} {{ vaccine.description }}</span
+                      class="rounded-lg px-5 py-2.5 text-left text-sm font-medium truncate"
+                      >{{ vaccine.display }} {{ vaccine.description }}</p
                     >
                     <div
                       id="tooltip-default"
                       role="tooltip"
-                      class="duration-400 tooltip invisible absolute z-10 inline-block rounded-lg bg-blue-200 bg-opacity-60 px-3 py-2 text-sm font-medium shadow-sm transition-opacity"
+                      class="duration-400 tooltip invisible absolute right-10 z-10 inline-block rounded-lg bg-blue-200 bg-opacity-60 px-3 py-2 text-sm font-medium shadow-sm transition-opacity"
                     >
                       <div>{{ vaccine.description }}<br />{{ vaccine.display }}</div>
                       <div class="tooltip-arrow" data-popper-arrow></div>
@@ -282,7 +282,10 @@
                     :key="rangeIndex"
                   >
                     <div v-for="(dose, dk) in filteredDosesByVaccine(vaccine)" :key="dk" class="flex justify-center">
+
                       <div class="group relative">
+
+
                         <VaccineAlert
                           :vaccine="vaccine"
                           :dose="dose"
@@ -298,8 +301,9 @@
                           :rangeIndex="rangeIndex"
                           :status="1"
                         >
-                          <VaccineAlertInfo @update:toggle-active="asd" :vaccine="vaccine" :dose="dose" />
+                          <VaccineAlertInfo @update:toggle-active="toggleMuted" :vaccine="vaccine" :dose="dose" />
                         </VaccineAlert>
+
                         <div v-else-if="dose.alerts.length > 0" v-for="(alert, ak) in dose.alerts" :key="ak">
                           <VaccineAlert
                             :vaccine="vaccine"
@@ -314,7 +318,7 @@
                               })
                             "
                           >
-                            <VaccineAlertInfo @update:toggle-active="asd" :vaccine="vaccine" :dose="dose" />
+                            <VaccineAlertInfo @update:toggle-active="toggleMuted" :vaccine="vaccine" :dose="dose" />
                           </VaccineAlert>
                         </div>
 
@@ -334,8 +338,10 @@
                             })
                           "
                         >
-                          <VaccineAlertInfo @update:toggle-active="asd" :vaccine="vaccine" :dose="dose" />
+                          <VaccineAlertInfo @update:toggle-active="toggleMuted" :vaccine="vaccine" :dose="dose" />
                         </VaccineAlert>
+
+
                         <div
                           class="invisible absolute left-1/2 top-full z-10 mt-2 -translate-x-1/2 transform rounded-full bg-white px-2 py-1 text-sm text-black shadow-md group-hover:visible"
                         >
@@ -408,9 +414,26 @@ const patientsStore = usePatientsStore()
 const dosesStore = useDosesStore()
 const vaccinesStore = useVaccinesStore()
 const loggedUserStore = useLoggedUserStore()
-const asd = async ({ dose, active }) => {
-  await dosesStore.updateDose(dose.id, { active })
+
+
+
+const toggleMuted = async ({ dose, active }) => {
+  try {
+    await dosesStore.updateDose(dose.id, { active })
+    const oldDose = dosesStore.items.map(oldDose => {
+    if(oldDose.id == dose.id){
+      oldDose.alerts[0].active = ! active
+      oldDose.alerts.map(alert => {
+        alert.active = ! active
+      })
+    }
+  })
+  } catch (error) {
+    console.log(error)
+  }
 }
+
+
 const router = useRouter()
 const isModalOpen = ref(false)
 

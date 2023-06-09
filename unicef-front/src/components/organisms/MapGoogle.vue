@@ -408,33 +408,30 @@ const props = defineProps({
 })
 
 const showList = ref(false)
+
 const markerIconNormal = ref({
-  url: 'marker-normal.png',
-  scaledSize: {
-    width: 40,
-    height: 50,
-  },
+  url: 'marker.svg',
+  fillOpacity: 0.6,
+  strokeWeight: 0,
+  scale: 2,
 })
 const markerIconEditing = ref({
-  url: 'marker-editing.png',
-  scaledSize: {
-    width: 40,
-    height: 50,
-  },
+  url: 'marker-editing.svg',
+  fillOpacity: 0.6,
+  strokeWeight: 0,
+  scale: 2,
 })
 const markerIconDisabled = ref({
-  url: 'marker-disabled.png',
-  scaledSize: {
-    width: 40,
-    height: 50,
-  },
+  url: 'marker-disabled.svg',
+  fillOpacity: 0.6,
+  strokeWeight: 0,
+  scale: 2,
 })
 const markerIconAlert = ref({
-  url: 'marker-alert.png',
-  scaledSize: {
-    width: 40,
-    height: 50,
-  },
+  url: 'marker-alert.svg',
+  fillOpacity: 0.6,
+  strokeWeight: 0,
+  scale: 2,
 })
 
 const editForm = reactive({

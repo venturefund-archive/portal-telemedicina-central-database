@@ -6,8 +6,8 @@
           <div class="flex items-center">
             <CheckCircleIcon class="h-8 w-8 rounded-full bg-lime-600 text-white" v-if="isCompleted" />
             <ExclamationCircleIcon class="h-8 w-8 rounded-full bg-red-500 text-white" v-else-if="hasAlerts && active" />
-            <VolumeOffIcon class="h-8 w-8 rounded-full bg-red-900 p-2 text-white" v-else-if="hasAlerts && !active" />
-            <LightBulbIcon class="h-8 w-8 rounded-full bg-blue-300 text-white" v-else></LightBulbIcon>
+            <VolumeOffIcon class="h-8 w-8 p-1 rounded-full bg-red-500 text-white" v-else-if="hasAlerts && !active" />
+            <LightBulbIcon class="h-9 w-9 p-1  rounded-full bg-blue-300 text-white" v-else></LightBulbIcon>
           </div>
           <div class="flex items-center p-2">
             <div>
@@ -86,7 +86,7 @@
           <VolumeOffIcon v-if="active" class="h-8 w-8 p-1 text-white" />
           <VolumeUpIcon v-if="!active" class="h-8 w-8 p-1 text-white" />
           <span v-if="active" class="ml-1 text-sm font-semibold text-white">Silenciar notificacao de alerta</span>
-          <span v-if="!active" class="ml-1 text-sm font-semibold text-white">Ativar notificacao de alerta</span>
+          <span v-else class="ml-1 text-sm font-semibold text-white">Ativar notificacao de alerta</span>
         </button>
       </div>
       <div class="font-normal" v-if="props.dose.alerts.length > 0">
@@ -140,7 +140,7 @@ const props = defineProps({
   },
 })
 
-let active = ref(true)
+let active = ref(props.dose.alerts.filter((alert) => alert.active).length > 0)
 
 const toggleActive = () => {
   emit('update:toggle-active', { dose: props.dose, active: active.value })

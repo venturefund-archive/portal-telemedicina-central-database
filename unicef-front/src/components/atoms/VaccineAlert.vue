@@ -1,27 +1,24 @@
 <template>
   <div class="relative">
-    {{ status }}
     <button @click="open" :class="{ 'relative z-30': isOpen }">
       <div v-if="1 == status" class="h-9 w-9 rounded-full border border-lime-600 bg-lime-600 shadow-md"></div>
 
       <span v-else-if="2 == status" class="flex h-9 w-9">
-        <span class="absolute inline-flex h-9 w-9 animate-ping rounded-full bg-red-500 opacity-75"></span>
+        <span class="absolute inline-flex h-9 w-9 rounded-full bg-red-500" :class="{'animate-ping bg-red-500 opacity-75': hasActiveAlert}"></span>
         <span v-if="hasActiveAlert" class="relative inline-flex h-9 w-9 rounded-full bg-red-500">
           <span class="flex h-full w-full items-center justify-center align-middle text-2xl font-semibold text-white"
             >!</span
           >
         </span>
+              <div v-else  class="flex justify-center items-center relative px-1" >
+        <VolumeOffIcon class="w-7 h-8 text-white"/>
+      </div>
       </span>
 
       <div v-else-if="3 == status" class="h-9 w-9 rounded-full border bg-red-500">
         <span class="text-2xl font-semibold text-white">!</span>
       </div>
       <div v-else-if="4 == status" class="border-tranparent h-9 w-9 rounded-full border bg-blue-300 shadow-md"></div>
-      <div v-else-if="5 == status" class="border-tranparent h-9 w-9 rounded-full border bg-red-700 shadow-md">
-        <span class="flex h-full w-full items-center justify-center align-middle text-2xl font-semibold text-white">
-          <VolumeOffIcon class="h-9 w-9 text-green-500" />
-        </span>
-      </div>
     </button>
 
     <TransitionRoot appear :show="isOpen" as="template">
@@ -54,7 +51,6 @@
             </div>
 
             <div class="h-full bg-white p-4">
-              <pre>{{ hasActiveAlert }}</pre>
               <slot />
             </div>
           </DialogPanel>
@@ -90,7 +86,7 @@ const close = () => {
   isOpen.value = false
 }
 
-const hasActiveAlert = computed(() => props.dose.alerts.filter((alert) => alert.active).length)
+const hasActiveAlert = computed(() => props.dose.alerts.filter((alert) => alert.active).length > 0)
 
 const props = defineProps({
   status: {
