@@ -64,9 +64,7 @@ class VaccineDosesViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
         return VaccineDose.objects.all().prefetch_related(
             Prefetch(
                 "vaccine_alerts",
-                queryset=VaccineAlert.objects.filter(
-                    patient_id=patient_id, active=True
-                ),
+                queryset=VaccineAlert.objects.filter(patient_id=patient_id),
                 to_attr="active_alerts",
             ),
             Prefetch(
