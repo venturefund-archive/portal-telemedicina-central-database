@@ -46,6 +46,7 @@ class VaccineDosesSerializer(serializers.ModelSerializer):  # noqa: E501
             "gender_recommendation",
             "alerts",
             "status",
+            "booster",
         ]
 
     @extend_schema_field(VaccineAlertSerializer(many=True))

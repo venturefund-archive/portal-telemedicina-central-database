@@ -15,7 +15,10 @@ from rest_framework.viewsets import GenericViewSet
 from central_database.permissions_manager.rest_api.permission_classes import (
     permission_class_assembler,
 )
-from central_database.vaccines.api.filters import VaccineFilterSet
+from central_database.vaccines.api.filters import (  # noqa: E501
+    VaccineDoseFilterSet,
+    VaccineFilterSet,
+)
 from central_database.vaccines.api.serializers import (
     VaccineAlertSerializer,
     VaccineDosesSerializer,
@@ -33,6 +36,8 @@ from central_database.vaccines.models import (  # noqa: E501
 
 class VaccineDosesViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
 
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = VaccineDoseFilterSet
     serializer_class = VaccineDosesSerializer
     permission_classes = [
         IsAuthenticated,
