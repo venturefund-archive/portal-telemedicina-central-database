@@ -49,6 +49,7 @@ declare module '@vue/runtime-core' {
     SidebarLink: typeof import('./src/components/sidebar/SidebarLink.vue')['default']
     StatisticsSection: typeof import('./src/components/pages/dashboard/StatisticsSection.vue')['default']
     TableList: typeof import('./src/components/organisms/TableList.vue')['default']
+    Tooltip: typeof import('./src/components/atoms/Tooltip.vue')['default']
     VaccineAlert: typeof import('./src/components/atoms/VaccineAlert.vue')['default']
     VaccineAlertInfo: typeof import('./src/components/atoms/VaccineAlertInfo.vue')['default']
     VaccinesList: typeof import('./src/components/organisms/VaccinesList.vue')['default']

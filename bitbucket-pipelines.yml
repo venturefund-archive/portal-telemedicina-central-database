@@ -24,8 +24,8 @@ pipelines:
               - export USE_DOCKER=no
               - export DJANGO_SETTINGS_MODULE=config.settings.pipeline_test
               - apt-get update && apt-get install -y binutils libproj-dev gdal-bin
-              - python central_database/manage.py migrate
-              - pytest --cov --cov-fail-under=80 central_database/
+              - poetry run python central_database/manage.py migrate
+              - poetry run pytest --cov --cov-fail-under=80 central_database/
             services:
               - postgres
 definitions:

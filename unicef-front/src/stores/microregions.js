@@ -31,9 +31,8 @@ export const useMicroRegionsStore = defineStore('microregions', () => {
           }),
         }
       })
-      polygonNames.value = response.data.features.map((polygon) => polygon.properties.name)
     } catch (err) {
-      console.log(err.response)
+      console.log(err)
       err.response && errorToast({ text: err.response.data.detail })
     }
     return items.value
@@ -107,6 +106,19 @@ export const useMicroRegionsStore = defineStore('microregions', () => {
       errorToast({ text: err.message })
     }
   }
+  async function deleteMicroRegion(id) {
+    const state = useStorage('app-store', { token: '' })
+    try {
+      const response = await axios.delete(import.meta.env.VITE_API_URL + `/api/microregion/${id}/`, {
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `token ${state.value.token}`,
+        },
+      })
+    } catch (err) {
+      errorToast({ text: err.message })
+    }
+  }
 
   return {
     items,
@@ -116,5 +128,6 @@ export const useMicroRegionsStore = defineStore('microregions', () => {
     fetchMicroRegion,
     createMicroRegion,
     updateMicroRegion,
+    deleteMicroRegion,
   }
 })
