@@ -119,7 +119,7 @@
           :api-key="GOOGLE_MAP_API_KEY"
           style="width: 100%; height: 790px"
           id="map"
-          :center="props.center"
+          :center="currentCenter"
           :zoom="props.zoom"
           :libraries="['drawing']"
           @idle="getMarkersInView"
@@ -161,181 +161,189 @@
               </InfoWindow>
             </div>
             <MarkerCluster>
-              <div v-for="(marker, i) in props.patients" :key="i">
+              <div v-for="(marker, markerIndex) in patients" :key="markerIndex">
+
                 <Marker
                   v-if="(onlyAlerts && 0 != marker.alerts.length) || !onlyAlerts"
                   :ref="
                     (el) => {
-                      markers[i] = el
+                      markers[markerIndex] = el
                     }
                   "
                   :options="{
                     position: patientLocation(marker),
-                    draggable: isDraggable(i),
-                    icon: isDraggable(i)
+                    draggable: isDraggable(markerIndex),
+                    icon: isDraggable(markerIndex)
                       ? markerIconEditing
                       : 0 !== marker.alerts.length
                       ? markerIconAlert
                       : markerIconNormal,
                     // opacity: isDraggable(i) ? 1 : 0.5
                   }"
-                  @dragend="handleMarkerDrag($event, i)"
-                >
-                  <Teleport to=".notification-space">
-                    <Popover v-slot="{ open }" class="">
-                      <transition
-                        enter-active-class="transition duration-200 ease-out"
-                        enter-from-class="translate-y-1 opacity-0"
-                        enter-to-class="translate-y-0 opacity-100"
-                        leave-active-class="transition duration-150 ease-in"
-                        leave-from-class="translate-y-0 opacity-100"
-                        leave-to-class="translate-y-1 opacity-0"
-                      >
-                        <div>
-                          <PopoverOverlay class="fixed inset-0 z-10 bg-black opacity-30" />
-                          <PopoverPanel class="edit-panel z-20 mt-3 transform-gpu px-4">
-                            <div class="overflow-hidden rounded-lg shadow-lg">
-                              <div class="min-w-96 text-lg font-normal">
-                                <div class="relative bg-neutral-50 p-4">
-                                  <div class="">
-                                    <h3 class="pb-3">Editing Patient #42</h3>
-                                    <form @submit.prevent="">
-                                      <div class="grid gap-6">
-                                        <div class="space-y-1">
-                                          <Label for="name" value="Name" />
+                  @dragend="handleMarkerDrag($event, marker.id)"
+                  @click="currentMarkerInfoWindowId = marker.id"
+                />
 
-                                          <Input
-                                            id="name"
-                                            type="text"
-                                            placeholder="Name"
-                                            class="block w-full"
-                                            v-model="editForm.name"
-                                            required
-                                            autofocus
-                                            autocapitalize="on"
-                                            autocorrect="off"
-                                          />
-                                        </div>
+                <Teleport to=".notification-space">
+                  <Popover v-slot="{ open }" class="">
+                    <transition
+                      enter-active-class="transition duration-200 ease-out"
+                      enter-from-class="translate-y-1 opacity-0"
+                      enter-to-class="translate-y-0 opacity-100"
+                      leave-active-class="transition duration-150 ease-in"
+                      leave-from-class="translate-y-0 opacity-100"
+                      leave-to-class="translate-y-1 opacity-0"
+                    >
+                      <div>
+                        <PopoverOverlay class="fixed inset-0 z-10 bg-black opacity-30" />
+                        <PopoverPanel class="edit-panel z-20 mt-3 transform-gpu px-4">
+                          <div class="overflow-hidden rounded-lg shadow-lg">
+                            <div class="min-w-96 text-lg font-normal">
+                              <div class="relative bg-neutral-50 p-4">
+                                <div class="">
+                                  <h3 class="pb-3">Editing Patient #42</h3>
+                                  <form @submit.prevent="">
+                                    <div class="grid gap-6">
+                                      <div class="space-y-1">
+                                        <Label for="name" value="Name" />
 
-                                        <div class="space-y-1">
-                                          <Label for="document" value="Document" />
-
-                                          <Input
-                                            id="document"
-                                            type="text"
-                                            placeholder="xxxxx"
-                                            class="block w-full"
-                                            v-model="editForm.cidade"
-                                            required
-                                            autofocus
-                                            autocapitalize="on"
-                                            autocorrect="off"
-                                          />
-                                        </div>
-
-                                        <div class="space-y-1">
-                                          <Label for="address" value="Address" />
-
-                                          <Input
-                                            id="address"
-                                            type="text"
-                                            placeholder="Address"
-                                            class="block w-full"
-                                            v-model="editForm.cidade"
-                                            required
-                                            autofocus
-                                            autocapitalize="on"
-                                            autocorrect="off"
-                                          />
-                                        </div>
-
-                                        <div>
-                                          <Button
-                                            type="submit"
-                                            class="w-full justify-center gap-2"
-                                            :disabled="editForm.processing"
-                                            v-slot="{ iconSizeClasses }"
-                                          >
-                                            <span>Salvar</span>
-                                          </Button>
-                                        </div>
+                                        <Input
+                                          id="name"
+                                          type="text"
+                                          placeholder="Name"
+                                          class="block w-full"
+                                          v-model="editForm.name"
+                                          required
+                                          autofocus
+                                          autocapitalize="on"
+                                          autocorrect="off"
+                                        />
                                       </div>
-                                    </form>
-                                  </div>
+
+                                      <div class="space-y-1">
+                                        <Label for="document" value="Document" />
+
+                                        <Input
+                                          id="document"
+                                          type="text"
+                                          placeholder="xxxxx"
+                                          class="block w-full"
+                                          v-model="editForm.cidade"
+                                          required
+                                          autofocus
+                                          autocapitalize="on"
+                                          autocorrect="off"
+                                        />
+                                      </div>
+
+                                      <div class="space-y-1">
+                                        <Label for="address" value="Address" />
+
+                                        <Input
+                                          id="address"
+                                          type="text"
+                                          placeholder="Address"
+                                          class="block w-full"
+                                          v-model="editForm.cidade"
+                                          required
+                                          autofocus
+                                          autocapitalize="on"
+                                          autocorrect="off"
+                                        />
+                                      </div>
+
+                                      <div>
+                                        <Button
+                                          type="submit"
+                                          class="w-full justify-center gap-2"
+                                          :disabled="editForm.processing"
+                                          v-slot="{ iconSizeClasses }"
+                                        >
+                                          <span>Salvar</span>
+                                        </Button>
+                                      </div>
+                                    </div>
+                                  </form>
                                 </div>
                               </div>
                             </div>
-                          </PopoverPanel>
-                        </div>
-                      </transition>
-                      <InfoWindow>
-                        <div id="content">
-                          <div id="bodyContent" class="p-1">
-                            <div class="flex flex-col justify-between rounded-2xl bg-white p-5">
-                              <!-- <pre>{{ marker }}</pre> -->
-                              <router-link v-if="marker" :to="{ name: 'PatientDetails', params: { id: marker.id } }">
-                                <p class="py-3 text-xl font-semibold capitalize">
-                                  {{ marker && marker.name.toLowerCase() }}
-                                </p>
-                              </router-link>
-                              <hr class="border-1 border border-dashed border-gray-300" />
-                              <!-- <span>{{ marker && marker.number_of_alerts_by_protocol > 0 ?
-                                'Com alertas' : 'Sem alertas' }}</span> -->
-                              <div class="flex justify-between py-5">
-                                <p
-                                  class="justify-center rounded-full bg-gray-100 px-3 py-1 text-sm font-normal text-black"
-                                >
-                                  3 months
-                                </p>
-                                <p
-                                  v-if="0 !== marker.alerts.length"
-                                  class="rounded-full bg-red-100 px-3 py-1 text-sm font-normal text-red-900"
-                                >
-                                  vaccine with delay: {{ marker.alerts.join(', ') }}
-                                </p>
-                              </div>
-                              <div class="font-normal">
-                                <p>ID: {{ marker.id }}</p>
-                                <p>Alertas por protocolo: {{ marker.number_of_alerts_by_protocol }} alertas</p>
-                                <p>Birthdate: {{ marker.birth_date }}</p>
-                                <p>Address: {{ marker.address }}</p>
-                              </div>
-                              <span class="mt-5 flex justify-end text-sm text-gray-400"
-                                >Última alteração: 08/02/2023</span
+                          </div>
+                        </PopoverPanel>
+                      </div>
+                    </transition>
+                    <InfoWindow v-if="currentMarkerInfoWindowIndex === markerIndex"
+                                :options="{
+                              position: patientLocation(marker, true),
+                            }"
+                            @closeclick="currentMarkerInfoWindowIndex = null"
+                            >
+                      <div id="content">
+                        <div id="bodyContent" class="p-1">
+                          <div class="flex flex-col justify-between rounded-2xl bg-white p-5">
+                            <!-- <pre>{{ marker }}</pre> -->
+                            <router-link v-if="marker" :to="{ name: 'PatientDetails', params: { id: marker.id } }">
+                              <p class="py-3 text-xl font-semibold capitalize">
+                                {{ marker && marker.name.toLowerCase() }}
+                              </p>
+                            </router-link>
+                            <hr class="border-1 border border-dashed border-gray-300" />
+                            <!-- <span>{{ marker && marker.number_of_alerts_by_protocol > 0 ?
+                              'Com alertas' : 'Sem alertas' }}</span> -->
+                            <div class="flex justify-between py-5">
+                              <p
+                                class="justify-center rounded-full bg-gray-100 px-3 py-1 text-sm font-normal text-black"
                               >
+                                3 months
+                              </p>
+                              <p
+                                v-if="0 !== marker.alerts.length"
+                                class="rounded-full bg-red-100 px-3 py-1 text-sm font-normal text-red-900"
+                              >
+                                vaccine with delay: {{ marker.alerts.join(', ') }}
+                              </p>
                             </div>
+                            <div class="font-normal">
+                              <p>ID: {{ marker.id }}</p>
+                              <p>Alertas por protocolo: {{ marker.number_of_alerts_by_protocol }} alertas</p>
+                              <p>Birthdate: {{ marker.birth_date }}</p>
+                              <p>Address: {{ marker.address }}</p>
+                            </div>
+                            <span class="mt-5 flex justify-end text-sm text-gray-400"
+                              >Última alteração: 08/02/2023</span
+                            >
+                          </div>
 
-                            <div class="flex justify-evenly py-3">
+                          <div class="flex justify-evenly py-3">
+                            <Button
+                              type="submit"
+                              variant="success-outline"
+                              @click="moveMarker($event, markerIndex)"
+                              class="mx-2 gap-2 focus:outline-none"
+                              :disabled="editForm.processing"
+                              v-slot="{ iconSizeClasses }"
+                            >
+                              <HandIcon aria-hidden="true" :class="iconSizeClasses" />
+                              <span>Mover</span>
+                            </Button>
+                            <PopoverButton :focus="false" :class="{ 'relative z-30': open }">
                               <Button
                                 type="submit"
-                                variant="success-outline"
-                                @click="moveMarker($event, i)"
-                                class="mx-2 gap-2 focus:outline-none"
+                                variant="success"
+                                class="mx-2 gap-2 bg-white focus:outline-none"
                                 :disabled="editForm.processing"
                                 v-slot="{ iconSizeClasses }"
                               >
-                                <HandIcon aria-hidden="true" :class="iconSizeClasses" />
-                                <span>Mover</span>
+                                <PencilIcon aria-hidden="true" :class="iconSizeClasses" />
+                                <span>Editar</span>
                               </Button>
-                              <PopoverButton :focus="false" :class="{ 'relative z-30': open }">
-                                <Button
-                                  type="submit"
-                                  variant="success"
-                                  class="mx-2 gap-2 bg-white focus:outline-none"
-                                  :disabled="editForm.processing"
-                                  v-slot="{ iconSizeClasses }"
-                                >
-                                  <PencilIcon aria-hidden="true" :class="iconSizeClasses" />
-                                  <span>Editar</span>
-                                </Button>
-                              </PopoverButton>
-                            </div>
+                            </PopoverButton>
                           </div>
                         </div>
-                      </InfoWindow>
-                    </Popover>
-                  </Teleport>
-                </Marker>
+                      </div>
+                    </InfoWindow>
+                  </Popover>
+                </Teleport>
+
               </div>
             </MarkerCluster>
           </template>
@@ -369,11 +377,13 @@ import { usePatientsStore } from '@/stores/patients'
 import { useMicroRegionsStore } from '@/stores/microregions'
 import { useStorage } from '@vueuse/core'
 import { Switch } from '@headlessui/vue'
+import { useLoggedUserStore } from '@/stores/loggedUser'
 
 const enabled = ref(false)
 
 import RegionForm from '@/components/atoms/RegionForm.vue'
 
+const loggedUserStore = useLoggedUserStore()
 const itemRefs = ref([])
 
 const GOOGLE_MAP_API_KEY = ref(import.meta.env.VITE_GOOGLE_MAP_API_KEY)
@@ -386,12 +396,12 @@ const geoCoder = ref(null)
 const onlyAlerts = ref(false)
 const selectedItem = ref(null)
 const drawingManager = ref(null)
-const movingIndex = ref(null)
+const movingPatientId = ref(null)
 
 const props = defineProps({
   center: {
     type: Object,
-    default: { lat: -22.74895, lng: -50.57253 },
+    default: null,
   },
   zoom: {
     type: Number,
@@ -401,9 +411,9 @@ const props = defineProps({
     type: Array,
     default: [],
   },
-  combinedFilteredMarkers: {
-    type: Array,
-    default: [],
+  currentMarkerInfoWindowIndex: {
+    type: Number,
+    default: 0,
   },
 })
 
@@ -480,7 +490,8 @@ function onItemClick(item) {
 //   }
 // }
 
-const geoCoderQuery = ref('')
+const geoCoderQuery = ref(loggedUserStore.item.client.city.charAt(0).toUpperCase() + loggedUserStore.item.client.city.slice(1))
+const currentCenter = ref(undefined)
 const showEmptyResult = ref(false)
 const searchAddress = () => {
   //center.value = { lat: -22.749940, lng: -50.576540 }
@@ -488,6 +499,7 @@ const searchAddress = () => {
   geocodeAddress(geoCoder.value, map.value)
 }
 
+const currentMarkerInfoWindowId = ref(null)
 const currentInfoWindowIndex = ref(null)
 const calculatePolygonCenter = (coords) => {
   const bounds = new google.maps.LatLngBounds()
@@ -499,6 +511,14 @@ const calculatePolygonCenter = (coords) => {
 const showInfoWindow = (index) => {
   currentInfoWindowIndex.value = index
 }
+
+const currentMarkerInfoWindowIndex = computed(() => {
+  if(currentMarkerInfoWindowId.value == undefined){
+    return props.currentMarkerInfoWindowIndex
+  }
+  return currentMarkerInfoWindowId.value == undefined
+})
+
 const getCenterOfPolygon = computed(() => (index) => {
   // let bounds = new google.maps.LatLngBounds()
   // console.log(polygon)
@@ -571,9 +591,10 @@ watch(
     if (!ready) return
     map.value = mapRef.value.map
     geoCoder.value = new mapRef.value.api.Geocoder()
-
     // do something with the api using `mapRef.value.api`
     // or with the map instance using `mapRef.value.map`
+
+    currentCenter.value = props.center ? props.center : geocodeAddress(geoCoder.value, map.value)
 
     drawingManager.value = new google.maps.drawing.DrawingManager({
       drawingMode: null,
@@ -702,41 +723,43 @@ onBeforeUpdate(() => {
   markers.value = []
 })
 
-const isDraggable = computed(() => (index) => index == movingIndex.value)
+const isDraggable = computed(() => (index) => index == movingPatientId.value)
+
+const maxPatientsToProcess = 9;
 const patients = computed(() => {
-  const notNullPatients = props.patients.filter((patient) => patient.address.latitude)
-  if (onlyAlerts.value) {
-    return notNullPatients.filter((p) => p.alerts.length > 0)
-  }
-  return notNullPatients
-})
+  return props.patients.filter((patient, index) => {
+    if (index >= maxPatientsToProcess) {
+      return false;
+    }
+    const hasLatitude = patient.address && patient.address.latitude;
+    const hasAlerts = patient.alerts && patient.alerts.length > 0;
+
+    // Quando onlyAlerts.value for true, considerar apenas pacientes que possuem latitude e alerts.
+    // Quando onlyAlerts.value for false, considerar apenas pacientes que possuem latitude.
+    return onlyAlerts.value ? (hasLatitude && hasAlerts) : hasLatitude;
+  });
+});
+
 watch(onlyAlerts, (newOnlyAlerts, oldValue) => {
   emit('update:onlyAlerts', newOnlyAlerts)
 })
 
 function moveMarker(event, index) {
-  movingIndex.value = index
+  movingPatientId.value = index
 }
 
-async function handleMarkerDrag(event, index) {
-  // console.log('dragend', event.latLng.lat(), event.latLng.lng())
-  const newPatient = {
-    ...patientsStore.items[index],
-    address: {
-      latitude: event.latLng.lat(),
-      longitude: event.latLng.lng(),
-    },
-  }
-  console.log(newPatient)
-  if (index !== -1) {
-    // Atualiza o item se encontrado
-    patientsStore.items.splice(index, 1, newPatient)
-  }
-  movingIndex.value = null
-  await patientsStore.movePatient(newPatient.id, { ...newPatient.address })
+async function handleMarkerDrag(event, patientId) {
+  console.log('dragend', event.latLng.lat(), event.latLng.lng())
+
+  const latitude = event.latLng.lat()
+  const longitude = event.latLng.lng()
+
+  // emit('dragend', { patientId, latitude, longitude })
+  movingPatientId.value = null
+  await patientsStore.movePatient(patientId, { latitude, longitude })
 }
 
-const emit = defineEmits(['update:markers-in-view', 'update:onlyAlerts'])
+const emit = defineEmits(['update:markers-in-view', 'update:onlyAlerts', 'dragend'])
 
 const patientsInView = ref([])
 const getMarkersInView = () => {
@@ -745,10 +768,14 @@ const getMarkersInView = () => {
   emit('update:markers-in-view', patientsInView.value)
 }
 
-function deletePolygon(polygonIndex) {
+const deletePolygon = async (polygonIndex) => {
   const confirmed = confirm('Tem certeza que deseja excluir este polígono?')
   if (confirmed) {
+    await microregionsStore.deleteMicroRegion(polygons.value[polygonIndex].id)
+
     polygons.value.splice(polygonIndex, 1)
+    googlePolygons.value.splice(polygonIndex, 1)
+
     currentInfoWindowIndex.value = null
     googleLabels.value[polygonIndex].setLabel('')
     googleLabels.value.splice(polygonIndex, 1)
@@ -760,8 +787,11 @@ const userLocation = computed(() => ({
   lat: coords.value.latitude,
   lng: coords.value.longitude,
 }))
-const patientLocation = computed(() => (patientMarker) => {
-  return { lat: patientMarker.address.latitude, lng: patientMarker.address.longitude, alert: true }
+const patientLocation = computed(() => (patientMarker, offset = false) => {
+  if(offset){
+    return { lat: patientMarker.address.latitude + 0.0005, lng: patientMarker.address.longitude }
+  }
+  return { lat: patientMarker.address.latitude, lng: patientMarker.address.longitude }
 })
 const dddd = computed(() => (polygonIndex) => {
   console.log('asd dddd')

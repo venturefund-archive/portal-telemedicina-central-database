@@ -110,7 +110,7 @@ export default [
           next({ name: 'Dashboard' })
         } catch (err) {
           state.value = null
-          console.error(err)
+          console.log(err)
           if (state.value.intendedRoute) {
             router.replace(state.value.intendedRoute)
           } else {

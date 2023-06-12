@@ -4,15 +4,18 @@
       <div v-if="1 == status" class="h-9 w-9 rounded-full border border-lime-600 bg-lime-600 shadow-md"></div>
 
       <span v-else-if="2 == status" class="flex h-9 w-9">
-        <span class="absolute inline-flex h-9 w-9 rounded-full bg-red-500" :class="{'animate-ping bg-red-500 opacity-75': hasActiveAlert}"></span>
+        <span
+          class="absolute inline-flex h-9 w-9 rounded-full bg-red-500"
+          :class="{ 'animate-ping': hasActiveAlert }"
+        ></span>
         <span v-if="hasActiveAlert" class="relative inline-flex h-9 w-9 rounded-full bg-red-500">
           <span class="flex h-full w-full items-center justify-center align-middle text-2xl font-semibold text-white"
             >!</span
           >
         </span>
-              <div v-else  class="flex justify-center items-center relative px-1" >
-        <VolumeOffIcon class="w-7 h-8 text-white"/>
-      </div>
+        <div v-else class="relative flex items-center justify-center px-1">
+          <VolumeOffIcon class="h-8 w-7 text-white" />
+        </div>
       </span>
 
       <div v-else-if="3 == status" class="h-9 w-9 rounded-full border bg-red-500">
@@ -22,7 +25,7 @@
     </button>
 
     <TransitionRoot appear :show="isOpen" as="template">
-      <Dialog as="div" @close="close" class="fixed inset-0 z-10 flex items-center justify-end">
+      <Dialog as="div" @close="close" class="fixed inset-0 z-50 flex items-center justify-end">
         <DialogOverlay class="fixed inset-0 bg-black opacity-50" />
 
         <TransitionChild

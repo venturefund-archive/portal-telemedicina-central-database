@@ -48,7 +48,7 @@
                       <button
                         type="button"
                         @click="closeModal"
-                        class="absolute right-2 ml-auto inline-flex items-center rounded bg-transparent p-1.5 text-sm text-white hover:bg-[#F3F3F3] hover:text-blue-500"
+                        class="absolute right-2 ml-auto inline-flex items-center rounded bg-transparent p-1.5 text-sm text-white"
                       >
                         <XIcon @click="closeModal" class="flex h-5 w-5 justify-end hover:cursor-pointer" />
                       </button>
@@ -179,7 +179,7 @@
                           <button
                             type="button"
                             @click="closeModal2"
-                            class="right-2 ml-auto inline-flex items-center rounded bg-transparent p-1.5 text-sm text-white hover:bg-[#F3F3F3] hover:text-blue-500"
+                            class="right-2 ml-auto inline-flex items-center rounded bg-transparent p-1.5 text-sm text-white"
                           >
                             <XIcon @click="closeModal2" class="flex h-5 w-5 justify-end hover:cursor-pointer" />
                           </button>

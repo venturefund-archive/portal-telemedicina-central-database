@@ -2,7 +2,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   darkMode: 'class',
-  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}', 'node_modules/flowbite-vue/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -45,5 +45,6 @@ module.exports = {
     require('@tailwindcss/typography'),
     require('@tailwindcss/line-clamp'),
     require('@tailwindcss/aspect-ratio'),
+    require('flowbite/plugin'),
   ],
 }

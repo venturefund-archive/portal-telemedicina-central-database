@@ -9,6 +9,7 @@
             @update:onlyAlerts="updateOnlyAlerts"
             :center="currentCenter"
             :zoom="currentZoom"
+            :currentMarkerInfoWindowIndex="currentMarkerInfoWindowIndex"
           />
         </div>
         <div class="m-3 h-[59rem] md:w-1/3">
@@ -61,24 +62,32 @@ watch(
 const markers = ref([])
 const onlyAlerts = ref(undefined)
 const filteredMarkers = ref([])
+const currentMarkerInfoWindowIndex = ref(undefined)
 onMounted(async () => {
   await patientsStore.fetchPatients()
   markers.value = filteredMarkers.value = patientsStore.items
 })
 
 const currentCenter = ref(undefined)
-const currentZoom = ref(undefined)
+const currentZoom = ref(15)
 
 // Função para atualizar os marcadores em vista
 const updateMarkersFiltered = (newMarkers) => {
   filteredMarkers.value = newMarkers
 }
 // Função para atualizar o centro em vista
-const updateCenterInView = (newCenter) => {
-  currentCenter.value = newCenter
-  currentZoom.value = 15
+const updateCenterInView = ({latitude, longitude, markerIndex}) => {
+  console.log({latitude, longitude, markerIndex})
+  currentCenter.value = {lat: latitude, lng: longitude}
+  currentZoom.value = 19
+  currentMarkerInfoWindowIndex.value = markerIndex
 }
 const updateOnlyAlerts = (newOnlyAlerts) => {
   onlyAlerts.value = newOnlyAlerts
 }
+const handleMarkerDrag = ({index, latitude, longitude}) => {
+  patientsStore.items[index].address.latitude = latitude
+  patientsStore.items[index].address.longitude = longitude
+ }
+
 </script>

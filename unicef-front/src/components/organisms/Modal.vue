@@ -6,7 +6,7 @@
       id="authentication-modal"
       tabindex="-1"
       aria-hidden="true"
-      class="h-modal fixed top-0 right-0 left-0 bottom-0 z-50 mx-auto w-full overflow-y-auto overflow-x-hidden p-4 md:inset-0 md:h-full"
+      class="fixed top-0 right-0 left-0 bottom-0 z-50 mx-auto h-modal w-full overflow-y-auto overflow-x-hidden p-4 md:inset-0 md:h-full"
     >
       <div class="relative h-full w-full max-w-md md:h-auto">
         <!-- Modal content -->
