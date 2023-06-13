@@ -279,15 +279,12 @@
                       <div id="content">
                         <div id="bodyContent" class="p-1">
                           <div class="flex flex-col justify-between rounded-2xl bg-white p-5">
-                            <!-- <pre>{{ marker }}</pre> -->
                             <router-link v-if="marker" :to="{ name: 'PatientDetails', params: { id: marker.id } }">
                               <p class="py-3 text-xl font-semibold capitalize">
                                 {{ marker && marker.name.toLowerCase() }}
                               </p>
                             </router-link>
                             <hr class="border-1 border border-dashed border-gray-300" />
-                            <!-- <span>{{ marker && marker.number_of_alerts_by_protocol > 0 ?
-                              'Com alertas' : 'Sem alertas' }}</span> -->
                             <div class="flex justify-between py-5">
                               <p
                                 class="justify-center rounded-full bg-gray-100 px-3 py-1 text-sm font-normal text-black"
@@ -303,7 +300,13 @@
                             </div>
                             <div class="font-normal">
                               <p>ID: {{ marker.id }}</p>
-                              <p>Alertas por protocolo: {{ marker.number_of_alerts_by_protocol }} alertas</p>
+                              <p>
+                                Alertas por protocolo:
+                                <span>{{
+                                  marker.number_of_alerts_by_protocol > 0 ? 'Com alertas' : 'Sem alertas'
+                                }}</span>
+                                {{ marker.number_of_alerts_by_protocol }} alertas
+                              </p>
                               <p>Birthdate: {{ marker.birth_date }}</p>
                               <p>Address: {{ marker.address }}</p>
                             </div>
@@ -743,7 +746,10 @@ watch(onlyAlerts, (newOnlyAlerts, oldValue) => {
   emit('update:onlyAlerts', newOnlyAlerts)
 })
 
+const patientCursorLocalWhileMoving = ref(null)
 function moveMarker(event, index) {
+  patientCursorLocalWhileMoving.value = patientCursorLocal.value
+  patientCursorLocal.value = null
   movingPatientId.value = index
 }
 
@@ -753,9 +759,19 @@ async function handleMarkerDrag(event, patientId) {
   const latitude = event.latLng.lat()
   const longitude = event.latLng.lng()
 
-  // emit('dragend', { patientId, latitude, longitude })
+  patientCursorLocal.value = patientCursorLocalWhileMoving.value
+
+  emit('dragend', { patientId, latitude, longitude })
   movingPatientId.value = null
-  await patientsStore.movePatient(patientId, { latitude, longitude })
+  await patientsStore.movePatient(patientId, {
+    address: [
+      {
+        id: 1,
+        latitude,
+        longitude,
+      },
+    ],
+  })
 }
 
 const emit = defineEmits(['update:markers-in-view', 'update:onlyAlerts', 'dragend'])

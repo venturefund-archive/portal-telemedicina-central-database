@@ -59,21 +59,8 @@ export const usePatientsStore = defineStore('patients', () => {
           Authorization: `token ${state.value.token}`,
         },
       })
-      // const index = items.value.findIndex((item) => item.id === id);
-      // console.log(index)
-      // if (index !== -1) {
-      //   // Mutação de uma maneira detectável
-      //   items.value[index] = {
-      //     ...items.value[index],
-      //     address: {
-      //       ...items.value[index].address,
-      //       latitude: data.latitude,
-      //       longitude: data.longitude,
-      //     },
-      //   };
-      // }
-      items.value.find((p) => id == p.id).address.latitude = data.latitude
-      items.value.find((p) => id == p.id).address.longitude = data.longitude
+      // items.value.find((p) => id == p.id).address.latitude = data.latitude
+      // items.value.find((p) => id == p.id).address.longitude = data.longitude
       return response
     } catch (err) {
       console.log(err)
