@@ -9,7 +9,7 @@
             @update:onlyAlerts="updateOnlyAlerts"
             :center="currentCenter"
             :zoom="currentZoom"
-            :currentMarkerInfoWindowId="patientCursor"
+            :patientCursor="patientCursor"
           />
         </div>
         <div class="m-3 h-[59rem] md:w-1/3">
@@ -75,7 +75,7 @@ const updateMarkersFiltered = (newMarkers) => {
   filteredMarkers.value = newMarkers
 }
 
-const patientCursor = ref(undefined)
+const patientCursor = ref(null)
 const updateCenterInView = ({ latitude, longitude, newPatientCursor }) => {
   console.log({ latitude, longitude, newPatientCursor })
   currentCenter.value = { lat: latitude, lng: longitude }

@@ -111,7 +111,6 @@
           </Button> -->
 
       <!-- Toggle View Button -->
-
       <TableList v-show="!isMapView" />
       <!-- Map content -->
       <div class="border-1 -z-10 flex justify-start border bg-white drop-shadow-lg" v-if="isMapView">
@@ -161,18 +160,18 @@
               </InfoWindow>
             </div>
             <MarkerCluster>
-              <div v-for="(marker, patientCursor) in patients" :key="patientCursor">
+              <div v-for="marker in patients" :key="marker.id">
                 <Marker
                   v-if="(onlyAlerts && 0 != marker.alerts.length) || !onlyAlerts"
                   :ref="
                     (el) => {
-                      markers[patientCursor] = el
+                      markers[marker.id] = el
                     }
                   "
                   :options="{
                     position: patientLocation(marker),
-                    draggable: isDraggable(patientCursor),
-                    icon: isDraggable(patientCursor)
+                    draggable: isDraggable(marker.id),
+                    icon: isDraggable(marker.id)
                       ? markerIconEditing
                       : 0 !== marker.alerts.length
                       ? markerIconAlert
@@ -271,7 +270,7 @@
                       </div>
                     </transition>
                     <InfoWindow
-                      v-if="currentMarkerInfoWindowIndex === patientCursor"
+                      v-if="isCursorOnMarker(marker)"
                       :options="{
                         position: patientLocation(marker, true),
                       }"
@@ -317,7 +316,7 @@
                             <Button
                               type="submit"
                               variant="success-outline"
-                              @click="moveMarker($event, patientCursor)"
+                              @click="moveMarker($event, marker.id)"
                               class="mx-2 gap-2 focus:outline-none"
                               :disabled="editForm.processing"
                               v-slot="{ iconSizeClasses }"
@@ -512,12 +511,11 @@ const showInfoWindow = (index) => {
   currentInfoWindowIndex.value = index
 }
 
-const patientCursorLocal = ref(null)
-const currentMarkerInfoWindowIndex = computed(() => {
-  if (props.patientCursor == undefined) {
-    return props.patientCursor
-  }
-  return patientCursorLocal.value
+const patientCursorLocal = ref(props.patientCursor)
+const isCursorOnMarker = computed(() => (marker) => {
+  // console.log(`${marker.id} === ${props.patientCursor} || ${marker.id} === ${patientCursorLocal.value}`)
+  // console.log(`${(marker.id === props.patientCursor || marker.id === patientCursorLocal.value)} = ${(marker.id === props.patientCursor)} || ${(marker.id === patientCursorLocal.value)}`)
+  return marker.id === props.patientCursor || marker.id === patientCursorLocal.value
 })
 
 const getCenterOfPolygon = computed(() => (index) => {
@@ -790,7 +788,7 @@ const userLocation = computed(() => ({
 }))
 const patientLocation = computed(() => (patientMarker, offset = false) => {
   if (offset) {
-    return { lat: patientMarker.address.latitude + 0.0005, lng: patientMarker.address.longitude }
+    return { lat: patientMarker.address.latitude + 0.0001, lng: patientMarker.address.longitude }
   }
   return { lat: patientMarker.address.latitude, lng: patientMarker.address.longitude }
 })
