@@ -7,6 +7,7 @@
             :patients="markers"
             @update:markers-in-view="updateMarkersFiltered"
             @update:onlyAlerts="updateOnlyAlerts"
+            @dragend="handleMarkerDrag"
             :center="currentCenter"
             :zoom="currentZoom"
             :patientCursor="patientCursor"
@@ -87,8 +88,8 @@ const updateOnlyAlerts = (newOnlyAlerts) => {
   onlyAlerts.value = newOnlyAlerts
 }
 
-const handleMarkerDrag = ({ index, latitude, longitude }) => {
-  patientsStore.items[index].address.latitude = latitude
-  patientsStore.items[index].address.longitude = longitude
+const handleMarkerDrag = ({ patientId, latitude, longitude }) => {
+  markers.value.find((p) => patientId == p.id).address.latitude = latitude
+  markers.value.find((p) => patientId == p.id).address.longitude = longitude
 }
 </script>
