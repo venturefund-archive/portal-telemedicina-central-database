@@ -161,19 +161,19 @@
               </InfoWindow>
             </div>
             <MarkerCluster>
-              <div v-for="(marker, markerIndex) in patients" :key="markerIndex">
+              <div v-for="(marker, patientCursor) in patients" :key="patientCursor">
 
                 <Marker
                   v-if="(onlyAlerts && 0 != marker.alerts.length) || !onlyAlerts"
                   :ref="
                     (el) => {
-                      markers[markerIndex] = el
+                      markers[patientCursor] = el
                     }
                   "
                   :options="{
                     position: patientLocation(marker),
-                    draggable: isDraggable(markerIndex),
-                    icon: isDraggable(markerIndex)
+                    draggable: isDraggable(patientCursor),
+                    icon: isDraggable(patientCursor)
                       ? markerIconEditing
                       : 0 !== marker.alerts.length
                       ? markerIconAlert
@@ -181,7 +181,7 @@
                     // opacity: isDraggable(i) ? 1 : 0.5
                   }"
                   @dragend="handleMarkerDrag($event, marker.id)"
-                  @click="currentMarkerInfoWindowId = marker.id"
+                  @click="patientCursorLocal = marker.id"
                 />
 
                 <Teleport to=".notification-space">
@@ -271,11 +271,11 @@
                         </PopoverPanel>
                       </div>
                     </transition>
-                    <InfoWindow v-if="currentMarkerInfoWindowIndex === markerIndex"
+                    <InfoWindow v-if="currentMarkerInfoWindowIndex === patientCursor"
                                 :options="{
                               position: patientLocation(marker, true),
                             }"
-                            @closeclick="currentMarkerInfoWindowIndex = null"
+                            @closeclick="patientCursorLocal = null"
                             >
                       <div id="content">
                         <div id="bodyContent" class="p-1">
@@ -317,7 +317,7 @@
                             <Button
                               type="submit"
                               variant="success-outline"
-                              @click="moveMarker($event, markerIndex)"
+                              @click="moveMarker($event, patientCursor)"
                               class="mx-2 gap-2 focus:outline-none"
                               :disabled="editForm.processing"
                               v-slot="{ iconSizeClasses }"
@@ -411,9 +411,9 @@ const props = defineProps({
     type: Array,
     default: [],
   },
-  currentMarkerInfoWindowIndex: {
-    type: Number,
-    default: 0,
+  patientCursor: {
+    type: String,
+    default: "0",
   },
 })
 
@@ -499,7 +499,6 @@ const searchAddress = () => {
   geocodeAddress(geoCoder.value, map.value)
 }
 
-const currentMarkerInfoWindowId = ref(null)
 const currentInfoWindowIndex = ref(null)
 const calculatePolygonCenter = (coords) => {
   const bounds = new google.maps.LatLngBounds()
@@ -512,11 +511,12 @@ const showInfoWindow = (index) => {
   currentInfoWindowIndex.value = index
 }
 
+const patientCursorLocal = ref(null)
 const currentMarkerInfoWindowIndex = computed(() => {
-  if(currentMarkerInfoWindowId.value == undefined){
-    return props.currentMarkerInfoWindowIndex
+  if(props.patientCursor == undefined){
+    return props.patientCursor
   }
-  return currentMarkerInfoWindowId.value == undefined
+  return patientCursorLocal.value
 })
 
 const getCenterOfPolygon = computed(() => (index) => {

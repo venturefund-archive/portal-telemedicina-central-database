@@ -77,7 +77,7 @@
             <div>
               <p
                 @click="
-                  $emit('centralize-on-location', { ...patient.address, markerIndex: index })
+                  $emit('centralize-on-location', { ...patient.address, newPatientCursor: patient.id })
                 "
                 class="text-lg font-semibold capitalize hover:cursor-pointer hover:underline"
               >
