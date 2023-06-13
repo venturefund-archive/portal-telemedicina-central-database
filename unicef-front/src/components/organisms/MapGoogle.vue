@@ -111,7 +111,6 @@
           </Button> -->
 
       <!-- Toggle View Button -->
-
       <TableList v-show="!isMapView" />
       <!-- Map content -->
       <div class="border-1 -z-10 flex justify-start border bg-white drop-shadow-lg" v-if="isMapView">
@@ -161,19 +160,18 @@
               </InfoWindow>
             </div>
             <MarkerCluster>
-              <div v-for="(marker, markerIndex) in patients" :key="markerIndex">
-
+              <div v-for="marker in patients" :key="marker.id">
                 <Marker
                   v-if="(onlyAlerts && 0 != marker.alerts.length) || !onlyAlerts"
                   :ref="
                     (el) => {
-                      markers[markerIndex] = el
+                      markers[marker.id] = el
                     }
                   "
                   :options="{
                     position: patientLocation(marker),
-                    draggable: isDraggable(markerIndex),
-                    icon: isDraggable(markerIndex)
+                    draggable: isDraggable(marker.id),
+                    icon: isDraggable(marker.id)
                       ? markerIconEditing
                       : 0 !== marker.alerts.length
                       ? markerIconAlert
@@ -181,7 +179,7 @@
                     // opacity: isDraggable(i) ? 1 : 0.5
                   }"
                   @dragend="handleMarkerDrag($event, marker.id)"
-                  @click="currentMarkerInfoWindowId = marker.id"
+                  @click="patientCursorLocal = marker.id"
                 />
 
                 <Teleport to=".notification-space">
@@ -271,12 +269,13 @@
                         </PopoverPanel>
                       </div>
                     </transition>
-                    <InfoWindow v-if="currentMarkerInfoWindowIndex === markerIndex"
-                                :options="{
-                              position: patientLocation(marker, true),
-                            }"
-                            @closeclick="currentMarkerInfoWindowIndex = null"
-                            >
+                    <InfoWindow
+                      v-if="isCursorOnMarker(marker)"
+                      :options="{
+                        position: patientLocation(marker, true),
+                      }"
+                      @closeclick="patientCursorLocal = null"
+                    >
                       <div id="content">
                         <div id="bodyContent" class="p-1">
                           <div class="flex flex-col justify-between rounded-2xl bg-white p-5">
@@ -317,7 +316,7 @@
                             <Button
                               type="submit"
                               variant="success-outline"
-                              @click="moveMarker($event, markerIndex)"
+                              @click="moveMarker($event, marker.id)"
                               class="mx-2 gap-2 focus:outline-none"
                               :disabled="editForm.processing"
                               v-slot="{ iconSizeClasses }"
@@ -343,7 +342,6 @@
                     </InfoWindow>
                   </Popover>
                 </Teleport>
-
               </div>
             </MarkerCluster>
           </template>
@@ -411,9 +409,9 @@ const props = defineProps({
     type: Array,
     default: [],
   },
-  currentMarkerInfoWindowIndex: {
-    type: Number,
-    default: 0,
+  patientCursor: {
+    type: String,
+    default: '0',
   },
 })
 
@@ -490,7 +488,9 @@ function onItemClick(item) {
 //   }
 // }
 
-const geoCoderQuery = ref(loggedUserStore.item.client.city.charAt(0).toUpperCase() + loggedUserStore.item.client.city.slice(1))
+const geoCoderQuery = ref(
+  loggedUserStore.item.client.city.charAt(0).toUpperCase() + loggedUserStore.item.client.city.slice(1)
+)
 const currentCenter = ref(undefined)
 const showEmptyResult = ref(false)
 const searchAddress = () => {
@@ -499,7 +499,6 @@ const searchAddress = () => {
   geocodeAddress(geoCoder.value, map.value)
 }
 
-const currentMarkerInfoWindowId = ref(null)
 const currentInfoWindowIndex = ref(null)
 const calculatePolygonCenter = (coords) => {
   const bounds = new google.maps.LatLngBounds()
@@ -512,11 +511,11 @@ const showInfoWindow = (index) => {
   currentInfoWindowIndex.value = index
 }
 
-const currentMarkerInfoWindowIndex = computed(() => {
-  if(currentMarkerInfoWindowId.value == undefined){
-    return props.currentMarkerInfoWindowIndex
-  }
-  return currentMarkerInfoWindowId.value == undefined
+const patientCursorLocal = ref(props.patientCursor)
+const isCursorOnMarker = computed(() => (marker) => {
+  // console.log(`${marker.id} === ${props.patientCursor} || ${marker.id} === ${patientCursorLocal.value}`)
+  // console.log(`${(marker.id === props.patientCursor || marker.id === patientCursorLocal.value)} = ${(marker.id === props.patientCursor)} || ${(marker.id === patientCursorLocal.value)}`)
+  return marker.id === props.patientCursor || marker.id === patientCursorLocal.value
 })
 
 const getCenterOfPolygon = computed(() => (index) => {
@@ -725,20 +724,20 @@ onBeforeUpdate(() => {
 
 const isDraggable = computed(() => (index) => index == movingPatientId.value)
 
-const maxPatientsToProcess = 9;
+const maxPatientsToProcess = 9
 const patients = computed(() => {
   return props.patients.filter((patient, index) => {
     if (index >= maxPatientsToProcess) {
-      return false;
+      return false
     }
-    const hasLatitude = patient.address && patient.address.latitude;
-    const hasAlerts = patient.alerts && patient.alerts.length > 0;
+    const hasLatitude = patient.address && patient.address.latitude
+    const hasAlerts = patient.alerts && patient.alerts.length > 0
 
     // Quando onlyAlerts.value for true, considerar apenas pacientes que possuem latitude e alerts.
     // Quando onlyAlerts.value for false, considerar apenas pacientes que possuem latitude.
-    return onlyAlerts.value ? (hasLatitude && hasAlerts) : hasLatitude;
-  });
-});
+    return onlyAlerts.value ? hasLatitude && hasAlerts : hasLatitude
+  })
+})
 
 watch(onlyAlerts, (newOnlyAlerts, oldValue) => {
   emit('update:onlyAlerts', newOnlyAlerts)
@@ -788,8 +787,8 @@ const userLocation = computed(() => ({
   lng: coords.value.longitude,
 }))
 const patientLocation = computed(() => (patientMarker, offset = false) => {
-  if(offset){
-    return { lat: patientMarker.address.latitude + 0.0005, lng: patientMarker.address.longitude }
+  if (offset) {
+    return { lat: patientMarker.address.latitude + 0.0001, lng: patientMarker.address.longitude }
   }
   return { lat: patientMarker.address.latitude, lng: patientMarker.address.longitude }
 })

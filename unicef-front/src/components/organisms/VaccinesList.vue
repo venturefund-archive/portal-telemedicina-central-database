@@ -260,9 +260,9 @@
                           class="-my-1 rounded-lg text-left text-sm font-medium"
                         >
                           <p class="-mb-1.5 p-0">{{ vaccine.display }}</p>
-                          <p class="pl-0.5 text-xs text-gray-400" v-if="vaccine.description != vaccine.display">{{
-                            vaccine.description
-                          }}</p>
+                          <p class="pl-0.5 text-xs text-gray-400" v-if="vaccine.description != vaccine.display">
+                            {{ vaccine.description }}
+                          </p>
                         </span>
                       </template>
                       <template #content>
@@ -389,7 +389,7 @@
                                 <p class="text-base font-bold">
                                   {{ dose.dose_order }}º {{ $t('patient-details.dose') }}
                                 </p>
-                                <span>{{ $t('patient-details.silenced-alert')}}</span>
+                                <span>{{ $t('patient-details.silenced-alert') }}</span>
                               </div>
                             </template>
                             <template v-else-if="dose.alerts.length > 0">
@@ -412,7 +412,10 @@
                                 <p class="text-base font-bold">
                                   {{ dose.dose_order }}º {{ $t('patient-details.dose') }}
                                 </p>
-                                <span>{{ $t('patient-details.recommended')}} {{ dose.maximum_recommended_age }} {{ $t('patient-details.months')}}</span>
+                                <span
+                                  >{{ $t('patient-details.recommended') }} {{ dose.maximum_recommended_age }}
+                                  {{ $t('patient-details.months') }}</span
+                                >
                               </div>
                             </template>
                           </div>
