@@ -72,8 +72,8 @@ export const usePatientsStore = defineStore('patients', () => {
       //     },
       //   };
       // }
-      items.value.find(p => id == p.id).address.latitude = data.latitude
-      items.value.find(p => id == p.id).address.longitude = data.longitude
+      items.value.find((p) => id == p.id).address.latitude = data.latitude
+      items.value.find((p) => id == p.id).address.longitude = data.longitude
       return response
     } catch (err) {
       console.log(err)

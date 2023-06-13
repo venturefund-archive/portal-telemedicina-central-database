@@ -11,10 +11,10 @@
           </div>
           <div class="flex items-center p-2">
             <div>
-              <h2 v-if="isCompleted">{{ $t('patient-details.completed-dose')}}</h2>
-              <h2 v-else-if="hasAlerts && active">{{ $t('patient-details.delayed-dose')}}</h2>
-              <h2 v-else-if="hasAlerts && !active"> {{$t('patient-details.silenced-dose')}}</h2>
-              <h2 v-else>{{ $t('patient-details.recommended-dose')}}</h2>
+              <h2 v-if="isCompleted">{{ $t('patient-details.completed-dose') }}</h2>
+              <h2 v-else-if="hasAlerts && active">{{ $t('patient-details.delayed-dose') }}</h2>
+              <h2 v-else-if="hasAlerts && !active">{{ $t('patient-details.silenced-dose') }}</h2>
+              <h2 v-else>{{ $t('patient-details.recommended-dose') }}</h2>
             </div>
           </div>
           <div class="ml-auto">
@@ -67,7 +67,9 @@
           </div>
 
           <div v-if="props.dose.status && props.dose.status.completed">
-            <label for="gender" class="block py-2 px-4 text-sm font-medium text-gray-700">{{ $t('patient-details.dose-application-date')}}</label>
+            <label for="gender" class="block py-2 px-4 text-sm font-medium text-gray-700">{{
+              $t('patient-details.dose-application-date')
+            }}</label>
             <input
               type="text"
               :value="format(doseApplicationDate, 'dd/MM/yyyy')"
@@ -86,15 +88,19 @@
         >
           <VolumeOffIcon v-if="active" class="h-8 w-8 p-1 text-white" />
           <VolumeUpIcon v-if="!active" class="h-8 w-8 p-1 text-white" />
-          <span v-if="active" class="ml-1 text-sm font-semibold text-white">{{ $t('patient-details.alert-silent-notification')}}</span>
-          <span v-else class="ml-1 text-sm font-semibold text-white">{{ $t('patient-details.alert-activate-notification')}}</span>
+          <span v-if="active" class="ml-1 text-sm font-semibold text-white">{{
+            $t('patient-details.alert-silent-notification')
+          }}</span>
+          <span v-else class="ml-1 text-sm font-semibold text-white">{{
+            $t('patient-details.alert-activate-notification')
+          }}</span>
         </button>
       </div>
       <div class="font-normal" v-if="props.dose.alerts.length > 0">
         <div>
           <div v-for="(alert, k) in props.dose.alerts" :key="k">
             <span class="flex justify-end text-sm text-gray-500">
-              {{ $t('patient-details.registred')}} {{ formatRelative(parseISO(alert.created_at), new Date()) }}</span
+              {{ $t('patient-details.registred') }} {{ formatRelative(parseISO(alert.created_at), new Date()) }}</span
             >
           </div>
         </div>
@@ -118,11 +124,10 @@ import { usePatientsStore } from '@/stores/patients'
 import { parseISO, formatRelative, formatDuration, add, setDefaultOptions, differenceInMonths, format } from 'date-fns'
 const emit = defineEmits(['update:toggle-active'])
 
-
 const patientsStore = usePatientsStore()
 const birthDate = computed(() => parseISO(patientsStore.item.birth_date))
 
-const doseApplicationDate =  computed(() => parseISO(props.dose.status.application_date))
+const doseApplicationDate = computed(() => parseISO(props.dose.status.application_date))
 
 const recommendedDate = ref(add(birthDate.value, { months: props.dose.maximum_recommended_age }))
 const isCompleted = computed(() => props.dose.status && props.dose.status.completed)

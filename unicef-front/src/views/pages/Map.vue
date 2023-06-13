@@ -76,9 +76,9 @@ const updateMarkersFiltered = (newMarkers) => {
 }
 
 const patientCursor = ref(undefined)
-const updateCenterInView = ({latitude, longitude, newPatientCursor}) => {
-  console.log({latitude, longitude, newPatientCursor})
-  currentCenter.value = {lat: latitude, lng: longitude}
+const updateCenterInView = ({ latitude, longitude, newPatientCursor }) => {
+  console.log({ latitude, longitude, newPatientCursor })
+  currentCenter.value = { lat: latitude, lng: longitude }
   currentZoom.value = 19
   patientCursor.value = newPatientCursor
 }
@@ -87,9 +87,8 @@ const updateOnlyAlerts = (newOnlyAlerts) => {
   onlyAlerts.value = newOnlyAlerts
 }
 
-const handleMarkerDrag = ({index, latitude, longitude}) => {
+const handleMarkerDrag = ({ index, latitude, longitude }) => {
   patientsStore.items[index].address.latitude = latitude
   patientsStore.items[index].address.longitude = longitude
- }
-
+}
 </script>
