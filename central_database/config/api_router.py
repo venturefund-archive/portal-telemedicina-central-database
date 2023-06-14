@@ -8,6 +8,7 @@ from central_database.vaccines.api.views import (  # noqa: E501
     VaccineAlertViewSet,
     VaccineDosesViewSet,
     VaccineProtocolMetricsViewSet,
+    VaccineStatusViewSet,
     VaccineViewSet,
 )
 
@@ -23,6 +24,9 @@ router.register(
 )
 router.register("patients", PatientsViewSet, basename="patients")
 router.register("users", UserViewSet)
+router.register(
+    "vaccines/status", VaccineStatusViewSet, basename="vaccine-status"
+)  # noqa: E501
 router.register(
     "vaccines/alerts", VaccineAlertViewSet, basename="vaccine-alerts"
 )  # noqa: E501

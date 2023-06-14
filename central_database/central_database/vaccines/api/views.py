@@ -4,6 +4,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework.decorators import action
 from rest_framework.mixins import (  # noqa: E501
+    CreateModelMixin,
+    DestroyModelMixin,
     ListModelMixin,
     RetrieveModelMixin,
     UpdateModelMixin,
@@ -24,6 +26,7 @@ from central_database.vaccines.api.serializers import (
     VaccineDosesSerializer,
     VaccineProtocolSerializer,
     VaccineSerializer,
+    VaccineStatusSerializer,
 )
 from central_database.vaccines.models import (  # noqa: E501
     Vaccine,
@@ -136,3 +139,30 @@ class VaccineAlertViewSet(GenericViewSet, UpdateModelMixin):
         alert.save()
         serializer = self.get_serializer(alert)
         return Response(serializer.data)
+
+
+class VaccineStatusViewSet(
+    GenericViewSet,
+    RetrieveModelMixin,
+    CreateModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin,
+):
+
+    serializer_class = VaccineStatusSerializer
+    permission_classes = [
+        IsAuthenticated,
+        permission_class_assembler(
+            permissions_to_check={
+                "create": ["vaccines.add_vaccinestatus"],
+                "list": ["vaccines.view_vaccinestatus"],
+                "retrieve": ["vaccines.view_vaccinestatus"],
+                "update": ["vaccines.change_vaccinestatus"],
+                "partial_update": ["vaccines.change_vaccinestatus"],
+                "destroy": ["vaccines.delete_vaccinestatus"],
+            }
+        ),
+    ]
+
+    def get_queryset(self):
+        return VaccineStatus.objects.all()
