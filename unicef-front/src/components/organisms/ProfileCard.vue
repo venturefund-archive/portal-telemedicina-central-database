@@ -39,7 +39,7 @@
     <div class="mt-4">
       <ul class="divide-y divide-gray-100 text-sm font-semibold">
         <li class=""></li>
-        <Tooltip>
+        <Tooltip  variant="gray" position="right">
           <template #trigger>
             <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
@@ -49,7 +49,7 @@
             </li>
           </template>
           <template #content>
-            <div>Em breve!</div>
+            <div class="flex">em breve novidades!</div>
           </template>
         </Tooltip>
         <li class="flex cursor-pointer items-center border-r-4 !border-r-blue-500 py-4 pl-4 hover:bg-[#F8F9FB]">
@@ -58,7 +58,7 @@
           </div>
           <span class="pl-3">{{ $t('patient-details.booklet') }}</span>
         </li>
-        <Tooltip>
+        <Tooltip  variant="gray" position="right">
           <template #trigger>
             <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
@@ -67,17 +67,17 @@
               <span
                 data-tooltip-target="tooltip-default"
                 type="button"
-                class="-my-1 rounded-lg text-left text-sm font-medium"
+                class="-my-1 rounded-lg text-left text-sm font-normal"
               >
                 <span class="pl-3">Período fetal</span>
               </span>
             </li>
           </template>
           <template #content>
-            <div>Em breve!</div>
+           <div class="flex justify-center"> Em breve novidades!</div>
           </template>
         </Tooltip>
-        <Tooltip>
+        <Tooltip  variant="gray" position="right">
           <template #trigger>
             <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
@@ -87,10 +87,10 @@
             </li>
           </template>
           <template #content>
-            <div>Em breve!</div>
+           <div class="flex justify-center"> Em breve novidades!</div>
           </template>
         </Tooltip>
-        <Tooltip>
+        <Tooltip  variant="gray" position="right">
           <template #trigger>
             <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
@@ -100,10 +100,10 @@
             </li>
           </template>
           <template #content>
-            <div>Em breve!</div>
+           <div class="flex justify-center"> Em breve novidades!</div>
           </template>
         </Tooltip>
-        <Tooltip>
+        <Tooltip  variant="gray" position="right">
           <template #trigger>
             <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
@@ -113,10 +113,10 @@
             </li>
           </template>
           <template #content>
-            <div>Em breve!</div>
+           <div class="flex justify-center"> Em breve novidades!</div>
           </template>
         </Tooltip>
-        <Tooltip>
+        <Tooltip  variant="gray" position="right">
           <template #trigger>
             <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
@@ -126,7 +126,7 @@
             </li>
           </template>
           <template #content>
-            <div>Em breve!</div>
+           <div class="flex justify-center"> Em breve novidades!</div>
           </template>
         </Tooltip>
       </ul>
