@@ -18,7 +18,6 @@
           <PatientListCard
             :patients="filteredMarkers"
             :onlyAlerts="onlyAlerts"
-            @update:markers-in-search="updateMarkersFiltered"
             @centralize-on-location="updateCenterInView"
           />
         </div>

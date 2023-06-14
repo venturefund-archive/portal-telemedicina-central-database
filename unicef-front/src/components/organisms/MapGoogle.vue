@@ -55,25 +55,28 @@
 
             <!-- User List and Alerts -->
             <div class="flex items-center space-x-10">
-              <div>
-                <button
-                  @click="showList = !showList"
-                  class="relative flex flex-col items-center rounded-md py-2 px-4 text-gray-500"
-                >
-                  <UsersIcon title="{{ $t('manager.population') }}" class="h-6 w-6 text-green-500" />
-                  <span class="text-sm">{{ $t('manager.population') }}</span>
-                </button>
-                <ul v-if="showList" class="absolute z-50 -ml-8 rounded-md bg-white shadow-md">
-                  <li
-                    v-for="item in items"
-                    :class="{ 'font-bold': item === selectedItem }"
-                    class="cursor-pointer py-2 px-4 font-normal hover:bg-gray-100"
-                    :key="item"
-                  >
-                    {{ item }}
-                  </li>
-                </ul>
-              </div>
+              <div ref="dropdown" class="relative">
+    <button
+      @click="showList = !showList"
+      class="relative flex flex-col items-center rounded-md py-2 px-4 text-gray-500"
+    >
+      <UsersIcon title="{{ $t('manager.population') }}" class="h-6 w-6 text-green-500" />
+      <span class="text-sm">{{ $t('manager.population') }}</span>
+    </button>
+    <ul
+      v-if="showList"
+      class="absolute z-10 rounded-md bg-white shadow-md w-40"
+    >
+      <li
+        v-for="item in items"
+        :class="{ 'font-bold': item === selectedItem }"
+        class="cursor-pointer py-2 px-4 font-normal hover:bg-gray-100 w-full"
+        :key="item"
+      >
+        {{ item }}
+      </li>
+    </ul>
+  </div>
 
               <div v-if="isMapView" class="flex flex-col items-center rounded-md py-2 px-4 text-gray-500">
                 <Switch
@@ -211,7 +214,7 @@
                                     <legend class="sr-only">Dados pessoais e clínicos</legend>
 
                                     <!-- Dados Pessoais -->
-                                    <div class="w-[312px] space-y-3 space-x-3">
+                                    <div class="w-[312px] space-y-3 px-2">
                                       <h4 class="text-sm font-semibold text-gray-600">Dados pessoais</h4>
 
                                       <div class="space-y-1">
@@ -278,14 +281,14 @@
                                           class="block w-full border-gray-300"
                                           v-model="editForm.cpf"
                                           required
-                                          pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+                                          maxlength="11"
                                           aria-label="CPF"
                                         />
                                       </div>
                                     </div>
 
                                     <!-- Dados Clínicos -->
-                                    <div class="w-[312px] space-y-3 space-x-3">
+                                    <div class="w-[312px] space-y-3 px-2">
                                       <h4 class="text-sm font-semibold text-gray-600">Dados clínicos</h4>
 
                                       <div class="space-y-1">
@@ -525,7 +528,7 @@
 </template>
 
 <script setup>
-import { defineComponent, reactive, computed, onBeforeUpdate, onMounted, watch, ref, onUnmounted } from 'vue'
+import { defineComponent, reactive, computed, onBeforeUpdate, onMounted, watch, ref, onUnmounted,onBeforeUnmount } from 'vue'
 import { GoogleMap, Marker, CustomMarker, MarkerCluster, InfoWindow, Polygon } from 'vue3-google-map'
 import { useGeolocation } from '@/composables/useGeolocation'
 import { parseISO, formatRelative, formatDuration, add, setDefaultOptions, differenceInMonths, format } from 'date-fns'
@@ -579,7 +582,8 @@ const props = defineProps({
   },
 })
 
-const showList = ref(false)
+const showList = ref(false);
+const dropdown = ref(null);
 
 const markerIconNormal = ref({
   url: 'marker.svg',
@@ -629,9 +633,9 @@ const isMapView = ref(true)
 const toggleView = () => {
   isMapView.value = !isMapView.value
 }
-const handleClickOutside = (event) => {
-  if (!event.target.closest('.mt-4')) {
-    // showList.value = false
+const handleOutsideClick = (event) => {
+  if (!dropdown.value.contains(event.target)) {
+    showList.value = false;
   }
 }
 
@@ -881,8 +885,12 @@ const polygons = ref([])
 
 onMounted(async () => {
   await patientsStore.fetchPatients()
-  document.addEventListener('click', handleClickOutside)
+  document.addEventListener('click', handleOutsideClick);
 })
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleOutsideClick);
+});
 
 const markers = ref([])
 onBeforeUpdate(() => {
@@ -891,12 +899,12 @@ onBeforeUpdate(() => {
 
 const isDraggable = computed(() => (index) => index == movingPatientId.value)
 
-const maxPatientsToProcess = 9
+// const maxPatientsToProcess = 30
 const patients = computed(() => {
   return props.patients.filter((patient, index) => {
-    if (index >= maxPatientsToProcess) {
-      return false
-    }
+    // if (index >= maxPatientsToProcess) {
+    //   return false
+    // }
     const hasLatitude = patient.address && patient.address.latitude
     const hasAlerts = patient.alerts && patient.alerts.length > 0
 

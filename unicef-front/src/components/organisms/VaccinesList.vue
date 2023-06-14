@@ -259,10 +259,7 @@
                           type="button"
                           class="-my-1 rounded-lg text-left text-sm font-medium"
                         >
-                          <p class="-mb-1.5 p-0">{{ vaccine.display }}</p>
-                          <p class="pl-0.5 text-xs text-gray-400" v-if="vaccine.description != vaccine.display">
-                            {{ vaccine.description }}
-                          </p>
+                          <p class="truncate2 -mb-1.5 p-0 text-sm">{{ vaccine.description }}</p>
                         </span>
                       </template>
                       <template #content>
@@ -603,6 +600,14 @@ const props = defineProps({
 <style scoped>
 .tooltip {
   visibility: hidden;
+}
+
+.truncate2 {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px; /* Você pode ajustar essa largura conforme necessário */
 }
 
 [data-tooltip-target]:hover + .tooltip,
