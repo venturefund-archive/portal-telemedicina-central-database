@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 from central_database.base_models import Alert, AlertType, CDModel
+from central_database.customers.models import HealthProfessional
 
 
 class Vaccine(CDModel, models.Model):
@@ -197,12 +198,20 @@ class VaccineStatus(CDModel, models.Model):
     vaccine_dose = models.ForeignKey(
         VaccineDose, on_delete=models.CASCADE
     )  # noqa: E501
+
+    batch = models.CharField(max_length=255, blank=True, null=True)
+
+    health_professional = models.ForeignKey(
+        HealthProfessional, on_delete=models.PROTECT, null=True, blank=True
+    )
+
     patient_id = models.CharField(
         max_length=255, help_text="Patient ID from FHIR."
     )  # noqa: E501
     completed = models.BooleanField(default=False)
 
     application_date = models.DateField(blank=True, null=True)
+    next_dose_application_date = models.DateField(blank=True, null=True)
 
     class Meta:
         indexes = [models.Index(fields=["patient_id"])]  # noqa: E501
