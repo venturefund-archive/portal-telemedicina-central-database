@@ -184,91 +184,236 @@
 
                 <Teleport to=".notification-space">
                   <Popover v-slot="{ open }" class="">
-                    <transition
-                      enter-active-class="transition duration-200 ease-out"
-                      enter-from-class="translate-y-1 opacity-0"
-                      enter-to-class="translate-y-0 opacity-100"
-                      leave-active-class="transition duration-150 ease-in"
-                      leave-from-class="translate-y-0 opacity-100"
-                      leave-to-class="translate-y-1 opacity-0"
-                    >
-                      <div>
-                        <PopoverOverlay class="fixed inset-0 z-10 bg-black opacity-30" />
-                        <PopoverPanel class="edit-panel z-20 mt-3 transform-gpu px-4">
-                          <div class="overflow-hidden rounded-lg shadow-lg">
-                            <div class="min-w-96 text-lg font-normal">
-                              <div class="relative bg-neutral-50 p-4">
-                                <div class="">
-                                  <h3 class="pb-3">Editing Patient #42</h3>
-                                  <form @submit.prevent="">
-                                    <div class="grid gap-6">
-                                      <div class="space-y-1">
-                                        <Label for="name" value="Name" />
+                    <TransitionRoot as="template" :show="open">
+                      <Dialog as="div" static class="fixed inset-0 z-10 overflow-y-auto" :show="open">
+                        <div
+                          class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0"
+                        >
+                          <TransitionChild as="template" enter="ease-out duration-300" leave="ease-in duration-200">
+                            <DialogOverlay class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+                          </TransitionChild>
 
+                          <TransitionChild as="template" enter="ease-out duration-300" leave="ease-in duration-200">
+                            <DialogPanel class="edit-panel z-20 mt-3 transform-gpu">
+                              <div class="relative space-y-4 overflow-hidden rounded-lg bg-neutral-50 p-4 shadow-lg">
+                                <div class="flex justify-between border-b border-dotted border-gray-400 pb-3">
+                                  <DialogTitle as="h3" class="mx-auto text-center font-bold text-gray-800">
+                                    Editar informação do paciente
+                                  </DialogTitle>
+                                  <XIcon class="h-6 w-6 cursor-pointer hover:text-green-500" />
+                                </div>
+                                <form
+                                  @submit.prevent="submitForm"
+                                  class="space-y-6"
+                                  aria-label="Formulário de Registro"
+                                >
+                                  <div class="flex">
+                                    <legend class="sr-only">Dados pessoais e clínicos</legend>
+
+                                    <!-- Dados Pessoais -->
+                                    <div class="w-[312px] space-y-3 space-x-3">
+                                      <h4 class="text-sm font-semibold text-gray-600">Dados pessoais</h4>
+
+                                      <div class="space-y-1">
+                                        <label for="name" class="sr-only">Nome</label>
                                         <Input
                                           id="name"
                                           type="text"
-                                          placeholder="Name"
-                                          class="block w-full"
+                                          placeholder="Nome"
+                                          class="block w-full border-gray-300 border-gray-300"
                                           v-model="editForm.name"
                                           required
                                           autofocus
                                           autocapitalize="on"
                                           autocorrect="off"
+                                          aria-label="Nome"
                                         />
                                       </div>
 
                                       <div class="space-y-1">
-                                        <Label for="document" value="Document" />
-
+                                        <label for="birthDate" class="sr-only">Data de Nascimento</label>
                                         <Input
-                                          id="document"
-                                          type="text"
-                                          placeholder="xxxxx"
-                                          class="block w-full"
-                                          v-model="editForm.cidade"
+                                          id="birthDate"
+                                          type="date"
+                                          placeholder="Data de Nascimento"
+                                          class="block w-full border-gray-300"
+                                          v-model="editForm.birthDate"
                                           required
-                                          autofocus
-                                          autocapitalize="on"
-                                          autocorrect="off"
+                                          aria-label="Data de Nascimento"
                                         />
                                       </div>
 
                                       <div class="space-y-1">
-                                        <Label for="address" value="Address" />
+                                        <label for="age" class="sr-only">Idade</label>
+                                        <Input
+                                          id="age"
+                                          type="number"
+                                          placeholder="Idade"
+                                          class="block w-full border-gray-300"
+                                          v-model="editForm.age"
+                                          required
+                                          aria-label="Idade"
+                                        />
+                                      </div>
 
+                                      <div class="space-y-1">
+                                        <label for="address" class="sr-only">Endereço</label>
                                         <Input
                                           id="address"
                                           type="text"
-                                          placeholder="Address"
-                                          class="block w-full"
-                                          v-model="editForm.cidade"
+                                          placeholder="Endereço"
+                                          class="block w-full border-gray-300"
+                                          v-model="editForm.address"
                                           required
-                                          autofocus
-                                          autocapitalize="on"
-                                          autocorrect="off"
+                                          aria-label="Endereço"
                                         />
                                       </div>
 
-                                      <div>
-                                        <Button
-                                          type="submit"
-                                          class="w-full justify-center gap-2"
-                                          :disabled="editForm.processing"
-                                          v-slot="{ iconSizeClasses }"
-                                        >
-                                          <span>Salvar</span>
-                                        </Button>
+                                      <div class="space-y-1">
+                                        <label for="cpf" class="sr-only">CPF</label>
+                                        <Input
+                                          id="cpf"
+                                          type="text"
+                                          placeholder="CPF"
+                                          class="block w-full border-gray-300"
+                                          v-model="editForm.cpf"
+                                          required
+                                          pattern="\d{3}\.\d{3}\.\d{3}-\d{2}"
+                                          aria-label="CPF"
+                                        />
                                       </div>
                                     </div>
-                                  </form>
-                                </div>
+
+                                    <!-- Dados Clínicos -->
+                                    <div class="w-[312px] space-y-3 space-x-3">
+                                      <h4 class="text-sm font-semibold text-gray-600">Dados clínicos</h4>
+
+                                      <div class="space-y-1">
+                                        <label for="healthUnit" class="sr-only">Unidade de saúde</label>
+                                        <Input
+                                          id="healthUnit"
+                                          type="text"
+                                          placeholder="Unidade de saúde"
+                                          class="block w-full border-gray-300"
+                                          v-model="editForm.healthUnit"
+                                          required
+                                          aria-label="Unidade de saúde"
+                                        />
+                                      </div>
+
+                                      <div class="space-y-1">
+                                        <label for="cns" class="sr-only">CNS</label>
+                                        <Input
+                                          id="cns"
+                                          type="text"
+                                          placeholder="CNS"
+                                          class="block w-full border-gray-300"
+                                          v-model="editForm.cns"
+                                          required
+                                          aria-label="CNS"
+                                        />
+                                      </div>
+
+                                      <div class="flex space-x-2">
+                                        <div class="flex-1">
+                                          <label for="codeFile" class="sr-only">Cód ficha</label>
+                                          <Input
+                                            id="codeFile"
+                                            type="text"
+                                            placeholder="Cód ficha"
+                                            class="block w-full border-gray-300"
+                                            v-model="editForm.codeFile"
+                                            required
+                                            aria-label="Cód ficha"
+                                          />
+                                        </div>
+                                        <div class="flex-1">
+                                          <label for="fileDate" class="sr-only">Data ficha</label>
+                                          <Input
+                                            id="fileDate"
+                                            type="date"
+                                            placeholder="Data ficha"
+                                            class="block w-full border-gray-300"
+                                            v-model="editForm.fileDate"
+                                            required
+                                            aria-label="Data ficha"
+                                          />
+                                        </div>
+                                      </div>
+
+                                      <div class="space-y-1">
+                                        <label for="professional" class="sr-only">Profissional</label>
+                                        <Input
+                                          id="professional"
+                                          type="text"
+                                          placeholder="Profissional"
+                                          class="block w-full border-gray-300"
+                                          v-model="editForm.professional"
+                                          required
+                                          aria-label="Profissional"
+                                        />
+                                      </div>
+
+                                      <div class="flex space-x-2">
+                                        <div class="flex-1">
+                                          <label for="vaccine" class="sr-only">Vacina</label>
+                                          <Input
+                                            id="vaccine"
+                                            type="text"
+                                            placeholder="Vacina"
+                                            class="block w-full border-gray-300"
+                                            v-model="editForm.vaccine"
+                                            required
+                                            aria-label="Vacina"
+                                          />
+                                        </div>
+                                        <div class="flex-1">
+                                          <label for="dose" class="sr-only">Dose</label>
+                                          <Input
+                                            id="dose"
+                                            type="text"
+                                            placeholder="Dose"
+                                            class="block w-full border-gray-300"
+                                            v-model="editForm.dose"
+                                            required
+                                            aria-label="Dose"
+                                          />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="mt-6 flex justify-end">
+                                    <div>
+                                      <Button
+                                        type="submit"
+                                        variant="success-outline"
+                                        class="w-full justify-center gap-2"
+                                        :disabled="editForm.processing"
+                                        aria-label="Cancelar"
+                                        @click="open = !open"
+                                      >
+                                        <span>Cancelar</span>
+                                      </Button>
+                                    </div>
+                                    <div class="px-2">
+                                      <Button
+                                        type="submit"
+                                        variant="success"
+                                        class="w-full justify-center gap-3"
+                                        :disabled="editForm.processing"
+                                        aria-label="Salvar"
+                                      >
+                                        <span>Salvar</span>
+                                      </Button>
+                                    </div>
+                                  </div>
+                                </form>
                               </div>
-                            </div>
-                          </div>
-                        </PopoverPanel>
-                      </div>
-                    </transition>
+                            </DialogPanel>
+                          </TransitionChild>
+                        </div>
+                      </Dialog>
+                    </TransitionRoot>
                     <InfoWindow
                       v-if="isCursorOnMarker(marker)"
                       :options="{
@@ -277,42 +422,55 @@
                       @closeclick="patientCursorLocal = null"
                     >
                       <div id="content">
-                        <div id="bodyContent" class="p-1">
+                        <div id="bodyContent" class="h-auto w-96 p-1">
                           <div class="flex flex-col justify-between rounded-2xl bg-white p-5">
-                            <router-link v-if="marker" :to="{ name: 'PatientDetails', params: { id: marker.id } }">
-                              <p class="py-3 text-xl font-semibold capitalize">
-                                {{ marker && marker.name.toLowerCase() }}
-                              </p>
-                            </router-link>
-                            <hr class="border-1 border border-dashed border-gray-300" />
+                            <div class="py-3">
+                              <router-link v-if="marker" :to="{ name: 'PatientDetails', params: { id: marker.id } }">
+                                <p class="text-xl font-semibold capitalize">
+                                  {{ marker && marker.name.toLowerCase() }}
+                                </p>
+                              </router-link>
+                              <p class="text-xs text-gray-500">ID: {{ marker.id }}</p>
+                            </div>
+                            <hr class="border-1 border border-dotted border-gray-300" />
                             <div class="flex justify-between py-5">
                               <p
-                                class="justify-center rounded-full bg-gray-100 px-3 py-1 text-sm font-normal text-black"
+                                class="justify-center rounded-full bg-gray-50 px-1 py-1 text-sm font-normal text-black"
                               >
                                 3 months
                               </p>
                               <p
                                 v-if="0 !== marker.alerts.length"
-                                class="rounded-full bg-red-100 px-3 py-1 text-sm font-normal text-red-900"
+                                class="rounded-full bg-red-100 px-1 py-1 text-sm font-normal text-red-900"
                               >
                                 vaccine with delay: {{ marker.alerts.join(', ') }}
                               </p>
                             </div>
-                            <div class="font-normal">
-                              <p>ID: {{ marker.id }}</p>
-                              <p>
-                                Alertas por protocolo:
-                                <span>{{
-                                  marker.number_of_alerts_by_protocol > 0 ? 'Com alertas' : 'Sem alertas'
-                                }}</span>
-                                {{ marker.number_of_alerts_by_protocol }} alertas
-                              </p>
-                              <p>Birthdate: {{ marker.birth_date }}</p>
-                              <p>Address: {{ marker.address }}</p>
+                            <div class="mb-1 rounded-2xl border border-transparent px-3 py-2 font-normal text-gray-500">
+                              <div class="text-sm font-semibold">
+                                <p class="text-sm">
+                                  Alertas por protocolo:
+                                  <span
+                                    :class="{
+                                      'rounded-full !bg-red-100 py-1 px-2 text-red-800 ':
+                                        marker.number_of_alerts_by_protocol > 0,
+                                    }"
+                                    class="rounded-full bg-gray-50 py-1 px-2 font-normal"
+                                  >
+                                    {{ marker.number_of_alerts_by_protocol }} alertas
+                                  </span>
+                                </p>
+                                <p class="text-sm font-semibold">
+                                  Birthdate:
+                                  <span class="font-normal">{{
+                                    format(new Date(marker.birth_date), 'dd/MM/yyyy')
+                                  }}</span>
+                                </p>
+                                <p class="text-sm font-semibold">
+                                  Address: <span class="font-normal">{{ marker.address.formatted_address }}</span>
+                                </p>
+                              </div>
                             </div>
-                            <span class="mt-5 flex justify-end text-sm text-gray-400"
-                              >Última alteração: 08/02/2023</span
-                            >
                           </div>
 
                           <div class="flex justify-evenly py-3">
@@ -327,7 +485,7 @@
                               <HandIcon aria-hidden="true" :class="iconSizeClasses" />
                               <span>Mover</span>
                             </Button>
-                            <PopoverButton :focus="false" :class="{ 'relative z-30': open }">
+                            <PopoverButton :class="{ 'relative z-30': open }">
                               <Button
                                 type="submit"
                                 variant="success"
@@ -370,9 +528,12 @@
 import { defineComponent, reactive, computed, onBeforeUpdate, onMounted, watch, ref, onUnmounted } from 'vue'
 import { GoogleMap, Marker, CustomMarker, MarkerCluster, InfoWindow, Polygon } from 'vue3-google-map'
 import { useGeolocation } from '@/composables/useGeolocation'
+import { parseISO, formatRelative, formatDuration, add, setDefaultOptions, differenceInMonths, format } from 'date-fns'
 import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue'
+import { TransitionRoot, TransitionChild, Dialog, DialogOverlay, DialogPanel, DialogTitle } from '@headlessui/vue'
+
 import { HandIcon, PencilIcon, SaveIcon } from '@heroicons/vue/solid'
-import { MapIcon, TableIcon, UsersIcon } from '@heroicons/vue/outline'
+import { MapIcon, TableIcon, UsersIcon, XIcon } from '@heroicons/vue/outline'
 import { useRouter } from 'vue-router'
 import { usePatientsStore } from '@/stores/patients'
 import { useMicroRegionsStore } from '@/stores/microregions'
@@ -539,6 +700,7 @@ const getCenterOfPolygon = computed(() => (index) => {
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
 })
+// const isOpen = ref(true) // You can control this variable to show or hide the modal
 
 const addressQuery = ref([])
 const infoWindowsOpened = ref([])
@@ -549,37 +711,36 @@ const updateLabel = async ({ localPolygon, polygonIndex }) => {
   try {
     if (0 === localPolygon.id) {
       await microregionsStore.createMicroRegion(localPolygon)
+      let bounds = new google.maps.LatLngBounds()
+      googlePolygons.value[polygonIndex].getPath().forEach((latLng) => bounds.extend(latLng))
+      // map.value.fitBounds(bounds) // centraliza
+
+      let center = bounds.getCenter()
+      // polygon name text label
+      googleLabels.value.push(
+        new google.maps.Marker({
+          position: center,
+          label: {
+            text: `${localPolygon.name}`,
+            color: 'black',
+          },
+          icon: {
+            path: google.maps.SymbolPath.CIRCLE,
+            fillColor: 'transparent',
+            fillOpacity: 0,
+            strokeColor: 'transparent',
+            strokeWeight: 0,
+            scale: 0,
+          },
+          map: map.value,
+        })
+      )
     } else {
       await microregionsStore.updateMicroRegion(localPolygon.id, { name: localPolygon.name })
+      googleLabels.value[polygonIndex].setLabel(localPolygon.name)
+      polygons.value[polygonIndex].name = localPolygon.name
     }
 
-    googleLabels.value[polygonIndex].setLabel(localPolygon.name)
-
-    let bounds = new google.maps.LatLngBounds()
-    googlePolygons.value[polygonIndex].getPath().forEach((latLng) => bounds.extend(latLng))
-    // map.value.fitBounds(bounds) // centraliza
-
-    let center = bounds.getCenter()
-    // polygon name text label
-    googleLabels.value.push(
-      new google.maps.Marker({
-        position: center,
-        label: {
-          text: `${localPolygon.name}`,
-          color: 'black',
-          fontWeight: 'bold',
-        },
-        icon: {
-          path: google.maps.SymbolPath.CIRCLE,
-          fillColor: 'transparent',
-          fillOpacity: 0,
-          strokeColor: 'transparent',
-          strokeWeight: 0,
-          scale: 0,
-        },
-        map: map.value,
-      })
-    )
     currentInfoWindowIndex.value = null
   } catch (error) {
     console.log(error)
@@ -593,6 +754,10 @@ watch(
     if (!ready) return
     map.value = mapRef.value.map
     geoCoder.value = new mapRef.value.api.Geocoder()
+
+    // Emitir um evento quando o geoCoder estiver pronto
+    emit('geoCoderReady', geoCoder.value)
+
     // do something with the api using `mapRef.value.api`
     // or with the map instance using `mapRef.value.map`
 
@@ -681,7 +846,6 @@ watch(
           label: {
             text: `${polygon.name}`,
             color: 'black',
-            fontWeight: 'bold',
           },
           icon: {
             path: google.maps.SymbolPath.CIRCLE,
@@ -774,7 +938,7 @@ async function handleMarkerDrag(event, patientId) {
   })
 }
 
-const emit = defineEmits(['update:markers-in-view', 'update:onlyAlerts', 'dragend'])
+const emit = defineEmits(['update:markers-in-view', 'update:onlyAlerts', 'dragend', 'geoCoderReady'])
 
 const patientsInView = ref([])
 const getMarkersInView = () => {
@@ -837,7 +1001,7 @@ defineExpose({ patientsInView })
   position: fixed;
   left: 50%;
   top: 0;
-  width: 380px;
+  width: 650px !important;
   margin: 150px 0 0 -190px;
   /* Apply negative top and left margins to center the element */
 }

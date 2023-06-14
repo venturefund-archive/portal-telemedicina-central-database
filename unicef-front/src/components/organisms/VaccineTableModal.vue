@@ -27,7 +27,7 @@
                   @click="closeModal"
                   class="rounded bg-white p-1.5 text-sm text-gray-500 hover:text-green-500"
                 >
-                  <XIcon @click="closeModal" class="flex h-8 w-8 justify-end" />
+                  <XIcon @click="closeModal" class="flex h-6 w-6 justify-end" />
                 </button>
               </div>
               <div class="flex-grow overflow-y-auto">

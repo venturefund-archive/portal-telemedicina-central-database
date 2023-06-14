@@ -39,48 +39,96 @@
     <div class="mt-4">
       <ul class="divide-y divide-gray-100 text-sm font-semibold">
         <li class=""></li>
-        <li class="flex items-center py-4 pl-4 grayscale">
-          <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
-            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-01.png" />
-          </div>
-          <span class="pl-3">Peso, altura, IMC</span>
-        </li>
+        <Tooltip>
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-01.png" />
+              </div>
+              <span class="pl-3">Peso, altura, IMC</span>
+            </li>
+          </template>
+          <template #content>
+            <div>Em breve!</div>
+          </template>
+        </Tooltip>
         <li class="flex cursor-pointer items-center border-r-4 !border-r-blue-500 py-4 pl-4 hover:bg-[#F8F9FB]">
           <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
             <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-02.png" />
           </div>
           <span class="pl-3">{{ $t('patient-details.booklet') }}</span>
         </li>
-        <li class="flex items-center py-4 pl-4 grayscale">
-          <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
-            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-03.png" />
-          </div>
-          <span class="pl-3">Período fetal</span>
-        </li>
-        <li class="flex items-center py-4 pl-4 grayscale">
-          <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
-            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-04.png" />
-          </div>
-          <span class="pl-3">Alergias</span>
-        </li>
-        <li class="flex items-center py-4 pl-4 grayscale">
-          <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
-            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-05.png" />
-          </div>
-          <span class="pl-3">Medicamentos</span>
-        </li>
-        <li class="flex items-center py-4 pl-4 grayscale">
-          <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
-            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-06.png" />
-          </div>
-          <span class="pl-3">Doenças</span>
-        </li>
-        <li class="flex items-center py-4 pl-4 grayscale">
-          <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
-            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-07.png" />
-          </div>
-          <span class="pl-3">Dados socioculturais</span>
-        </li>
+        <Tooltip>
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-03.png" />
+              </div>
+              <span
+                data-tooltip-target="tooltip-default"
+                type="button"
+                class="-my-1 rounded-lg text-left text-sm font-medium"
+              >
+                <span class="pl-3">Período fetal</span>
+              </span>
+            </li>
+          </template>
+          <template #content>
+            <div>Em breve!</div>
+          </template>
+        </Tooltip>
+        <Tooltip>
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-04.png" />
+              </div>
+              <span class="pl-3">Alergias</span>
+            </li>
+          </template>
+          <template #content>
+            <div>Em breve!</div>
+          </template>
+        </Tooltip>
+        <Tooltip>
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-05.png" />
+              </div>
+              <span class="pl-3">Medicamentos</span>
+            </li>
+          </template>
+          <template #content>
+            <div>Em breve!</div>
+          </template>
+        </Tooltip>
+        <Tooltip>
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-06.png" />
+              </div>
+              <span class="pl-3">Doenças</span>
+            </li>
+          </template>
+          <template #content>
+            <div>Em breve!</div>
+          </template>
+        </Tooltip>
+        <Tooltip>
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-07.png" />
+              </div>
+              <span class="pl-3">Dados socioculturais</span>
+            </li>
+          </template>
+          <template #content>
+            <div>Em breve!</div>
+          </template>
+        </Tooltip>
       </ul>
     </div>
   </div>
