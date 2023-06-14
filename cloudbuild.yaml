@@ -29,7 +29,7 @@ steps:
 
       git commit -am "Update image tag"
 
-      git push
+      git push -o nokeycheck 
   id: Replace image tag and commit
   entrypoint: /bin/sh
 images:
