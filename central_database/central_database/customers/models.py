@@ -14,6 +14,21 @@ class Client(CDModel):
         return self.client_name
 
 
+class HealthProfessional(CDModel):
+    name = models.CharField(max_length=255)
+    cns_number = models.CharField(max_length=32)
+    cnes_number = models.CharField(max_length=16, null=True, blank=True)
+    client = models.ForeignKey(
+        Client, on_delete=models.PROTECT, null=True, blank=True
+    )  # noqa: E501
+
+    class Meta:
+        indexes = [models.Index(fields=["cns_number"])]
+
+    def __str__(self):
+        return f"{self.cns_number} : {self.name}"
+
+
 class MicroRegion(gis_models.Model):
     name = gis_models.CharField(max_length=255)
     polygon = gis_models.PolygonField()
