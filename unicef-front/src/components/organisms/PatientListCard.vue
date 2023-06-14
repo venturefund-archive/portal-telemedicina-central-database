@@ -84,7 +84,7 @@
                 {{ patient.name.toLowerCase() }}
               </p>
 
-              <span class="text-sm text-gray-500"> {{ patient.address }} </span>
+              <span class="text-sm text-gray-500"> {{ patient.address.formatted_address }} </span>
             </div>
           </div>
           <div>

@@ -44,6 +44,7 @@ export const usePatientsStore = defineStore('patients', () => {
       })
       item.value = response.data
       isLoading.value = false
+      state.value.patientLastViewed = id
     } catch (err) {
       isLoading.value = false
       errorToast({ text: err.response.data.detail })
@@ -59,8 +60,6 @@ export const usePatientsStore = defineStore('patients', () => {
           Authorization: `token ${state.value.token}`,
         },
       })
-      // items.value.find((p) => id == p.id).address.latitude = data.latitude
-      // items.value.find((p) => id == p.id).address.longitude = data.longitude
       return response
     } catch (err) {
       console.log(err)

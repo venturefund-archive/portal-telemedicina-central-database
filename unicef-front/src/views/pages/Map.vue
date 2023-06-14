@@ -8,6 +8,7 @@
             @update:markers-in-view="updateMarkersFiltered"
             @update:onlyAlerts="updateOnlyAlerts"
             @dragend="handleMarkerDrag"
+            @geoCoderReady="handleGeoCoderReady"
             :center="currentCenter"
             :zoom="currentZoom"
             :patientCursor="patientCursor"
@@ -68,9 +69,31 @@ onMounted(async () => {
   await patientsStore.fetchPatients()
   markers.value = filteredMarkers.value = patientsStore.items
 })
+const geoCoder = ref(null)
+const handleGeoCoderReady = (geoCoder2) => {
+  geoCoder.value = geoCoder2
+}
+watch(filteredMarkers, (newMarkers, oldMarkers) => {
+  if (!geoCoder.value) {
+    return
+  }
+  filteredMarkers.value.slice(0, 9).map((patient, k) => {
+    geoCoder.value.geocode(
+      { location: { lat: patient.address.latitude, lng: patient.address.longitude } },
+      function (results, status) {
+        if (status === 'OK') {
+          const address = results[0].formatted_address
+          filteredMarkers.value[k].address.formatted_address = address
+        } else {
+          showEmptyResult.value = true
+        }
+      }
+    )
+  })
+})
 
 const currentCenter = ref(undefined)
-const currentZoom = ref(15)
+const currentZoom = ref(16)
 
 const updateMarkersFiltered = (newMarkers) => {
   filteredMarkers.value = newMarkers
