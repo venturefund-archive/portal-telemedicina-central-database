@@ -1,13 +1,17 @@
 <template>
   <div class="p-3">
-    <form>
+    <form
+      @submit.prevent="
+        $emit('saved', { localPolygon: { ...localPolygon, coordinates: polygonCoordinates }, polygonIndex })
+      "
+    >
       <InputIconWrapper>
         <template #icon>
           <TagIcon aria-hidden="true" class="h-5 w-5" />
         </template>
         <Input
           placeholder="Nome do poligono"
-          v-model="state.polygonNames[props.polygonIndex]"
+          v-model="localPolygon.name"
           withIcon
           class="mb-3 block w-full rounded-lg border border-transparent bg-gray-50 p-4 pl-10 text-sm text-gray-900"
         />
@@ -16,12 +20,7 @@
         <HandIcon aria-hidden="true" />
         <span>Excluir</span>
       </Button>
-      <Button
-        type="submit"
-        variant="success-outline"
-        @click="$emit('saved', { polygonName: state.polygonNames[props.polygonIndex], polygonIndex })"
-        class="mx-3"
-      >
+      <Button type="submit" variant="success-outline" class="mx-3">
         <PencilIcon aria-hidden="true" />
         <span>Salvar</span>
       </Button>
@@ -30,7 +29,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watchEffect } from 'vue'
 import { HandIcon, PencilIcon, TagIcon } from '@heroicons/vue/outline'
 import { useStorage } from '@vueuse/core'
 import { useMicroRegionsStore } from '@/stores/microregions'
@@ -41,23 +40,33 @@ const props = defineProps({
     type: String,
     default: '',
   },
-  polygonName: {
-    type: String,
-    default: '',
+  polygon: {
+    type: Object,
+    default: () => ({ id: 0, name: '' }), // Default to an object with name: ''
+  },
+  googlePolygon: {
+    type: Object,
+    default: () => ({ id: 0, name: '' }), // Default to an object with name: ''
   },
   polygonIndex: {
     type: Number,
     default: 0,
   },
 })
+
+const polygonCoordinates = ref([])
+const localPolygon = ref({ ...props.polygon }) // Create local ref copy of polygon prop
+
+watchEffect(() => {
+  // Update localPolygon when props.polygon changes
+  localPolygon.value = { ...props.polygon }
+})
+
 const emit = defineEmits(['delete', 'saved'])
-
-const state = useStorage('app-store', { polygons: [], polygonNames: [], markers: [] })
-if (undefined == state.value.polygonNames) {
-  state.value.polygonNames = []
-}
-
-// onMounted(async () => {
-//   await microregionsStore.fetchMicroRegion(polygonIndex)
-// })
+onMounted(async () => {
+  const vertices = props.googlePolygon.getPath()
+  vertices.forEach(function (vertex) {
+    polygonCoordinates.value.push([vertex.lng(), vertex.lat()])
+  })
+})
 </script>

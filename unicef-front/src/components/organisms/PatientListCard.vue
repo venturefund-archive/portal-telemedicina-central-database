@@ -44,8 +44,30 @@
             </li>
           </ul>
         </div>
-
+        <div class="flex h-96 justify-center" v-if="patientsStore.isLoading && 0 == paginated.length">
+          <svg
+            class="-ml-1 mr-3 w-20 animate-spin text-blue-500"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            ></path>
+          </svg>
+        </div>
+        <div class="flex h-full flex-col items-center justify-center" v-else-if="false == patientsStore.isLoading && 0 == paginated.length">
+          <div class="flex justify-center">
+            <EmptyResultPhoto />
+          </div>
+          <span class="flex justify-center font-semibold">{{ $t('manager.no-results') }}</span>
+          <span class="flex justify-center text-gray-500">{{ $t('manager.no-results-description') }}. </span>
+        </div>
         <div
+          v-else
           class="flex items-center justify-between border-b border-gray-200 px-2 pb-1 pt-4 hover:rounded hover:bg-gray-100"
           v-for="(patient, index) in paginated"
           :key="index"
@@ -55,14 +77,14 @@
             <div>
               <p
                 @click="
-                  $emit('centralize-on-location', { lat: patient.address.latitude, lng: patient.address.longitude })
+                  $emit('centralize-on-location', { ...patient.address, newPatientCursor: patient.id })
                 "
                 class="text-lg font-semibold capitalize hover:cursor-pointer hover:underline"
               >
                 {{ patient.name.toLowerCase() }}
               </p>
 
-              <span class="text-sm text-gray-500"> Street xxx, district xxx </span>
+              <span class="text-sm text-gray-500"> {{ patient.address.formatted_address }} </span>
             </div>
           </div>
           <div>
@@ -70,12 +92,18 @@
               <!-- <span class="flex-none pr-14">{{ patient.number_of_alerts_by_protocol }}</span> -->
             </div>
 
-            <router-link
-              :to="{ name: 'PatientDetails', params: { id: patient.id } }"
-              class="border-1 cursor-pointer rounded border border-green-500 py-2 px-4 text-sm font-normal text-green-500 hover:bg-green-500 hover:text-white hover:no-underline"
+            <a
+              :href="`/patients/${patient.id}`"
+              class="border-1 cursor-pointer rounded border border-green-500 py-2 px-4 text-sm font-normal uppercase tracking-wide text-green-500 hover:bg-green-500 hover:text-white hover:no-underline"
+              @click.prevent="vaccineModalIndex = patient.id; patientsStore.item = patient"
+              >{{ $t('manager.details') }}</a
             >
-              {{ $t('manager.details') }}
-            </router-link>
+            <VaccineTableModal
+              v-if="patient.id === vaccineModalIndex"
+              :patient="patientsStore.item"
+              :is-open="patient.id === vaccineModalIndex"
+              @on-close="vaccineModalIndex = null"
+            />
           </div>
         </div>
       </BaseCard>
@@ -198,6 +226,10 @@ const props = defineProps({
     default: false,
   },
 })
+const vaccineModalIndex = ref(null)
+// const openVaccineModal = (patientId) => {
+//   vaccineModalIndex.va
+// }
 
 const handleClickOutside = (event) => {
   if (!event.target.closest('.mt-4')) {

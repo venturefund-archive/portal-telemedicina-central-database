@@ -31,6 +31,12 @@ export default [
         component: () => import('@/views/pages/Map.vue'),
         props: true,
       },
+      {
+        path: '/map/:id',
+        name: 'MapPatient',
+        component: () => import('@/views/pages/Map.vue'),
+        props: true,
+      },
     ],
     beforeEnter: async (to, from, next) => {
       const state = useStorage('app-store', { token: '' })
@@ -104,7 +110,7 @@ export default [
           next({ name: 'Dashboard' })
         } catch (err) {
           state.value = null
-          console.error(err)
+          console.log(err)
           if (state.value.intendedRoute) {
             router.replace(state.value.intendedRoute)
           } else {

@@ -1,13 +1,13 @@
 <template>
   <div class="h-[888px] w-72 rounded-full bg-white shadow">
-    <div class="-mt-16 flex justify-center">
+    <div class="flex justify-center">
       <img
-        class="h-16 w-16 rounded-full border border-2 border-white bg-white object-cover"
+        class="-mt-7 h-20 w-20 rounded-full border border-2 border-white bg-white object-cover"
         src="/avatar.png"
         alt="Profile picture"
       />
     </div>
-    <div class="p-3 pt-12">
+    <div class="p-3 pt-14">
       <p class="text-sm font-semibold capitalize">{{ name }}</p>
     </div>
     <ul class="px-3 text-sm text-neutral-500">
@@ -39,48 +39,96 @@
     <div class="mt-4">
       <ul class="divide-y divide-gray-100 text-sm font-semibold">
         <li class=""></li>
-        <li class="flex items-center py-4 pl-4 grayscale">
-          <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
-            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-01.png" />
-          </div>
-          <span class="pl-3">Peso, altura, IMC</span>
-        </li>
+        <Tooltip  variant="gray" position="right">
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-01.png" />
+              </div>
+              <span class="pl-3">Peso, altura, IMC</span>
+            </li>
+          </template>
+          <template #content>
+            <div class="flex">em breve novidades!</div>
+          </template>
+        </Tooltip>
         <li class="flex cursor-pointer items-center border-r-4 !border-r-blue-500 py-4 pl-4 hover:bg-[#F8F9FB]">
           <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
             <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-02.png" />
           </div>
           <span class="pl-3">{{ $t('patient-details.booklet') }}</span>
         </li>
-        <li class="flex items-center py-4 pl-4 grayscale">
-          <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
-            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-03.png" />
-          </div>
-          <span class="pl-3">Período fetal</span>
-        </li>
-        <li class="flex items-center py-4 pl-4 grayscale">
-          <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
-            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-04.png" />
-          </div>
-          <span class="pl-3">Alergias</span>
-        </li>
-        <li class="flex items-center py-4 pl-4 grayscale">
-          <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
-            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-05.png" />
-          </div>
-          <span class="pl-3">Medicamentos</span>
-        </li>
-        <li class="flex items-center py-4 pl-4 grayscale">
-          <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
-            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-06.png" />
-          </div>
-          <span class="pl-3">Doenças</span>
-        </li>
-        <li class="flex items-center py-4 pl-4 grayscale">
-          <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
-            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-07.png" />
-          </div>
-          <span class="pl-3">Dados socioculturais</span>
-        </li>
+        <Tooltip  variant="gray" position="right">
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-03.png" />
+              </div>
+              <span
+                data-tooltip-target="tooltip-default"
+                type="button"
+                class="-my-1 rounded-lg text-left text-sm font-normal"
+              >
+                <span class="pl-3">Período fetal</span>
+              </span>
+            </li>
+          </template>
+          <template #content>
+           <div class="flex justify-center"> Em breve novidades!</div>
+          </template>
+        </Tooltip>
+        <Tooltip  variant="gray" position="right">
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-04.png" />
+              </div>
+              <span class="pl-3">Alergias</span>
+            </li>
+          </template>
+          <template #content>
+           <div class="flex justify-center"> Em breve novidades!</div>
+          </template>
+        </Tooltip>
+        <Tooltip  variant="gray" position="right">
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-05.png" />
+              </div>
+              <span class="pl-3">Medicamentos</span>
+            </li>
+          </template>
+          <template #content>
+           <div class="flex justify-center"> Em breve novidades!</div>
+          </template>
+        </Tooltip>
+        <Tooltip  variant="gray" position="right">
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-06.png" />
+              </div>
+              <span class="pl-3">Doenças</span>
+            </li>
+          </template>
+          <template #content>
+           <div class="flex justify-center"> Em breve novidades!</div>
+          </template>
+        </Tooltip>
+        <Tooltip  variant="gray" position="right">
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-07.png" />
+              </div>
+              <span class="pl-3">Dados socioculturais</span>
+            </li>
+          </template>
+          <template #content>
+           <div class="flex justify-center"> Em breve novidades!</div>
+          </template>
+        </Tooltip>
       </ul>
     </div>
   </div>

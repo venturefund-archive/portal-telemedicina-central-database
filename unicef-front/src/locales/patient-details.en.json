@@ -31,5 +31,15 @@
   "no-selected":"No patient selected",
   "patients":"Patients",
   "patient":"Patient",
-  "search-patients":"Search patients"
+  "search-patients":"Search patients",
+  "alert-silent-notification":"Silence alert notification",
+  "dose-application-date": "Date of application",
+  "alert-activate-notification": "Activate alert notification",
+  "registered":"Registered",
+  "completed-dose":"Complete dose",
+  "delayed-dose": "Alert dose",
+  "silenced-dose":"Dose on alert silenced",
+  "recommended-dose":"Recommended dose",
+  "silenced-alert": "Silenced alert",
+  "not-applyed":"Not applied"
 }

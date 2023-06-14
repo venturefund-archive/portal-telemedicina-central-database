@@ -6,3 +6,4 @@
 **/.vscode
 *.ts
 src/components/atoms/AutoComplete.vue
+src/components/organisms/PatientListCard.vue

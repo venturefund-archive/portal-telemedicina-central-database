@@ -7,6 +7,7 @@ import { errorToast } from '@/toast'
 export const usePatientsStore = defineStore('patients', () => {
   const items = ref([])
   const item = ref(null)
+  const isLoading = ref(false)
   const state = useStorage('app-store', { token: '' })
 
   async function searchPatients() {
@@ -15,6 +16,7 @@ export const usePatientsStore = defineStore('patients', () => {
 
   const fetchPatients = async () => {
     try {
+      isLoading.value = true
       const response = await axios.get(import.meta.env.VITE_API_URL + '/api/patients/', {
         headers: {
           'Content-type': 'application/json',
@@ -22,7 +24,9 @@ export const usePatientsStore = defineStore('patients', () => {
         },
       })
       items.value = response.data.results
+      isLoading.value = false
     } catch (err) {
+      isLoading.value = false
       console.log(err)
       err.response && errorToast({ text: err.response.data.detail })
     }
@@ -31,6 +35,7 @@ export const usePatientsStore = defineStore('patients', () => {
 
   async function fetchPatient(id) {
     try {
+      isLoading.value = true
       const response = await axios.get(import.meta.env.VITE_API_URL + `/api/patients/${id}/`, {
         headers: {
           'Content-type': 'application/json',
@@ -38,8 +43,12 @@ export const usePatientsStore = defineStore('patients', () => {
         },
       })
       item.value = response.data
+      isLoading.value = false
+      state.value.patientLastViewed = id
     } catch (err) {
+      isLoading.value = false
       errorToast({ text: err.response.data.detail })
+      console.log(err)
     }
   }
 
@@ -53,6 +62,7 @@ export const usePatientsStore = defineStore('patients', () => {
       })
       return response
     } catch (err) {
+      console.log(err)
       errorToast({ text: err.response.data.detail })
     }
   }
@@ -60,6 +70,7 @@ export const usePatientsStore = defineStore('patients', () => {
   return {
     items,
     item,
+    isLoading,
     searchPatients,
     fetchPatients,
     fetchPatient,

@@ -23,8 +23,7 @@ export const useLoggedUserStore = defineStore('loggedUser', () => {
         errorToast({ text: err.message })
         throw err
       } else {
-        // Para outros tipos de erros, você pode querer tratá-los de maneira diferente,
-        // ou pode escolher relançá-los para serem tratados em outro lugar
+        errorToast({ text: err.response.data.detail })
         throw err
       }
     }
