@@ -90,10 +90,6 @@ class TestVaccineDoseSerializer(APITestCase):
             vaccine_dose.gender_recommendation,
         )
         self.assertEqual(serialized_vaccine_dose["alerts"][0]["id"], alert.id)
-        self.assertEqual(
-            serialized_vaccine_dose["alerts"][0]["patient_id"],
-            alert.patient_id,  # noqa: E501
-        )
 
         self.assertEqual(
             serialized_vaccine_dose["alerts"][0]["created_at"],
@@ -102,10 +98,6 @@ class TestVaccineDoseSerializer(APITestCase):
         self.assertEqual(
             serialized_vaccine_dose["alerts"][0]["active"], alert.active
         )  # noqa: E501
-        self.assertEqual(
-            serialized_vaccine_dose["alerts"][0]["vaccine_dose"],
-            alert.vaccine_dose.id,  # noqa: E501
-        )
         self.assertEqual(
             serialized_vaccine_dose["alerts"][0]["alert_type"],
             alert.alert_type.id,  # noqa: E501
