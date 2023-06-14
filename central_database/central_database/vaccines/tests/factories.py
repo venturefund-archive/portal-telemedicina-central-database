@@ -1,5 +1,6 @@
 import factory.fuzzy
 
+from central_database.customers.factories import HealthProfessionalFactory
 from central_database.vaccines.models import (
     Vaccine,
     VaccineAlert,
@@ -55,6 +56,8 @@ class VaccineAlertFactory(factory.django.DjangoModelFactory):
 
 class VaccineStatusFactory(factory.django.DjangoModelFactory):
     vaccine_dose = factory.SubFactory(VaccineDoseFactory)
+    batch = factory.Faker("pystr")
+    health_professional = factory.SubFactory(HealthProfessionalFactory)
     patient_id = factory.Faker("pyint")
     completed = factory.Faker("boolean")
 
@@ -64,10 +67,16 @@ class VaccineStatusFactory(factory.django.DjangoModelFactory):
     @classmethod
     def _create(cls, target_class, *args, **kwargs):
         application_date = kwargs.pop("application_date", None)
+        next_application_date = kwargs.pop("next_application_date", None)
         obj = super()._create(target_class, *args, **kwargs)
         if application_date is not None:
             obj.application_date = application_date
             obj.save()
+
+        if next_application_date is not None:
+            obj.next_application_date = next_application_date
+            obj.save()
+
         return obj
 
 
