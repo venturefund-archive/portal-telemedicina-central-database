@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from rest_framework.test import APITestCase
 
 from central_database.vaccines.api.serializers import (
@@ -11,6 +13,7 @@ from central_database.vaccines.tests.factories import (  # noqa: E501
     VaccineDoseFactory,
     VaccineFactory,
     VaccineProtocolFactory,
+    VaccineStatusFactory,
 )
 
 
@@ -32,6 +35,8 @@ class TestVaccineDoseSerializer(APITestCase):
         vaccine_dose = VaccineDoseFactory(
             minimum_recommended_age=1, maximum_recommended_age=2
         )
+        vaccine_dose.active_alerts = []
+        vaccine_dose.patient_status = []
         serialized_vaccine_dose = VaccineDosesSerializer(vaccine_dose).data
 
         self.assertEqual(
@@ -59,7 +64,8 @@ class TestVaccineDoseSerializer(APITestCase):
             minimum_recommended_age=1, maximum_recommended_age=2
         )
         alert = VaccineAlertFactory(vaccine_dose=vaccine_dose, patient_id=11)
-
+        vaccine_dose.active_alerts = [alert]
+        vaccine_dose.patient_status = []
         VaccineDosesSerializer.context = {"patient_id": 11}
         serialized_vaccine_dose = VaccineDosesSerializer(vaccine_dose).data
         self.assertEqual(
@@ -103,6 +109,46 @@ class TestVaccineDoseSerializer(APITestCase):
             alert.alert_type.id,  # noqa: E501
         )
 
+    def test_it_serializes_vaccine_doses_with_status(self):
+        vaccine_dose = VaccineDoseFactory(
+            minimum_recommended_age=1, maximum_recommended_age=2
+        )
+        status = VaccineStatusFactory(
+            vaccine_dose=vaccine_dose,
+            completed=True,
+            application_date=datetime.now(),  # noqa: E501
+        )
+        vaccine_dose.active_alerts = []
+        vaccine_dose.patient_status = [status]
+        VaccineDosesSerializer.context = {"patient_id": 11}
+        serialized_vaccine_dose = VaccineDosesSerializer(vaccine_dose).data
+        self.assertEqual(
+            serialized_vaccine_dose["vaccine"],
+            vaccine_dose.vaccine.id,
+        )  # noqa: E501
+        self.assertEqual(
+            serialized_vaccine_dose["minimum_recommended_age"],
+            vaccine_dose.minimum_recommended_age,
+        )
+        self.assertEqual(
+            serialized_vaccine_dose["maximum_recommended_age"],
+            vaccine_dose.maximum_recommended_age,
+        )
+        self.assertEqual(
+            serialized_vaccine_dose["dose_order"], vaccine_dose.dose_order
+        )  # noqa: E501
+        self.assertEqual(
+            serialized_vaccine_dose["gender_recommendation"],
+            vaccine_dose.gender_recommendation,
+        )
+        self.assertEqual(
+            serialized_vaccine_dose["status"]["completed"], status.completed
+        )
+        self.assertEqual(
+            serialized_vaccine_dose["status"]["application_date"],
+            status.application_date.strftime("%Y-%m-%d"),
+        )
+
 
 class TestVaccineProtocolSerializer(APITestCase):
     def test_it_serializes_vaccine_protocol_with_metrics(self):
@@ -144,6 +190,7 @@ class TestVaccineProtocolSerializer(APITestCase):
         self.protocol = VaccineProtocolFactory(
             vaccine_doses=[self.vaccine_dose_1, self.vaccine_dose_2]
         )
+
         serialized_vaccine_protocol = VaccineProtocolSerializer(
             self.protocol
         ).data  # noqa: E501

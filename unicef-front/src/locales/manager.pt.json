@@ -1,10 +1,16 @@
 {
-  "search-map": "pesquisar no mapa",
+  "search-map": "Pesquisar por locais",
   "alerts": "Alertas",
   "population": "População",
   "patients-delayed": "Pacientes com doses atrasadas",
   "details": "Detalhes",
   "district": "Bairro",
   "save": "Salvar edição",
-  "vaccination-map": "Mapa de cobertura vacinal"
+  "vaccination-map": "Mapa do esquema vacinal",
+  "search":"Pesquisar",
+  "table-view-text":"Tabela de dados do esquema vacianal",
+  "no-results":"Sem resultados",
+  "no-results-description":"Não há resultados para a sua busca, tente com outras palavras ou termos",
+  "no-data":"Sem dados",
+  "no-data-description": "Não há dados para a sua seleção"
 }

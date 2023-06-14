@@ -12,20 +12,26 @@ pipelines:
             name: Django automated tests and coverage (using pytest)
             image: python:3.9
             script:
-              - pip install poetry==1.1.14
-              - poetry config virtualenvs.create false
+              - pip install poetry==1.4.2
+              - pip install virtualenv
               - poetry install --no-interaction --no-root
               - export DATABASE_URL=postgres://debug:debug@127.0.0.0:5432/central_database
+              - export POSTGRES_HOST=127.0.0.0
+              - export POSTGRES_PORT=5432
+              - export POSTGRES_DB=central_database
+              - export POSTGRES_USER=debug
+              - export POSTGRES_PASSWORD=debug
               - export USE_DOCKER=no
               - export DJANGO_SETTINGS_MODULE=config.settings.pipeline_test
-              - python central_database/manage.py migrate
-              - pytest --cov --cov-fail-under=80 central_database/
+              - apt-get update && apt-get install -y binutils libproj-dev gdal-bin
+              - poetry run python central_database/manage.py migrate
+              - poetry run pytest --cov --cov-fail-under=80 central_database/
             services:
               - postgres
 definitions:
   services:
     postgres:
-      image: postgres:14
+      image: postgis/postgis:14-3.1
       variables:
         POSTGRES_HOST: "127.0.0.0"
         POSTGRES_PORT: "5432"

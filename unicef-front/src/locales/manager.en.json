@@ -1,10 +1,16 @@
 {
-  "search-map": "search on the map",
+  "search-map": "Search by locations",
   "alerts": "Alerts",
   "population": "Population",
   "patients-delayed": "Patients with delayed doses",
   "details": "Details",
   "district": "District",
   "save": "Save edit",
-  "vaccination-map": "Vaccination coverage map"
+  "vaccination-map": "Map of the vaccination scheme",
+  "search":"Search",
+  "table-view-text":"Table of data of the vacianal scheme",
+  "no-results":"No results",
+  "no-results-description":"There are no results for your search, try with other words or terms",
+  "no-data":"No data",
+  "no-data-description": "There is no data for your selection"
 }

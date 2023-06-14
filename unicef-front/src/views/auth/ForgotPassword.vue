@@ -20,7 +20,7 @@
             v-model="forgotPasswordForm.email"
             required
             autofocus
-            autocomplete="username"
+            autocomplete="email"
           />
         </InputIconWrapper>
       </div>

@@ -1,44 +1,142 @@
 <template>
-  <div class="rounded-xl border border-neutral-100 bg-gray-50 lg:w-[38rem]">
-    <div class="grid grid-cols-6 gap-y-2 p-5">
-      <div>
-        <img src="/avatar.png" class="max-w-20 max-h-20 rounded-full bg-neutral-200 p-1" />
-      </div>
+  <div class="h-[888px] w-72 rounded-full bg-white shadow">
+    <div class="flex justify-center">
+      <img
+        class="-mt-7 h-20 w-20 rounded-full border border-2 border-white bg-white object-cover"
+        src="/avatar.png"
+        alt="Profile picture"
+      />
+    </div>
+    <div class="p-3 pt-14">
+      <p class="text-sm font-semibold capitalize">{{ name }}</p>
+    </div>
+    <ul class="px-3 text-sm text-neutral-500">
+      <li>
+        <span class="font-semibold">{{ $t('patient-details.age') }}</span
+        >: {{ age }}
+      </li>
+      <li>
+        <span class="font-semibold">{{ $t('patient-details.date-of-birth') }}</span
+        >: {{ format(birthDate, 'dd/MM/yyyy') }}
+      </li>
+      <li>
+        <span class="font-semibold">{{ $t('patient-details.gender') }}</span
+        >: {{ gender }}
+      </li>
+      <li>
+        <span class="font-semibold">{{ $t('patient-details.region') }}</span
+        >: {{ region }}
+      </li>
+      <li>
+        <span class="font-semibold">{{ $t('patient-details.document') }}</span
+        >: {{ postalCode }}
+      </li>
 
-      <div class="col-span-5 ml-4 md:col-span-4 tracking-wide">
-        <p class="pr-2 font-bold capitalize text-gray-600">{{ patientsStore.item.name.toLowerCase() }}</p>
-        <div class="text-gray-400">
-          <p>
-            {{ $t('patient-details.genre') }}
-            <span>{{ 'male' == patientsStore.item.gender ? 'Masculino' : 'Feminino' }}</span>
-          </p>
-          <!--
-          <p>
-            Region: <span>{{ patientsStore.item.address[0].city }} / {{ patientsStore.item.address[0].state }}</span>
-          </p>
-          <p>
-            Contact: <span>{{ patientsStore.item.telecom[0].value }}</span>
-          </p>
-          -->
-          <p>
-            {{ $t('patient-details.date-of-birth') }} <span>{{ format(birthDate, 'dd/MM/yyyy') }}</span>
-          </p>
-          <p v-if="patientsStore.item.marital_status && patientsStore.item.marital_status.text">
-            {{ $t('patient-details.civil-status') }} <span>{{ patientsStore.item.marital_status.text }}</span>
-          </p>
-        </div>
-      </div>
-      <div class="col-start-2 ml-4 flex md:col-start-auto md:ml-0 md:justify-end">
-        <p class="h-fit rounded-lg bg-sky-200 py-1 px-3 text-sm font-bold lowercase text-sky-600">
-          {{ formatedAge }}
-        </p>
-      </div>
+      <p v-if="patientsStore.item.marital_status && patientsStore.item.marital_status.text">
+        {{ $t('patient-details.civil-status') }} <span>{{ patientsStore.item.marital_status.text }}</span>
+      </p>
+    </ul>
+    <div class="mt-4">
+      <ul class="divide-y divide-gray-100 text-sm font-semibold">
+        <li class=""></li>
+        <Tooltip>
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-01.png" />
+              </div>
+              <span class="pl-3">Peso, altura, IMC</span>
+            </li>
+          </template>
+          <template #content>
+            <div>Em breve!</div>
+          </template>
+        </Tooltip>
+        <li class="flex cursor-pointer items-center border-r-4 !border-r-blue-500 py-4 pl-4 hover:bg-[#F8F9FB]">
+          <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-02.png" />
+          </div>
+          <span class="pl-3">{{ $t('patient-details.booklet') }}</span>
+        </li>
+        <Tooltip>
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-03.png" />
+              </div>
+              <span
+                data-tooltip-target="tooltip-default"
+                type="button"
+                class="-my-1 rounded-lg text-left text-sm font-medium"
+              >
+                <span class="pl-3">Período fetal</span>
+              </span>
+            </li>
+          </template>
+          <template #content>
+            <div>Em breve!</div>
+          </template>
+        </Tooltip>
+        <Tooltip>
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-04.png" />
+              </div>
+              <span class="pl-3">Alergias</span>
+            </li>
+          </template>
+          <template #content>
+            <div>Em breve!</div>
+          </template>
+        </Tooltip>
+        <Tooltip>
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-05.png" />
+              </div>
+              <span class="pl-3">Medicamentos</span>
+            </li>
+          </template>
+          <template #content>
+            <div>Em breve!</div>
+          </template>
+        </Tooltip>
+        <Tooltip>
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-06.png" />
+              </div>
+              <span class="pl-3">Doenças</span>
+            </li>
+          </template>
+          <template #content>
+            <div>Em breve!</div>
+          </template>
+        </Tooltip>
+        <Tooltip>
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-07.png" />
+              </div>
+              <span class="pl-3">Dados socioculturais</span>
+            </li>
+          </template>
+          <template #content>
+            <div>Em breve!</div>
+          </template>
+        </Tooltip>
+      </ul>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, reactive, computed } from 'vue'
+// import { HeartIcon, BookOpenIcon, UserIcon, EmojiSadIcon, PillIcon, VirusIcon, UsersIcon } from '@heroicons/vue/solid';
+import { ref, onMounted, reactive, computed } from 'vue'
 import InputIconWrapper from '@/components/InputIconWrapper.vue'
 import { MailIcon, LockClosedIcon, LoginIcon, UserIcon } from '@heroicons/vue/outline'
 import axios from 'axios'
@@ -61,6 +159,11 @@ const { t } = useI18n()
 const patientsStore = usePatientsStore()
 const router = useRouter()
 
+const name = ref(patientsStore.item.name.toLowerCase())
+const gender = ref('male' == patientsStore.item.gender ? 'Masculino' : 'Feminino')
+const region = ref(patientsStore.item.address[0].city + ' / ' + patientsStore.item.address[0].state)
+const postalCode = ref(patientsStore.item.address[0].postal_code)
+
 const birthDate = computed(() => parseISO(patientsStore.item.birth_date))
 
 const formatedAge = computed(() => {
@@ -82,6 +185,7 @@ const formatedAge = computed(() => {
   }
   return ageInYears + ' ' + t('patient-details.years')
 })
+const age = ref(formatedAge.value)
 
 const props = defineProps({
   id: {

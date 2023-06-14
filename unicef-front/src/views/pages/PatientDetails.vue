@@ -1,7 +1,7 @@
 <template>
   <PageWrapper>
     <div v-if="patientsStore.item && props.id">
-      <VaccinesList :id="id" />
+      <VaccinesList :id="id" :no-menubar="props.noMenubar" />
     </div>
   </PageWrapper>
 </template>
@@ -27,6 +27,10 @@ const props = defineProps({
   id: {
     type: String,
     default: '1',
+  },
+  noMenubar: {
+    type: Boolean,
+    default: false,
   },
 })
 

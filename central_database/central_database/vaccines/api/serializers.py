@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from central_database.permissions_manager.rest_api.mixins import (
@@ -12,9 +13,7 @@ from central_database.vaccines.models import (
 )
 
 
-class VaccineSerializer(
-    PermissionSerializerMixin, serializers.ModelSerializer
-):  # noqa: E501
+class VaccineSerializer(serializers.ModelSerializer):  # noqa: E501
     class Meta:
         model = Vaccine
         fields = "__all__"
@@ -26,11 +25,15 @@ class VaccineAlertSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class VaccineDosesSerializer(
-    PermissionSerializerMixin, serializers.ModelSerializer
-):  # noqa: E501
+class VaccineStatusSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VaccineStatus
+        fields = ["completed", "application_date"]
+
+
+class VaccineDosesSerializer(serializers.ModelSerializer):  # noqa: E501
     alerts = serializers.SerializerMethodField()
-    is_completed = serializers.SerializerMethodField(method_name="get_status")
+    status = serializers.SerializerMethodField()
 
     class Meta:
         model = VaccineDose
@@ -42,23 +45,21 @@ class VaccineDosesSerializer(
             "dose_order",
             "gender_recommendation",
             "alerts",
-            "is_completed",
+            "status",
         ]
 
+    @extend_schema_field(VaccineAlertSerializer(many=True))
     def get_alerts(self, vaccine_dose_instance):
-        patient_id = self.context.get("patient_id")
-        alerts = vaccine_dose_instance.get_vaccine_alerts(
-            patient_id=patient_id
-        )  # noqa: E501
-        return VaccineAlertSerializer(alerts, many=True).data
+        alerts = getattr(vaccine_dose_instance, "active_alerts", None)
+        if alerts is not None:
+            return VaccineAlertSerializer(alerts, many=True).data
+        return None
 
+    @extend_schema_field(VaccineStatusSerializer(many=False))
     def get_status(self, vaccine_dose_instance):
-        patient_id = self.context.get("patient_id")
-        status = vaccine_dose_instance.get_vaccine_status(
-            patient_id=patient_id
-        ).first()  # noqa: E501
+        status = getattr(vaccine_dose_instance, "patient_status", None)
         if status:
-            return status.completed
+            return VaccineStatusSerializer(status[0]).data
         return None
 
 

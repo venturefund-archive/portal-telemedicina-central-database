@@ -18,7 +18,14 @@ export const useLoggedUserStore = defineStore('loggedUser', () => {
       })
       this.item = response.data
     } catch (err) {
-      errorToast({ text: err.message })
+      state.value.token = null
+      if (err.response && err.response.status === 401 && err.response.status === 500) {
+        errorToast({ text: err.message })
+        throw err
+      } else {
+        errorToast({ text: err.response.data.detail })
+        throw err
+      }
     }
   }
 

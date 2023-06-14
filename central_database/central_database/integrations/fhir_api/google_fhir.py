@@ -1,6 +1,5 @@
 import google.auth
 from fhirclient.client import FHIRClient
-from fhirclient.models.bundle import Bundle
 from fhirclient.server import FHIRServer
 from google.auth.transport import requests as google_requests
 
@@ -27,21 +26,15 @@ class GoogleFHIRClient(FHIRClient):
             self, base_uri=settings["api_base"], custom_session=True
         )
 
-    def fetch_all_pages(self, search):
+    def fetch_page(self, search):
         bundle = search.perform(self.server)
-        while bundle is not None:
-            yield bundle
-            next_link = None
+        next_link = None
+        for link in bundle.link:
+            if link.relation == "next":
+                next_link = link.url
+                break
 
-            for link in bundle.link:
-                if link.relation == "next":
-                    next_link = link.url
-                    break
-
-            if next_link:
-                bundle = Bundle.read_from(next_link, self.server)
-            else:
-                bundle = None
+        return bundle, next_link
 
 
 def server_settings(dataset, fhirstore):

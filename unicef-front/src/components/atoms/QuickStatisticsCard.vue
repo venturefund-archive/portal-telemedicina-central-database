@@ -1,5 +1,5 @@
 <template>
-  <BaseCard :actions="actions" class="flex items-start">
+  <BaseCard :actions="actions" class="flex items-start px-4">
     <template #header>
       <div class="flex pt-1">
         <slot name="icon" :sizeClasses="'w-8 h-8 text-blue-500'"> </slot>
@@ -9,7 +9,7 @@
     <div class="relative overflow-hidden pl-3">
       <div class="flex flex-col justify-between">
         <h4 class="text-3xl font-semibold text-white">{{ result }}</h4>
-        <p class="text-xl font-normal text-white">{{ title }}</p>
+        <p class="w-48 text-xl font-semibold text-white">{{ title }}</p>
       </div>
     </div>
   </BaseCard>

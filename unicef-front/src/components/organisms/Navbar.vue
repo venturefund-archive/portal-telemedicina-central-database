@@ -10,7 +10,7 @@
     ]"
   >
     <div class="flex grow items-center pr-5">
-      <form @submit.prevent="search" class="w-full lg:w-1/2">
+      <form @submit.prevent="search" class="w-full sm:w-96">
         <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900">Procurar</label>
         <InputIconWrapper>
           <template #icon>
@@ -123,6 +123,7 @@ import { useLoggedUserStore } from '@/stores/loggedUser'
 const loggedUserStore = useLoggedUserStore()
 const patientsStore = usePatientsStore()
 
+const items = ref([])
 const queryText = ref('')
 
 const router = useRouter()
@@ -130,14 +131,9 @@ const { isFullscreen, toggle: toggleFullScreen } = useFullscreen()
 
 const logout = async () => {
   const state = useStorage('app-store', { token: '' })
-  try {
-    const response = await axios.post(import.meta.env.VITE_API_URL + '/api/dj-rest-auth/logout/')
-    state.value = null
-    successToast({ text: 'Você saiu com sucesso!' })
-    router.replace({ name: 'Login' })
-  } catch (err) {
-    errorToast({ text: err.message })
-  }
+  state.value.token = null
+  successToast({ text: 'Você saiu com sucesso!' })
+  router.replace({ name: 'Login' })
 }
 
 const filteredResults = computed(() => {
@@ -147,7 +143,7 @@ const filteredResults = computed(() => {
 
   let matches = 0
 
-  return patientsStore.items.filter((patient) => {
+  return items.value.filter((patient) => {
     if (
       (patient.name.toLowerCase().includes(queryText.value.toLowerCase()) ||
         patient.id.toLowerCase().includes(queryText.value.toLowerCase())) &&
@@ -162,7 +158,7 @@ const filteredResults = computed(() => {
 onMounted(async () => {
   document.addEventListener('scroll', handleScroll)
   await loggedUserStore.fetchMe()
-  await patientsStore.searchPatients()
+  items.value = await patientsStore.searchPatients()
 })
 
 onUnmounted(() => {

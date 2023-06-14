@@ -1,5 +1,7 @@
 import threading
+import urllib
 
+from django.urls import reverse
 from fhirclient import client
 from fhirclient.models.patient import Patient
 from rest_framework import status
@@ -78,22 +80,45 @@ class PatientsViewSet(
         except client.FHIRNotFoundException:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
+    def extract_page_token(self, url):
+        parsed_url = urllib.parse.urlparse(url)
+        query_params = urllib.parse.parse_qs(parsed_url.query)
+        return query_params.get("_page_token", [None])[0]
+
     def get_queryset(self):
-        search = Patient.where(struct={})
+        page_token = self.request.query_params.get("page_token", None)
+        client_city = self.request.user.client.city
+        if page_token:
+            search = Patient.where(
+                struct={"address-city": client_city, "_page_token": page_token}
+            )
+        else:
+            search = Patient.where(
+                struct={"address-city": client_city, "_count": "1000"}
+            )
 
         resources = []
-        for bundle in self.fhir_client.fetch_all_pages(search):
-            resources.extend(bundle.entry)
+        queryset_bundle, next_url = self.fhir_client.fetch_page(search)
+        next_page_token = (
+            self.extract_page_token(next_url) if next_url else None
+        )  # noqa: E501
+        if next_page_token:
+            api_next_url = (
+                self.request.build_absolute_uri(reverse("api:patients-list"))
+                + f"?page_token={next_page_token}"
+            )
+        else:
+            api_next_url = None
+        resources.extend(queryset_bundle.entry)
 
-        return [entry.resource for entry in resources]
+        return [entry.resource for entry in resources], api_next_url
 
     def list(self, request):
-        queryset = self.get_queryset()
+        queryset, next_url = self.get_queryset()
         serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        return Response({"results": serializer.data, "next_url": next_url})
 
     def update(self, request, *args, **kwargs):
-        print(request.data)
         partial = kwargs.pop("partial", False)
         instance = self.get_object()
         serializer = self.get_serializer(

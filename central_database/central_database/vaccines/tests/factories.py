@@ -61,6 +61,15 @@ class VaccineStatusFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = VaccineStatus
 
+    @classmethod
+    def _create(cls, target_class, *args, **kwargs):
+        application_date = kwargs.pop("application_date", None)
+        obj = super()._create(target_class, *args, **kwargs)
+        if application_date is not None:
+            obj.application_date = application_date
+            obj.save()
+        return obj
+
 
 class VaccineProtocolFactory(factory.django.DjangoModelFactory):
     class Meta:
@@ -69,10 +78,8 @@ class VaccineProtocolFactory(factory.django.DjangoModelFactory):
     @factory.post_generation
     def vaccine_doses(self, create, extracted, **kwargs):
         if not create:
-            # Simple build, do nothing.
             return
 
         if extracted:
-            # A list of groups were passed in, use them
             for vaccine_dose in extracted:
                 self.vaccine_doses.add(vaccine_dose)

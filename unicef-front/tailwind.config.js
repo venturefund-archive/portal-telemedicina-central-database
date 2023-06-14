@@ -2,7 +2,7 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
   darkMode: 'class',
-  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}', './node_modules/flowbite/**/*.js'],
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}', 'node_modules/flowbite-vue/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -27,6 +27,10 @@ module.exports = {
 
         // ...
       },
+      fontSize: {
+        xl: '1.25rem',
+      },
+
       fontFamily: {
         roboto: ['Roboto', 'sans-serif'],
       },

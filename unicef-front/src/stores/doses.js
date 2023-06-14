@@ -25,6 +25,47 @@ export const useDosesStore = defineStore('doses', () => {
       this.items = response.data
     } catch (err) {
       errorToast({ text: err.message })
+      console.log(err)
+    }
+  }
+
+  async function updateDose(id, data) {
+    return data.active ? await deactivateDose(id, data) : await activateDose(id, data)
+  }
+
+  async function activateDose(id, data) {
+    const state = useStorage('app-store', { token: '' })
+    try {
+      const response = await axios.patch(import.meta.env.VITE_API_URL + `/api/vaccines/alerts/${id}/activate/`, data, {
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `token ${state.value.token}`,
+        },
+      })
+      return response
+    } catch (err) {
+      errorToast({ text: err })
+      console.log(err)
+    }
+  }
+
+  async function deactivateDose(id, data) {
+    const state = useStorage('app-store', { token: '' })
+    try {
+      const response = await axios.patch(
+        import.meta.env.VITE_API_URL + `/api/vaccines/alerts/${id}/deactivate/`,
+        data,
+        {
+          headers: {
+            'Content-type': 'application/json',
+            Authorization: `token ${state.value.token}`,
+          },
+        }
+      )
+      return response
+    } catch (err) {
+      errorToast({ text: err })
+      console.log(err)
     }
   }
 
@@ -32,5 +73,6 @@ export const useDosesStore = defineStore('doses', () => {
     items,
     item,
     fetchDoses,
+    updateDose,
   }
 })

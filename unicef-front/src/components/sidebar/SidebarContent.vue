@@ -2,7 +2,7 @@
   <PerfectScrollbar
     tagname="nav"
     aria-label="main"
-    class="relative flex max-h-full flex-1 flex-row gap-4 px-3 md:flex-col"
+    class="relative flex max-h-full flex-1 flex-row justify-around gap-4 px-3 px-8 sm:flex-col sm:justify-start sm:px-3"
   >
     <SidebarLink :title="$t('dashboard.dashboard')" :to="{ name: 'Dashboard' }" :active="isCurrentRoute('Dashboard')">
       <template #icon>
@@ -11,7 +11,7 @@
     </SidebarLink>
 
     <SidebarLink
-      :title="$t('dashboard.vaccines')"
+      :title="$t('dashboard.patients')"
       class="capitalize"
       :to="{ name: 'PatientDetailsNobody' }"
       :active="isCurrentRoute('PatientDetails') || isCurrentRoute('PatientDetailsNobody')"

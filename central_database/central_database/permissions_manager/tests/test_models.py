@@ -204,5 +204,5 @@ class TestRoleModel(APITestCase):
             Q(user_permissions=permission) | Q(role__permissions=permission)
         )
         self.assertEqual(users_list.count(), 2)
-        self.assertEqual(users_list[0], user)
-        self.assertEqual(users_list[1], user_2)
+        self.assertIn(user, users_list)
+        self.assertIn(user_2, users_list)

@@ -78,7 +78,6 @@
             :placeholder="$t('auth.confirm-password')"
             v-model="registerForm.password2"
             required
-            autocomplete="new-password"
           />
         </InputIconWrapper>
       </div>

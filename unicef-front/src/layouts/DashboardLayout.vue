@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-white text-gray-900">
+  <div class="min-h-screen bg-[#F8F9FB] text-gray-900">
     <div class="hidden sm:block">
       <Sidebar />
     </div>
@@ -18,8 +18,10 @@
 
       <router-view v-slot="{ Component, route }">
         <transition name="fade" mode="out-in">
-          <div :key="route.name">
-            <component :is="Component"></component>
+          <div>
+            <keep-alive>
+              <component :is="Component" :key="route.name" />
+            </keep-alive>
           </div>
         </transition>
       </router-view>
