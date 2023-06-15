@@ -4,19 +4,19 @@
       <thead class="bg-white">
         <tr>
           <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
-            {{$t('manager.group')}}
+            {{ $t('manager.group') }}
           </th>
           <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
-            {{$t('manager.quantity')}}
+            {{ $t('manager.quantity') }}
           </th>
           <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
-            {{$t('manager.team')}}
+            {{ $t('manager.team') }}
           </th>
           <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
-            {{$t('manager.area')}}
+            {{ $t('manager.area') }}
           </th>
           <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
-            {{$t('manager.street')}}
+            {{ $t('manager.street') }}
           </th>
         </tr>
       </thead>
