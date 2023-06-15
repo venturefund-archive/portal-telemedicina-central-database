@@ -13,7 +13,7 @@
     <ul class="px-3 text-sm text-neutral-500">
       <li>
         <span class="font-semibold">{{ $t('patient-details.age') }}</span
-        >: {{ age }}
+        >: {{ formatedAge }}
       </li>
       <li>
         <span class="font-semibold">{{ $t('patient-details.date-of-birth') }}</span
@@ -39,7 +39,7 @@
     <div class="mt-4">
       <ul class="divide-y divide-gray-100 text-sm font-semibold">
         <li class=""></li>
-        <Tooltip  variant="gray" position="right">
+        <Tooltip variant="gray" position="right">
           <template #trigger>
             <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
@@ -58,7 +58,7 @@
           </div>
           <span class="pl-3">{{ $t('patient-details.booklet') }}</span>
         </li>
-        <Tooltip  variant="gray" position="right">
+        <Tooltip variant="gray" position="right">
           <template #trigger>
             <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
@@ -74,10 +74,10 @@
             </li>
           </template>
           <template #content>
-           <div class="flex justify-center"> Em breve novidades!</div>
+            <div class="flex justify-center">Em breve novidades!</div>
           </template>
         </Tooltip>
-        <Tooltip  variant="gray" position="right">
+        <Tooltip variant="gray" position="right">
           <template #trigger>
             <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
@@ -87,10 +87,10 @@
             </li>
           </template>
           <template #content>
-           <div class="flex justify-center"> Em breve novidades!</div>
+            <div class="flex justify-center">Em breve novidades!</div>
           </template>
         </Tooltip>
-        <Tooltip  variant="gray" position="right">
+        <Tooltip variant="gray" position="right">
           <template #trigger>
             <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
@@ -100,10 +100,10 @@
             </li>
           </template>
           <template #content>
-           <div class="flex justify-center"> Em breve novidades!</div>
+            <div class="flex justify-center">Em breve novidades!</div>
           </template>
         </Tooltip>
-        <Tooltip  variant="gray" position="right">
+        <Tooltip variant="gray" position="right">
           <template #trigger>
             <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
@@ -113,10 +113,10 @@
             </li>
           </template>
           <template #content>
-           <div class="flex justify-center"> Em breve novidades!</div>
+            <div class="flex justify-center">Em breve novidades!</div>
           </template>
         </Tooltip>
-        <Tooltip  variant="gray" position="right">
+        <Tooltip variant="gray" position="right">
           <template #trigger>
             <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
@@ -126,7 +126,7 @@
             </li>
           </template>
           <template #content>
-           <div class="flex justify-center"> Em breve novidades!</div>
+            <div class="flex justify-center">Em breve novidades!</div>
           </template>
         </Tooltip>
       </ul>
@@ -160,7 +160,7 @@ const patientsStore = usePatientsStore()
 const router = useRouter()
 
 const name = ref(patientsStore.item.name.toLowerCase())
-const gender = ref('male' == patientsStore.item.gender ? 'Masculino' : 'Feminino')
+const gender =  computed(() =>('male' == patientsStore.item.gender ? t('patient-details.male') : t('patient-details.female')))
 const region = ref(patientsStore.item.address[0].city + ' / ' + patientsStore.item.address[0].state)
 const postalCode = ref(patientsStore.item.address[0].postal_code)
 
@@ -185,7 +185,6 @@ const formatedAge = computed(() => {
   }
   return ageInYears + ' ' + t('patient-details.years')
 })
-const age = ref(formatedAge.value)
 
 const props = defineProps({
   id: {

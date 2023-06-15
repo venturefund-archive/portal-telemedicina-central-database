@@ -56,27 +56,24 @@
             <!-- User List and Alerts -->
             <div class="flex items-center space-x-10">
               <div ref="dropdown" class="relative">
-    <button
-      @click="showList = !showList"
-      class="relative flex flex-col items-center rounded-md py-2 px-4 text-gray-500"
-    >
-      <UsersIcon title="{{ $t('manager.population') }}" class="h-6 w-6 text-green-500" />
-      <span class="text-sm">{{ $t('manager.population') }}</span>
-    </button>
-    <ul
-      v-if="showList"
-      class="absolute z-10 rounded-md bg-white shadow-md w-40"
-    >
-      <li
-        v-for="item in items"
-        :class="{ 'font-bold': item === selectedItem }"
-        class="cursor-pointer py-2 px-4 font-normal hover:bg-gray-100 w-full"
-        :key="item"
-      >
-        {{ item }}
-      </li>
-    </ul>
-  </div>
+                <button
+                  @click="showList = !showList"
+                  class="relative flex flex-col items-center rounded-md py-2 px-4 text-gray-500"
+                >
+                  <UsersIcon title="{{ $t('manager.population') }}" class="h-6 w-6 text-green-500" />
+                  <span class="text-sm">{{ $t('manager.population') }}</span>
+                </button>
+                <ul v-if="showList" class="absolute z-10 w-40 rounded-md bg-white shadow-md">
+                  <li
+                    v-for="item in items"
+                    :class="{ 'font-bold': item === selectedItem }"
+                    class="w-full cursor-pointer py-2 px-4 font-normal hover:bg-gray-100 capitalize"
+                    :key="item"
+                  >
+                    {{ item }}
+                  </li>
+                </ul>
+              </div>
 
               <div v-if="isMapView" class="flex flex-col items-center rounded-md py-2 px-4 text-gray-500">
                 <Switch
@@ -96,7 +93,7 @@
                 <button @click="toggleView" class="flex flex-col items-center">
                   <TableIcon v-if="isMapView" class="h-8 w-9 text-gray-500" />
                   <MapIcon v-else class="h-7 w-10 text-gray-500" />
-                  <span class="text-sm text-gray-500">Visualização</span>
+                  <span class="text-sm text-gray-500">{{$t('manager.visualization') }}</span>
                 </button>
               </div>
             </div>
@@ -142,7 +139,7 @@
                   fillOpacity: 0.5,
                   strokeWeight: 1,
                   clickable: false,
-                  editable: true,
+                  editable: false,
                   zIndex: 1,
                 }"
               />
@@ -528,7 +525,17 @@
 </template>
 
 <script setup>
-import { defineComponent, reactive, computed, onBeforeUpdate, onMounted, watch, ref, onUnmounted,onBeforeUnmount } from 'vue'
+import {
+  defineComponent,
+  reactive,
+  computed,
+  onBeforeUpdate,
+  onMounted,
+  watch,
+  ref,
+  onUnmounted,
+  onBeforeUnmount,
+} from 'vue'
 import { GoogleMap, Marker, CustomMarker, MarkerCluster, InfoWindow, Polygon } from 'vue3-google-map'
 import { useGeolocation } from '@/composables/useGeolocation'
 import { parseISO, formatRelative, formatDuration, add, setDefaultOptions, differenceInMonths, format } from 'date-fns'
@@ -543,7 +550,8 @@ import { useMicroRegionsStore } from '@/stores/microregions'
 import { useStorage } from '@vueuse/core'
 import { Switch } from '@headlessui/vue'
 import { useLoggedUserStore } from '@/stores/loggedUser'
-
+import { useI18n } from 'vue3-i18n'
+const { t } = useI18n()
 const enabled = ref(false)
 
 import RegionForm from '@/components/atoms/RegionForm.vue'
@@ -582,8 +590,8 @@ const props = defineProps({
   },
 })
 
-const showList = ref(false);
-const dropdown = ref(null);
+const showList = ref(false)
+const dropdown = ref(null)
 
 const markerIconNormal = ref({
   url: 'marker.svg',
@@ -618,16 +626,17 @@ const editForm = reactive({
   terms: false,
   processing: false,
 })
-const items = [
-  'Todos',
-  'Gestantes',
-  'Puérperas',
-  'Recém-nascidos',
-  'Primeira infância',
-  'Segunda infância',
-  'Terceira Infância',
-  'Adolescência',
-]
+const items = computed(() => [
+  t('manager.all-group'),
+  t('manager.pragnant-group'),
+  t('manager.puerp-group'),
+  t('manager.newborn-group'),
+  t('manager.firstchild-group'),
+  t('manager.secondchild-group'),
+  t('manager.thirdchild-group'),
+  t('manager.teenager-group'),
+])
+
 const isMapView = ref(true)
 
 const toggleView = () => {
@@ -635,7 +644,7 @@ const toggleView = () => {
 }
 const handleOutsideClick = (event) => {
   if (!dropdown.value.contains(event.target)) {
-    showList.value = false;
+    showList.value = false
   }
 }
 
@@ -644,17 +653,6 @@ function onItemClick(item) {
   console.log(`Item clicado: ${item}`)
 }
 
-// const customPolygons = (key) => {
-//   return {
-//     paths: polygons.value[key].polygon || [],
-//     strokeColor: '#FF0000',
-//     strokeOpacity: 0.8,
-//     strokeWeight: 2,
-//     fillColor: '#FF0000',
-//     fillOpacity: 0.35,
-//     editable: true
-//   }
-// }
 
 const geoCoderQuery = ref(
   loggedUserStore.item.client.city.charAt(0).toUpperCase() + loggedUserStore.item.client.city.slice(1)
@@ -662,8 +660,6 @@ const geoCoderQuery = ref(
 const currentCenter = ref(undefined)
 const showEmptyResult = ref(false)
 const searchAddress = () => {
-  //center.value = { lat: -22.749940, lng: -50.576540 }
-
   geocodeAddress(geoCoder.value, map.value)
 }
 
@@ -781,7 +777,7 @@ watch(
         strokeOpacity: 0.8,
         strokeWeight: 3,
         fillOpacity: 0.35,
-        editable: true,
+        editable: false,
       },
     })
 
@@ -818,7 +814,7 @@ watch(
         fillOpacity: 0.5,
         strokeWeight: 1,
         clickable: false,
-        editable: true,
+        editable: false,
         zIndex: 1,
       })
       googlePolygons.value.push(googlePolygon)
@@ -885,12 +881,12 @@ const polygons = ref([])
 
 onMounted(async () => {
   await patientsStore.fetchPatients()
-  document.addEventListener('click', handleOutsideClick);
+  document.addEventListener('click', handleOutsideClick)
 })
 
 onBeforeUnmount(() => {
-  document.removeEventListener('click', handleOutsideClick);
-});
+  document.removeEventListener('click', handleOutsideClick)
+})
 
 const markers = ref([])
 onBeforeUpdate(() => {

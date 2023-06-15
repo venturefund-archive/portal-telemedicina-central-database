@@ -41,7 +41,9 @@
   "silenced-dose":"Dose em alerta silenciado",
   "recommended-dose":"Dose recomendada",
   "silenced-alert": "Alerta silenciado",
-  "not-applyed":"Não aplicada"
+  "not-applyed":"Não aplicada",
+  "male":"Masculino",
+  "female":"Feminino"
 
 
 }

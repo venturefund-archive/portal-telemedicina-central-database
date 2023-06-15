@@ -251,15 +251,15 @@
                   v-for="(vaccine, k) in orderedVaccinesByDoseAlerts"
                   :key="k"
                 >
-                  <td colspan="2" class="relative rounded-l-full bg-[#F1F1F1] py-1 px-5 text-sm cursor-default">
-                    <Tooltip  variant="blue" position="default">
+                  <td colspan="2" class="relative cursor-default rounded-l-full bg-[#F1F1F1] py-1 px-5 text-sm">
+                    <Tooltip variant="blue" position="default">
                       <template #trigger>
                         <span
                           data-tooltip-target="tooltip-default"
                           type="button"
-                          class="flex -my-1 rounded-lg text-left text-sm font-medium"
+                          class="-my-1 flex rounded-lg text-left text-sm font-medium"
                         >
-                          <p class="truncate2 -mb-1.5 p-0 text-sm flex w-20">{{ vaccine.display }}</p>
+                          <p class="truncate2 -mb-1.5 flex w-20 p-0 text-sm">{{ vaccine.display }}</p>
                         </span>
                       </template>
                       <template #content>
