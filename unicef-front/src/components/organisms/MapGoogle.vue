@@ -425,11 +425,11 @@
                         <div id="bodyContent" class="h-auto w-96 p-1">
                           <div class="flex flex-col justify-between rounded-2xl bg-white p-5">
                             <div class="py-3">
-                              <router-link v-if="marker" :to="{ name: 'PatientDetails', params: { id: marker.id } }">
+                              <div v-if="marker">
                                 <p class="text-xl font-semibold capitalize">
                                   {{ marker && marker.name.toLowerCase() }}
                                 </p>
-                              </router-link>
+                              </div>
                               <p class="text-xs text-gray-500">ID: {{ marker.id }}</p>
                             </div>
                             <hr class="border-1 border border-dotted border-gray-300" />

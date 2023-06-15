@@ -14,7 +14,7 @@
             :patientCursor="patientCursor"
           />
         </div>
-        <div class="m-3 h-[59rem] md:w-1/3">
+        <div class="m-3 md:w-1/3">
           <PatientListCard
             :patients="filteredMarkers"
             :onlyAlerts="onlyAlerts"
@@ -76,7 +76,7 @@ watch(filteredMarkers, (newMarkers, oldMarkers) => {
   if (!geoCoder.value) {
     return
   }
-  filteredMarkers.value.slice(0, 9).map((patient, k) => {
+  filteredMarkers.value.slice(0, 10).map((patient, k) => {
     geoCoder.value.geocode(
       { location: { lat: patient.address.latitude, lng: patient.address.longitude } },
       function (results, status) {

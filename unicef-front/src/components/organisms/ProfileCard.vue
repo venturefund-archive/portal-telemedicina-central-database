@@ -45,11 +45,11 @@
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
                 <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-01.png" />
               </div>
-              <span class="pl-3">Peso, altura, IMC</span>
+              <span class="pl-3">{{ $t('patient-details.imc')}}</span>
             </li>
           </template>
           <template #content>
-            <div class="flex">em breve novidades!</div>
+            <div class="flex">{{ $t('patient-details.comming-soon')}}</div>
           </template>
         </Tooltip>
         <li class="flex cursor-pointer items-center border-r-4 !border-r-blue-500 py-4 pl-4 hover:bg-[#F8F9FB]">
@@ -69,12 +69,12 @@
                 type="button"
                 class="-my-1 rounded-lg text-left text-sm font-normal"
               >
-                <span class="pl-3">Período fetal</span>
+                <span class="pl-3">{{ $t('patient-details.fetal-period')}}</span>
               </span>
             </li>
           </template>
           <template #content>
-            <div class="flex justify-center">Em breve novidades!</div>
+            <div class="flex justify-center">{{ $t('patient-details.comming-soon')}}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
@@ -83,11 +83,11 @@
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
                 <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-04.png" />
               </div>
-              <span class="pl-3">Alergias</span>
+              <span class="pl-3">{{ $t('patient-details.allergie')}}</span>
             </li>
           </template>
           <template #content>
-            <div class="flex justify-center">Em breve novidades!</div>
+            <div class="flex justify-center">{{ $t('patient-details.comming-soon')}}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
@@ -96,11 +96,11 @@
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
                 <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-05.png" />
               </div>
-              <span class="pl-3">Medicamentos</span>
+              <span class="pl-3">{{ $t('patient-details.medication')}}</span>
             </li>
           </template>
           <template #content>
-            <div class="flex justify-center">Em breve novidades!</div>
+            <div class="flex justify-center">{{ $t('patient-details.comming-soon')}}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
@@ -109,24 +109,24 @@
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
                 <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-06.png" />
               </div>
-              <span class="pl-3">Doenças</span>
+              <span class="pl-3">{{ $t('patient-details.desease')}}</span>
             </li>
           </template>
           <template #content>
-            <div class="flex justify-center">Em breve novidades!</div>
+            <div class="flex justify-center">{{ $t('patient-details.comming-soon')}}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
           <template #trigger>
-            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50 rounded rounded-b-full">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
                 <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-07.png" />
               </div>
-              <span class="pl-3">Dados socioculturais</span>
+              <span class="pl-3">{{ $t('patient-details.social-data')}}</span>
             </li>
           </template>
           <template #content>
-            <div class="flex justify-center">Em breve novidades!</div>
+            <div class="flex justify-center">{{ $t('patient-details.comming-soon')}}</div>
           </template>
         </Tooltip>
       </ul>

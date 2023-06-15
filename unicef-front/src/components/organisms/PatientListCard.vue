@@ -1,13 +1,14 @@
 <template>
-  <div class="flex h-full flex-col">
-    <p class="mb-4 text-xl font-semibold text-gray-700">{{ $t('manager.patients-delayed') }}</p>
+<div class="flex flex-col">
+  <p class="mb-4 text-xl font-semibold text-gray-700">{{ $t('manager.patients-delayed') }}</p>
 
     <div
-      class="border-1 float-right flex h-full w-full flex-col justify-between rounded-2xl border border-gray-200 bg-white p-4"
+      class="min-h-[900px] border-1 float-right flex w-full flex-col rounded-2xl border border-gray-200 bg-white p-4"
     >
       <!-- List contents here -->
-      <BaseCard class="px-1" @update:query="handleMarkerChange">
-        <div class="-mt-10 flex hidden pb-10">
+      <div class="flex flex-col flex-grow">
+        <BaseCard class="flex-grow px-1" @update:query="handleMarkerChange">
+          <div class="-mt-10 flex hidden pb-10">
           <button
             class="border-1 rounded-l-md border border-gray-300 py-2 px-4 text-sm hover:text-green-500"
             :class="{
@@ -68,7 +69,7 @@
         </div>
         <div
           v-else
-          class="flex items-center justify-between border-b border-gray-200 px-2 pb-1 pt-4 hover:rounded hover:bg-gray-100"
+          class="flex items-center justify-between border-b border-gray-200 px-2 py-1 mt-2 hover:rounded hover:bg-gray-100"
           v-for="(patient, index) in paginated"
           :key="index"
         >
@@ -84,7 +85,7 @@
                 {{ patient.name.toLowerCase() }}
               </p>
 
-              <span class="text-sm text-gray-500"> {{ patient.address.formatted_address }} </span>
+              <span class="text-xs text-gray-500"> {{ patient.address.formatted_address }} </span>
             </div>
           </div>
           <div>
@@ -108,10 +109,9 @@
         </div>
       </BaseCard>
 
-      <div class="py-5" v-if="paginated">
-        <!-- Pagination contents here -->
-        <div class="flex justify-between p-4" v-if="0 != totalPages">
-          <!-- Pagination contents here -->
+        <!-- Moved pagination inside bg-red-500 div -->
+        <div class="flex" v-if="paginated">
+        <div class="flex justify-between w-full p-4" v-if="0 != totalPages">
           <div>
             <Button
               :disabled="isFirstPage"
@@ -135,7 +135,6 @@
               <span class="font-semibold">{{ patients.length }}</span> {{ $t('dashboard.patients') }}</span
             >
           </div>
-
           <div>
             <Button
               :disabled="isLastPage"
@@ -152,7 +151,9 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
+
 
 <script setup>
 import {
@@ -181,7 +182,7 @@ const patientsStore = usePatientsStore()
 const mode = ref('cpfs')
 const patientQuery = ref('')
 const current = ref(1)
-const pageSize = ref(9)
+const pageSize = ref(10)
 const isLastPage = computed(() => current.value + 1 >= totalPages.value + 1)
 const isFirstPage = computed(() => current.value == 1)
 const indexStart = computed(() => (current.value - 1) * pageSize.value)

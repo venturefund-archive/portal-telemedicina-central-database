@@ -25,7 +25,7 @@
                 <button
                   type="button"
                   @click="closeModal"
-                  class="rounded bg-white p-1.5 text-sm text-gray-500 hover:text-green-500"
+                  class="p-1.5 text-sm text-gray-500 hover:text-green-500"
                 >
                   <XIcon @click="closeModal" class="flex h-6 w-6 justify-end" />
                 </button>
