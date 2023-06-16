@@ -4,13 +4,26 @@ from django.contrib.gis.geos import Polygon
 from central_database.customers.models import (  # noqa: E501
     Client,
     HealthProfessional,
+    Dataset,
+    FhirStore,
     MicroRegion,
 )
 
 
+class DatasetFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Dataset
+
+
+class FhirStoreFactory(factory.django.DjangoModelFactory):
+    dataset = factory.SubFactory(DatasetFactory)
+
+    class Meta:
+        model = FhirStore
+
+
 class ClientFactory(factory.django.DjangoModelFactory):
-    dataset_id = factory.Faker("pystr")
-    fhir_store_id = factory.Faker("pystr")
+    fhir_store = factory.SubFactory(FhirStoreFactory)
     client_name = factory.Faker("pystr")
     city = factory.Faker("pystr")
 

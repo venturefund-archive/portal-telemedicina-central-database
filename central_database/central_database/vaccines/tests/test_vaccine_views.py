@@ -124,14 +124,17 @@ class VaccineAlertsCountTestCase(APITestCase):
         self.vaccine_alert_type = VaccineAlertTypeFactory()
         self.vaccine_alert_1 = VaccineAlertFactory(
             vaccine_dose=self.vaccine_dose_1,
+            fhir_store=self.user.client.fhir_store,
             alert_type=self.vaccine_alert_type,  # noqa: E501
         )
         self.vaccine_alert_2 = VaccineAlertFactory(
             vaccine_dose=self.vaccine_dose_2,
+            fhir_store=self.user.client.fhir_store,
             alert_type=self.vaccine_alert_type,  # noqa: E501
         )
         self.vaccine_alert_3 = VaccineAlertFactory(
             vaccine_dose=self.vaccine_dose_2,
+            fhir_store=self.user.client.fhir_store,
             alert_type=self.vaccine_alert_type,  # noqa: E501
         )
         self.vaccine_alert_4 = VaccineAlertFactory(
@@ -140,7 +143,8 @@ class VaccineAlertsCountTestCase(APITestCase):
         )
 
         self.protocol = VaccineProtocolFactory(
-            vaccine_doses=[self.vaccine_dose_1, self.vaccine_dose_2]
+            vaccine_doses=[self.vaccine_dose_1, self.vaccine_dose_2],
+            client=self.user.client,
         )
 
     def test_retrieve_alerts_count(self):
@@ -151,7 +155,7 @@ class VaccineAlertsCountTestCase(APITestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        print(response.data)
+
         self.assertEqual(
             response.data,
             {

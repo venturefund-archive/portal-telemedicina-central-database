@@ -69,7 +69,9 @@ class PatientsViewSet(
         return request
 
     def _get_fhir_client(self, client):
-        settings = server_settings(client.dataset_id, client.fhir_store_id)
+        settings = server_settings(
+            client.fhir_store.dataset, client.fhir_store.fhir_store_id
+        )
         return self.fhir_client_class(settings=settings)
 
     def get_object(self):

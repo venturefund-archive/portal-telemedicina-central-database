@@ -3,6 +3,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from rest_framework.test import APITestCase
 
+from central_database.users.tests.factories import UserFactory
 from central_database.vaccines.api.serializers import (
     VaccineDosesSerializer,
     VaccineProtocolSerializer,
@@ -145,6 +146,9 @@ class TestVaccineDoseSerializer(APITestCase):
 
 
 class TestVaccineProtocolSerializer(APITestCase):
+    def setUp(self):
+        self.user = UserFactory()
+
     def test_it_serializes_vaccine_protocol_with_metrics(self):
         self.vaccine_dose_1 = VaccineDoseFactory(
             minimum_recommended_age=1,
@@ -166,23 +170,28 @@ class TestVaccineProtocolSerializer(APITestCase):
         self.vaccine_alert_type = VaccineAlertTypeFactory()
         self.vaccine_alert_1 = VaccineAlertFactory(
             vaccine_dose=self.vaccine_dose_1,
+            fhir_store=self.user.client.fhir_store,
             alert_type=self.vaccine_alert_type,  # noqa: E501
         )
         self.vaccine_alert_2 = VaccineAlertFactory(
             vaccine_dose=self.vaccine_dose_2,
+            fhir_store=self.user.client.fhir_store,
             alert_type=self.vaccine_alert_type,  # noqa: E501
         )
         self.vaccine_alert_3 = VaccineAlertFactory(
             vaccine_dose=self.vaccine_dose_2,
+            fhir_store=self.user.client.fhir_store,
             alert_type=self.vaccine_alert_type,  # noqa: E501
         )
         self.vaccine_alert_4 = VaccineAlertFactory(
             vaccine_dose=self.vaccine_dose_3,
+            fhir_store=self.user.client.fhir_store,
             alert_type=self.vaccine_alert_type,  # noqa: E501
         )
 
         self.protocol = VaccineProtocolFactory(
-            vaccine_doses=[self.vaccine_dose_1, self.vaccine_dose_2]
+            vaccine_doses=[self.vaccine_dose_1, self.vaccine_dose_2],
+            client=self.user.client,
         )
 
         serialized_vaccine_protocol = VaccineProtocolSerializer(
