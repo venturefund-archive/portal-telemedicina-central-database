@@ -52,8 +52,10 @@ class PatientListSerializer(ListSerializer):
     def to_representation(self, data):
         instances = super().to_representation(data)
         keys_to_remove = ["telecom", "gender", "marital_status"]
-
-        protocol = VaccineProtocol.get_vaccine_protocol_by_client()
+        client = self.context.get("request").user.client
+        protocol = VaccineProtocol.get_vaccine_protocol_by_client(
+            client_id=client
+        )  # noqa: E501
         alerts = protocol.get_number_of_doses_with_alerts_by_patient()
 
         patient_ids = [instance["id"] for instance in instances]

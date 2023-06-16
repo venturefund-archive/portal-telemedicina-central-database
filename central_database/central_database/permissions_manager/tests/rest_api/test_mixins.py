@@ -44,7 +44,7 @@ class TestPermissionSerializerMixin(APITestCase):
             "vaccineprotocol.test_permission_3", self.user
         )  # noqa: E501
 
-        vaccine_protocol = VaccineProtocolFactory()
+        vaccine_protocol = VaccineProtocolFactory(client=self.user.client)
 
         request_mock = MagicMock()
         request_mock.user = self.user

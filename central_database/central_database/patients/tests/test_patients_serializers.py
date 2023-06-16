@@ -1,8 +1,11 @@
+from unittest.mock import MagicMock
+
 from rest_framework.test import APITestCase
 
 from central_database.patients.api.serializers import PatientSerializer
 from central_database.patients.helpers import calculate_age_in_days
 from central_database.patients.tests.factories import PatientFactory
+from central_database.users.tests.factories import UserFactory
 from central_database.vaccines.models import VaccineAlert
 from central_database.vaccines.tests.factories import (
     VaccineAlertFactory,
@@ -13,6 +16,9 @@ from central_database.vaccines.tests.factories import (
 
 
 class TestPatientSerializer(APITestCase):
+    def setUp(self):
+        self.user = UserFactory()
+
     def test_it_serializes_all_fields_for_patient(self):
         patient = PatientFactory()
 
@@ -67,17 +73,26 @@ class TestPatientSerializer(APITestCase):
         self.vaccine_alert_1 = VaccineAlertFactory(
             patient_id=patient_1.id,
             vaccine_dose=vaccine_doses[0],
+            fhir_store=self.user.client.fhir_store,
             alert_type=self.vaccine_alert_type,  # noqa: E501
         )
         self.vaccine_alert_2 = VaccineAlertFactory(
             patient_id=patient_2.id,
             vaccine_dose=vaccine_doses[1],
+            fhir_store=self.user.client.fhir_store,
             alert_type=self.vaccine_alert_type,  # noqa: E501
         )
 
-        self.protocol = VaccineProtocolFactory(vaccine_doses=vaccine_doses)
+        self.protocol = VaccineProtocolFactory(
+            vaccine_doses=vaccine_doses, client=self.user.client
+        )
 
-        serialized_patients_list = PatientSerializer(resources, many=True).data
+        request_mock = MagicMock()
+        request_mock.user = self.user
+        serializer = PatientSerializer(
+            resources, many=True, context={"request": request_mock}
+        )
+        serialized_patients_list = serializer.data
 
         patient_id_dict = {patient.id: patient for patient in resources}
 

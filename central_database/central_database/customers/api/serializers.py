@@ -4,13 +4,23 @@ from rest_framework import serializers
 from rest_framework_gis import serializers as gis_serializers
 from rest_framework_gis.fields import GeometryField
 
-from central_database.customers.models import Client, MicroRegion
+from central_database.customers.models import (  # noqa: E501
+    Client,
+    HealthProfessional,
+    MicroRegion,
+)
 
 
 class ClientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Client
         fields = ["client_name", "city"]
+
+
+class HealthProfessionalSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HealthProfessional
+        fields = "__all__"
 
 
 class MicroRegionSerializer(gis_serializers.GeoFeatureModelSerializer):
