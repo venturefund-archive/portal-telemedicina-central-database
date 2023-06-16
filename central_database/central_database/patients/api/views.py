@@ -92,7 +92,11 @@ class PatientsViewSet(
         client_city = self.request.user.client.city
         if page_token:
             search = Patient.where(
-                struct={"address-city": client_city, "_page_token": page_token}
+                struct={
+                    "address-city": client_city,
+                    "_page_token": page_token,
+                    "_count": "1000",
+                }
             )
         else:
             search = Patient.where(
