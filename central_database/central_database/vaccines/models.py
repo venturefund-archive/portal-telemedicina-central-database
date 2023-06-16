@@ -5,7 +5,11 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 from central_database.base_models import Alert, AlertType, CDModel
-from central_database.customers.models import Client, FhirStore, HealthProfessional
+from central_database.customers.models import (  # noqa: E501
+    Client,
+    FhirStore,
+    HealthProfessional,
+)
 
 
 class Vaccine(CDModel, models.Model):
@@ -210,7 +214,7 @@ class VaccineStatus(CDModel, models.Model):
     )  # noqa: E501
 
     fhir_store = models.ForeignKey(
-        FhirStore, on_delete=models.PROTECT, null=True
+        FhirStore, on_delete=models.PROTECT, null=True, blank=True
     )  # noqa: E501
 
     completed = models.BooleanField(default=False)
@@ -244,7 +248,7 @@ class VaccineAlert(Alert, models.Model):
     )  # noqa: E501
 
     fhir_store = models.ForeignKey(
-        FhirStore, on_delete=models.PROTECT, null=True
+        FhirStore, on_delete=models.PROTECT, null=True, blank=True
     )  # noqa: E501
 
     alert_type = models.ForeignKey(
