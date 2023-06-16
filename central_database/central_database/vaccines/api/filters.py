@@ -1,6 +1,6 @@
 from django_filters import rest_framework as filters
 
-from central_database.vaccines.models import Vaccine
+from central_database.vaccines.models import Vaccine, VaccineDose
 
 
 class VaccineFilterSet(filters.FilterSet):
@@ -9,3 +9,9 @@ class VaccineFilterSet(filters.FilterSet):
     class Meta:
         model = Vaccine
         fields = ["system"]
+
+
+class VaccineDoseFilterSet(filters.FilterSet):
+    class Meta:
+        model = VaccineDose
+        fields = ["vaccine"]

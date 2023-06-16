@@ -4,6 +4,8 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
 from rest_framework.decorators import action
 from rest_framework.mixins import (  # noqa: E501
+    CreateModelMixin,
+    DestroyModelMixin,
     ListModelMixin,
     RetrieveModelMixin,
     UpdateModelMixin,
@@ -15,12 +17,16 @@ from rest_framework.viewsets import GenericViewSet
 from central_database.permissions_manager.rest_api.permission_classes import (
     permission_class_assembler,
 )
-from central_database.vaccines.api.filters import VaccineFilterSet
+from central_database.vaccines.api.filters import (  # noqa: E501
+    VaccineDoseFilterSet,
+    VaccineFilterSet,
+)
 from central_database.vaccines.api.serializers import (
     VaccineAlertSerializer,
     VaccineDosesSerializer,
     VaccineProtocolSerializer,
     VaccineSerializer,
+    VaccineStatusSerializer,
 )
 from central_database.vaccines.models import (  # noqa: E501
     Vaccine,
@@ -33,6 +39,8 @@ from central_database.vaccines.models import (  # noqa: E501
 
 class VaccineDosesViewSet(GenericViewSet, ListModelMixin, RetrieveModelMixin):
 
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = VaccineDoseFilterSet
     serializer_class = VaccineDosesSerializer
     permission_classes = [
         IsAuthenticated,
@@ -129,3 +137,30 @@ class VaccineAlertViewSet(GenericViewSet, UpdateModelMixin):
         alert.save()
         serializer = self.get_serializer(alert)
         return Response(serializer.data)
+
+
+class VaccineStatusViewSet(
+    GenericViewSet,
+    RetrieveModelMixin,
+    CreateModelMixin,
+    UpdateModelMixin,
+    DestroyModelMixin,
+):
+
+    serializer_class = VaccineStatusSerializer
+    permission_classes = [
+        IsAuthenticated,
+        permission_class_assembler(
+            permissions_to_check={
+                "create": ["vaccines.add_vaccinestatus"],
+                "list": ["vaccines.view_vaccinestatus"],
+                "retrieve": ["vaccines.view_vaccinestatus"],
+                "update": ["vaccines.change_vaccinestatus"],
+                "partial_update": ["vaccines.change_vaccinestatus"],
+                "destroy": ["vaccines.delete_vaccinestatus"],
+            }
+        ),
+    ]
+
+    def get_queryset(self):
+        return VaccineStatus.objects.all()

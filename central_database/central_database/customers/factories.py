@@ -1,7 +1,11 @@
 import factory.fuzzy
 from django.contrib.gis.geos import Polygon
 
-from central_database.customers.models import Client, MicroRegion
+from central_database.customers.models import (  # noqa: E501
+    Client,
+    HealthProfessional,
+    MicroRegion,
+)
 
 
 class ClientFactory(factory.django.DjangoModelFactory):
@@ -21,3 +25,13 @@ class MicroRegionFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = MicroRegion
+
+
+class HealthProfessionalFactory(factory.django.DjangoModelFactory):
+    name = factory.Faker("pystr")
+    cns_number = factory.Faker("pystr", max_chars=16)
+    cnes_number = factory.Faker("pystr", max_chars=16)
+    client = factory.SubFactory(ClientFactory)
+
+    class Meta:
+        model = HealthProfessional
