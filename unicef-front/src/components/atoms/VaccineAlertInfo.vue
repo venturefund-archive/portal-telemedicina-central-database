@@ -7,7 +7,7 @@
             <CheckCircleIcon class="h-8 w-8 rounded-full bg-lime-600 text-white" v-if="isCompleted" />
             <ExclamationCircleIcon class="h-8 w-8 rounded-full bg-red-500 text-white" v-else-if="hasAlerts && active" />
             <VolumeOffIcon class="h-8 w-8 rounded-full bg-red-500 p-1 text-white" v-else-if="hasAlerts && !active" />
-            <LightBulbIcon class="h-9 w-9 rounded-full bg-blue-300 p-1 text-white" v-else></LightBulbIcon>
+            <LightBulbIcon class="h-9 w-9 rounded-full bg-blue-300 p-1 text-white" v-else />
           </div>
           <div class="flex items-center p-2">
             <div>
@@ -33,11 +33,10 @@
               id="vaccine"
               type="text"
               :value="props.vaccine.description"
-              class="block w-auto rounded-full border-none bg-gray-100 py-2 px-4"
+              class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
               readonly
             />
           </div>
-
           <div>
             <label for="recommended" class="block p-2 text-sm font-medium text-gray-700">{{
               $t('patient-details.recommended')
@@ -46,34 +45,91 @@
               id="recommended"
               type="text"
               :value="formatDuration({ months: props.dose.maximum_recommended_age })"
-              class="block w-auto rounded-full border-none bg-gray-100 py-2 px-4"
+              class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
               readonly
             />
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-2 gap-4" v-if="props.dose.status && props.dose.status.completed">
           <div>
-            <label for="gender" class="block p-2 text-sm font-medium text-gray-700">{{
-              $t('patient-details.gender')
-            }}</label>
+            <label for="gender" class="block p-2 text-sm font-medium text-gray-700">Profissional</label>
             <input
               id="gender"
               type="text"
-              :value="props.dose.gender_recommendation"
-              class="block w-auto rounded-full border-none bg-gray-100 py-2 px-4"
+              :value="
+                props.dose.status.health_professional.name == null
+                  ? 'Desconhecido'
+                  : props.dose.status.health_professional.name
+              "
+              class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
               readonly
             />
           </div>
 
-          <div v-if="props.dose.status && props.dose.status.completed">
-            <label for="gender" class="block py-2 px-4 text-sm font-medium text-gray-700">{{
+          <div>
+            <label for="cns_number" class="block py-2 px-4 text-sm font-medium text-gray-700"> csn </label>
+            <input
+              id="cns_number"
+              type="text"
+              :value="
+                props.dose?.status?.health_professional?.cns_number == null
+                  ? 'Desconhecido'
+                  : props.dose?.status?.health_professional?.cns_number
+              "
+              class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
+              readonly
+            />
+          </div>
+
+          <div>
+            <label for="cnes_number" class="block py-2 px-4 text-sm font-medium text-gray-700"> cnes </label>
+            <input
+              id="cnes_number"
+              type="text"
+              :value="
+                props.dose?.status?.health_professional?.cnes_number == null
+                  ? 'Desconhecido'
+                  : props.dose?.status?.health_professional?.cnes_number
+              "
+              class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
+              readonly
+            />
+          </div>
+
+          <div>
+            <label for="batch" class="block p-2 text-sm font-medium text-gray-700">batch</label>
+            <input
+              id="batch"
+              type="text"
+              :value="props.dose.status.batch"
+              class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
+              readonly
+            />
+          </div>
+          <pre>{{ props.dose.status }}</pre>
+          <div>
+            <label for="next-data-application" class="block py-2 px-4 text-sm font-medium text-gray-700">
+              proxima aplicação:
+            </label>
+            <input
+              id="next-data-application"
+              type="text"
+              :value="format(nextDoseApplicationDate, 'dd/MM/yyyy')"
+              class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
+              readonly
+            />
+          </div>
+
+          <div>
+            <label for="data-application" class="block py-2 px-4 text-sm font-medium text-gray-700">{{
               $t('patient-details.dose-application-date')
             }}</label>
             <input
+              id="data-application"
               type="text"
               :value="format(doseApplicationDate, 'dd/MM/yyyy')"
-              class="mb-2 w-auto rounded-full border-none bg-gray-100 py-2 px-4"
+              class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
               readonly
             />
           </div>
@@ -96,12 +152,13 @@
           }}</span>
         </button>
       </div>
+
       <div class="font-normal" v-if="props.dose.alerts.length > 0">
         <div>
           <div v-for="(alert, k) in props.dose.alerts" :key="k">
             <span class="flex justify-end text-sm text-gray-500">
-              {{ $t('patient-details.registred') }} {{ formatRelative(parseISO(alert.created_at), new Date()) }}</span
-            >
+              {{ $t('patient-details.registred') }} {{ formatRelative(parseISO(alert.created_at), new Date()) }}
+            </span>
           </div>
         </div>
       </div>
@@ -128,6 +185,7 @@ const patientsStore = usePatientsStore()
 const birthDate = computed(() => parseISO(patientsStore.item.birth_date))
 
 const doseApplicationDate = computed(() => parseISO(props.dose.status.application_date))
+const nextDoseApplicationDate = computed(() => parseISO(props.dose.status.next_dose_application_date))
 
 const recommendedDate = ref(add(birthDate.value, { months: props.dose.maximum_recommended_age }))
 const isCompleted = computed(() => props.dose.status && props.dose.status.completed)

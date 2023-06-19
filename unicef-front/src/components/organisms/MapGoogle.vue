@@ -882,7 +882,6 @@ const geocodeAddress = (geoCoder, resultsMap) => {
 const polygons = ref([])
 
 onMounted(async () => {
-  await patientsStore.fetchPatients()
   document.addEventListener('click', handleOutsideClick)
 })
 

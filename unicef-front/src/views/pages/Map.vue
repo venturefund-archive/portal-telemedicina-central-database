@@ -20,6 +20,7 @@
             :onlyAlerts="onlyAlerts"
             @centralize-on-location="updateCenterInView"
           />
+          <span v-if="isLoading">Carregando mais registros</span>
         </div>
       </div>
     </div>
@@ -65,8 +66,10 @@ const onlyAlerts = ref(undefined)
 const filteredMarkers = ref([])
 
 onMounted(async () => {
+  isLoading.value = true
   await patientsStore.fetchPatients()
   markers.value = filteredMarkers.value = patientsStore.items
+  await fetchPaginatedPatients()
 })
 const geoCoder = ref(null)
 const handleGeoCoderReady = (geoCoder2) => {
@@ -91,6 +94,13 @@ watch(filteredMarkers, (newMarkers, oldMarkers) => {
   })
 })
 
+const isLoading = ref(false)
+const fetchPaginatedPatients = async () => {
+  await patientsStore.fetchPatientsRecursive()
+  markers.value = filteredMarkers.value = patientsStore.items
+  isLoading.value = false
+}
+
 const currentCenter = ref(undefined)
 const currentZoom = ref(16)
 
@@ -111,7 +121,11 @@ const updateOnlyAlerts = (newOnlyAlerts) => {
 }
 
 const handleMarkerDrag = ({ patientId, latitude, longitude }) => {
-  markers.value.find((p) => patientId == p.id).address.latitude = latitude
-  markers.value.find((p) => patientId == p.id).address.longitude = longitude
+  const patient = markers.value.find((p) => patientId === p.id)
+
+  if (patient && patient.address) {
+    patient.address.latitude = latitude
+    patient.address.longitude = longitude
+  }
 }
 </script>

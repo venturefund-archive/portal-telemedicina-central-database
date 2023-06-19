@@ -7,30 +7,61 @@ import { errorToast } from '@/toast'
 export const usePatientsStore = defineStore('patients', () => {
   const items = ref([])
   const item = ref(null)
+  const next_url = ref(null)
   const isLoading = ref(false)
   const state = useStorage('app-store', { token: '' })
 
   async function searchPatients() {
     return await fetchPatients()
   }
-
   const fetchPatients = async () => {
     try {
       isLoading.value = true
+
+      // Chamar a função auxiliar com a URL inicial
       const response = await axios.get(import.meta.env.VITE_API_URL + '/api/patients/', {
         headers: {
           'Content-type': 'application/json',
           Authorization: `token ${state.value.token}`,
         },
       })
-      items.value = response.data.results
       isLoading.value = false
+      next_url.value = response.data.next_url
+      items.value = response.data.results
     } catch (err) {
       isLoading.value = false
       console.log(err)
       err.response && errorToast({ text: err.response.data.detail })
     }
+
     return items.value
+  }
+
+  const fetchPatientsRecursive = async (nextUrl) => {
+    try {
+      isLoading.value = false
+      const response = await axios.get(!nextUrl ? next_url.value : nextUrl, {
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `token ${state.value.token}`,
+        },
+      })
+
+      next_url.value = response.data.next_url
+      items.value.push(...response.data.results)
+      console.log(items.value.length)
+
+      // Verificar se existe um next_url e, em caso afirmativo, chamar recursivamente a função auxiliar
+      if (next_url.value) {
+        // shouldStop.value = true
+        return await fetchPatientsRecursive(next_url.value)
+      }
+      return response.data.results
+    } catch (err) {
+      isLoading.value = false
+      console.log(err)
+      err.response && errorToast({ text: err.response.data.detail })
+    }
   }
 
   async function fetchPatient(id) {
@@ -73,6 +104,7 @@ export const usePatientsStore = defineStore('patients', () => {
     isLoading,
     searchPatients,
     fetchPatients,
+    fetchPatientsRecursive,
     fetchPatient,
     movePatient,
   }
