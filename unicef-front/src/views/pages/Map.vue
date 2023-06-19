@@ -79,7 +79,7 @@ watch(filteredMarkers, (newMarkers, oldMarkers) => {
   if (!geoCoder.value) {
     return
   }
-  filteredMarkers.value.slice(0, 10).map((patient, k) => {
+  filteredMarkers.value.map((patient, k) => {
     geoCoder.value.geocode(
       { location: { lat: patient.address.latitude, lng: patient.address.longitude } },
       function (results, status) {
