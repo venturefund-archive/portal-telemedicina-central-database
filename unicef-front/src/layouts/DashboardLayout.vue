@@ -17,13 +17,19 @@
       <Navbar />
 
       <router-view v-slot="{ Component, route }">
-        <transition name="fade" mode="out-in">
-          <div>
-            <keep-alive>
-              <component :is="Component" :key="route.name" />
-            </keep-alive>
-          </div>
-        </transition>
+        <template v-if="Component">
+          <Transition mode="out-in">
+            <div>
+              <KeepAlive>
+                <Suspense>
+                  <component :is="Component" :key="route.name" />
+
+                  <template #fallback> Loading... </template>
+                </Suspense>
+              </KeepAlive>
+            </div>
+          </Transition>
+        </template>
       </router-view>
 
       <PageFooter />

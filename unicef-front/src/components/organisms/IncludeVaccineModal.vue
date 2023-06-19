@@ -71,7 +71,7 @@
                           class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
                         >
                           <option v-for="vaccine in filteredVaccines" :key="vaccine.id" :value="vaccine.id">
-                            {{ vaccine.description }}
+                            {{ vaccine.display }}: {{ vaccine.description }}
                           </option>
                         </select>
 

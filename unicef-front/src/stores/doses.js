@@ -72,7 +72,7 @@ export const useDosesStore = defineStore('doses', () => {
   async function addVaccine(data) {
     const state = useStorage('app-store', { token: '' })
     try {
-      const response = await axios.post(import.meta.env.VITE_API_URL + `/api/vaccines/status/`, data, {
+      const response = await axios.post(import.meta.env.VITE_API_URL + '/api/vaccines/status/', data, {
         headers: {
           'Content-type': 'application/json',
           Authorization: `token ${state.value.token}`,
@@ -81,22 +81,30 @@ export const useDosesStore = defineStore('doses', () => {
 
       if (response && response.data) {
         const updatedItem = response.data
-        console.log('updatedItem', updatedItem)
-        // console.log('array', items.value)
         const foundedItemIndex = items.value.findIndex((dose) => dose.id === updatedItem.vaccine_dose)
 
+        // Creating a new array with the updated item
+        let newArray
         if (foundedItemIndex !== -1) {
-          console.log('aa')
-          // Atualizando o item no array de itens
-          // console.log(items.value[foundedItemIndex])
-          items.value[foundedItemIndex].status = 1
-          // items.value[foundedItemIndex].status = { ...items.value[foundedItemIndex].status, completed: updatedItem.completed }
-          // console.log(items.value[foundedItemIndex])
+          // Update item
+          newArray = items.value.map((item, index) => {
+            if (index !== foundedItemIndex) {
+              return item // Return the item unchanged
+            }
+            return {
+              ...item,
+              status: {
+                ...item.status,
+                completed: updatedItem.completed,
+              },
+            }
+          })
         } else {
-          // console.log('bb')
-          // Se o item não existir, você pode optar por adicioná-lo ao array
-          items.value.push(updatedItem)
+          // Item doesn't exist, so add it to the array
+          newArray = [...items.value, updatedItem]
         }
+
+        // items.value = newArray // Update the reference to the new array
         item.value = updatedItem
 
         return updatedItem
@@ -104,11 +112,10 @@ export const useDosesStore = defineStore('doses', () => {
         throw new Error('No data received from the server.')
       }
     } catch (err) {
-      console.log('ppp')
-      // Mostra um toast de erro com uma mensagem descritiva
+      // Show an error toast with a descriptive message
       errorToast({ text: `Failed to add vaccine: ${err.message}` })
 
-      // Rejeitar a promessa com o erro
+      // Reject the promise with the error
       return Promise.reject(err)
     }
   }
