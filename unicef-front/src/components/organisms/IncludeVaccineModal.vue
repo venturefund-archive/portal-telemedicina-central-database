@@ -59,7 +59,7 @@
                   <form class="w-full max-w-md">
                     <div class="mb-4 flex items-center">
                       <div class="mr-6 w-1/2">
-                        <label class="text-sm" for="vacina">Vacina</label>
+                        <label class="text-sm" for="vacina">{{ $t('patient-details.vaccine') }}</label>
                         <input
                           type="text"
                           id="vacina"
@@ -69,25 +69,25 @@
                         />
                       </div>
                       <div class="w-1/2">
-                        <label class="text-sm" for="dose">Dose</label>
+                        <label class="text-sm" for="dose">{{ $t('patient-details.dose') }}</label>
                         <select
                           id="dose"
                           name="dose"
                           required
                           class="w-full rounded-full border-none bg-gray-100 py-2 px-4"
                         >
-                          <option value="">Selecione...</option>
-                          <option value="1">1 dose</option>
-                          <option value="2">2 doses</option>
-                          <option value="3">3 doses</option>
-                          <option value="única">Dose única</option>
+                          <option value="">{{ $t('patient-details.select') }}...</option>
+                          <option value="1">1° {{ $t('patient-details.dose') }}</option>
+                          <option value="2">2º {{ $t('patient-details.dose') }}</option>
+                          <option value="3">3° {{ $t('patient-details.dose') }}</option>
+                          <option value="única">{{ $t('patient-details.single-dose') }}</option>
                         </select>
                       </div>
                     </div>
 
                     <div class="mb-4 flex items-center">
                       <div class="mr-6 w-1/2">
-                        <label class="text-sm" for="unidade">Unidade</label>
+                        <label class="text-sm" for="unidade">{{ $t('patient-details.unity') }}</label>
                         <input
                           type="text"
                           id="unidade"
@@ -109,7 +109,7 @@
                     </div>
                     <div class="mb-4 flex items-center">
                       <div class="mr-6 w-1/2">
-                        <label class="text-sm" for="data">Data</label>
+                        <label class="text-sm" for="data">{{ $t('patient-details.date') }}</label>
                         <input
                           type="date"
                           id="data"
@@ -119,7 +119,7 @@
                         />
                       </div>
                       <div class="w-1/2">
-                        <label class="text-sm" for="lote">Lote</label>
+                        <label class="text-sm" for="lote">{{ $t('patient-details.batch') }}</label>
                         <input
                           type="text"
                           id="lote"
@@ -130,7 +130,7 @@
                       </div>
                     </div>
                     <div class="mb-4">
-                      <label class="text-sm" for="fabricante">Fabricante</label>
+                      <label class="text-sm" for="fabricante">{{ $t('patient-details.manufacturer') }}</label>
                       <input
                         type="text"
                         id="fabricante"
@@ -141,7 +141,7 @@
                     </div>
 
                     <div class="mb-4">
-                      <label class="text-sm" for="vacinador">Vacinador</label>
+                      <label class="text-sm" for="vacinador">{{ $t('patient-details.vaccinator') }}</label>
                       <input
                         type="text"
                         id="vacinador"
@@ -152,7 +152,7 @@
                     </div>
 
                     <div class="mb-4">
-                      <label class="text-sm" for="profissional">Profissional</label>
+                      <label class="text-sm" for="profissional">{{ $t('patient-details.profissional') }}</label>
                       <input
                         type="text"
                         id="profissional"
@@ -166,7 +166,7 @@
                 <div>
                   <span class="ml-10 flex cursor-pointer items-center" @click="openModal2">
                     <CloudUploadIcon class="mr-6 h-6 w-6 text-blue-500" />
-                    <span class="text-sm font-semibold text-blue-500">Fazer upload da foto do cartão de vacina</span>
+                    <span class="text-sm font-semibold text-blue-500">{{ $t('patient-details.uploadbooklet') }}</span>
                   </span>
 
                   <div v-if="isModalOpen" class="fixed inset-0 z-50 flex items-center justify-center">
@@ -174,7 +174,7 @@
                     <div class="rounded bg-blue-500 p-4 shadow-2xl" style="height: 250px">
                       <div class="flex justify-between">
                         <CloudUploadIcon class="h-7 w-7 text-white" />
-                        <h3 class="text-lg font-medium text-white">Enviar cartão de vacina</h3>
+                        <h3 class="text-lg font-medium text-white">{{ $t('patient-details.sendbooklet') }}</h3>
                         <div class="flex justify-end">
                           <button
                             type="button"
@@ -194,7 +194,7 @@
                           type="button"
                           class="mr-3 inline-flex justify-center rounded-full bg-[#F3F3F3] px-12 py-2 text-xs font-medium uppercase tracking-wide text-blue-500 shadow-lg hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                         >
-                          Enviar
+                          {{ $t('patient-details.send') }}
                         </button>
                       </div>
                     </div>
@@ -206,13 +206,13 @@
                     class="mr-3 inline-flex justify-center rounded-full border border-transparent bg-[#F3F3F3] px-12 py-2 text-xs font-medium uppercase tracking-wide text-blue-500 shadow-lg hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                     @click="closeModal"
                   >
-                    Cancelar
+                    {{ $t('patient-details.cancel') }}
                   </button>
                   <button
                     type="button"
                     class="inline-flex justify-center rounded-full border border-transparent bg-blue-500 px-12 py-2 text-xs font-medium uppercase tracking-wide text-white shadow-lg hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                   >
-                    Enviar
+                    {{ $t('patient-details.send') }}
                   </button>
                 </div>
               </DialogPanel>

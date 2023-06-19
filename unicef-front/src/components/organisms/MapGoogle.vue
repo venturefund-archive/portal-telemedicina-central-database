@@ -56,27 +56,24 @@
             <!-- User List and Alerts -->
             <div class="flex items-center space-x-10">
               <div ref="dropdown" class="relative">
-    <button
-      @click="showList = !showList"
-      class="relative flex flex-col items-center rounded-md py-2 px-4 text-gray-500"
-    >
-      <UsersIcon title="{{ $t('manager.population') }}" class="h-6 w-6 text-green-500" />
-      <span class="text-sm">{{ $t('manager.population') }}</span>
-    </button>
-    <ul
-      v-if="showList"
-      class="absolute z-10 rounded-md bg-white shadow-md w-40"
-    >
-      <li
-        v-for="item in items"
-        :class="{ 'font-bold': item === selectedItem }"
-        class="cursor-pointer py-2 px-4 font-normal hover:bg-gray-100 w-full"
-        :key="item"
-      >
-        {{ item }}
-      </li>
-    </ul>
-  </div>
+                <button
+                  @click="showList = !showList"
+                  class="relative flex flex-col items-center rounded-md py-2 px-4 text-gray-500"
+                >
+                  <UsersIcon title="{{ $t('manager.population') }}" class="h-6 w-6 text-green-500" />
+                  <span class="text-sm">{{ $t('manager.population') }}</span>
+                </button>
+                <ul v-if="showList" class="absolute z-10 w-40 rounded-md bg-white shadow-md">
+                  <li
+                    v-for="item in items"
+                    :class="{ 'font-bold': item === selectedItem }"
+                    class="w-full cursor-pointer py-2 px-4 font-normal capitalize hover:bg-gray-100"
+                    :key="item"
+                  >
+                    {{ item }}
+                  </li>
+                </ul>
+              </div>
 
               <div v-if="isMapView" class="flex flex-col items-center rounded-md py-2 px-4 text-gray-500">
                 <Switch
@@ -96,7 +93,7 @@
                 <button @click="toggleView" class="flex flex-col items-center">
                   <TableIcon v-if="isMapView" class="h-8 w-9 text-gray-500" />
                   <MapIcon v-else class="h-7 w-10 text-gray-500" />
-                  <span class="text-sm text-gray-500">Visualização</span>
+                  <span class="text-sm text-gray-500">{{ $t('manager.visualization') }}</span>
                 </button>
               </div>
             </div>
@@ -142,7 +139,7 @@
                   fillOpacity: 0.5,
                   strokeWeight: 1,
                   clickable: false,
-                  editable: true,
+                  editable: false,
                   zIndex: 1,
                 }"
               />
@@ -426,53 +423,56 @@
                     >
                       <div id="content">
                         <div id="bodyContent" class="h-auto w-96 p-1">
-                          <div class="flex flex-col justify-between rounded-2xl bg-white p-5">
-                            <div class="py-3">
-                              <router-link v-if="marker" :to="{ name: 'PatientDetails', params: { id: marker.id } }">
-                                <p class="text-xl font-semibold capitalize">
-                                  {{ marker && marker.name.toLowerCase() }}
-                                </p>
-                              </router-link>
-                              <p class="text-xs text-gray-500">ID: {{ marker.id }}</p>
-                            </div>
-                            <hr class="border-1 border border-dotted border-gray-300" />
-                            <div class="flex justify-between py-5">
-                              <p
-                                class="justify-center rounded-full bg-gray-50 px-1 py-1 text-sm font-normal text-black"
-                              >
-                                3 months
-                              </p>
-                              <p
-                                v-if="0 !== marker.alerts.length"
-                                class="rounded-full bg-red-100 px-1 py-1 text-sm font-normal text-red-900"
-                              >
-                                vaccine with delay: {{ marker.alerts.join(', ') }}
-                              </p>
-                            </div>
-                            <div class="mb-1 rounded-2xl border border-transparent px-3 py-2 font-normal text-gray-500">
-                              <div class="text-sm font-semibold">
+                          <div class="rounded-lg p-6">
+                            <header class="mb-4">
+                              <h2 class="text-xl font-semibold capitalize" v-if="marker">
+                                {{ marker && marker.name.toLowerCase() }}
+                              </h2>
+                              <p class="text-sm text-gray-500">ID: {{ marker.id }}</p>
+                              <hr class="my-3 w-full border border-dashed" />
+                            </header>
+
+                            <div class="mb-4">
+                              <div class="flex justify-between">
+                                <span class="mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-sm text-black">
+                                  3 months
+                                </span>
                                 <p class="text-sm">
-                                  Alertas por protocolo:
                                   <span
                                     :class="{
-                                      'rounded-full !bg-red-100 py-1 px-2 text-red-800 ':
-                                        marker.number_of_alerts_by_protocol > 0,
+                                      'bg-red-100 text-red-800': marker.number_of_alerts_by_protocol > 0,
+                                      'bg-gray-100 text-gray-500': marker.number_of_alerts_by_protocol === 0,
                                     }"
-                                    class="rounded-full bg-gray-50 py-1 px-2 font-normal"
+                                    class="mr-2 inline-block rounded-full px-3 py-1 text-sm text-black"
                                   >
-                                    {{ marker.number_of_alerts_by_protocol }} alertas
+                                    {{ marker.number_of_alerts_by_protocol }} alerta por protocolo
                                   </span>
                                 </p>
-                                <p class="text-sm font-semibold">
-                                  Birthdate:
-                                  <span class="font-normal">{{
-                                    format(new Date(marker.birth_date), 'dd/MM/yyyy')
-                                  }}</span>
-                                </p>
-                                <p class="text-sm font-semibold">
-                                  Address: <span class="font-normal">{{ marker.address.formatted_address }}</span>
-                                </p>
                               </div>
+                              <div v-if="0 !== marker.alerts.length" class="inline-block">
+                                <p class="pt-4 pb-2 text-sm font-medium text-gray-600">Vacinas em atraso:</p>
+                                <span
+                                  v-for="alert in marker.alerts"
+                                  :key="alert.id"
+                                  class="mr-2 mt-1 inline-block rounded-full bg-red-100 px-3 py-1 text-xs text-red-900"
+                                >
+                                  {{ alert }}
+                                </span>
+                              </div>
+                            </div>
+
+                            <div class="mb-4">
+                              <p class="text-sm font-medium text-gray-600">Birthdate:</p>
+                              <p class="text-sm">
+                                {{ format(new Date(marker.birth_date), 'dd/MM/yyyy') }}
+                              </p>
+                            </div>
+
+                            <div>
+                              <p class="text-sm font-medium text-gray-600">Address:</p>
+                              <p class="text-sm">
+                                {{ marker.address.formatted_address }}
+                              </p>
                             </div>
                           </div>
 
@@ -528,7 +528,17 @@
 </template>
 
 <script setup>
-import { defineComponent, reactive, computed, onBeforeUpdate, onMounted, watch, ref, onUnmounted,onBeforeUnmount } from 'vue'
+import {
+  defineComponent,
+  reactive,
+  computed,
+  onBeforeUpdate,
+  onMounted,
+  watch,
+  ref,
+  onUnmounted,
+  onBeforeUnmount,
+} from 'vue'
 import { GoogleMap, Marker, CustomMarker, MarkerCluster, InfoWindow, Polygon } from 'vue3-google-map'
 import { useGeolocation } from '@/composables/useGeolocation'
 import { parseISO, formatRelative, formatDuration, add, setDefaultOptions, differenceInMonths, format } from 'date-fns'
@@ -543,7 +553,8 @@ import { useMicroRegionsStore } from '@/stores/microregions'
 import { useStorage } from '@vueuse/core'
 import { Switch } from '@headlessui/vue'
 import { useLoggedUserStore } from '@/stores/loggedUser'
-
+import { useI18n } from 'vue3-i18n'
+const { t } = useI18n()
 const enabled = ref(false)
 
 import RegionForm from '@/components/atoms/RegionForm.vue'
@@ -582,8 +593,8 @@ const props = defineProps({
   },
 })
 
-const showList = ref(false);
-const dropdown = ref(null);
+const showList = ref(false)
+const dropdown = ref(null)
 
 const markerIconNormal = ref({
   url: 'marker.svg',
@@ -618,16 +629,17 @@ const editForm = reactive({
   terms: false,
   processing: false,
 })
-const items = [
-  'Todos',
-  'Gestantes',
-  'Puérperas',
-  'Recém-nascidos',
-  'Primeira infância',
-  'Segunda infância',
-  'Terceira Infância',
-  'Adolescência',
-]
+const items = computed(() => [
+  t('manager.all-group'),
+  t('manager.pragnant-group'),
+  t('manager.puerp-group'),
+  t('manager.newborn-group'),
+  t('manager.firstchild-group'),
+  t('manager.secondchild-group'),
+  t('manager.thirdchild-group'),
+  t('manager.teenager-group'),
+])
+
 const isMapView = ref(true)
 
 const toggleView = () => {
@@ -635,7 +647,7 @@ const toggleView = () => {
 }
 const handleOutsideClick = (event) => {
   if (!dropdown.value.contains(event.target)) {
-    showList.value = false;
+    showList.value = false
   }
 }
 
@@ -644,26 +656,12 @@ function onItemClick(item) {
   console.log(`Item clicado: ${item}`)
 }
 
-// const customPolygons = (key) => {
-//   return {
-//     paths: polygons.value[key].polygon || [],
-//     strokeColor: '#FF0000',
-//     strokeOpacity: 0.8,
-//     strokeWeight: 2,
-//     fillColor: '#FF0000',
-//     fillOpacity: 0.35,
-//     editable: true
-//   }
-// }
-
 const geoCoderQuery = ref(
   loggedUserStore.item.client.city.charAt(0).toUpperCase() + loggedUserStore.item.client.city.slice(1)
 )
 const currentCenter = ref(undefined)
 const showEmptyResult = ref(false)
 const searchAddress = () => {
-  //center.value = { lat: -22.749940, lng: -50.576540 }
-
   geocodeAddress(geoCoder.value, map.value)
 }
 
@@ -781,7 +779,7 @@ watch(
         strokeOpacity: 0.8,
         strokeWeight: 3,
         fillOpacity: 0.35,
-        editable: true,
+        editable: false,
       },
     })
 
@@ -818,7 +816,7 @@ watch(
         fillOpacity: 0.5,
         strokeWeight: 1,
         clickable: false,
-        editable: true,
+        editable: false,
         zIndex: 1,
       })
       googlePolygons.value.push(googlePolygon)
@@ -885,12 +883,12 @@ const polygons = ref([])
 
 onMounted(async () => {
   await patientsStore.fetchPatients()
-  document.addEventListener('click', handleOutsideClick);
+  document.addEventListener('click', handleOutsideClick)
 })
 
 onBeforeUnmount(() => {
-  document.removeEventListener('click', handleOutsideClick);
-});
+  document.removeEventListener('click', handleOutsideClick)
+})
 
 const markers = ref([])
 onBeforeUpdate(() => {

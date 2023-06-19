@@ -132,11 +132,11 @@
                   <th
                     scope="col"
                     colspan="2"
-                    class="-mt-10 whitespace-nowrap px-2.5 pl-6 text-left !font-semibold uppercase text-gray-700"
+                    class="-mt-10 whitespace-nowrap px-2.5 pl-3.5 text-left !font-semibold uppercase text-gray-700"
                   >
                     <div class="flex flex-col">
                       <div class="flex items-center text-[#636464]">
-                        <VaccineAlert :status="3" class="-mt-20 pr-2" />
+                        <VaccineAlert :status="3" class="-mt-20 pr-1" />
                         <span class="-mt-20 text-sm normal-case" v-html="$t('patient-details.overdue-doses')"></span>
                       </div>
                       <div>
@@ -251,15 +251,15 @@
                   v-for="(vaccine, k) in orderedVaccinesByDoseAlerts"
                   :key="k"
                 >
-                  <td colspan="2" class="relative rounded-l-full bg-[#F1F1F1] py-1 px-5 text-sm cursor-default">
-                    <Tooltip  variant="blue" position="default">
+                  <td colspan="2" class="relative cursor-default rounded-l-full bg-[#F1F1F1] py-1 px-5 text-sm">
+                    <Tooltip variant="blue" position="default">
                       <template #trigger>
                         <span
                           data-tooltip-target="tooltip-default"
                           type="button"
-                          class="flex -my-1 rounded-lg text-left text-sm font-medium"
+                          class="-my-1 flex rounded-lg text-left text-sm font-medium"
                         >
-                          <p class="truncate2 -mb-1.5 p-0 text-sm flex w-20">{{ vaccine.display }}</p>
+                          <p class="truncate2 -mb-1.5 flex w-20 p-0 text-sm">{{ vaccine.display }}</p>
                         </span>
                       </template>
                       <template #content>
