@@ -145,6 +145,7 @@
               />
               <InfoWindow
                 v-if="currentInfoWindowIndex === polygonIndex"
+                @closeclick="showInfoWindow(null)"
                 ref="infoWindow"
                 :options="{
                   position: calculatePolygonCenter(polygon.getPath()),
@@ -959,7 +960,7 @@ const deletePolygon = async (polygonIndex) => {
     polygons.value.splice(polygonIndex, 1)
     googlePolygons.value.splice(polygonIndex, 1)
 
-    currentInfoWindowIndex.value = null
+    showInfoWindow(null)
     googleLabels.value[polygonIndex].setLabel('')
     googleLabels.value.splice(polygonIndex, 1)
   }

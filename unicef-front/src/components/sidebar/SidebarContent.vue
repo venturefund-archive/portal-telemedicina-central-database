@@ -13,7 +13,7 @@
     <SidebarLink
       :title="$t('dashboard.patients')"
       class="capitalize"
-      :to="{ name: 'PatientDetailsNobody' }"
+      :to="patientsRoute"
       :active="isCurrentRoute('PatientDetails') || isCurrentRoute('PatientDetailsNobody')"
     >
       <template #icon>
@@ -67,6 +67,8 @@ import SidebarCollapsible from '@/components/sidebar/SidebarCollapsible.vue'
 import SidebarCollapsibleItem from '@/components/sidebar/SidebarCollapsibleItem.vue'
 import { XIcon } from '@heroicons/vue/outline'
 import { sidebarState } from '@/composables'
+import { computed } from 'vue'
+import { useStorage } from '@vueuse/core'
 
 const isCurrentRoute = (routeName) => {
   return useRouter().currentRoute.value.name == routeName
@@ -75,4 +77,9 @@ const isCurrentRoute = (routeName) => {
 const isCurrentPath = (path) => {
   return useRouter().currentRoute.value.path.startsWith(path)
 }
+
+const patientsRoute = computed(() => {
+  const state = useStorage('app-store', { token: '' })
+  return (state.value.patientLastViewed ? '/patients/' + state.value.patientLastViewed : '/patients') + '/'
+})
 </script>
