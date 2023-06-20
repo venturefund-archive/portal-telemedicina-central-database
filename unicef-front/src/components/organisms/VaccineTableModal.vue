@@ -11,7 +11,7 @@
         leave-from="translate-x-0"
         leave-to="translate-x-full"
       >
-        <div class="relative h-full w-2/3">
+        <div class="relative h-full w-5/6">
           <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
             <DialogPanel class="flex h-full flex-col bg-[#F8F9FB]">
               <div class="z-10 flex items-start justify-between rounded-t bg-gray-50 p-2 shadow-md">
@@ -22,7 +22,11 @@
                   <UserGroupIcon class="mr-2 h-7 w-7 text-green-500" />
                   {{ $t('manager.details') }}
                 </DialogTitle>
-                <button type="button" @click="closeModal" class="p-1.5 text-sm text-gray-500 hover:text-green-500">
+                <button
+                  type="button"
+                  @click="closeModal"
+                  class="rounded p-1.5 text-sm text-gray-500 hover:bg-gray-100 hover:text-green-500"
+                >
                   <XIcon @click="closeModal" class="flex h-6 w-6 justify-end" />
                 </button>
               </div>

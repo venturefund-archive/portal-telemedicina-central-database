@@ -62,7 +62,9 @@
                   <div class="m-5 rounded-2xl border border-gray-50 bg-white p-6 shadow-lg">
                     <div class="mb-4 flex">
                       <div class="flex-1">
-                        <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="vacina">Vacina</label>
+                        <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="vacina">{{
+                          $t('patient-details.vaccine')
+                        }}</label>
                         <select
                           id="vacina"
                           name="vaccine_id"
@@ -76,7 +78,9 @@
                         </select>
 
                         <div class="flex-1" v-if="doseForm.vaccine_id">
-                          <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="dose">Dose</label>
+                          <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="dose">{{
+                            $t('patient-details.dose')
+                          }}</label>
 
                           <select
                             id="dose"
@@ -99,7 +103,9 @@
 
                     <div class="mb-4 flex">
                       <div class="flex-1">
-                        <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="batch">Batch</label>
+                        <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="batch">{{
+                          $t('patient-details.batch')
+                        }}</label>
                         <input
                           id="batch"
                           type="text"
@@ -133,9 +139,9 @@
 
                     <div class="mb-4 flex">
                       <div class="flex-1">
-                        <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="health_professional"
-                          >Professional</label
-                        >
+                        <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="health_professional">{{
+                          $t('patient-details.profissional')
+                        }}</label>
                         <input
                           id="health_professional"
                           type="text"
@@ -149,7 +155,7 @@
                     <div class="mb-4 flex">
                       <div class="flex-1 pr-6">
                         <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="data-application">
-                          Aplicação
+                          {{ $t('patient-details.dose-application-date') }}
                         </label>
                         <input
                           type="date"
@@ -161,7 +167,7 @@
                       </div>
                       <div class="flex-1">
                         <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="next-data-application">
-                          Próxima aplicação
+                          {{ $t('patient-details.next-application') }}
                         </label>
                         <input
                           type="date"
