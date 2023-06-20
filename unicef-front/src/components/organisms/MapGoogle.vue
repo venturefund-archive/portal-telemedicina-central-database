@@ -699,9 +699,6 @@ const getCenterOfPolygon = computed(() => (index) => {
   infoWindow.setPosition(center)
 })
 
-onUnmounted(() => {
-  document.removeEventListener('click', handleClickOutside)
-})
 // const isOpen = ref(true) // You can control this variable to show or hide the modal
 
 const addressQuery = ref([])
@@ -882,7 +879,6 @@ const geocodeAddress = (geoCoder, resultsMap) => {
 const polygons = ref([])
 
 onMounted(async () => {
-  await patientsStore.fetchPatients()
   document.addEventListener('click', handleOutsideClick)
 })
 

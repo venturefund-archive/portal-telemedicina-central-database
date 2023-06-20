@@ -69,10 +69,62 @@ export const useDosesStore = defineStore('doses', () => {
     }
   }
 
+  async function addVaccine(data) {
+    const state = useStorage('app-store', { token: '' })
+    try {
+      const response = await axios.post(import.meta.env.VITE_API_URL + '/api/vaccines/status/', data, {
+        headers: {
+          'Content-type': 'application/json',
+          Authorization: `token ${state.value.token}`,
+        },
+      })
+
+      if (response && response.data) {
+        const updatedItem = response.data
+        const foundedItemIndex = items.value.findIndex((dose) => dose.id === updatedItem.vaccine_dose)
+
+        // Creating a new array with the updated item
+        let newArray
+        if (foundedItemIndex !== -1) {
+          // Update item
+          newArray = items.value.map((item, index) => {
+            if (index !== foundedItemIndex) {
+              return item // Return the item unchanged
+            }
+            return {
+              ...item,
+              status: {
+                ...item.status,
+                completed: updatedItem.completed,
+              },
+            }
+          })
+        } else {
+          // Item doesn't exist, so add it to the array
+          newArray = [...items.value, updatedItem]
+        }
+
+        // items.value = newArray // Update the reference to the new array
+        item.value = updatedItem
+
+        return updatedItem
+      } else {
+        throw new Error('No data received from the server.')
+      }
+    } catch (err) {
+      // Show an error toast with a descriptive message
+      errorToast({ text: `Failed to add vaccine: ${err.message}` })
+
+      // Reject the promise with the error
+      return Promise.reject(err)
+    }
+  }
+
   return {
     items,
     item,
     fetchDoses,
     updateDose,
+    addVaccine,
   }
 })

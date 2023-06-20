@@ -78,7 +78,7 @@
         </p>
         <div class="-mt-24 flex justify-end">
           <div class="flex items-center">
-            <IncludeVaccineModal v-if="!props.noMenubar" />
+            <IncludeVaccineModal v-if="!props.noMenubar" @saved="atualizarChave" />
           </div>
           <div scope="col" colspan="2" class="px-6 pt-8 text-center uppercase">
             <InputIconWrapper>
@@ -112,7 +112,9 @@
             </div>
           </div>
         </div>
-        <div class="py-2">
+        <div class="py-2" :key="chave">
+          {{ chave }}<br />
+          Hora atual: {{ new Date().toLocaleTimeString() }}
           <div class="overflow-auto px-2 pt-2 pb-52">
             <table class="w-full table-auto text-left tracking-wide md:table-fixed lg:table-fixed">
               <thead class="">
@@ -437,7 +439,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import InputIconWrapper from '@/components/InputIconWrapper.vue'
 import { SearchIcon, VolumeOffIcon, LightBulbIcon } from '@heroicons/vue/outline'
 import { useRouter } from 'vue-router'
@@ -465,6 +467,14 @@ const patientsStore = usePatientsStore()
 const dosesStore = useDosesStore()
 const vaccinesStore = useVaccinesStore()
 const loggedUserStore = useLoggedUserStore()
+
+// Criar uma propriedade reativa para a chave
+const chave = ref(0)
+
+// Função para alterar a chave e forçar a rerenderização da tag
+const atualizarChave = () => {
+  chave.value++
+}
 
 const toggleMuted = async ({ dose, active }) => {
   try {
