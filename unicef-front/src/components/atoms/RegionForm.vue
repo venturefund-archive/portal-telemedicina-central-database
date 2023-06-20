@@ -1,6 +1,9 @@
 <template>
   <div class="p-3">
+    <h2 class="text-center text-lg font-medium text-gray-600">Editar informações</h2>
+    <hr class="w-full border-b border-dotted border-gray-200" />
     <form
+      class="py-5"
       @submit.prevent="
         $emit('saved', { localPolygon: { ...localPolygon, coordinates: polygonCoordinates }, polygonIndex })
       "
@@ -13,17 +16,20 @@
           placeholder="Nome do poligono"
           v-model="localPolygon.name"
           withIcon
-          class="mb-3 block w-full rounded-lg border border-transparent bg-gray-50 p-4 pl-10 text-sm text-gray-900"
+          required
+          class="mb-3 block w-full rounded-lg border border-gray-200 border-transparent bg-gray-50 p-4 pl-10 text-sm font-medium text-gray-900 focus:border-green-500"
         />
       </InputIconWrapper>
-      <Button class="mx-3" type="button" variant="danger" @click="$emit('delete')">
-        <HandIcon aria-hidden="true" />
-        <span>Excluir</span>
-      </Button>
-      <Button type="submit" variant="success-outline" class="mx-3">
-        <PencilIcon aria-hidden="true" />
-        <span>Salvar</span>
-      </Button>
+      <div class="flex justify-between pt-7">
+        <Button class="mx-3" type="button" variant="danger" @click="$emit('delete')">
+          <HandIcon aria-hidden="true" />
+          <span>Excluir</span>
+        </Button>
+        <Button type="submit" variant="success-outline" class="mx-3">
+          <PencilIcon aria-hidden="true" />
+          <span>Salvar</span>
+        </Button>
+      </div>
     </form>
   </div>
 </template>

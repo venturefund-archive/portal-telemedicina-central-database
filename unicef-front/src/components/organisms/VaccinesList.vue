@@ -259,9 +259,15 @@
                         <span
                           data-tooltip-target="tooltip-default"
                           type="button"
-                          class="-my-1 flex rounded-lg text-left text-sm font-medium"
+                          class="-my-1 rounded-lg text-left text-sm font-medium"
                         >
-                          <p class="-mb-1.5 flex w-20 break-words p-0 text-sm">{{ vaccine.description }}</p>
+                          <p class="-mb-1.5 p-0">{{ vaccine.display }}</p>
+                          <p
+                            class="mt-0.5 text-xs tracking-widest text-gray-400"
+                            v-if="vaccine.description != vaccine.display"
+                          >
+                            {{ vaccine.description }}
+                          </p>
                         </span>
                       </template>
                       <template #content>
