@@ -31,6 +31,8 @@
   "medication": "Medications",
   "month": "Month",
   "months": "Months",
+  "next-application": "Next application",
+  "next_application": "",
   "no-patient-selected-text": "Search for a patient to start",
   "no-selected": "No patient selected",
   "not-applyed": "Not applied",
@@ -51,6 +53,7 @@
   "sendbooklet": "Send vaccine card",
   "silenced-alert": "Silenced alert",
   "silenced-dose": "Dose on alert silenced",
+  "single-dose": "Single dose",
   "social-data": "Sociocultural data",
   "to": " to ",
   "total-of": "Total of",
@@ -62,6 +65,5 @@
   "vaccines": "vaccines",
   "year": "Year",
   "years": "Years",
-  "zero-to-fif": "0 to 15 years",
-  "single-dose":"Single dose"
+  "zero-to-fif": "0 to 15 years"
 }

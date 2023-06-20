@@ -261,7 +261,7 @@
                           type="button"
                           class="-my-1 flex rounded-lg text-left text-sm font-medium"
                         >
-                          <p class="truncate2 -mb-1.5 flex w-20 p-0 text-sm">{{ vaccine.display }}</p>
+                          <p class="-mb-1.5 flex w-20 break-words p-0 text-sm">{{ vaccine.description }}</p>
                         </span>
                       </template>
                       <template #content>

@@ -182,330 +182,286 @@
                   @click="patientCursorLocal = marker.id"
                 />
 
-                <Teleport to=".notification-space">
-                  <Popover v-slot="{ open }" class="">
-                    <TransitionRoot as="template" :show="open">
-                      <Dialog as="div" static class="fixed inset-0 z-10 overflow-y-auto" :show="open">
-                        <div
-                          class="flex min-h-screen items-end justify-center px-4 pt-4 pb-20 text-center sm:block sm:p-0"
-                        >
-                          <TransitionChild as="template" enter="ease-out duration-300" leave="ease-in duration-200">
-                            <DialogOverlay class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
-                          </TransitionChild>
+                <InfoWindow
+                  v-if="isCursorOnMarker(marker)"
+                  :options="{
+                    position: patientLocation(marker, true),
+                  }"
+                  @closeclick="patientCursorLocal = null"
+                >
+                  <div id="content">
+                    <div id="bodyContent" class="h-auto w-96 p-1">
+                      <div class="rounded-lg p-6">
+                        <header class="mb-4">
+                          <h2 class="text-xl font-semibold capitalize" v-if="marker">
+                            {{ marker && marker.name.toLowerCase() }}
+                          </h2>
+                          <p class="text-sm text-gray-500">ID: {{ marker.id }}</p>
+                          <hr class="my-3 w-full border border-dashed" />
+                        </header>
 
-                          <TransitionChild as="template" enter="ease-out duration-300" leave="ease-in duration-200">
-                            <DialogPanel class="edit-panel z-20 mt-3 transform-gpu">
-                              <div class="relative space-y-4 overflow-hidden rounded-lg bg-neutral-50 p-4 shadow-lg">
-                                <div class="flex justify-between border-b border-dotted border-gray-400 pb-3">
-                                  <DialogTitle as="h3" class="mx-auto text-center font-bold text-gray-800">
-                                    Editar informação do paciente
-                                  </DialogTitle>
-                                  <XIcon class="h-6 w-6 cursor-pointer hover:text-green-500" />
-                                </div>
-                                <form
-                                  @submit.prevent="submitForm"
-                                  class="space-y-6"
-                                  aria-label="Formulário de Registro"
-                                >
-                                  <div class="flex">
-                                    <legend class="sr-only">Dados pessoais e clínicos</legend>
-
-                                    <!-- Dados Pessoais -->
-                                    <div class="w-[312px] space-y-3 px-2">
-                                      <h4 class="text-sm font-semibold text-gray-600">Dados pessoais</h4>
-
-                                      <div class="space-y-1">
-                                        <label for="name" class="sr-only">Nome</label>
-                                        <Input
-                                          id="name"
-                                          type="text"
-                                          placeholder="Nome"
-                                          class="block w-full border-gray-300 border-gray-300"
-                                          v-model="editForm.name"
-                                          required
-                                          autofocus
-                                          autocapitalize="on"
-                                          autocorrect="off"
-                                          aria-label="Nome"
-                                        />
-                                      </div>
-
-                                      <div class="space-y-1">
-                                        <label for="birthDate" class="sr-only">Data de Nascimento</label>
-                                        <Input
-                                          id="birthDate"
-                                          type="date"
-                                          placeholder="Data de Nascimento"
-                                          class="block w-full border-gray-300"
-                                          v-model="editForm.birthDate"
-                                          required
-                                          aria-label="Data de Nascimento"
-                                        />
-                                      </div>
-
-                                      <div class="space-y-1">
-                                        <label for="age" class="sr-only">Idade</label>
-                                        <Input
-                                          id="age"
-                                          type="number"
-                                          placeholder="Idade"
-                                          class="block w-full border-gray-300"
-                                          v-model="editForm.age"
-                                          required
-                                          aria-label="Idade"
-                                        />
-                                      </div>
-
-                                      <div class="space-y-1">
-                                        <label for="address" class="sr-only">Endereço</label>
-                                        <Input
-                                          id="address"
-                                          type="text"
-                                          placeholder="Endereço"
-                                          class="block w-full border-gray-300"
-                                          v-model="editForm.address"
-                                          required
-                                          aria-label="Endereço"
-                                        />
-                                      </div>
-
-                                      <div class="space-y-1">
-                                        <label for="cpf" class="sr-only">CPF</label>
-                                        <Input
-                                          id="cpf"
-                                          type="text"
-                                          placeholder="CPF"
-                                          class="block w-full border-gray-300"
-                                          v-model="editForm.cpf"
-                                          required
-                                          maxlength="11"
-                                          aria-label="CPF"
-                                        />
-                                      </div>
-                                    </div>
-
-                                    <!-- Dados Clínicos -->
-                                    <div class="w-[312px] space-y-3 px-2">
-                                      <h4 class="text-sm font-semibold text-gray-600">Dados clínicos</h4>
-
-                                      <div class="space-y-1">
-                                        <label for="healthUnit" class="sr-only">Unidade de saúde</label>
-                                        <Input
-                                          id="healthUnit"
-                                          type="text"
-                                          placeholder="Unidade de saúde"
-                                          class="block w-full border-gray-300"
-                                          v-model="editForm.healthUnit"
-                                          required
-                                          aria-label="Unidade de saúde"
-                                        />
-                                      </div>
-
-                                      <div class="space-y-1">
-                                        <label for="cns" class="sr-only">CNS</label>
-                                        <Input
-                                          id="cns"
-                                          type="text"
-                                          placeholder="CNS"
-                                          class="block w-full border-gray-300"
-                                          v-model="editForm.cns"
-                                          required
-                                          aria-label="CNS"
-                                        />
-                                      </div>
-
-                                      <div class="flex space-x-2">
-                                        <div class="flex-1">
-                                          <label for="codeFile" class="sr-only">Cód ficha</label>
-                                          <Input
-                                            id="codeFile"
-                                            type="text"
-                                            placeholder="Cód ficha"
-                                            class="block w-full border-gray-300"
-                                            v-model="editForm.codeFile"
-                                            required
-                                            aria-label="Cód ficha"
-                                          />
-                                        </div>
-                                        <div class="flex-1">
-                                          <label for="fileDate" class="sr-only">Data ficha</label>
-                                          <Input
-                                            id="fileDate"
-                                            type="date"
-                                            placeholder="Data ficha"
-                                            class="block w-full border-gray-300"
-                                            v-model="editForm.fileDate"
-                                            required
-                                            aria-label="Data ficha"
-                                          />
-                                        </div>
-                                      </div>
-
-                                      <div class="space-y-1">
-                                        <label for="professional" class="sr-only">Profissional</label>
-                                        <Input
-                                          id="professional"
-                                          type="text"
-                                          placeholder="Profissional"
-                                          class="block w-full border-gray-300"
-                                          v-model="editForm.professional"
-                                          required
-                                          aria-label="Profissional"
-                                        />
-                                      </div>
-
-                                      <div class="flex space-x-2">
-                                        <div class="flex-1">
-                                          <label for="vaccine" class="sr-only">Vacina</label>
-                                          <Input
-                                            id="vaccine"
-                                            type="text"
-                                            placeholder="Vacina"
-                                            class="block w-full border-gray-300"
-                                            v-model="editForm.vaccine"
-                                            required
-                                            aria-label="Vacina"
-                                          />
-                                        </div>
-                                        <div class="flex-1">
-                                          <label for="dose" class="sr-only">Dose</label>
-                                          <Input
-                                            id="dose"
-                                            type="text"
-                                            placeholder="Dose"
-                                            class="block w-full border-gray-300"
-                                            v-model="editForm.dose"
-                                            required
-                                            aria-label="Dose"
-                                          />
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="mt-6 flex justify-end">
-                                    <div>
-                                      <Button
-                                        type="submit"
-                                        variant="success-outline"
-                                        class="w-full justify-center gap-2"
-                                        :disabled="editForm.processing"
-                                        aria-label="Cancelar"
-                                        @click="open = !open"
-                                      >
-                                        <span>Cancelar</span>
-                                      </Button>
-                                    </div>
-                                    <div class="px-2">
-                                      <Button
-                                        type="submit"
-                                        variant="success"
-                                        class="w-full justify-center gap-3"
-                                        :disabled="editForm.processing"
-                                        aria-label="Salvar"
-                                      >
-                                        <span>Salvar</span>
-                                      </Button>
-                                    </div>
-                                  </div>
-                                </form>
-                              </div>
-                            </DialogPanel>
-                          </TransitionChild>
-                        </div>
-                      </Dialog>
-                    </TransitionRoot>
-                    <InfoWindow
-                      v-if="isCursorOnMarker(marker)"
-                      :options="{
-                        position: patientLocation(marker, true),
-                      }"
-                      @closeclick="patientCursorLocal = null"
-                    >
-                      <div id="content">
-                        <div id="bodyContent" class="h-auto w-96 p-1">
-                          <div class="rounded-lg p-6">
-                            <header class="mb-4">
-                              <h2 class="text-xl font-semibold capitalize" v-if="marker">
-                                {{ marker && marker.name.toLowerCase() }}
-                              </h2>
-                              <p class="text-sm text-gray-500">ID: {{ marker.id }}</p>
-                              <hr class="my-3 w-full border border-dashed" />
-                            </header>
-
-                            <div class="mb-4">
-                              <div class="flex justify-between">
-                                <span class="mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-sm text-black">
-                                  3 months
-                                </span>
-                                <p class="text-sm">
-                                  <span
-                                    :class="{
-                                      'bg-red-100 text-red-800': marker.number_of_alerts_by_protocol > 0,
-                                      'bg-gray-100 text-gray-500': marker.number_of_alerts_by_protocol === 0,
-                                    }"
-                                    class="mr-2 inline-block rounded-full px-3 py-1 text-sm text-black"
-                                  >
-                                    {{ marker.number_of_alerts_by_protocol }} alerta por protocolo
-                                  </span>
-                                </p>
-                              </div>
-                              <div v-if="0 !== marker.alerts.length" class="inline-block">
-                                <p class="pt-4 pb-2 text-sm font-medium text-gray-600">Vacinas em atraso:</p>
-                                <span
-                                  v-for="alert in marker.alerts"
-                                  :key="alert.id"
-                                  class="mr-2 mt-1 inline-block rounded-full bg-red-100 px-3 py-1 text-xs text-red-900"
-                                >
-                                  {{ alert }}
-                                </span>
-                              </div>
-                            </div>
-
-                            <div class="mb-4">
-                              <p class="text-sm font-medium text-gray-600">Birthdate:</p>
-                              <p class="text-sm">
-                                {{ format(new Date(marker.birth_date), 'dd/MM/yyyy') }}
-                              </p>
-                            </div>
-
-                            <div>
-                              <p class="text-sm font-medium text-gray-600">Address:</p>
-                              <p class="text-sm">
-                                {{ marker.address.formatted_address }}
-                              </p>
-                            </div>
-                          </div>
-
-                          <div class="flex justify-evenly py-3">
-                            <Button
-                              type="submit"
-                              variant="success-outline"
-                              @click="moveMarker($event, marker.id)"
-                              class="mx-2 gap-2 focus:outline-none"
-                              :disabled="editForm.processing"
-                              v-slot="{ iconSizeClasses }"
+                        <div class="mb-4">
+                          <div class="flex justify-between">
+                            <span
+                              class="mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-sm lowercase text-black"
                             >
-                              <HandIcon aria-hidden="true" :class="iconSizeClasses" />
-                              <span>Mover</span>
-                            </Button>
-                            <PopoverButton :class="{ 'relative z-30': open }">
-                              <Button
-                                type="submit"
-                                variant="success"
-                                class="mx-2 gap-2 bg-white focus:outline-none"
-                                :disabled="editForm.processing"
-                                v-slot="{ iconSizeClasses }"
+                              {{ formatAge(marker.age_in_days) }}
+                            </span>
+                            <p class="text-sm">
+                              <span
+                                :class="{
+                                  'bg-red-100 text-red-800': marker.number_of_alerts_by_protocol > 0,
+                                  'bg-gray-100 text-gray-500': marker.number_of_alerts_by_protocol === 0,
+                                }"
+                                class="mr-2 inline-block rounded-full px-3 py-1 text-sm text-black"
                               >
-                                <PencilIcon aria-hidden="true" :class="iconSizeClasses" />
-                                <span>Editar</span>
-                              </Button>
-                            </PopoverButton>
+                                {{ marker.number_of_alerts_by_protocol }} alerta por protocolo
+                              </span>
+                            </p>
                           </div>
+                        </div>
+
+                        <div class="mb-4">
+                          <p class="text-sm font-medium text-gray-600">Birthdate:</p>
+                          <p class="text-sm">
+                            {{ format(new Date(marker.birth_date), 'dd/MM/yyyy') }}
+                          </p>
+                        </div>
+
+                        <div>
+                          <p class="text-sm font-medium text-gray-600">Address:</p>
+                          <p class="text-sm">
+                            {{ marker.address.formatted_address }}
+                          </p>
                         </div>
                       </div>
-                    </InfoWindow>
-                  </Popover>
-                </Teleport>
+
+                      <div class="flex justify-evenly py-3">
+                        <Button
+                          type="submit"
+                          variant="success-outline"
+                          @click="moveMarker($event, marker.id)"
+                          class="mx-2 gap-2 focus:outline-none"
+                          :disabled="editForm.processing"
+                          v-slot="{ iconSizeClasses }"
+                        >
+                          <HandIcon aria-hidden="true" :class="iconSizeClasses" />
+                          <span>Mover</span>
+                        </Button>
+                        <Button
+                          type="button"
+                          variant="success"
+                          class="mx-2 gap-2 bg-white focus:outline-none"
+                          @click="isModalOpen = true"
+                          v-slot="{ iconSizeClasses }"
+                        >
+                          <PencilIcon aria-hidden="true" :class="iconSizeClasses" />
+                          <span>Editar</span>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Modal do Headless UI -->
+                  <Transition
+                    as="template"
+                    enter="transition-opacity duration-100"
+                    enterFrom="opacity-0"
+                    enterTo="opacity-100"
+                    leave="transition-opacity duration-100"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                  >
+                    <Dialog
+                      as="div"
+                      class="fixed inset-0 z-10 overflow-y-auto"
+                      :open="isModalOpen"
+                      @close="isModalOpen = false"
+                    >
+                      <div class="flex min-h-screen items-center justify-center">
+                        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                        <!-- Overlay -->
+
+                        <!-- This is the modal -->
+                        <div class="relative mx-auto max-w-xl space-y-4 rounded-xl bg-white p-6 shadow drop-shadow">
+                          <div class="flex items-center justify-between">
+                            <Dialog-title as="h3" class="mx-auto text-xl font-medium leading-6 text-gray-800"
+                              >Editar Informações</Dialog-title
+                            >
+                            <button
+                              @click="isModalOpen = false"
+                              class="mb-2 rounded p-0.5 hover:bg-gray-100 focus:outline-none"
+                            >
+                              <XIcon class="h-6 w-6 text-gray-500 hover:text-green-500" />
+                            </button>
+                          </div>
+                          <hr class="mb-2 border-b-2 border-dotted" />
+                          <!-- Form fields -->
+                          <form @submit.prevent="handleSubmit" class="py-5">
+                            <div class="grid grid-cols-2 gap-4">
+                              <!-- Personal Data -->
+                              <div class="space-y-3">
+                                <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">Dados pessoais</h4>
+
+                                <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
+                                <Input
+                                  placeholder="name"
+                                  id="name"
+                                  type="text"
+                                  class="w-full border-gray-300 focus:border-lime-300"
+                                  v-model="editForm.name"
+                                  required
+                                />
+
+                                <label for="birthDate" class="block text-sm font-medium text-gray-700"
+                                  >Data de Nascimento</label
+                                >
+                                <Input
+                                  id="birthDate"
+                                  type="date"
+                                  class="w-full border-gray-300 focus:border-lime-300"
+                                  v-model="editForm.birthDate"
+                                  required
+                                />
+
+                                <label for="age" class="block text-sm font-medium text-gray-700">Idade</label>
+                                <Input
+                                  placeholder="age"
+                                  id="age"
+                                  type="number"
+                                  class="w-full border-gray-300 focus:border-lime-300"
+                                  v-model="editForm.age"
+                                  required
+                                />
+
+                                <label for="address" class="block text-sm font-medium text-gray-700">Endereço</label>
+                                <Input
+                                  placeholder="address"
+                                  id="address"
+                                  type="text"
+                                  class="w-full border-gray-300 focus:border-lime-300"
+                                  v-model="editForm.address"
+                                  required
+                                />
+
+                                <label for="cpf" class="block text-sm font-medium text-gray-700">CPF</label>
+                                <Input
+                                  placeholder="document"
+                                  id="document"
+                                  type="text"
+                                  class="w-full border-gray-300 focus:border-lime-300"
+                                  v-model="editForm.cpf"
+                                  required
+                                />
+                              </div>
+
+                              <!-- Clinical Data -->
+                              <div class="space-y-3">
+                                <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">Dados clínicos</h4>
+
+                                <label for="healthUnit" class="block text-sm font-medium text-gray-700"
+                                  >Unidade de saúde</label
+                                >
+                                <Input
+                                  placeholder="Unidade de saúde"
+                                  id="healthUnit"
+                                  type="text"
+                                  class="w-full border-gray-300 focus:border-lime-300"
+                                  v-model="editForm.healthUnit"
+                                  required
+                                />
+
+                                <label for="cns" class="block text-sm font-medium text-gray-700">CNS</label>
+                                <Input
+                                  placeholder="cns"
+                                  id="CNS"
+                                  type="text"
+                                  class="w-full border-gray-300 focus:border-lime-300"
+                                  v-model="editForm.cns"
+                                  required
+                                />
+
+                                <div class="flex">
+                                  <div class="flex-1 pr-3">
+                                    <label for="codeFile" class="block text-sm font-medium text-gray-700"
+                                      >Cód ficha</label
+                                    >
+                                    <Input
+                                      placeholder="Cód ficha"
+                                      id="codeFile"
+                                      type="text"
+                                      class="w-full border-gray-300 focus:border-lime-300"
+                                      v-model="editForm.codeFile"
+                                      required
+                                    />
+                                  </div>
+                                  <div class="flex-1">
+                                    <label for="fileDate" class="block text-sm font-medium text-gray-700"
+                                      >Data ficha</label
+                                    >
+                                    <Input
+                                      placeholder="Data ficha"
+                                      id="fileDate"
+                                      type="date"
+                                      class="w-full border-gray-300 focus:border-lime-300"
+                                      v-model="editForm.fileDate"
+                                      required
+                                    />
+                                  </div>
+                                </div>
+
+                                <label for="professional" class="block text-sm font-medium text-gray-700"
+                                  >Profissional</label
+                                >
+                                <Input
+                                  placeholder="profissional"
+                                  id="professional"
+                                  type="text"
+                                  class="w-full border-gray-300 focus:border-lime-300"
+                                  v-model="editForm.professional"
+                                  required
+                                />
+
+                                <div class="flex space-x-2">
+                                  <div class="flex-1">
+                                    <label for="vaccine" class="block text-sm font-medium text-gray-700">Vacina</label>
+                                    <Input
+                                      placeholder="vaccine"
+                                      id="vaccine"
+                                      type="text"
+                                      class="w-full border-gray-300 focus:border-lime-300"
+                                      v-model="editForm.vaccine"
+                                      required
+                                    />
+                                  </div>
+                                  <div class="flex-1">
+                                    <label for="dose" class="block text-sm font-medium text-gray-700">Dose</label>
+                                    <Input
+                                      placeholder="dose"
+                                      id="dose"
+                                      type="text"
+                                      class="w-full border-gray-300 focus:border-lime-300"
+                                      v-model="editForm.dose"
+                                      required
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="flex justify-end pt-10">
+                              <Button type="button" variant="success-outline" class="mr-3" @click="isModalOpen = false">
+                                Cancelar
+                              </Button>
+                              <Button type="submit" variant="success"> Salvar </Button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </Dialog>
+                  </Transition>
+                </InfoWindow>
               </div>
             </MarkerCluster>
           </template>
@@ -541,7 +497,17 @@ import {
 } from 'vue'
 import { GoogleMap, Marker, CustomMarker, MarkerCluster, InfoWindow, Polygon } from 'vue3-google-map'
 import { useGeolocation } from '@/composables/useGeolocation'
-import { parseISO, formatRelative, formatDuration, add, setDefaultOptions, differenceInMonths, format } from 'date-fns'
+import {
+  parseISO,
+  formatRelative,
+  formatDuration,
+  add,
+  setDefaultOptions,
+  differenceInMonths,
+  format,
+  differenceInYears,
+  differenceInDays,
+} from 'date-fns'
 import { Popover, PopoverButton, PopoverPanel, PopoverOverlay } from '@headlessui/vue'
 import { TransitionRoot, TransitionChild, Dialog, DialogOverlay, DialogPanel, DialogTitle } from '@headlessui/vue'
 
@@ -554,10 +520,41 @@ import { useStorage } from '@vueuse/core'
 import { Switch } from '@headlessui/vue'
 import { useLoggedUserStore } from '@/stores/loggedUser'
 import { useI18n } from 'vue3-i18n'
+import RegionForm from '@/components/atoms/RegionForm.vue'
+
+// const dataAtual = new Date();
+
+// const idadeEmAnos = differenceInYears(dataAtual, dataNascimento);
+// const idadeEmMeses = differenceInMonths(dataAtual, dataNascimento);
+// const idadeEmDiasRestantes = differenceInDays(dataAtual, dataNascimento);
+
+function formatAge(age_in_days) {
+  const today = new Date()
+  // Criamos uma nova data baseada na quantidade de dias recebidos
+  const birthDate = new Date(today - age_in_days * 24 * 60 * 60 * 1000)
+
+  const years = differenceInYears(today, birthDate)
+  const months = differenceInMonths(today, birthDate) % 12
+  const days = differenceInDays(today, birthDate) % 30 // Aproximando meses a 30 dias
+
+  // Formatação de acordo com os critérios estabelecidos
+  if (years === 1) {
+    return `1 ${t('patient-details.year')}`
+  } else if (years > 1) {
+    return `${years} ${t('patient-details.years')}`
+  } else if (months === 1) {
+    return `1 ${t('patient-details.month')}`
+  } else if (months > 1) {
+    return `${months} ${t('patient-details.months')}`
+  } else if (days === 1) {
+    return `1 ${t('patient-details.day')}`
+  } else {
+    return `${days} ${t('patient-details.days')}`
+  }
+}
+
 const { t } = useI18n()
 const enabled = ref(false)
-
-import RegionForm from '@/components/atoms/RegionForm.vue'
 
 const loggedUserStore = useLoggedUserStore()
 const itemRefs = ref([])
@@ -622,11 +619,15 @@ const markerIconAlert = ref({
 })
 
 const editForm = reactive({
-  username: '',
-  email: '',
-  password1: '',
-  password2: '',
-  terms: false,
+  name: '',
+  birthDate: '',
+  healthUnit: '',
+  cns: '',
+  codeFile: '',
+  fileDate: '',
+  professional: '',
+  vaccine: '',
+  dose: '',
   processing: false,
 })
 const items = computed(() => [
@@ -699,6 +700,7 @@ const getCenterOfPolygon = computed(() => (index) => {
   infoWindow.setPosition(center)
 })
 
+const isModalOpen = ref(false)
 // const isOpen = ref(true) // You can control this variable to show or hide the modal
 
 const addressQuery = ref([])

@@ -53,22 +53,7 @@
 
         <div class="grid grid-cols-2 gap-4" v-if="props.dose.status && props.dose.status.completed">
           <div>
-            <label for="gender" class="block p-2 text-sm font-medium text-gray-700">Profissional</label>
-            <input
-              id="gender"
-              type="text"
-              :value="
-                props.dose.status.health_professional.name == null
-                  ? 'Desconhecido'
-                  : props.dose.status.health_professional.name
-              "
-              class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
-              readonly
-            />
-          </div>
-
-          <div>
-            <label for="cns_number" class="block py-2 px-4 text-sm font-medium text-gray-700"> csn </label>
+            <label for="cns_number" class="block py-2 px-4 text-sm font-medium text-gray-700"> CSN </label>
             <input
               id="cns_number"
               type="text"
@@ -83,7 +68,24 @@
           </div>
 
           <div>
-            <label for="cnes_number" class="block py-2 px-4 text-sm font-medium text-gray-700"> cnes </label>
+            <label for="profissional" class="block p-2 text-sm font-medium text-gray-700">{{
+              $t('patient-details.profissional')
+            }}</label>
+            <input
+              id="profissional"
+              type="text"
+              :value="
+                props.dose.status.health_professional.name == null
+                  ? 'Desconhecido'
+                  : props.dose.status.health_professional.name
+              "
+              class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
+              readonly
+            />
+          </div>
+
+          <div>
+            <label for="cnes_number" class="block py-2 px-4 text-sm font-medium text-gray-700"> CNES </label>
             <input
               id="cnes_number"
               type="text"
@@ -98,24 +100,13 @@
           </div>
 
           <div>
-            <label for="batch" class="block p-2 text-sm font-medium text-gray-700">batch</label>
+            <label for="batch" class="block p-2 text-sm font-medium text-gray-700">{{
+              $t('patient-details.batch')
+            }}</label>
             <input
               id="batch"
               type="text"
               :value="props.dose.status.batch"
-              class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
-              readonly
-            />
-          </div>
-          <pre>{{ props.dose.status }}</pre>
-          <div>
-            <label for="next-data-application" class="block py-2 px-4 text-sm font-medium text-gray-700">
-              proxima aplicação:
-            </label>
-            <input
-              id="next-data-application"
-              type="text"
-              :value="format(nextDoseApplicationDate, 'dd/MM/yyyy')"
               class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
               readonly
             />
@@ -129,6 +120,18 @@
               id="data-application"
               type="text"
               :value="format(doseApplicationDate, 'dd/MM/yyyy')"
+              class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
+              readonly
+            />
+          </div>
+          <div>
+            <label for="next-data-application" class="block py-2 px-4 text-sm font-medium text-gray-700">
+              {{ $t('patient-details.next-application') }}
+            </label>
+            <input
+              id="next-data-application"
+              type="text"
+              :value="format(nextDoseApplicationDate, 'dd/MM/yyyy')"
               class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
               readonly
             />
