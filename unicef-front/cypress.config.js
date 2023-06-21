@@ -6,4 +6,7 @@ module.exports = defineConfig({
     baseUrl: 'http://localhost:4173',
   },
   experimentalStudio: true,
+  e2e: {
+    experimentalSessionAndOrigin: true,
+  },
 })

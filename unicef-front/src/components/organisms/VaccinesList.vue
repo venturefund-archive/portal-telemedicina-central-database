@@ -306,6 +306,8 @@
                           "
                           :rangeIndex="rangeIndex"
                           :status="1"
+                          :data-dose-id="dose.id"
+                          data-dose-type="completed"
                         >
                           <VaccineAlertInfo @update:toggle-active="toggleMuted" :vaccine="vaccine" :dose="dose" />
                         </VaccineAlert>
@@ -331,6 +333,8 @@
                         <VaccineAlert
                           :vaccine="vaccine"
                           :dose="dose"
+                          :data-dose-id="dose.id"
+                          data-dose-type="recomended"
                           :rangeIndex="rangeIndex"
                           :status="4"
                           v-else-if="
