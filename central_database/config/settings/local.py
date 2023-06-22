@@ -76,3 +76,5 @@ CENTRAL_DATABASE_PATH = "central_database"
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
 LOGIN_URL = "http://localhost:3000/"
+
+DEFAULT_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"

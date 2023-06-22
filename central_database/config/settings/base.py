@@ -1,6 +1,8 @@
 """
 Base settings to build other settings files upon.
 """
+import json
+import os
 from pathlib import Path
 
 import environ
@@ -96,6 +98,7 @@ THIRD_PARTY_APPS = [
     "rules.apps.AutodiscoverRulesConfig",
     "django_filters",
     "leaflet",
+    "channels",
 ]
 
 LOCAL_APPS = [
@@ -244,7 +247,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 # EMAIL
 # ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#email-backend
+# https://docs.djangoproject.com/en/dev/ref/settings/#email-backendf
 EMAIL_BACKEND = env(
     "DJANGO_EMAIL_BACKEND",
     default="django.core.mail.backends.console.EmailBackend",  # noqa
@@ -355,9 +358,36 @@ LANGUAGES = (
 )
 
 REST_AUTH_PW_RESET_USE_SITES_DOMAIN = True
+
+# GCP
+GS_PROJECT_ID = None
+GS_LOCATION = ""
+bucket_file = Path(".secrets/bucket-admin.json")
+if bucket_file.exists():
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = ".secrets/bucket-admin.json"
+    with open(".secrets/bucket-admin.json") as json_file:
+        bucket_json_file = json.load(json_file)
+        GS_PROJECT_ID = bucket_json_file["project_id"]
+        GS_MEDIA_BUCKET_NAME = GS_PROJECT_ID + "-media"
+        GS_STATIC_BUCKET_NAME = GS_PROJECT_ID + "-data-public"
+        STATIC_URL = f"https://storage.googleapis.com/{GS_STATIC_BUCKET_NAME}/"
+        MEDIA_URL = f"https://storage.cloud.google.com/{GS_MEDIA_BUCKET_NAME}/"
+
+# HealthCare API
 USE_HEALTHCARE_API = env(
     "USE_HEALTHCARE_API",
     default=True,  # noqa
 )
+
 HEALTHCARE_API_PROJECT_ID = "ptm-gestao-di-dev"
 HEALTHCARE_API_PROJECT_LOCATION = "southamerica-east1"
+
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("redis", 6379)],
+        },
+    },
+}
