@@ -5,6 +5,7 @@ from central_database.customers.api.views import MicroRegionViewSet
 from central_database.patients.api.views import PatientsViewSet
 from central_database.users.api.views import UserViewSet
 from central_database.vaccines.api.views import (  # noqa: E501
+    VaccinationCardViewSet,
     VaccineAlertViewSet,
     VaccineDosesViewSet,
     VaccineProtocolMetricsViewSet,
@@ -24,6 +25,9 @@ router.register(
 )
 router.register("patients", PatientsViewSet, basename="patients")
 router.register("users", UserViewSet)
+router.register(
+    "vaccines/cards", VaccinationCardViewSet, basename="vaccination-cards"
+)  # noqa: E501
 router.register(
     "vaccines/status", VaccineStatusViewSet, basename="vaccine-status"
 )  # noqa: E501
