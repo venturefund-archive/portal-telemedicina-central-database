@@ -7,9 +7,9 @@ from rest_framework.test import APITestCase
 from central_database.customers.factories import ClientFactory
 from central_database.permissions_manager.core import PermissionManager
 from central_database.users.tests.factories import UserFactory
-from central_database.vaccines.api.serializers import VaccineSerializer
-from central_database.vaccines.models import Vaccine
-from central_database.vaccines.tests.factories import VaccineFactory
+from central_database.vaccines.api.serializers import VaccineProtocolSerializer
+from central_database.vaccines.models import VaccineProtocol
+from central_database.vaccines.tests.factories import VaccineProtocolFactory
 
 
 class TestPermissionSerializerMixin(APITestCase):
@@ -21,36 +21,42 @@ class TestPermissionSerializerMixin(APITestCase):
         Permission.objects.create(
             codename="test_permission_1",
             name="Can perform tests",
-            content_type=ContentType.objects.get_for_model(Vaccine),
+            content_type=ContentType.objects.get_for_model(VaccineProtocol),
         )
 
         Permission.objects.create(
             codename="test_permission_2",
             name="Can perform tests",
-            content_type=ContentType.objects.get_for_model(Vaccine),
+            content_type=ContentType.objects.get_for_model(VaccineProtocol),
         )
 
         Permission.objects.create(
             codename="test_permission_3",
             name="Can perform tests",
-            content_type=ContentType.objects.get_for_model(Vaccine),
+            content_type=ContentType.objects.get_for_model(VaccineProtocol),
         )
-        ContentType.objects.get_for_model(Vaccine)
+        ContentType.objects.get_for_model(VaccineProtocol)
 
-        PermissionManager().grant_perm("vaccine.test_permission_1", self.user)
-        PermissionManager().grant_perm("vaccine.test_permission_3", self.user)
+        PermissionManager().grant_perm(
+            "vaccineprotocol.test_permission_1", self.user
+        )  # noqa: E501
+        PermissionManager().grant_perm(
+            "vaccineprotocol.test_permission_3", self.user
+        )  # noqa: E501
 
-        vaccine = VaccineFactory()
+        vaccine_protocol = VaccineProtocolFactory(client=self.user.client)
 
         request_mock = MagicMock()
         request_mock.user = self.user
-        VaccineSerializer.context = {"request": request_mock}
-        serialized_vaccine = VaccineSerializer(vaccine).data
+        VaccineProtocolSerializer.context = {"request": request_mock}
+        serialized_vaccine_protocol = VaccineProtocolSerializer(
+            vaccine_protocol
+        ).data  # noqa: E501
 
-        print(serialized_vaccine["permissions"])
-        self.assertTrue("permissions" in serialized_vaccine.keys())
+        print(serialized_vaccine_protocol["permissions"])
+        self.assertTrue("permissions" in serialized_vaccine_protocol.keys())
         self.assertEqual(
-            serialized_vaccine["permissions"],
+            serialized_vaccine_protocol["permissions"],
             {
                 "test_permission_1": {
                     "model_level": True,

@@ -1,11 +1,14 @@
 from django.conf import settings
 from rest_framework.routers import DefaultRouter, SimpleRouter
 
+from central_database.customers.api.views import MicroRegionViewSet
 from central_database.patients.api.views import PatientsViewSet
 from central_database.users.api.views import UserViewSet
 from central_database.vaccines.api.views import (  # noqa: E501
+    VaccineAlertViewSet,
     VaccineDosesViewSet,
     VaccineProtocolMetricsViewSet,
+    VaccineStatusViewSet,
     VaccineViewSet,
 )
 
@@ -22,8 +25,15 @@ router.register(
 router.register("patients", PatientsViewSet, basename="patients")
 router.register("users", UserViewSet)
 router.register(
+    "vaccines/status", VaccineStatusViewSet, basename="vaccine-status"
+)  # noqa: E501
+router.register(
+    "vaccines/alerts", VaccineAlertViewSet, basename="vaccine-alerts"
+)  # noqa: E501
+router.register(
     "vaccines/doses", VaccineDosesViewSet, basename="vaccine-doses"
 )  # noqa: E501
 router.register("vaccines", VaccineViewSet, basename="vaccine")
+router.register("microregion", MicroRegionViewSet, basename="microregion")
 app_name = "api"
 urlpatterns = router.urls

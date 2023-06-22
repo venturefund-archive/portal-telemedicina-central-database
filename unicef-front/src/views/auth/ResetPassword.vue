@@ -2,7 +2,7 @@
   <form @submit.prevent="submit">
     <div class="grid gap-4">
       <div class="space-y-2">
-        <Label for="password" value="New password" />
+        <Label for="password" :value="$t('auth.new-password')" />
         <InputIconWrapper>
           <template #icon>
             <LockClosedIcon aria-hidden="true" class="h-5 w-5" />
@@ -11,7 +11,7 @@
             withIcon
             id="password"
             type="password"
-            placeholder="New password"
+            :placeholder="$t('auth.new-password')"
             class="block w-full"
             v-model="resetPasswordForm.password"
             required
@@ -21,7 +21,7 @@
       </div>
 
       <div class="space-y-2">
-        <Label for="password_confirmation" value="Confirm Password" />
+        <Label for="password_confirmation" :value="$t('auth.confirm-password')" />
         <InputIconWrapper>
           <template #icon>
             <LockClosedIcon aria-hidden="true" class="h-5 w-5" />
@@ -30,7 +30,7 @@
             withIcon
             id="password_confirmation"
             type="password"
-            placeholder="Confirm Password"
+            :placeholder="$t('auth.confirm-password')"
             class="block w-full"
             v-model="resetPasswordForm.password_confirmation"
             required
@@ -40,9 +40,9 @@
       </div>
 
       <div>
-        <Button type="submit" class="w-full justify-center" :disabled="resetPasswordForm.processing"
-          >Resetar senha</Button
-        >
+        <Button type="submit" class="w-full justify-center" :disabled="resetPasswordForm.processing">{{
+          $t('auth.resetar-senha')
+        }}</Button>
       </div>
     </div>
   </form>
@@ -55,6 +55,8 @@ import { MailIcon, LockClosedIcon } from '@heroicons/vue/outline'
 import { useStorage } from '@vueuse/core'
 import { useRouter } from 'vue-router'
 import { errorToast, successToast } from '@/toast'
+import { useI18n } from 'vue3-i18n'
+const { t, locale } = useI18n()
 
 const props = defineProps({
   uid: String,
@@ -71,15 +73,13 @@ const resetPasswordForm = reactive({
 const submit = async () => {
   const state = useStorage('app-store', { token: '' })
   try {
-    const response = await axios.post(`/rest-auth/password/reset/confirm/${props.uid}/${props.token}/`,
-      {
-        new_password1: resetPasswordForm.password,
-        new_password2: resetPasswordForm.password_confirmation,
-        uid: props.uid,
-        token: props.token,
-      }
-    )
-    successToast({ text: 'Senha alterada com sucesso!' })
+    const response = await axios.post(`/rest-auth/password/reset/confirm/${props.uid}/${props.token}/`, {
+      new_password1: resetPasswordForm.password,
+      new_password2: resetPasswordForm.password_confirmation,
+      uid: props.uid,
+      token: props.token,
+    })
+    successToast({ text: t('auth.password-changed-successfully') })
     router.replace({ name: 'Login' })
   } catch (err) {
     if (err.response.data.token) {

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <h2 class="font-bold">Acesso restrito!</h2>
+    <h2 class="font-bold">{{ $t('auth.restricted-access') }}</h2>
     <p class="mb-5 max-w-xl text-sm text-gray-500">
-      Ambiente de trabalho reservado para acesso restrito de profissionais de saúde.
+      {{ $t('auth.work-environment-reserved-for-restricted-access-of-health-professionals') }}
     </p>
   </div>
   <form @submit.prevent="login">
@@ -18,10 +18,10 @@
             id="username"
             type="text"
             class="block w-full"
-            placeholder="Username"
+            :placeholder="$t('auth.username')"
             v-model="loginForm.username"
             autofocus
-            autocomplete="username"
+            autocomplete="email"
             autocapitalize="none"
             autocorrect="off"
           />
@@ -39,7 +39,7 @@
             id="password"
             type="password"
             class="block w-full"
-            placeholder="Password"
+            :placeholder="$t('auth.password')"
             v-model="loginForm.password"
             autocomplete="current-password"
           />
@@ -50,31 +50,33 @@
       <div class="flex items-center justify-between">
         <label class="flex items-center">
           <Checkbox name="remember" v-model:checked="loginForm.remember" />
-          <span class="ml-2 text-sm text-gray-600">Lembrar-me</span>
+          <span class="ml-2 text-sm text-gray-600">{{ $t('auth.remember-me') }}</span>
         </label>
 
-        <router-link :to="{ name: 'ForgotPassword' }" class="text-sm text-blue-500 hover:underline"
-          >Esqueceu a senha?</router-link
-        >
+        <router-link :to="{ name: 'ForgotPassword' }" class="text-sm text-blue-500 hover:underline">{{
+          $t('auth.forgot-password')
+        }}</router-link>
       </div>
 
       <!-- Login button -->
       <div>
         <Button
           type="submit"
-          class="w-full justify-center gap-2"
+          class="w-full justify-center gap-2 rounded-full"
           :disabled="loginForm.processing"
           v-slot="{ iconSizeClasses }"
         >
           <LoginIcon aria-hidden="true" :class="iconSizeClasses" />
-          <span>Entrar</span>
+          <span>{{ $t('auth.enter') }}</span>
         </Button>
       </div>
 
       <!-- Register link -->
       <p class="text-sm text-gray-600 dark:text-gray-400">
-        Ainda não tem uma conta?
-        <router-link :to="{ name: 'Register' }" class="text-blue-500 hover:underline">Cadastrar</router-link>
+        {{ $t('auth.not-have-an-account-yet') }}
+        <router-link :to="{ name: 'Register' }" class="text-blue-500 hover:underline">{{
+          $t('auth.register')
+        }}</router-link>
       </p>
     </div>
   </form>
@@ -89,6 +91,8 @@ import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
+import { useI18n } from 'vue3-i18n'
+const { t, locale } = useI18n()
 
 const router = useRouter()
 
@@ -100,20 +104,26 @@ const loginForm = reactive({
 })
 
 const login = async () => {
-  const state = useStorage('app-store', { token: '' })
+  const state = useStorage('app-store', { token: '', intendedRoute: '' })
   try {
     const response = await axios.post(import.meta.env.VITE_API_URL + '/api/dj-rest-auth/login/', loginForm)
+    const intendedRoute = state.value.intendedRoute
 
     if (response.data.non_field_errors) {
       errorToast({ text: err.message })
       return false
     }
     state.value.token = response.data.key
-    successToast({ text: 'Você se conectou com sucesso.' })
-    router.replace({ name: 'Dashboard' })
+    successToast({ text: t('auth.you-connected-successfully') })
+    if (state.value.intendedRoute) {
+      router.replace(state.value.intendedRoute)
+    } else {
+      router.replace({ name: 'Dashboard' })
+    }
   } catch (err) {
+    console.log(err)
     if (err.response.data.non_field_errors) {
-      errorToast({ text: "Usuário em fase de aprovação ou Usuário em análise" })
+      errorToast({ text: t('auth.user-under-approval-phase-or-user-under-analysis') })
       return false
     }
     if (err.response.data.username) {

@@ -9,7 +9,7 @@
   </header>
 
   <!-- Page Content -->
-  <main class="w-full" :class="{ 'mt-2': !$slots.header }">
+  <main class="w-full" :class="{ '': !$slots.header }">
     <div class="px-5 lg:px-8">
       <slot />
     </div>

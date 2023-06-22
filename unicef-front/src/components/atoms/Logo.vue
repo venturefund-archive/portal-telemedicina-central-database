@@ -1,3 +1,3 @@
 <template>
-  <img src="@/assets/favicon.png" alt="unicef logo" />
+  <img src="@/assets/portal_logo_dash.png" alt="unicef logo" />
 </template>

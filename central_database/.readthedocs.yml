@@ -6,7 +6,7 @@ sphinx:
 build:
   image: testing
   tools:
-    python: "3.10"
+    python: "3.9"
 
 python:
   install:

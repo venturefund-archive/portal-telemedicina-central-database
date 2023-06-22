@@ -3,7 +3,6 @@ import { createPinia } from 'pinia'
 import App from '@/App.vue'
 import router from '@/router'
 import Toast from 'vue-toastification'
-import 'flowbite'
 import './tailwind.css'
 import '@/assets/css/main.css'
 import { createMetaManager, plugin as metaPlugin } from 'vue-meta/dist/vue-meta.esm-browser'
@@ -13,8 +12,8 @@ import { fas } from '@fortawesome/free-solid-svg-icons'
 import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 import { faWindowClose } from '@fortawesome/free-solid-svg-icons'
-// import { createI18n } from 'vue-i18n/index'
-import { messages } from 'vite-i18n-resources'
+import i18n from './i18n'
+import 'flowbite'
 // import axios from 'axios'
 
 const pinia = createPinia()
@@ -33,4 +32,5 @@ app.use(Toast, {
   timeout: 5000,
   transition: 'Vue-Toastification__fade',
 })
+app.use(i18n)
 app.mount('#app')

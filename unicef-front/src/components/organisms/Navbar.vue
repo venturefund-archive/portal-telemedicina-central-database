@@ -2,39 +2,29 @@
   <nav
     aria-label="secondary"
     :class="[
-      'dark:bg-dark-eval-1 sticky top-0 z-10 flex items-center justify-between bg-white px-6 py-4 transition-transform duration-500',
+      'sticky top-0 z-10 flex items-center justify-between bg-white py-4 px-5 shadow-md transition-transform duration-500',
       {
         '-translate-y-full': scrolling.down,
         'translate-y-0': scrolling.up,
       },
     ]"
   >
-    <div class="flex items-center pr-5 grow">
-      <form @submit.prevent="search" class="w-full lg:w-1/2">
+    <div class="flex grow items-center pr-5">
+      <form @submit.prevent="search" class="w-full sm:w-96">
         <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900">Procurar</label>
-        <div class="relative">
-          <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-            <svg
-              class="h-5 w-5 text-gray-500 dark:text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              ></path>
-            </svg>
-          </div>
+        <InputIconWrapper>
+          <template #icon>
+            <SearchIcon aria-hidden="true" class="h-5 w-5" />
+          </template>
           <AutoComplete v-model="queryText" :suggestions="filteredResults" />
-        </div>
+        </InputIconWrapper>
       </form>
     </div>
 
     <div class="flex items-center gap-2">
+      <div class="px-10">
+        <LanguageSwitcher />
+      </div>
       <!-- Dropdwon -->
       <div>
         <div>
@@ -42,11 +32,16 @@
             class="dark:focus:ring-offset-dark-eval-1 flex rounded-md border-2 border-transparent text-sm transition focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-1 focus:ring-offset-white"
           >
             <div class="flex flex-col items-end justify-center">
-              <p class="font-bold" v-if="loggedUserStore.item">{{ loggedUserStore.item.username }}</p>
+              <p class="font-normal" v-if="loggedUserStore.item">{{ loggedUserStore.item.username }}</p>
             </div>
             <img class="mx-5 h-12 w-12 rounded-md object-cover" :src="userAvatar" alt="User Name" />
           </button>
         </div>
+      </div>
+      <div>
+        <div
+          class="border-r-1 inline-flex items-center justify-center gap-2 border border-l-0 border-gray-100 border-t-transparent border-b-transparent py-5 px-4"
+        ></div>
       </div>
       <Button
         iconOnly
@@ -67,7 +62,7 @@
         class="hidden md:inline-flex"
         srText="Configurações"
       >
-        <LogoutIcon v-show="!isFullscreen" aria-hidden="true" :class="iconSizeClasses" />
+        <LogoutIcon v-show="!isFullscreen" aria-hidden="true" :class="iconSizeClasses" class="text-blue-500" />
         <LogoutIcon @click="logout" v-show="isFullscreen" aria-hidden="true" :class="iconSizeClasses" />
       </Button>
     </div>
@@ -75,8 +70,9 @@
 
   <!-- Mobile bottom bar -->
   <div
+    class="block sm:hidden"
     :class="[
-      'dark:bg-dark-eval-1 fixed z-10 inset-x-0 bottom-0 flex items-center justify-between bg-white px-4 py-4 transition-transform duration-500 sm:px-6 md:hidden',
+      'dark:bg-dark-eval-1 fixed inset-x-0 bottom-0 z-10 flex items-center justify-between bg-blue-500 px-4 py-4 transition-transform duration-500 sm:px-6 md:hidden',
       {
         'translate-y-full': scrolling.down,
         'translate-y-0': scrolling.up,
@@ -84,13 +80,15 @@
     ]"
   >
     <router-link to="/">
-      <Logo class="h-10 w-10" />
+      <Logo class="h-10" />
       <span class="sr-only">UNICEF</span>
     </router-link>
+    <SidebarContent />
 
     <Button
       iconOnly
       variant="secondary"
+      v-if="!sidebarState.isOpen"
       @click="sidebarState.isOpen = !sidebarState.isOpen"
       v-slot="{ iconSizeClasses }"
       class="md:hidden"
@@ -125,6 +123,7 @@ import { useLoggedUserStore } from '@/stores/loggedUser'
 const loggedUserStore = useLoggedUserStore()
 const patientsStore = usePatientsStore()
 
+const items = ref([])
 const queryText = ref('')
 
 const router = useRouter()
@@ -132,14 +131,9 @@ const { isFullscreen, toggle: toggleFullScreen } = useFullscreen()
 
 const logout = async () => {
   const state = useStorage('app-store', { token: '' })
-  try {
-    const response = await axios.post(import.meta.env.VITE_API_URL + '/api/dj-rest-auth/logout/')
-    state.value = null
-    successToast({ text: 'Você saiu com sucesso!' })
-    router.replace({ name: 'Login' })
-  } catch (err) {
-    errorToast({ text: err.message })
-  }
+  state.value.token = null
+  successToast({ text: 'Você saiu com sucesso!' })
+  router.replace({ name: 'Login' })
 }
 
 const filteredResults = computed(() => {
@@ -149,9 +143,9 @@ const filteredResults = computed(() => {
 
   let matches = 0
 
-  return patientsStore.items.filter((patient) => {
+  return items.value.filter((patient) => {
     if (
-      (patient.name.join().toLowerCase().includes(queryText.value.toLowerCase()) ||
+      (patient.name.toLowerCase().includes(queryText.value.toLowerCase()) ||
         patient.id.toLowerCase().includes(queryText.value.toLowerCase())) &&
       matches < 10
     ) {
@@ -163,8 +157,7 @@ const filteredResults = computed(() => {
 
 onMounted(async () => {
   document.addEventListener('scroll', handleScroll)
-  await loggedUserStore.fetchMe()
-  await patientsStore.searchPatients()
+  items.value = patientsStore.items
 })
 
 onUnmounted(() => {

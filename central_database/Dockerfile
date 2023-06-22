@@ -9,7 +9,7 @@ ARG APP_HOME=/app
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV BUILD_ENV ${BUILD_ENVIRONMENT}
-ENV POETRY_VERSION=1.1.14
+ENV POETRY_VERSION=1.4.2
 
 WORKDIR ${APP_HOME}
 
@@ -21,9 +21,19 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   libpq-dev \
   # Translations dependencies
   gettext \
+  # GDAL dependencies
+  binutils libproj-dev gdal-bin \
   # cleaning up unused files
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
+
+# Install GDAL
+RUN apt-get update && apt-get install -y \
+    libgdal-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV CPLUS_INCLUDE_PATH=/usr/include/gdal
+ENV C_INCLUDE_PATH=/usr/include/gdal
 
 RUN pip install poetry==${POETRY_VERSION}
 
@@ -40,7 +50,7 @@ RUN sed -i 's/\r$//g' /start
 RUN chmod +x /start
 
 # copy application code to WORKDIR
-COPY . ${APP_HOME}
+COPY ./central_database ${APP_HOME}
 
 COPY ./central_database/hook.sh /hook
 

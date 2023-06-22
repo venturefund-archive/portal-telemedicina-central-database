@@ -1,14 +1,14 @@
 <template>
-  <div :class="['rounded-md p-3 shadow-md', bgClasses]">
+  <div :class="['rounded-2xl py-5', bgClasses]" class="h-full">
     <!-- Card header -->
-    <div class="" v-if="!noHeader">
+    <div v-if="!noHeader">
       <slot name="header">
         <div class="flex justify-between">
           <h4 class="text-lg font-medium">{{ title }}</h4>
-          <form>
-            <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-              >Search</label
-            >
+          <form @submit.prevent="">
+            <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{
+              $t('dashboard.search')
+            }}</label>
             <div class="relative">
               <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                 <svg
@@ -27,11 +27,14 @@
                 </svg>
               </div>
               <InputIconWrapper>
-                <input
+                <template #icon>
+                  <SearchIcon aria-hidden="true" class="h-5 w-5" />
+                </template>
+                <Input
                   @input="$emit('update:query', $event.target.value)"
-                  placeholder="Pesquisar"
+                  :placeholder="$t('dashboard.search')"
                   withIcon
-                  class="block w-full rounded-lg border border-transparent bg-gray-50 p-4 pl-10 text-sm text-gray-900 "
+                  class="w-full rounded-full border border-gray-100 bg-gray-50 px-10 py-2.5 focus:shadow"
                 />
               </InputIconWrapper>
             </div>
@@ -46,7 +49,7 @@
 </template>
 
 <script setup>
-import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
+import { SearchIcon } from '@heroicons/vue/outline'
 import { DotsHorizontalIcon } from '@heroicons/vue/outline'
 import { ref } from 'vue'
 
@@ -61,7 +64,7 @@ const props = defineProps({
     default: 'bg-white',
   },
 
-  title: String
+  title: String,
 })
 
 const localQuery = ref(props.query)

@@ -1,5 +1,12 @@
+from typing import Any
+
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
+from central_database.customers.api.serializers import (  # noqa: E501
+    HealthProfessionalSerializer,
+)
+from central_database.customers.models import HealthProfessional
 from central_database.permissions_manager.rest_api.mixins import (
     PermissionSerializerMixin,
 )
@@ -12,9 +19,7 @@ from central_database.vaccines.models import (
 )
 
 
-class VaccineSerializer(
-    PermissionSerializerMixin, serializers.ModelSerializer
-):  # noqa: E501
+class VaccineSerializer(serializers.ModelSerializer):  # noqa: E501
     class Meta:
         model = Vaccine
         fields = "__all__"
@@ -26,11 +31,55 @@ class VaccineAlertSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class VaccineDosesSerializer(
-    PermissionSerializerMixin, serializers.ModelSerializer
-):  # noqa: E501
+class VaccineStatusSerializer(serializers.ModelSerializer):
+    health_professional = HealthProfessionalSerializer(
+        required=False, allow_null=True
+    )  # noqa: E501
+
+    class Meta:
+        model = VaccineStatus
+        fields = "__all__"
+
+    def create(self, validated_data):
+        health_professional_data = validated_data.pop(
+            "health_professional", {}
+        )  # noqa: E501
+        cns_number = health_professional_data.get("cns_number", None)
+        health_professional = None
+        if cns_number is not None:
+            health_professional, _ = HealthProfessional.objects.get_or_create(
+                cns_number=cns_number, defaults=health_professional_data
+            )  # Creates a new professional only if cns_number doesn't exist
+        if health_professional is not None:
+            validated_data["health_professional"] = health_professional
+        vaccine_status = VaccineStatus.objects.create(**validated_data)
+        return vaccine_status
+
+    def update(self, instance, validated_data):
+        health_professional_data = validated_data.pop(
+            "health_professional", {}
+        )  # noqa: E501
+        health_professional = None
+        if health_professional_data is not None:
+            cns_number = health_professional_data.get("cns_number", None)
+            if cns_number is not None:
+                (
+                    health_professional,
+                    _,
+                ) = HealthProfessional.objects.get_or_create(  # noqa: E501
+                    cns_number=cns_number, defaults=health_professional_data
+                )
+            if health_professional is not None:
+                validated_data["health_professional"] = health_professional
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance
+
+
+class VaccineDosesSerializer(serializers.ModelSerializer):  # noqa: E501
     alerts = serializers.SerializerMethodField()
-    is_completed = serializers.SerializerMethodField(method_name="get_status")
+    status = serializers.SerializerMethodField()
 
     class Meta:
         model = VaccineDose
@@ -42,24 +91,40 @@ class VaccineDosesSerializer(
             "dose_order",
             "gender_recommendation",
             "alerts",
-            "is_completed",
+            "status",
+            "booster",
         ]
 
+    @extend_schema_field(VaccineAlertSerializer(many=True))
     def get_alerts(self, vaccine_dose_instance):
-        patient_id = self.context.get("patient_id")
-        alerts = vaccine_dose_instance.get_vaccine_alerts(
-            patient_id=patient_id
-        )  # noqa: E501
-        return VaccineAlertSerializer(alerts, many=True).data
-
-    def get_status(self, vaccine_dose_instance):
-        patient_id = self.context.get("patient_id")
-        status = vaccine_dose_instance.get_vaccine_status(
-            patient_id=patient_id
-        ).first()  # noqa: E501
-        if status:
-            return status.completed
+        alerts = getattr(vaccine_dose_instance, "active_alerts", None)
+        if alerts is not None:
+            return VaccineAlertSerializer(alerts, many=True).data
         return None
+
+    @extend_schema_field(VaccineStatusSerializer(many=False))
+    def get_status(self, vaccine_dose_instance):
+        status = getattr(vaccine_dose_instance, "patient_status", None)
+        if status:
+            return VaccineStatusSerializer(status[0]).data
+        return None
+
+    def remove_keys(self, data_dict, keys_to_remove):
+        for key in keys_to_remove:
+            data_dict.pop(key, None)
+
+    def to_representation(self, instance: Any) -> Any:
+        data = super().to_representation(instance)
+        keys_to_remove = ["patient_id", "vaccine_dose"]
+
+        if data.get("status"):
+            self.remove_keys(data["status"], keys_to_remove)
+
+        if data.get("alerts"):
+            for alert in data["alerts"]:
+                self.remove_keys(alert, keys_to_remove)
+
+        return data
 
 
 class VaccineProtocolSerializer(

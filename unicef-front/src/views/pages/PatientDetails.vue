@@ -1,7 +1,7 @@
 <template>
-  <PageWrapper title="Detalhes do patiente">
+  <PageWrapper>
     <div v-if="patientsStore.item && props.id">
-      <VaccinesList :id="id" />
+      <VaccinesList :id="id" :no-menubar="props.noMenubar" />
     </div>
   </PageWrapper>
 </template>
@@ -16,11 +16,11 @@ import { watch, computed } from 'vue'
 import { usePatientsStore } from '@/stores/patients'
 import { useVaccinesStore } from '@/stores/vaccines'
 import { useLoggedUserStore } from '@/stores/loggedUser'
+import { useDosesStore } from '@/stores/doses'
 const loggedUserStore = useLoggedUserStore()
 const patientsStore = usePatientsStore()
 const vaccinesStore = useVaccinesStore()
 const router = useRouter()
-import { useDosesStore } from '@/stores/doses'
 const dosesStore = useDosesStore()
 
 const props = defineProps({
@@ -28,13 +28,23 @@ const props = defineProps({
     type: String,
     default: '1',
   },
+  noMenubar: {
+    type: Boolean,
+    default: false,
+  },
 })
 
+const state = useStorage('app-store', { token: '' })
 watch(
   () => props.id,
-  async (id) => {
+  async (newId) => {
     loggedUserStore.isLoading = true
-    const patientResponse = await patientsStore.fetchPatient(props.id)
+    console.log('newId', newId)
+    console.log('props.id', props.id)
+
+    const id = props.id ? props.id : state.value.patientLastViewed
+    console.log('id', id)
+    const patientResponse = await patientsStore.fetchPatient(id)
     if (0 == vaccinesStore.items.length) {
       const vaccineResponse = await vaccinesStore.fetchVaccines()
     }

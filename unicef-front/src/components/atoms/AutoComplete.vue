@@ -3,26 +3,30 @@
     <Input
       :value="modelValue"
       @input="$emit('update:modelValue', $event.target.value); hideSuggestions = false"
-      placeholder="Pesquisar por pacientes, número de documento etc"
-      class="block w-full rounded-lg border border-transparent focus:shadow-none bg-gray-50 py-4.5 pl-10 text-gray-900 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 w-full"
-      />
-
-    <ul class="absolute w-full rounded bg-white p-2" v-if="suggestions.length && !hideSuggestions">
-      <li v-for="suggestion in filtedSuggestions" :key="suggestion.name" class="cursor-pointer hover:bg-neutral-100">
+      :placeholder="$t('dashboard.pesquisar-por-pacientes-numero-de-documento-etc')"
+      class="py-4.5 block w-full pl-10 text-gray-900 focus:ring-none !focus:ring-white !focus:ring-offset-none"
+      :class="{ 'w-full rounded-full bg-[#F3F3F3]  py-2.5 !shadow-md focus:shadow-none ': isInPage }"
+      :autofocus="isInPage"
+    />
+<div class="flex justify-center">
+    <ul class="border border-gray-100 absolute rounded-2xl bg-white p-2 !w-96 mt-1"
+        v-if="suggestions.length && !hideSuggestions">
+      <li v-for="suggestion in filtedSuggestions" :key="suggestion.name" class="cursor-pointer hover:bg-gray-100 rounded-lg">
         <router-link
           :to="{ name: 'PatientDetails', params: { id: suggestion.id } }"
           class="hover:underline"
-          @click="hideSuggestions = true"
+          @click="handleClick({id:suggestion.id})"
         >
-          <div class="flex items-center gap-4 px-2 py-2">
+          <div class="flex items-center gap-4 px-2 py-3">
             <img class="h-10 w-10 rounded-full bg-neutral-200 p-1" src="/avatar.png" />
             <span class="text-sm font-medium capitalize text-slate-900">{{
-              suggestion.name.join().toLowerCase()
+              suggestion.name.toLowerCase()
             }}</span>
           </div>
         </router-link>
       </li>
     </ul>
+  </div>
   </div>
 </template>
 
@@ -32,6 +36,10 @@ import { onClickOutside } from '@vueuse/core'
 
 const emit = defineEmits(['click', 'update:modelValue'])
 const props = defineProps({
+  isInPage: {
+    type: Boolean,
+    default: false,
+  },
   suggestions: {
     type: Array,
     default: [],
@@ -59,7 +67,12 @@ const props = defineProps({
     },
   },
 })
-
+import { useStorage } from '@vueuse/core'
+const state = useStorage('app-store', { token: '' })
+const handleClick = ({id}) => {
+  hideSuggestions.value = true
+  state.value.patientLastViewed = id
+}
 const filtedSuggestions = computed(() => {
   return props.suggestions.slice(0, 5)
 })

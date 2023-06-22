@@ -1,3 +1,4 @@
+import { useLoggedUserStore } from '@/stores/loggedUser'
 import { useStorage } from '@vueuse/core'
 import { useRouter } from 'vue-router'
 import { errorToast, successToast } from '@/toast'
@@ -24,14 +25,36 @@ export default [
         name: 'PatientDetailsNobody',
         component: () => import('@/views/pages/PatientDetailsNobody.vue'),
       },
+      {
+        path: '/map',
+        name: 'Map',
+        component: () => import('@/views/pages/Map.vue'),
+        props: true,
+      },
+      {
+        path: '/map/:id',
+        name: 'MapPatient',
+        component: () => import('@/views/pages/Map.vue'),
+        props: true,
+      },
     ],
-    beforeEnter: (to, from) => {
+    beforeEnter: async (to, from, next) => {
       const state = useStorage('app-store', { token: '' })
+      state.value.intendedRoute = to.fullPath
+
       if (Boolean(state.value.token)) {
-        return true
+        const loggedUserStore = useLoggedUserStore()
+        try {
+          const response = await loggedUserStore.fetchMe()
+          next(true)
+        } catch (err) {
+          errorToast({ text: 'Área autenticada, faça o login primeiro.' })
+          next({ name: 'Login' })
+        }
+      } else {
+        errorToast({ text: 'Área autenticada, faça o login primeiro.' })
+        next({ name: 'Login' })
       }
-      errorToast({ text: 'Área autenticada, faça o login primeiro.' })
-      return { name: 'Login' }
     },
   },
   {
@@ -72,21 +95,30 @@ export default [
       //   component: () => import('@/views/auth/ConfirmPassword.vue'),
       // },
     ],
-    beforeEnter: (to, from) => {
+    beforeEnter: async (to, from, next) => {
       const state = useStorage('app-store', { token: '' })
-
-      if (!Boolean(state.value.token)) {
-        return true
-      }
 
       if (to.params.token) {
         state.value.token = to.params.token
         return true
       }
 
-      // @TODO: Check if the token is valid
-      successToast({ text: 'Você já está autenticado.' })
-      return { name: 'Dashboard' }
+      if (Boolean(state.value.token)) {
+        const loggedUserStore = useLoggedUserStore()
+        try {
+          const response = await loggedUserStore.fetchMe()
+          next({ name: 'Dashboard' })
+        } catch (err) {
+          state.value = null
+          console.log(err)
+          if (state.value.intendedRoute) {
+            router.replace(state.value.intendedRoute)
+          } else {
+            next({ name: 'Login' })
+          }
+        }
+      }
+      next(true)
     },
   },
   { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import('@/components/pages/NotFound.vue') },

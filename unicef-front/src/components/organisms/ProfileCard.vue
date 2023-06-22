@@ -1,43 +1,142 @@
 <template>
-  <div class="rounded-xl border border-neutral-100 bg-gray-50 lg:w-[38rem]">
-    <div class="grid grid-cols-6 gap-y-2 p-5">
-      <div>
-        <img src="/avatar.png" class="max-w-20 max-h-20 rounded-full bg-neutral-200 p-1" />
-      </div>
+  <div class="h-[888px] w-72 rounded-full bg-white shadow">
+    <div class="flex justify-center">
+      <img
+        class="-mt-7 h-20 w-20 rounded-full border border-2 border-white bg-white object-cover"
+        src="/avatar.png"
+        alt="Profile picture"
+      />
+    </div>
+    <div class="p-3 pt-14">
+      <p class="text-sm font-semibold capitalize">{{ name }}</p>
+    </div>
+    <ul class="px-3 text-sm text-neutral-500">
+      <li>
+        <span class="font-semibold">{{ $t('patient-details.age') }}</span
+        >: {{ formatedAge }}
+      </li>
+      <li>
+        <span class="font-semibold">{{ $t('patient-details.date-of-birth') }}</span
+        >: {{ format(birthDate, 'dd/MM/yyyy') }}
+      </li>
+      <li>
+        <span class="font-semibold">{{ $t('patient-details.gender') }}</span
+        >: {{ gender }}
+      </li>
+      <li>
+        <span class="font-semibold">{{ $t('patient-details.region') }}</span
+        >: {{ region }}
+      </li>
+      <li>
+        <span class="font-semibold">{{ $t('patient-details.document') }}</span
+        >: {{ postalCode }}
+      </li>
 
-      <div class="col-span-5 ml-4 md:col-span-4 tracking-wide">
-        <p class="pr-2 font-bold capitalize text-gray-600">{{ patientsStore.item.name.join().toLowerCase() }}</p>
-        <div class="text-gray-400">
-          <p>
-            Gênero: <span>{{ 'male' == patientsStore.item.gender ? 'Masculino' : 'Feminino' }}</span>
-          </p>
-          <!--
-          <p>
-            Region: <span>{{ patientsStore.item.address[0].city }} / {{ patientsStore.item.address[0].state }}</span>
-          </p>
-          <p>
-            Contact: <span>{{ patientsStore.item.telecom[0].value }}</span>
-          </p>
-          -->
-          <p>
-            Data de nascimento: <span>{{ format(birthDate, 'dd/MM/yyyy') }}</span>
-          </p>
-          <p v-if="patientsStore.item.marital_status && patientsStore.item.marital_status.text">
-            Estado civil: <span>{{ patientsStore.item.marital_status.text }}</span>
-          </p>
-        </div>
-      </div>
-      <div class="col-start-2 ml-4 flex md:col-start-auto md:ml-0 md:justify-end">
-        <p class="h-fit rounded-lg bg-sky-200 py-1 px-3 text-sm font-bold text-sky-600">
-          {{ formatedAge }}
-        </p>
-      </div>
+      <p v-if="patientsStore.item.marital_status && patientsStore.item.marital_status.text">
+        {{ $t('patient-details.civil-status') }} <span>{{ patientsStore.item.marital_status.text }}</span>
+      </p>
+    </ul>
+    <div class="mt-4">
+      <ul class="divide-y divide-gray-100 text-sm font-semibold">
+        <li class=""></li>
+        <Tooltip variant="gray" position="right">
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-01.png" />
+              </div>
+              <span class="pl-3">{{ $t('patient-details.imc') }}</span>
+            </li>
+          </template>
+          <template #content>
+            <div class="flex">{{ $t('patient-details.comming-soon') }}</div>
+          </template>
+        </Tooltip>
+        <li class="flex cursor-pointer items-center border-r-4 !border-r-blue-500 py-4 pl-4 hover:bg-[#F8F9FB]">
+          <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+            <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-02.png" />
+          </div>
+          <span class="pl-3">{{ $t('patient-details.booklet') }}</span>
+        </li>
+        <Tooltip variant="gray" position="right">
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-03.png" />
+              </div>
+              <span
+                data-tooltip-target="tooltip-default"
+                type="button"
+                class="-my-1 rounded-lg text-left text-sm font-normal"
+              >
+                <span class="pl-3">{{ $t('patient-details.fetal-period') }}</span>
+              </span>
+            </li>
+          </template>
+          <template #content>
+            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
+          </template>
+        </Tooltip>
+        <Tooltip variant="gray" position="right">
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-04.png" />
+              </div>
+              <span class="pl-3">{{ $t('patient-details.allergie') }}</span>
+            </li>
+          </template>
+          <template #content>
+            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
+          </template>
+        </Tooltip>
+        <Tooltip variant="gray" position="right">
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-05.png" />
+              </div>
+              <span class="pl-3">{{ $t('patient-details.medication') }}</span>
+            </li>
+          </template>
+          <template #content>
+            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
+          </template>
+        </Tooltip>
+        <Tooltip variant="gray" position="right">
+          <template #trigger>
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-06.png" />
+              </div>
+              <span class="pl-3">{{ $t('patient-details.desease') }}</span>
+            </li>
+          </template>
+          <template #content>
+            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
+          </template>
+        </Tooltip>
+        <Tooltip variant="gray" position="right">
+          <template #trigger>
+            <li class="flex items-center rounded rounded-b-full bg-white py-4 pl-4 font-normal opacity-50">
+              <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
+                <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-07.png" />
+              </div>
+              <span class="pl-3">{{ $t('patient-details.social-data') }}</span>
+            </li>
+          </template>
+          <template #content>
+            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
+          </template>
+        </Tooltip>
+      </ul>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, reactive, computed } from 'vue'
+// import { HeartIcon, BookOpenIcon, UserIcon, EmojiSadIcon, PillIcon, VirusIcon, UsersIcon } from '@heroicons/vue/solid';
+import { ref, onMounted, reactive, computed } from 'vue'
 import InputIconWrapper from '@/components/InputIconWrapper.vue'
 import { MailIcon, LockClosedIcon, LoginIcon, UserIcon } from '@heroicons/vue/outline'
 import axios from 'axios'
@@ -45,34 +144,48 @@ import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
 import { usePatientsStore } from '@/stores/patients'
-import { parseISO, differenceInYears, setDefaultOptions, format, differenceInMonths, differenceInDays, addDays, addMonths } from 'date-fns'
-import { ptBR } from 'date-fns/locale'
+import {
+  parseISO,
+  differenceInYears,
+  setDefaultOptions,
+  format,
+  differenceInMonths,
+  differenceInDays,
+  addDays,
+  addMonths,
+} from 'date-fns'
+import { useI18n } from 'vue3-i18n'
+const { t } = useI18n()
 const patientsStore = usePatientsStore()
-setDefaultOptions({ locale: ptBR })
-
 const router = useRouter()
 
+const name = ref(patientsStore.item.name.toLowerCase())
+const gender = computed(() =>
+  'male' == patientsStore.item.gender ? t('patient-details.male') : t('patient-details.female')
+)
+const region = ref(patientsStore.item.address[0].city + ' / ' + patientsStore.item.address[0].state)
+const postalCode = ref(patientsStore.item.address[0].postal_code)
 
 const birthDate = computed(() => parseISO(patientsStore.item.birth_date))
 
 const formatedAge = computed(() => {
-  const birthDateInYears = differenceInYears(new Date(), birthDate.value)
-  if (1 == birthDateInYears) {
-    return '1 ano'
-  } else if (0 == birthDateInYears) {
-    const birthDateInMonths = differenceInMonths(new Date(), birthDate.value)
-    const birthDateInDays = differenceInDays(new Date(), birthDate.value)
-    if (1 == birthDateInMonths) {
-      return '1 mês'
-    }else if (0 == birthDateInMonths) {
-      if (1 == birthDateInDays){
-        return '1 dia'
+  const ageInYears = differenceInYears(new Date(), birthDate.value)
+  if (1 == ageInYears) {
+    return '1 ' + t('patient-details.year')
+  } else if (0 == ageInYears) {
+    const ageInMonths = differenceInMonths(new Date(), birthDate.value)
+    const ageInDays = differenceInDays(new Date(), birthDate.value)
+    if (1 == ageInMonths) {
+      return '1 ' + t('patient-details.month')
+    } else if (0 == ageInMonths) {
+      if (1 == ageInDays) {
+        return '1 ' + t('patient-details.day')
       }
-      return birthDateInDays + ' dias'
+      return ageInDays + ' ' + t('patient-details.days')
     }
-    return birthDateInMonths + ' meses'
+    return ageInMonths + ' ' + t('patient-details.months')
   }
-  return birthDateInYears + ' anos'
+  return ageInYears + ' ' + t('patient-details.years')
 })
 
 const props = defineProps({
