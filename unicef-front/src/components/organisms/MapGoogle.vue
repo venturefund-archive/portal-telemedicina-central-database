@@ -39,14 +39,14 @@
                     <Input
                       :placeholder="$t('manager.search')"
                       v-model="addressQuery"
-                      class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
+                      class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none focus:ring focus:ring-green-500 focus:ring-offset-white"
                     />
                   </div>
                   <div v-if="isMapView">
                     <Input
                       :placeholder="$t('manager.search-map')"
                       v-model="geoCoderQuery"
-                      class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
+                      class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none focus:ring focus:ring-green-500 focus:ring-offset-white"
                     />
                   </div>
                 </div>

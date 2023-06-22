@@ -15,7 +15,7 @@
         <router-link
           :to="{ name: 'PatientDetails', params: { id: suggestion.id } }"
           class="hover:underline"
-          @click="hideSuggestions = true"
+          @click="handleClick({id:suggestion.id})"
         >
           <div class="flex items-center gap-4 px-2 py-3">
             <img class="h-10 w-10 rounded-full bg-neutral-200 p-1" src="/avatar.png" />
@@ -67,7 +67,12 @@ const props = defineProps({
     },
   },
 })
-
+import { useStorage } from '@vueuse/core'
+const state = useStorage('app-store', { token: '' })
+const handleClick = ({id}) => {
+  hideSuggestions.value = true
+  state.value.patientLastViewed = id
+}
 const filtedSuggestions = computed(() => {
   return props.suggestions.slice(0, 5)
 })

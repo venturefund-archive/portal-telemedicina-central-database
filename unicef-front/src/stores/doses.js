@@ -106,6 +106,7 @@ export const useDosesStore = defineStore('doses', () => {
 
         // items.value = newArray // Update the reference to the new array
         item.value = updatedItem
+        items.value = newArray
 
         return updatedItem
       } else {

@@ -1,7 +1,8 @@
-describe('Bootstrap Test', () => {
-  it('builds, tests runs and visits the app root url', async () => {
-    // clean()
-    cy.visit('http://localhost:4173/patients/682b9259-1e18-4c2f-9a13-b4ba6f72f230/', { timeout: 10000 })
+describe('Vaccine Table Test', () => {
+  it('test vaccine table is reactive', async () => {
+    // cy.visit('http://localhost:3000/', { timeout: 10000 })
+    clean()
+    cy.visit('http://localhost:3000/patients/682b9259-1e18-4c2f-9a13-b4ba6f72f230/', { timeout: 10000 })
     cy.get('#username').type('asd')
     cy.get('#password').type('asd+1234{enter}')
 
@@ -23,7 +24,7 @@ describe('Bootstrap Test', () => {
     cy.get('#cnes_number').type('aaa')
     cy.get('input#health_professional').type('aaa')
     cy.get('input#health_professional').type('{enter}')
-    cy.reload()
+    // cy.reload()
     cy.wait(5000)
 
     cy.get('body').then(($body) => {

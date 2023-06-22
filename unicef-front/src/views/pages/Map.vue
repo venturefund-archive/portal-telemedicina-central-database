@@ -20,7 +20,6 @@
             :onlyAlerts="onlyAlerts"
             @centralize-on-location="updateCenterInView"
           />
-          <span v-if="isLoading">Carregando mais registros</span>
         </div>
       </div>
     </div>
@@ -28,12 +27,11 @@
 </template>
 
 <script setup>
-import { onMounted, onUpdated, reactive, ref } from 'vue'
+import { onMounted, onUpdated, reactive, ref, watch } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
-import { watch, computed } from 'vue'
 import { usePatientsStore } from '@/stores/patients'
 import { useVaccinesStore } from '@/stores/vaccines'
 import { useLoggedUserStore } from '@/stores/loggedUser'
@@ -67,9 +65,8 @@ const filteredMarkers = ref([])
 
 onMounted(async () => {
   isLoading.value = true
-  await patientsStore.fetchPatients()
   markers.value = filteredMarkers.value = patientsStore.items
-  await fetchPaginatedPatients()
+  // await fetchPaginatedPatients()
 })
 const geoCoder = ref(null)
 const handleGeoCoderReady = (geoCoder2) => {

@@ -34,11 +34,17 @@ const props = defineProps({
   },
 })
 
+const state = useStorage('app-store', { token: '' })
 watch(
   () => props.id,
-  async (id) => {
+  async (newId) => {
     loggedUserStore.isLoading = true
-    const patientResponse = await patientsStore.fetchPatient(props.id)
+    console.log('newId', newId)
+    console.log('props.id', props.id)
+
+    const id = props.id ? props.id : state.value.patientLastViewed
+    console.log('id', id)
+    const patientResponse = await patientsStore.fetchPatient(id)
     if (0 == vaccinesStore.items.length) {
       const vaccineResponse = await vaccinesStore.fetchVaccines()
     }
