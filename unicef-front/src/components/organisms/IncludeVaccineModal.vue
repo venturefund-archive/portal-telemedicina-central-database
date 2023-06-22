@@ -319,11 +319,11 @@ const emit = defineEmits(['saved'])
 const submit = async () => {
   try {
     await dosesStore.addVaccine(doseForm.value)
-    successToast({ text: 'Status #' + dosesStore.item.id + ' cadastrado' })
+    successToast({ text: 'Dose cadastrada com sucesso!' })
     emit('saved', dosesStore.item)
   } catch (err) {
-    console.log(err)
     errorToast({ text: 'asd' })
+    console.log(err)
   }
   closeModal()
 }

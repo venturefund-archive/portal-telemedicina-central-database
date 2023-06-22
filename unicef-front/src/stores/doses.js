@@ -83,30 +83,21 @@ export const useDosesStore = defineStore('doses', () => {
         const updatedItem = response.data
         const foundedItemIndex = items.value.findIndex((dose) => dose.id === updatedItem.vaccine_dose)
 
-        // Creating a new array with the updated item
-        let newArray
         if (foundedItemIndex !== -1) {
           // Update item
-          newArray = items.value.map((item, index) => {
-            if (index !== foundedItemIndex) {
-              return item // Return the item unchanged
-            }
-            return {
-              ...item,
+          items.value[foundedItemIndex] = {
+              ...items.value[foundedItemIndex],
               status: {
-                ...item.status,
+                ...items.value[foundedItemIndex].status,
                 completed: updatedItem.completed,
+                application_date: updatedItem.application_date,
               },
             }
-          })
+          console.log(items.value[foundedItemIndex])
         } else {
           // Item doesn't exist, so add it to the array
-          newArray = [...items.value, updatedItem]
+          items.value.push(updatedItem)
         }
-
-        // items.value = newArray // Update the reference to the new array
-        item.value = updatedItem
-        items.value = newArray
 
         return updatedItem
       } else {
