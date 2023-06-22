@@ -159,7 +159,7 @@
                         </label>
                         <input
                           type="date"
-                          id="data-application"
+                          id="data_application"
                           required
                           class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
                           v-model="doseForm.application_date"
@@ -171,7 +171,7 @@
                         </label>
                         <input
                           type="date"
-                          id="next-data-application"
+                          id="next_data_application"
                           required
                           v-model="doseForm.next_dose_application_date"
                           class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"

@@ -13,7 +13,7 @@
     <SidebarLink
       :title="$t('dashboard.patients')"
       class="capitalize"
-      :to="patientsRoute"
+      :to="{ name: 'PatientDetailsNobody' }"
       :active="isCurrentRoute('PatientDetails') || isCurrentRoute('PatientDetailsNobody')"
     >
       <template #icon>
@@ -77,9 +77,4 @@ const isCurrentRoute = (routeName) => {
 const isCurrentPath = (path) => {
   return useRouter().currentRoute.value.path.startsWith(path)
 }
-
-const patientsRoute = computed(() => {
-  const state = useStorage('app-store', { token: '' })
-  return (state.value.patientLastViewed ? '/patients/' + state.value.patientLastViewed : '/patients') + '/'
-})
 </script>

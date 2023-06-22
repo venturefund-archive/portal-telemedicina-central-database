@@ -11,9 +11,6 @@ export const usePatientsStore = defineStore('patients', () => {
   const isLoading = ref(false)
   const state = useStorage('app-store', { token: '' })
 
-  async function searchPatients() {
-    return await fetchPatients()
-  }
   const fetchPatients = async () => {
     try {
       isLoading.value = true
@@ -102,7 +99,6 @@ export const usePatientsStore = defineStore('patients', () => {
     items,
     item,
     isLoading,
-    searchPatients,
     fetchPatients,
     fetchPatientsRecursive,
     fetchPatient,

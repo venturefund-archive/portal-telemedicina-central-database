@@ -21,8 +21,4 @@
 import { onMounted } from 'vue'
 import { useLoggedUserStore } from '@/stores/loggedUser'
 const loggedUserStore = useLoggedUserStore()
-
-onMounted(async () => {
-  await loggedUserStore.fetchMe()
-})
 </script>

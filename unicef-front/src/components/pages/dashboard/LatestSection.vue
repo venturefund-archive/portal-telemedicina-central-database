@@ -111,10 +111,4 @@ const props = defineProps({
     default: '',
   },
 })
-
-onMounted(async () => {
-  if (patientsStore.items.length !== 0) {
-    await patientsStore.fetchPatients()
-  }
-})
 </script>
