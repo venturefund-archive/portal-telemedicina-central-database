@@ -220,17 +220,27 @@
                               </span>
                             </p>
                           </div>
+                              <div v-if="0 !== marker.alerts.length" class="inline-block pb-3 pt-2">
+                                <p class="pt-1 text-sm font-medium text-gray-600">Vacinas em atraso:</p>
+                                <span
+                                  v-for="alert in marker.alerts"
+                                  :key="alert.id"
+                                  class="mr-2 mt-1 inline-block rounded-full bg-red-100 px-3 py-1 text-xs text-red-900"
+                                >
+                                  {{ alert }}
+                                </span>
+                              </div>
                         </div>
 
-                        <div class="mb-4">
-                          <p class="text-sm font-medium text-gray-600">Birthdate:</p>
+                        <div class="mb-2 flex">
+                          <p class="text-sm font-medium text-gray-600 pr-1">Birthdate: </p>
                           <p class="text-sm">
                             {{ format(new Date(marker.birth_date), 'dd/MM/yyyy') }}
                           </p>
                         </div>
 
-                        <div>
-                          <p class="text-sm font-medium text-gray-600">Address:</p>
+                        <div class="flex">
+                          <p class="text-sm font-medium text-gray-600 pr-1">Address: </p>
                           <p class="text-sm">
                             {{ marker.address.formatted_address }}
                           </p>
@@ -296,7 +306,7 @@
                               <XIcon class="h-6 w-6 text-gray-500 hover:text-green-500" />
                             </button>
                           </div>
-                          <hr class="mb-2 border-b-2 border-dotted" />
+                          <hr class="my-3 w-full border border-dashed" />
                           <!-- Form fields -->
                           <form @submit.prevent="handleSubmit" class="py-5">
                             <div class="grid grid-cols-2 gap-4">

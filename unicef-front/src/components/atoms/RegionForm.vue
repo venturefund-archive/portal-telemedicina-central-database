@@ -1,7 +1,7 @@
 <template>
   <div class="p-3">
     <h2 class="text-center text-lg font-medium text-gray-600">Editar informações</h2>
-    <hr class="w-full border-b border-dotted border-gray-200" />
+    <hr class="my-3 w-full border border-dashed" />
     <form
       class="py-5"
       @submit.prevent="
