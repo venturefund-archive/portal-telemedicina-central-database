@@ -85,14 +85,20 @@ export const useDosesStore = defineStore('doses', () => {
 
         if (foundedItemIndex !== -1) {
           // Update item
-          items.value[foundedItemIndex] = {
-              ...items.value[foundedItemIndex],
-              status: {
-                ...items.value[foundedItemIndex].status,
-                completed: updatedItem.completed,
-                application_date: updatedItem.application_date,
-              },
-            }
+          items.value[foundedItemIndex].status = {
+              completed: updatedItem.completed,
+              batch: updatedItem.batch,
+              fhir_store: updatedItem.fhir_store,
+              application_date: updatedItem.application_date,
+              next_dose_application_date: updatedItem.next_dose_application_date,
+              health_professional: {
+                id: updatedItem.id,
+                client: updatedItem.client,
+                name: updatedItem.name,
+                cns_number: updatedItem.cns_number,
+                cnes_number: updatedItem.cnes_number,
+            },
+          }
           console.log(items.value[foundedItemIndex])
         } else {
           // Item doesn't exist, so add it to the array
