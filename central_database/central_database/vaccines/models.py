@@ -225,6 +225,13 @@ class VaccineStatus(CDModel, models.Model):
     class Meta:
         indexes = [models.Index(fields=["patient_id"])]  # noqa: E501
 
+        constraints = [
+            models.UniqueConstraint(
+                fields=["vaccine_dose", "patient_id"],
+                name="unique_vaccine_dose_per_patient",
+            ),
+        ]
+
     def __str__(self):
         return f"Vaccine dose {self.vaccine_dose} for patient {self.patient_id} has completion status: {self.completed}."  # noqa: E501
 
