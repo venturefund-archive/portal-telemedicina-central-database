@@ -99,8 +99,6 @@
           </div>
         </div>
         <div class="py-2" :key="chave">
-          {{ chave }}<br />
-          Hora atual: {{ new Date().toLocaleTimeString() }}
           <div class="overflow-auto px-2 pt-2 pb-52">
             <table class="w-full table-auto text-left tracking-wide md:table-fixed lg:table-fixed">
               <thead class="">
