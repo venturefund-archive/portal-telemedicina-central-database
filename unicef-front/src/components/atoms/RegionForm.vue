@@ -1,6 +1,6 @@
 <template>
   <div class="p-3">
-    <h2 class="text-center text-lg font-medium text-gray-600">Editar informações</h2>
+    <h2 class="text-center text-lg font-medium text-gray-700">Editar informações</h2>
     <hr class="my-3 w-full border border-dashed" />
     <form
       class="py-5"

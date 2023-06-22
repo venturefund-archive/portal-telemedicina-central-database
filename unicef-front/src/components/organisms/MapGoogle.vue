@@ -296,7 +296,7 @@
                         <!-- This is the modal -->
                         <div class="relative mx-auto max-w-xl space-y-4 rounded-xl bg-white p-6 shadow drop-shadow">
                           <div class="flex items-center justify-between">
-                            <Dialog-title as="h3" class="mx-auto text-xl font-medium leading-6 text-gray-800"
+                            <Dialog-title as="h3" class="mx-auto text-xl font-medium leading-6 text-gray-700"
                               >Editar Informações</Dialog-title
                             >
                             <button
