@@ -139,7 +139,8 @@
         </div>
       </div>
 
-      <div v-if="props.dose.alerts.length > 0" class="py-10">
+      <div v-if="props.dose.status && false == props.dose.status.completed &&
+                  props.dose.alerts.length > 0" class="py-10">
         <button
           @click="toggleActive"
           class="ml-2 flex items-center rounded-lg py-1 px-2"
@@ -156,7 +157,7 @@
         </button>
       </div>
 
-      <div class="font-normal" v-if="props.dose.alerts.length > 0">
+      <div class="font-normal" v-if="props.dose.status && false == props.dose.status.completed && props.dose.alerts.length > 0">
         <div>
           <div v-for="(alert, k) in props.dose.alerts" :key="k">
             <span class="flex justify-end text-sm text-gray-500">
