@@ -322,7 +322,7 @@ const submit = async () => {
     successToast({ text: 'Dose cadastrada com sucesso!' })
     emit('saved', dosesStore.item)
   } catch (err) {
-    errorToast({ text: 'asd' })
+    errorToast({ text: err.response.data.detail })
     console.log(err)
   }
   closeModal()
