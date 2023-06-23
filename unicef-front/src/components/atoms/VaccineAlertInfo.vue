@@ -1,6 +1,6 @@
 <template>
-  <div class="p-4 text-lg font-normal">
-    <div class="shadow-b-3xl z-10 rounded-t p-10 shadow-md">
+  <div class="p-4 text-lg font-normal rounded-2xl border border-gray-50 bg-white drop-shadow-md">
+    <div class="z-10 p-10">
       <div class="relative">
         <div class="flex items-center justify-between pt-1 pb-10">
           <div class="flex items-center">

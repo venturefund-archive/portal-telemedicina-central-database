@@ -59,7 +59,7 @@
                 <form class="w-full max-w-lg" @submit.prevent="submit">
                   <input type="hidden" name="patient_id" v-model="doseForm.patient_id" />
 
-                  <div class="m-5 rounded-2xl border border-gray-50 bg-white p-6 shadow-lg">
+                  <div class="m-5 rounded-2xl border border-gray-50 bg-white p-6 drop-shadow-md">
                     <div class="mb-4 flex">
                       <div class="flex-1">
                         <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="vacina">{{
