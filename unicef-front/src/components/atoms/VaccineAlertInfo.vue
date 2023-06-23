@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 text-lg font-normal rounded-2xl border border-gray-50 bg-white drop-shadow-md h-auto w-auto">
+  <div class="h-auto w-auto rounded-2xl border border-gray-50 bg-white p-4 text-lg font-normal drop-shadow-md">
     <div class="z-10 p-10">
       <div class="relative">
         <div class="flex items-center justify-between pt-1 pb-10">
@@ -57,9 +57,7 @@
             <input
               id="cns_number"
               type="text"
-              v-model="
-                doseForm.health_professional.cns_number
-              "
+              v-model="doseForm.health_professional.cns_number"
               class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
               readonly
             />
@@ -72,9 +70,7 @@
             <input
               id="profissional"
               type="text"
-              v-model="
-                doseForm.health_professional.name
-              "
+              v-model="doseForm.health_professional.name"
               class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
               readonly
             />
@@ -85,8 +81,7 @@
             <input
               id="cnes_number"
               type="text"
-              v-model="doseForm.health_professional.cnes_number
-              "
+              v-model="doseForm.health_professional.cnes_number"
               class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
               readonly
             />
@@ -131,8 +126,10 @@
           </div>
         </div>
       </div>
-      <div v-if="(doseForm.status == null || false == props.dose.status.completed) &&
-                  props.dose.alerts.length > 0" class="py-10">
+      <div
+        v-if="(doseForm.status == null || false == props.dose.status.completed) && props.dose.alerts.length > 0"
+        class="py-10"
+      >
         <button
           @click="toggleActive"
           class="ml-2 flex items-center rounded-lg py-1 px-2"
@@ -149,7 +146,10 @@
         </button>
       </div>
 
-      <div class="font-normal" v-if="(props.dose.status == null || false == props.dose.status.completed) && props.dose.alerts.length > 0">
+      <div
+        class="font-normal"
+        v-if="(props.dose.status == null || false == props.dose.status.completed) && props.dose.alerts.length > 0"
+      >
         <div>
           <div v-for="(alert, k) in props.dose.alerts" :key="k">
             <span class="flex justify-end text-sm text-gray-500">
@@ -180,8 +180,18 @@ const emit = defineEmits(['update:toggle-active'])
 const patientsStore = usePatientsStore()
 const birthDate = computed(() => parseISO(patientsStore.item.birth_date))
 
-const doseApplicationDate = computed(() => parseISO(props.dose.status.application_date))
-const nextDoseApplicationDate = computed(() => parseISO(props.dose.status.next_dose_application_date))
+const doseApplicationDate = computed(() => {
+  if (!props.dose.status) {
+    return ''
+  }
+  return format(parseISO(props.dose.status.application_date), 'dd/MM/yyyy')
+})
+const nextDoseApplicationDate = computed(() => {
+  if (!props.dose.status) {
+    return ''
+  }
+  return format(parseISO(props.dose.status.next_dose_application_date), 'dd/MM/yyyy')
+})
 
 const recommendedDate = ref(add(birthDate.value, { months: props.dose.maximum_recommended_age }))
 const isCompleted = computed(() => props.dose.status && props.dose.status.completed)
@@ -192,19 +202,19 @@ const doseForm = ref({
   vaccine_dose: null,
   recommended_age: formatDuration({ months: props.dose.maximum_recommended_age }),
   health_professional: {
-    name: props.status?.health_professional.name == null
-                  ? 'Desconhecido'
-                  : props.status.health_professional.name,
-    cns_number: props.status?.health_professional?.cns_number == null
-                  ? 'Desconhecido'
-                  : props.status?.health_professional?.cns_number,
-    cnes_number:                 props.status?.health_professional?.cnes_number == null
-                  ? 'Desconhecido'
-                  : props.status?.health_professional?.cnes_number,
+    name: props.status?.health_professional.name == null ? 'Desconhecido' : props.status.health_professional.name,
+    cns_number:
+      props.status?.health_professional?.cns_number == null
+        ? 'Desconhecido'
+        : props.status?.health_professional?.cns_number,
+    cnes_number:
+      props.status?.health_professional?.cnes_number == null
+        ? 'Desconhecido'
+        : props.status?.health_professional?.cnes_number,
   },
-  batch: props.dose.status.batch,
-  application_date: format(doseApplicationDate.value, 'dd/MM/yyyy'),
-  next_dose_application_date: format(nextDoseApplicationDate.value, 'dd/MM/yyyy'),
+  batch: props.dose.status?.batch,
+  application_date: doseApplicationDate.value,
+  next_dose_application_date: nextDoseApplicationDate.value,
   fhir_store: 1,
   completed: true,
   processing: false,
