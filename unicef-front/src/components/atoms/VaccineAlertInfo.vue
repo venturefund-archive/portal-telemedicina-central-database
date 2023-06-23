@@ -32,7 +32,7 @@
             <input
               id="vaccine"
               type="text"
-              :value="props.vaccine.description"
+              v-model="props.vaccine.description"
               class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
               readonly
             />
@@ -44,7 +44,7 @@
             <input
               id="recommended"
               type="text"
-              :value="formatDuration({ months: props.dose.maximum_recommended_age })"
+              v-model="doseForm.recommended_age"
               class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
               readonly
             />
@@ -57,10 +57,8 @@
             <input
               id="cns_number"
               type="text"
-              :value="
-                props.dose?.status?.health_professional?.cns_number == null
-                  ? 'Desconhecido'
-                  : props.dose?.status?.health_professional?.cns_number
+              v-model="
+                doseForm.health_professional.cns_number
               "
               class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
               readonly
@@ -74,10 +72,8 @@
             <input
               id="profissional"
               type="text"
-              :value="
-                props.dose.status.health_professional.name == null
-                  ? 'Desconhecido'
-                  : props.dose.status.health_professional.name
+              v-model="
+                doseForm.health_professional.name
               "
               class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
               readonly
@@ -89,10 +85,7 @@
             <input
               id="cnes_number"
               type="text"
-              :value="
-                props.dose?.status?.health_professional?.cnes_number == null
-                  ? 'Desconhecido'
-                  : props.dose?.status?.health_professional?.cnes_number
+              v-model="doseForm.health_professional.cnes_number
               "
               class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
               readonly
@@ -106,7 +99,7 @@
             <input
               id="batch"
               type="text"
-              :value="props.dose.status.batch"
+              v-model="doseForm.batch"
               class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
               readonly
             />
@@ -119,7 +112,7 @@
             <input
               id="data-application"
               type="text"
-              :value="format(doseApplicationDate, 'dd/MM/yyyy')"
+              v-model="doseForm.application_date"
               class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
               readonly
             />
@@ -131,14 +124,14 @@
             <input
               id="next-data-application"
               type="text"
-              :value="format(nextDoseApplicationDate, 'dd/MM/yyyy')"
+              v-model="doseForm.next_dose_application_date"
               class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
               readonly
             />
           </div>
         </div>
       </div>
-      <div v-if="(props.dose.status == null || false == props.dose.status.completed) &&
+      <div v-if="(doseForm.status == null || false == props.dose.status.completed) &&
                   props.dose.alerts.length > 0" class="py-10">
         <button
           @click="toggleActive"
@@ -193,6 +186,30 @@ const nextDoseApplicationDate = computed(() => parseISO(props.dose.status.next_d
 const recommendedDate = ref(add(birthDate.value, { months: props.dose.maximum_recommended_age }))
 const isCompleted = computed(() => props.dose.status && props.dose.status.completed)
 const hasAlerts = computed(() => props.dose.alerts.length > 0)
+const doseForm = ref({
+  patient_id: patientsStore.item.id,
+  vaccine_id: null,
+  vaccine_dose: null,
+  recommended_age: formatDuration({ months: props.dose.maximum_recommended_age }),
+  health_professional: {
+    name: props.status?.health_professional.name == null
+                  ? 'Desconhecido'
+                  : props.status.health_professional.name,
+    cns_number: props.status?.health_professional?.cns_number == null
+                  ? 'Desconhecido'
+                  : props.status?.health_professional?.cns_number,
+    cnes_number:                 props.status?.health_professional?.cnes_number == null
+                  ? 'Desconhecido'
+                  : props.status?.health_professional?.cnes_number,
+  },
+  batch: props.dose.status.batch,
+  application_date: format(doseApplicationDate.value, 'dd/MM/yyyy'),
+  next_dose_application_date: format(nextDoseApplicationDate.value, 'dd/MM/yyyy'),
+  fhir_store: 1,
+  completed: true,
+  processing: false,
+})
+
 const props = defineProps({
   vaccine: {
     type: Object,
