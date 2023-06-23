@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4 text-lg font-normal rounded-2xl border border-gray-50 bg-white drop-shadow-md">
+  <div class="p-4 text-lg font-normal rounded-2xl border border-gray-50 bg-white drop-shadow-md h-auto w-auto">
     <div class="z-10 p-10">
       <div class="relative">
         <div class="flex items-center justify-between pt-1 pb-10">
@@ -138,8 +138,7 @@
           </div>
         </div>
       </div>
-
-      <div v-if="props.dose.status && false == props.dose.status.completed &&
+      <div v-if="(props.dose.status == null || false == props.dose.status.completed) &&
                   props.dose.alerts.length > 0" class="py-10">
         <button
           @click="toggleActive"
@@ -157,7 +156,7 @@
         </button>
       </div>
 
-      <div class="font-normal" v-if="props.dose.status && false == props.dose.status.completed && props.dose.alerts.length > 0">
+      <div class="font-normal" v-if="(props.dose.status == null || false == props.dose.status.completed) && props.dose.alerts.length > 0">
         <div>
           <div v-for="(alert, k) in props.dose.alerts" :key="k">
             <span class="flex justify-end text-sm text-gray-500">
