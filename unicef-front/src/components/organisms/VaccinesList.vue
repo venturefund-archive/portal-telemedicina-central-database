@@ -531,7 +531,7 @@ const totalAlerts = computed(() => {
 })
 
 const orderedVaccinesByDoseAlerts = computed(() => {
-  return filteredVaccines.value.sort((a, b) => totalAlerts.value(b) - totalAlerts.value(a))
+  return filteredVaccines.value.slice().sort((a, b) => totalAlerts.value(b) - totalAlerts.value(a))
 })
 
 const filteredDosesByVaccine = computed(() => {

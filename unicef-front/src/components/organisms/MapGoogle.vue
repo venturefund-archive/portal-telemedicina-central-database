@@ -273,205 +273,194 @@
                     </div>
                   </div>
 
-                  <!-- Modal do Headless UI -->
-                  <Transition
-                    as="template"
-                    enter="transition-opacity duration-100"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="transition-opacity duration-100"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
+                  <Dialog
+                    as="div"
+                    class="fixed inset-0 z-10 overflow-y-auto"
+                    :open="isModalOpen"
+                    @close="isModalOpen = false"
                   >
-                    <Dialog
-                      as="div"
-                      class="fixed inset-0 z-10 overflow-y-auto"
-                      :open="isModalOpen"
-                      @close="isModalOpen = false"
-                    >
-                      <div class="flex min-h-screen items-center justify-center">
-                        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-                        <!-- Overlay -->
+                    <div class="flex min-h-screen items-center justify-center">
+                      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                      <!-- Overlay -->
 
-                        <!-- This is the modal -->
-                        <div class="relative mx-auto max-w-xl space-y-4 rounded-xl bg-white p-6 shadow drop-shadow">
-                          <div class="flex items-center justify-between">
-                            <Dialog-title as="h3" class="mx-auto text-xl font-medium leading-6 text-gray-700"
-                              >Editar Informações</Dialog-title
-                            >
-                            <button
-                              @click="isModalOpen = false"
-                              class="mb-2 rounded p-0.5 hover:bg-gray-100 focus:outline-none"
-                            >
-                              <XIcon class="h-6 w-6 text-gray-500 hover:text-green-500" />
-                            </button>
-                          </div>
-                          <hr class="my-3 w-full border border-dashed" />
-                          <!-- Form fields -->
-                          <form @submit.prevent="handleSubmit" class="py-5">
-                            <div class="grid grid-cols-2 gap-4">
-                              <!-- Personal Data -->
-                              <div class="space-y-3">
-                                <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">Dados pessoais</h4>
-
-                                <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
-                                <Input
-                                  placeholder="name"
-                                  id="name"
-                                  type="text"
-                                  class="w-full border-gray-300 focus:border-lime-300"
-                                  v-model="editForm.name"
-                                  required
-                                />
-
-                                <label for="birthDate" class="block text-sm font-medium text-gray-700"
-                                  >Data de Nascimento</label
-                                >
-                                <Input
-                                  id="birthDate"
-                                  type="date"
-                                  class="w-full border-gray-300 focus:border-lime-300"
-                                  v-model="editForm.birthDate"
-                                  required
-                                />
-
-                                <label for="age" class="block text-sm font-medium text-gray-700">Idade</label>
-                                <Input
-                                  placeholder="age"
-                                  id="age"
-                                  type="number"
-                                  class="w-full border-gray-300 focus:border-lime-300"
-                                  v-model="editForm.age"
-                                  required
-                                />
-
-                                <label for="address" class="block text-sm font-medium text-gray-700">Endereço</label>
-                                <Input
-                                  placeholder="address"
-                                  id="address"
-                                  type="text"
-                                  class="w-full border-gray-300 focus:border-lime-300"
-                                  v-model="editForm.address"
-                                  required
-                                />
-
-                                <label for="cpf" class="block text-sm font-medium text-gray-700">CPF</label>
-                                <Input
-                                  placeholder="document"
-                                  id="document"
-                                  type="text"
-                                  class="w-full border-gray-300 focus:border-lime-300"
-                                  v-model="editForm.cpf"
-                                  required
-                                />
-                              </div>
-
-                              <!-- Clinical Data -->
-                              <div class="space-y-3">
-                                <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">Dados clínicos</h4>
-
-                                <label for="healthUnit" class="block text-sm font-medium text-gray-700"
-                                  >Unidade de saúde</label
-                                >
-                                <Input
-                                  placeholder="Unidade de saúde"
-                                  id="healthUnit"
-                                  type="text"
-                                  class="w-full border-gray-300 focus:border-lime-300"
-                                  v-model="editForm.healthUnit"
-                                  required
-                                />
-
-                                <label for="cns" class="block text-sm font-medium text-gray-700">CNS</label>
-                                <Input
-                                  placeholder="cns"
-                                  id="CNS"
-                                  type="text"
-                                  class="w-full border-gray-300 focus:border-lime-300"
-                                  v-model="editForm.cns"
-                                  required
-                                />
-
-                                <div class="flex">
-                                  <div class="flex-1 pr-3">
-                                    <label for="codeFile" class="block text-sm font-medium text-gray-700"
-                                      >Cód ficha</label
-                                    >
-                                    <Input
-                                      placeholder="Cód ficha"
-                                      id="codeFile"
-                                      type="text"
-                                      class="w-full border-gray-300 focus:border-lime-300"
-                                      v-model="editForm.codeFile"
-                                      required
-                                    />
-                                  </div>
-                                  <div class="flex-1">
-                                    <label for="fileDate" class="block text-sm font-medium text-gray-700"
-                                      >Data ficha</label
-                                    >
-                                    <Input
-                                      placeholder="Data ficha"
-                                      id="fileDate"
-                                      type="date"
-                                      class="w-full border-gray-300 focus:border-lime-300"
-                                      v-model="editForm.fileDate"
-                                      required
-                                    />
-                                  </div>
-                                </div>
-
-                                <label for="professional" class="block text-sm font-medium text-gray-700"
-                                  >Profissional</label
-                                >
-                                <Input
-                                  placeholder="profissional"
-                                  id="professional"
-                                  type="text"
-                                  class="w-full border-gray-300 focus:border-lime-300"
-                                  v-model="editForm.professional"
-                                  required
-                                />
-
-                                <div class="flex space-x-2">
-                                  <div class="flex-1">
-                                    <label for="vaccine" class="block text-sm font-medium text-gray-700">Vacina</label>
-                                    <Input
-                                      placeholder="vaccine"
-                                      id="vaccine"
-                                      type="text"
-                                      class="w-full border-gray-300 focus:border-lime-300"
-                                      v-model="editForm.vaccine"
-                                      required
-                                    />
-                                  </div>
-                                  <div class="flex-1">
-                                    <label for="dose" class="block text-sm font-medium text-gray-700">Dose</label>
-                                    <Input
-                                      placeholder="dose"
-                                      id="dose"
-                                      type="text"
-                                      class="w-full border-gray-300 focus:border-lime-300"
-                                      v-model="editForm.dose"
-                                      required
-                                    />
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <!-- Buttons -->
-                            <div class="flex justify-end pt-10">
-                              <Button type="button" variant="success-outline" class="mr-3" @click="isModalOpen = false">
-                                Cancelar
-                              </Button>
-                              <Button type="submit" variant="success"> Salvar </Button>
-                            </div>
-                          </form>
+                      <!-- This is the modal -->
+                      <div class="relative mx-auto max-w-xl space-y-4 rounded-xl bg-white p-6 shadow drop-shadow">
+                        <div class="flex items-center justify-between">
+                          <Dialog-title as="h3" class="mx-auto text-xl font-medium leading-6 text-gray-700"
+                            >Editar Informações</Dialog-title
+                          >
+                          <button
+                            @click="isModalOpen = false"
+                            class="mb-2 rounded p-0.5 hover:bg-gray-100 focus:outline-none"
+                          >
+                            <XIcon class="h-6 w-6 text-gray-500 hover:text-green-500" />
+                          </button>
                         </div>
+                        <hr class="my-3 w-full border border-dashed" />
+                        <!-- Form fields -->
+                        <form @submit.prevent="handleSubmit" class="py-5">
+                          <div class="grid grid-cols-2 gap-4">
+                            <!-- Personal Data -->
+                            <div class="space-y-3">
+                              <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">Dados pessoais</h4>
+
+                              <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
+                              <Input
+                                placeholder="name"
+                                id="name"
+                                type="text"
+                                class="w-full border-gray-300 focus:border-lime-300"
+                                v-model="editForm.name"
+                                required
+                              />
+
+                              <label for="birthDate" class="block text-sm font-medium text-gray-700"
+                                >Data de Nascimento</label
+                              >
+                              <Input
+                                id="birthDate"
+                                type="date"
+                                class="w-full border-gray-300 focus:border-lime-300"
+                                v-model="editForm.birthDate"
+                                required
+                              />
+
+                              <label for="age" class="block text-sm font-medium text-gray-700">Idade</label>
+                              <Input
+                                placeholder="age"
+                                id="age"
+                                type="number"
+                                class="w-full border-gray-300 focus:border-lime-300"
+                                v-model="editForm.age"
+                                required
+                              />
+
+                              <label for="address" class="block text-sm font-medium text-gray-700">Endereço</label>
+                              <Input
+                                placeholder="address"
+                                id="address"
+                                type="text"
+                                class="w-full border-gray-300 focus:border-lime-300"
+                                v-model="editForm.address"
+                                required
+                              />
+
+                              <label for="cpf" class="block text-sm font-medium text-gray-700">CPF</label>
+                              <Input
+                                placeholder="document"
+                                id="document"
+                                type="text"
+                                class="w-full border-gray-300 focus:border-lime-300"
+                                v-model="editForm.cpf"
+                                required
+                              />
+                            </div>
+
+                            <!-- Clinical Data -->
+                            <div class="space-y-3">
+                              <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">Dados clínicos</h4>
+
+                              <label for="healthUnit" class="block text-sm font-medium text-gray-700"
+                                >Unidade de saúde</label
+                              >
+                              <Input
+                                placeholder="Unidade de saúde"
+                                id="healthUnit"
+                                type="text"
+                                class="w-full border-gray-300 focus:border-lime-300"
+                                v-model="editForm.healthUnit"
+                                required
+                              />
+
+                              <label for="cns" class="block text-sm font-medium text-gray-700">CNS</label>
+                              <Input
+                                placeholder="cns"
+                                id="CNS"
+                                type="text"
+                                class="w-full border-gray-300 focus:border-lime-300"
+                                v-model="editForm.cns"
+                                required
+                              />
+
+                              <div class="flex">
+                                <div class="flex-1 pr-3">
+                                  <label for="codeFile" class="block text-sm font-medium text-gray-700"
+                                    >Cód ficha</label
+                                  >
+                                  <Input
+                                    placeholder="Cód ficha"
+                                    id="codeFile"
+                                    type="text"
+                                    class="w-full border-gray-300 focus:border-lime-300"
+                                    v-model="editForm.codeFile"
+                                    required
+                                  />
+                                </div>
+                                <div class="flex-1">
+                                  <label for="fileDate" class="block text-sm font-medium text-gray-700"
+                                    >Data ficha</label
+                                  >
+                                  <Input
+                                    placeholder="Data ficha"
+                                    id="fileDate"
+                                    type="date"
+                                    class="w-full border-gray-300 focus:border-lime-300"
+                                    v-model="editForm.fileDate"
+                                    required
+                                  />
+                                </div>
+                              </div>
+
+                              <label for="professional" class="block text-sm font-medium text-gray-700"
+                                >Profissional</label
+                              >
+                              <Input
+                                placeholder="profissional"
+                                id="professional"
+                                type="text"
+                                class="w-full border-gray-300 focus:border-lime-300"
+                                v-model="editForm.professional"
+                                required
+                              />
+
+                              <div class="flex space-x-2">
+                                <div class="flex-1">
+                                  <label for="vaccine" class="block text-sm font-medium text-gray-700">Vacina</label>
+                                  <Input
+                                    placeholder="vaccine"
+                                    id="vaccine"
+                                    type="text"
+                                    class="w-full border-gray-300 focus:border-lime-300"
+                                    v-model="editForm.vaccine"
+                                    required
+                                  />
+                                </div>
+                                <div class="flex-1">
+                                  <label for="dose" class="block text-sm font-medium text-gray-700">Dose</label>
+                                  <Input
+                                    placeholder="dose"
+                                    id="dose"
+                                    type="text"
+                                    class="w-full border-gray-300 focus:border-lime-300"
+                                    v-model="editForm.dose"
+                                    required
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- Buttons -->
+                          <div class="flex justify-end pt-10">
+                            <Button type="button" variant="success-outline" class="mr-3" @click="isModalOpen = false">
+                              Cancelar
+                            </Button>
+                            <Button type="submit" variant="success"> Salvar </Button>
+                          </div>
+                        </form>
                       </div>
-                    </Dialog>
-                  </Transition>
+                    </div>
+                  </Dialog>
                 </InfoWindow>
               </div>
             </MarkerCluster>

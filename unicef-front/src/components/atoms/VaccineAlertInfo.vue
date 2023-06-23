@@ -32,7 +32,7 @@
             <input
               id="vaccine"
               type="text"
-              v-model="props.vaccine.description"
+              v-model="doseForm.vaccine.description"
               class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
               readonly
             />
@@ -200,6 +200,9 @@ const doseForm = ref({
   patient_id: patientsStore.item.id,
   vaccine_id: null,
   vaccine_dose: null,
+  vaccine: {
+    description: props.vaccine.description,
+  },
   recommended_age: formatDuration({ months: props.dose.maximum_recommended_age }),
   health_professional: {
     name: props.status?.health_professional.name == null ? 'Desconhecido' : props.status.health_professional.name,
