@@ -20,8 +20,8 @@
           class="mb-3 block w-full rounded-lg border border-gray-200 border-transparent bg-gray-50 p-4 pl-10 text-sm font-medium text-gray-900 focus:border-green-500"
         />
       </InputIconWrapper>
-      <div class="flex justify-between pt-7">
-        <Button class="mx-3" type="button" variant="danger" @click="$emit('delete')">
+      <div class="flex pt-7" :class="[{ 'justify-end': !isCreating }, 'justify-between']">
+        <Button class="mx-3" type="button" variant="danger" @click="handleSubmit" v-if="isCreating">
           <HandIcon aria-hidden="true" />
           <span>Excluir</span>
         </Button>
@@ -66,6 +66,14 @@ const localPolygon = ref({ ...props.polygon }) // Create local ref copy of polyg
 watchEffect(() => {
   // Update localPolygon when props.polygon changes
   localPolygon.value = { ...props.polygon }
+})
+const handleSubmit = () => {
+  localPolygon.value = { id: 0, name: '', coordinates: [] }
+  emit('delete')
+}
+
+const isCreating = computed(() => {
+  return Boolean(props.polygon.name)
 })
 
 const emit = defineEmits(['delete', 'saved'])

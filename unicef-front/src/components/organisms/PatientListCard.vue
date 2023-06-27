@@ -46,7 +46,7 @@
           </ul>
         </div>
         <spinner v-if="patientsStore.isLoading && 0 == paginated.length" />
-        <div class="flex h-full flex-col items-center justify-center" v-else-if="false == patientsStore.isLoading && 0 == paginated.length">
+        <div class="flex h-full mt-72 flex-col items-center justify-center" v-else-if="false == patientsStore.isLoading && 0 == paginated.length">
           <div class="flex justify-center">
             <EmptyResultPhoto />
           </div>
@@ -96,7 +96,7 @@
       </BaseCard>
 
         <!-- Moved pagination inside bg-red-500 div -->
-        <div class="flex" v-if="paginated">
+        <div class="flex" v-if="paginated.length > 0">
         <div class="flex justify-between w-full p-4" v-if="0 != totalPages">
           <div>
             <Button
@@ -184,6 +184,7 @@ const filteredPatientsQuery = computed(() => {
   })
 })
 const handleMarkerChange = (event) => {
+  console.log('hit')
   patientQuery.value = event
 }
 

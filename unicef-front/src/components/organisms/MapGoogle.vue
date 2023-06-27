@@ -59,6 +59,7 @@
                 <button
                   @click="showList = !showList"
                   class="relative flex flex-col items-center rounded-md py-2 px-4 text-gray-500"
+                  v-if="node_env == 'development'"
                 >
                   <UsersIcon title="{{ $t('manager.population') }}" class="h-6 w-6 text-green-500" />
                   <span class="text-sm">{{ $t('manager.population') }}</span>
@@ -90,7 +91,7 @@
               </div>
 
               <div class="flex cursor-pointer items-center space-x-10">
-                <button @click="toggleView" class="flex flex-col items-center">
+                <button @click="toggleView" class="flex flex-col items-center" v-if="node_env == 'development'">
                   <TableIcon v-if="isMapView" class="h-8 w-9 text-gray-500" />
                   <MapIcon v-else class="h-7 w-10 text-gray-500" />
                   <span class="text-sm text-gray-500">{{ $t('manager.visualization') }}</span>
@@ -145,7 +146,7 @@
               />
               <InfoWindow
                 v-if="currentInfoWindowIndex === polygonIndex"
-                @closeclick="showInfoWindow(null)"
+                @closeclick="closeInfoWindowHandler(polygonIndex)"
                 ref="infoWindow"
                 :options="{
                   position: calculatePolygonCenter(polygon.getPath()),
@@ -156,7 +157,7 @@
                   :polygon="polygons[polygonIndex]"
                   :googlePolygon="polygon"
                   :polygonIndex="polygonIndex"
-                  @saved="updateLabel"
+                  @saved="updatePolygon"
                 />
               </InfoWindow>
             </div>
@@ -181,287 +182,289 @@
                   }"
                   @dragend="handleMarkerDrag($event, marker.id)"
                   @click="patientCursorLocal = marker.id"
-                />
-
-                <InfoWindow
-                  v-if="isCursorOnMarker(marker)"
-                  :options="{
-                    position: patientLocation(marker, true),
-                  }"
-                  @closeclick="patientCursorLocal = null"
                 >
-                  <div id="content">
-                    <div id="bodyContent" class="h-auto w-96 p-1">
-                      <div class="rounded-lg p-6">
-                        <header class="mb-4">
-                          <h2 class="text-xl font-semibold capitalize" v-if="marker">
-                            {{ marker && marker.name.toLowerCase() }}
-                          </h2>
-                          <p class="text-sm text-gray-500">ID: {{ marker.id }}</p>
-                          <hr class="my-3 w-full border border-dashed" />
-                        </header>
+                  <InfoWindow
+                    v-if="isCursorOnMarker(marker)"
+                    @closeclick="patientCursorLocal = null"
+                    :ref="
+                      (el) => {
+                        markerInfoWindows[marker.id] = el
+                      }
+                    "
+                  >
+                    <div id="content">
+                      <div id="bodyContent" class="h-auto w-96 p-1">
+                        <div class="rounded-lg p-6">
+                          <header class="mb-4">
+                            <h2 class="text-xl font-semibold capitalize" v-if="marker">
+                              {{ marker && marker.name.toLowerCase() }}
+                            </h2>
+                            <p class="text-sm text-gray-500">ID: {{ marker.id }}</p>
+                            <hr class="my-3 w-full border border-dashed" />
+                          </header>
 
-                        <div class="mb-4">
-                          <div class="flex justify-between">
-                            <span
-                              class="mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-sm lowercase text-black"
-                            >
-                              {{ formatAge(marker.age_in_days) }}
-                            </span>
-                            <p class="text-sm">
+                          <div class="mb-4">
+                            <div class="flex justify-between">
                               <span
-                                :class="{
-                                  'bg-red-100 text-red-800': marker.number_of_alerts_by_protocol > 0,
-                                  'bg-gray-100 text-gray-500': marker.number_of_alerts_by_protocol === 0,
-                                }"
-                                class="mr-2 inline-block rounded-full px-3 py-1 text-sm text-black"
+                                class="mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-sm lowercase text-black"
                               >
-                                {{ marker.number_of_alerts_by_protocol }} alerta por protocolo
+                                {{ formatAge(marker.age_in_days) }}
                               </span>
+                              <p class="text-sm">
+                                <span
+                                  :class="{
+                                    'bg-red-100 text-red-800': marker.number_of_alerts_by_protocol > 0,
+                                    'bg-gray-100 text-gray-500': marker.number_of_alerts_by_protocol === 0,
+                                  }"
+                                  class="mr-2 inline-block rounded-full px-3 py-1 text-sm text-black"
+                                >
+                                  {{ marker.number_of_alerts_by_protocol }} alerta por protocolo
+                                </span>
+                              </p>
+                            </div>
+                            <div v-if="0 !== marker.alerts.length" class="inline-block pb-3 pt-2">
+                              <p class="pt-1 text-sm font-medium text-gray-600">Vacinas em atraso:</p>
+                              <span
+                                v-for="alert in marker.alerts"
+                                :key="alert.id"
+                                class="mr-2 mt-1 inline-block rounded-full bg-red-100 px-3 py-1 text-xs text-red-900"
+                              >
+                                {{ alert }}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="mb-2 flex">
+                            <p class="pr-1 text-sm font-medium text-gray-600">Birthdate:</p>
+                            <p class="text-sm">
+                              {{ format(new Date(marker.birth_date), 'dd/MM/yyyy') }}
                             </p>
                           </div>
-                          <div v-if="0 !== marker.alerts.length" class="inline-block pb-3 pt-2">
-                            <p class="pt-1 text-sm font-medium text-gray-600">Vacinas em atraso:</p>
-                            <span
-                              v-for="alert in marker.alerts"
-                              :key="alert.id"
-                              class="mr-2 mt-1 inline-block rounded-full bg-red-100 px-3 py-1 text-xs text-red-900"
+
+                          <div class="flex">
+                            <p class="pr-1 text-sm font-medium text-gray-600">Address:</p>
+                            <p class="text-sm">
+                              {{ marker.address.formatted_address }}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div class="flex justify-evenly py-3">
+                          <Button
+                            type="submit"
+                            variant="success-outline"
+                            @click="moveMarker($event, marker.id)"
+                            class="mx-2 gap-2 focus:outline-none"
+                            :disabled="editForm.processing"
+                            v-slot="{ iconSizeClasses }"
+                          >
+                            <HandIcon aria-hidden="true" :class="iconSizeClasses" />
+                            <span>Mover</span>
+                          </Button>
+                          <Button
+                            type="button"
+                            variant="success"
+                            class="mx-2 gap-2 bg-white focus:outline-none"
+                            @click="isModalOpen = true"
+                            v-slot="{ iconSizeClasses }"
+                          >
+                            <PencilIcon aria-hidden="true" :class="iconSizeClasses" />
+                            <span>Editar</span>
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <Dialog
+                      as="div"
+                      class="fixed inset-0 z-10 overflow-y-auto"
+                      :open="isModalOpen"
+                      @close="isModalOpen = false"
+                    >
+                      <div class="flex min-h-screen items-center justify-center">
+                        <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
+                        <!-- Overlay -->
+
+                        <!-- This is the modal -->
+                        <div class="relative mx-auto max-w-xl space-y-4 rounded-xl bg-white p-6 shadow drop-shadow">
+                          <div class="flex items-center justify-between">
+                            <Dialog-title as="h3" class="mx-auto text-xl font-medium leading-6 text-gray-700"
+                              >Editar Informações</Dialog-title
                             >
-                              {{ alert }}
-                            </span>
+                            <button
+                              @click="isModalOpen = false"
+                              class="mb-2 rounded p-0.5 hover:bg-gray-100 focus:outline-none"
+                            >
+                              <XIcon class="h-6 w-6 text-gray-500 hover:text-green-500" />
+                            </button>
                           </div>
-                        </div>
+                          <hr class="my-3 w-full border border-dashed" />
+                          <!-- Form fields -->
+                          <form @submit.prevent="handleSubmit" class="py-5">
+                            <div class="grid grid-cols-2 gap-4">
+                              <!-- Personal Data -->
+                              <div class="space-y-3">
+                                <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">Dados pessoais</h4>
 
-                        <div class="mb-2 flex">
-                          <p class="pr-1 text-sm font-medium text-gray-600">Birthdate:</p>
-                          <p class="text-sm">
-                            {{ format(new Date(marker.birth_date), 'dd/MM/yyyy') }}
-                          </p>
-                        </div>
+                                <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
+                                <Input
+                                  placeholder="name"
+                                  id="name"
+                                  type="text"
+                                  class="w-full border-gray-300 focus:border-lime-300"
+                                  v-model="editForm.name"
+                                  required
+                                />
 
-                        <div class="flex">
-                          <p class="pr-1 text-sm font-medium text-gray-600">Address:</p>
-                          <p class="text-sm">
-                            {{ marker.address.formatted_address }}
-                          </p>
-                        </div>
-                      </div>
+                                <label for="birthDate" class="block text-sm font-medium text-gray-700"
+                                  >Data de Nascimento</label
+                                >
+                                <Input
+                                  id="birthDate"
+                                  type="date"
+                                  class="w-full border-gray-300 focus:border-lime-300"
+                                  v-model="editForm.birthDate"
+                                  required
+                                />
 
-                      <div class="flex justify-evenly py-3">
-                        <Button
-                          type="submit"
-                          variant="success-outline"
-                          @click="moveMarker($event, marker.id)"
-                          class="mx-2 gap-2 focus:outline-none"
-                          :disabled="editForm.processing"
-                          v-slot="{ iconSizeClasses }"
-                        >
-                          <HandIcon aria-hidden="true" :class="iconSizeClasses" />
-                          <span>Mover</span>
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="success"
-                          class="mx-2 gap-2 bg-white focus:outline-none"
-                          @click="isModalOpen = true"
-                          v-slot="{ iconSizeClasses }"
-                        >
-                          <PencilIcon aria-hidden="true" :class="iconSizeClasses" />
-                          <span>Editar</span>
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
+                                <label for="age" class="block text-sm font-medium text-gray-700">Idade</label>
+                                <Input
+                                  placeholder="age"
+                                  id="age"
+                                  type="number"
+                                  class="w-full border-gray-300 focus:border-lime-300"
+                                  v-model="editForm.age"
+                                  required
+                                />
 
-                  <Dialog
-                    as="div"
-                    class="fixed inset-0 z-10 overflow-y-auto"
-                    :open="isModalOpen"
-                    @close="isModalOpen = false"
-                  >
-                    <div class="flex min-h-screen items-center justify-center">
-                      <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
-                      <!-- Overlay -->
+                                <label for="address" class="block text-sm font-medium text-gray-700">Endereço</label>
+                                <Input
+                                  placeholder="address"
+                                  id="address"
+                                  type="text"
+                                  class="w-full border-gray-300 focus:border-lime-300"
+                                  v-model="editForm.address"
+                                  required
+                                />
 
-                      <!-- This is the modal -->
-                      <div class="relative mx-auto max-w-xl space-y-4 rounded-xl bg-white p-6 shadow drop-shadow">
-                        <div class="flex items-center justify-between">
-                          <Dialog-title as="h3" class="mx-auto text-xl font-medium leading-6 text-gray-700"
-                            >Editar Informações</Dialog-title
-                          >
-                          <button
-                            @click="isModalOpen = false"
-                            class="mb-2 rounded p-0.5 hover:bg-gray-100 focus:outline-none"
-                          >
-                            <XIcon class="h-6 w-6 text-gray-500 hover:text-green-500" />
-                          </button>
-                        </div>
-                        <hr class="my-3 w-full border border-dashed" />
-                        <!-- Form fields -->
-                        <form @submit.prevent="handleSubmit" class="py-5">
-                          <div class="grid grid-cols-2 gap-4">
-                            <!-- Personal Data -->
-                            <div class="space-y-3">
-                              <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">Dados pessoais</h4>
-
-                              <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
-                              <Input
-                                placeholder="name"
-                                id="name"
-                                type="text"
-                                class="w-full border-gray-300 focus:border-lime-300"
-                                v-model="editForm.name"
-                                required
-                              />
-
-                              <label for="birthDate" class="block text-sm font-medium text-gray-700"
-                                >Data de Nascimento</label
-                              >
-                              <Input
-                                id="birthDate"
-                                type="date"
-                                class="w-full border-gray-300 focus:border-lime-300"
-                                v-model="editForm.birthDate"
-                                required
-                              />
-
-                              <label for="age" class="block text-sm font-medium text-gray-700">Idade</label>
-                              <Input
-                                placeholder="age"
-                                id="age"
-                                type="number"
-                                class="w-full border-gray-300 focus:border-lime-300"
-                                v-model="editForm.age"
-                                required
-                              />
-
-                              <label for="address" class="block text-sm font-medium text-gray-700">Endereço</label>
-                              <Input
-                                placeholder="address"
-                                id="address"
-                                type="text"
-                                class="w-full border-gray-300 focus:border-lime-300"
-                                v-model="editForm.address"
-                                required
-                              />
-
-                              <label for="cpf" class="block text-sm font-medium text-gray-700">CPF</label>
-                              <Input
-                                placeholder="document"
-                                id="document"
-                                type="text"
-                                class="w-full border-gray-300 focus:border-lime-300"
-                                v-model="editForm.cpf"
-                                required
-                              />
-                            </div>
-
-                            <!-- Clinical Data -->
-                            <div class="space-y-3">
-                              <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">Dados clínicos</h4>
-
-                              <label for="healthUnit" class="block text-sm font-medium text-gray-700"
-                                >Unidade de saúde</label
-                              >
-                              <Input
-                                placeholder="Unidade de saúde"
-                                id="healthUnit"
-                                type="text"
-                                class="w-full border-gray-300 focus:border-lime-300"
-                                v-model="editForm.healthUnit"
-                                required
-                              />
-
-                              <label for="cns" class="block text-sm font-medium text-gray-700">CNS</label>
-                              <Input
-                                placeholder="cns"
-                                id="CNS"
-                                type="text"
-                                class="w-full border-gray-300 focus:border-lime-300"
-                                v-model="editForm.cns"
-                                required
-                              />
-
-                              <div class="flex">
-                                <div class="flex-1 pr-3">
-                                  <label for="codeFile" class="block text-sm font-medium text-gray-700"
-                                    >Cód ficha</label
-                                  >
-                                  <Input
-                                    placeholder="Cód ficha"
-                                    id="codeFile"
-                                    type="text"
-                                    class="w-full border-gray-300 focus:border-lime-300"
-                                    v-model="editForm.codeFile"
-                                    required
-                                  />
-                                </div>
-                                <div class="flex-1">
-                                  <label for="fileDate" class="block text-sm font-medium text-gray-700"
-                                    >Data ficha</label
-                                  >
-                                  <Input
-                                    placeholder="Data ficha"
-                                    id="fileDate"
-                                    type="date"
-                                    class="w-full border-gray-300 focus:border-lime-300"
-                                    v-model="editForm.fileDate"
-                                    required
-                                  />
-                                </div>
+                                <label for="cpf" class="block text-sm font-medium text-gray-700">CPF</label>
+                                <Input
+                                  placeholder="document"
+                                  id="document"
+                                  type="text"
+                                  class="w-full border-gray-300 focus:border-lime-300"
+                                  v-model="editForm.cpf"
+                                  required
+                                />
                               </div>
 
-                              <label for="professional" class="block text-sm font-medium text-gray-700"
-                                >Profissional</label
-                              >
-                              <Input
-                                placeholder="profissional"
-                                id="professional"
-                                type="text"
-                                class="w-full border-gray-300 focus:border-lime-300"
-                                v-model="editForm.professional"
-                                required
-                              />
+                              <!-- Clinical Data -->
+                              <div class="space-y-3">
+                                <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">Dados clínicos</h4>
 
-                              <div class="flex space-x-2">
-                                <div class="flex-1">
-                                  <label for="vaccine" class="block text-sm font-medium text-gray-700">Vacina</label>
-                                  <Input
-                                    placeholder="vaccine"
-                                    id="vaccine"
-                                    type="text"
-                                    class="w-full border-gray-300 focus:border-lime-300"
-                                    v-model="editForm.vaccine"
-                                    required
-                                  />
+                                <label for="healthUnit" class="block text-sm font-medium text-gray-700"
+                                  >Unidade de saúde</label
+                                >
+                                <Input
+                                  placeholder="Unidade de saúde"
+                                  id="healthUnit"
+                                  type="text"
+                                  class="w-full border-gray-300 focus:border-lime-300"
+                                  v-model="editForm.healthUnit"
+                                  required
+                                />
+
+                                <label for="cns" class="block text-sm font-medium text-gray-700">CNS</label>
+                                <Input
+                                  placeholder="cns"
+                                  id="CNS"
+                                  type="text"
+                                  class="w-full border-gray-300 focus:border-lime-300"
+                                  v-model="editForm.cns"
+                                  required
+                                />
+
+                                <div class="flex">
+                                  <div class="flex-1 pr-3">
+                                    <label for="codeFile" class="block text-sm font-medium text-gray-700"
+                                      >Cód ficha</label
+                                    >
+                                    <Input
+                                      placeholder="Cód ficha"
+                                      id="codeFile"
+                                      type="text"
+                                      class="w-full border-gray-300 focus:border-lime-300"
+                                      v-model="editForm.codeFile"
+                                      required
+                                    />
+                                  </div>
+                                  <div class="flex-1">
+                                    <label for="fileDate" class="block text-sm font-medium text-gray-700"
+                                      >Data ficha</label
+                                    >
+                                    <Input
+                                      placeholder="Data ficha"
+                                      id="fileDate"
+                                      type="date"
+                                      class="w-full border-gray-300 focus:border-lime-300"
+                                      v-model="editForm.fileDate"
+                                      required
+                                    />
+                                  </div>
                                 </div>
-                                <div class="flex-1">
-                                  <label for="dose" class="block text-sm font-medium text-gray-700">Dose</label>
-                                  <Input
-                                    placeholder="dose"
-                                    id="dose"
-                                    type="text"
-                                    class="w-full border-gray-300 focus:border-lime-300"
-                                    v-model="editForm.dose"
-                                    required
-                                  />
+
+                                <label for="professional" class="block text-sm font-medium text-gray-700"
+                                  >Profissional</label
+                                >
+                                <Input
+                                  placeholder="profissional"
+                                  id="professional"
+                                  type="text"
+                                  class="w-full border-gray-300 focus:border-lime-300"
+                                  v-model="editForm.professional"
+                                  required
+                                />
+
+                                <div class="flex space-x-2">
+                                  <div class="flex-1">
+                                    <label for="vaccine" class="block text-sm font-medium text-gray-700">Vacina</label>
+                                    <Input
+                                      placeholder="vaccine"
+                                      id="vaccine"
+                                      type="text"
+                                      class="w-full border-gray-300 focus:border-lime-300"
+                                      v-model="editForm.vaccine"
+                                      required
+                                    />
+                                  </div>
+                                  <div class="flex-1">
+                                    <label for="dose" class="block text-sm font-medium text-gray-700">Dose</label>
+                                    <Input
+                                      placeholder="dose"
+                                      id="dose"
+                                      type="text"
+                                      class="w-full border-gray-300 focus:border-lime-300"
+                                      v-model="editForm.dose"
+                                      required
+                                    />
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
 
-                          <!-- Buttons -->
-                          <div class="flex justify-end pt-10">
-                            <Button type="button" variant="success-outline" class="mr-3" @click="isModalOpen = false">
-                              Cancelar
-                            </Button>
-                            <Button type="submit" variant="success"> Salvar </Button>
-                          </div>
-                        </form>
+                            <!-- Buttons -->
+                            <div class="flex justify-end pt-10">
+                              <Button type="button" variant="success-outline" class="mr-3" @click="isModalOpen = false">
+                                Cancelar
+                              </Button>
+                              <Button type="submit" variant="success"> Salvar </Button>
+                            </div>
+                          </form>
+                        </div>
                       </div>
-                    </div>
-                  </Dialog>
-                </InfoWindow>
+                    </Dialog>
+                  </InfoWindow>
+                </Marker>
               </div>
             </MarkerCluster>
           </template>
@@ -522,6 +525,7 @@ import { useLoggedUserStore } from '@/stores/loggedUser'
 import { useI18n } from 'vue3-i18n'
 import RegionForm from '@/components/atoms/RegionForm.vue'
 
+const node_env = ref(import.meta.env.NODE_ENV)
 // const dataAtual = new Date();
 
 // const idadeEmAnos = differenceInYears(dataAtual, dataNascimento);
@@ -708,10 +712,13 @@ const infoWindowsOpened = ref([])
 
 const googleLabels = ref([])
 
-const updateLabel = async ({ localPolygon, polygonIndex }) => {
+const updatePolygon = async ({ localPolygon, polygonIndex }) => {
   try {
+    console.log(localPolygon)
+    console.log(polygonIndex)
     if (0 === localPolygon.id) {
       await microregionsStore.createMicroRegion(localPolygon)
+      polygons.value.push(microregionsStore.item)
       let bounds = new google.maps.LatLngBounds()
       googlePolygons.value[polygonIndex].getPath().forEach((latLng) => bounds.extend(latLng))
       // map.value.fitBounds(bounds) // centraliza
@@ -785,11 +792,24 @@ watch(
     // Set the drawing manager to draw on the map instance
     drawingManager.value.setMap(mapRef.value.map)
 
-    // Add an event listener for when the user finishes drawing a polygon
+    // Adiciona um ouvinte de evento para quando o usuário termina de desenhar um polígono
     google.maps.event.addListener(drawingManager.value, 'overlaycomplete', (event) => {
       if (event.type === google.maps.drawing.OverlayType.POLYGON) {
         const newPolygon = event.overlay
         googlePolygons.value.push(newPolygon)
+
+        // Adiciona um ouvinte de clique ao novo polígono
+        google.maps.event.addListener(newPolygon, 'click', (clickEvent) => {
+          // Encontrar o índice do novo polígono na matriz googlePolygons
+          const polygonIndex = googlePolygons.value.indexOf(newPolygon)
+
+          // Verifica se o clique ocorreu dentro deste polígono
+          if (google.maps.geometry.poly.containsLocation(clickEvent.latLng, newPolygon)) {
+            showInfoWindow(polygonIndex)
+          }
+        })
+
+        // Mostrar a janela de informações imediatamente após o polígono ser desenhado
         showInfoWindow(googlePolygons.value.length - 1)
       }
     })
@@ -888,6 +908,7 @@ onBeforeUnmount(() => {
   document.removeEventListener('click', handleOutsideClick)
 })
 
+const markerInfoWindows = ref([])
 const markers = ref([])
 onBeforeUpdate(() => {
   markers.value = []
@@ -914,11 +935,12 @@ watch(onlyAlerts, (newOnlyAlerts, oldValue) => {
   emit('update:onlyAlerts', newOnlyAlerts)
 })
 
-const patientCursorLocalWhileMoving = ref(null)
+// const patientCursorLocalWhileMoving = ref(null)
 function moveMarker(event, index) {
-  patientCursorLocalWhileMoving.value = patientCursorLocal.value
-  patientCursorLocal.value = null
+  // patientCursorLocalWhileMoving.value = patientCursorLocal.value
+  // patientCursorLocal.value = null
   movingPatientId.value = index
+  console.log(markerInfoWindows.value[index])
 }
 
 async function handleMarkerDrag(event, patientId) {
@@ -927,7 +949,8 @@ async function handleMarkerDrag(event, patientId) {
   const latitude = event.latLng.lat()
   const longitude = event.latLng.lng()
 
-  patientCursorLocal.value = patientCursorLocalWhileMoving.value
+  // markerInfoWindows[movingPatientId.value].value.open()
+  // patientCursorLocal.value = patientCursorLocalWhileMoving.value
 
   emit('dragend', { patientId, latitude, longitude })
   movingPatientId.value = null
@@ -951,7 +974,28 @@ const getMarkersInView = () => {
   emit('update:markers-in-view', patientsInView.value)
 }
 
+const closeInfoWindowHandler = (polygonIndex) => {
+  if (polygons.value.length == polygonIndex) {
+    googlePolygons.value[polygonIndex].setMap(null)
+    googlePolygons.value.splice(polygonIndex, 1)
+    googleLabels.value[polygonIndex].setLabel('')
+    googleLabels.value.splice(polygonIndex, 1)
+  }
+  showInfoWindow(null)
+}
+
 const deletePolygon = async (polygonIndex) => {
+  console.log(polygons.value.length)
+  console.log(polygonIndex)
+  console.log(polygons.value[polygonIndex])
+  if (polygons.value.length - 1 == polygonIndex) {
+    googlePolygons.value[polygonIndex].setMap(null)
+    googlePolygons.value.splice(polygonIndex, 1)
+    googleLabels.value[polygonIndex].setLabel('')
+    googleLabels.value.splice(polygonIndex, 1)
+    showInfoWindow(null)
+    return
+  }
   const confirmed = confirm('Tem certeza que deseja excluir este polígono?')
   if (confirmed) {
     await microregionsStore.deleteMicroRegion(polygons.value[polygonIndex].id)
