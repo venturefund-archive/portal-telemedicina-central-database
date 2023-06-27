@@ -184,8 +184,8 @@ const filteredPatientsQuery = computed(() => {
   })
 })
 const handleMarkerChange = (event) => {
-  console.log('hit')
   patientQuery.value = event
+  current.value = 1
 }
 
 const totalPages = computed(() => Math.ceil(filteredPatients.value.length / pageSize.value))
