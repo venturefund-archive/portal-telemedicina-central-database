@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#F8F9FB] text-gray-900">
+  <div class="min-h-screen bg-[#F8F9FB] text-gray-900" v-if="!isLoading">
     <div class="hidden sm:block">
       <Sidebar />
     </div>
@@ -35,6 +35,15 @@
       <PageFooter />
     </div>
   </div>
+  <div v-else class="min-h-screen bg-[#F8F9FB] text-gray-900">
+    <spinner />
+    <span class="flex justify-center"
+      >Carregando {{ patientsStore.items.length }} pacientes
+      <span class="dot dot1" aria-hidden="true">.</span>
+      <span class="dot dot2" aria-hidden="true">.</span>
+      <span class="dot dot3" aria-hidden="true">.</span></span
+    >
+  </div>
 </template>
 
 <script setup>
@@ -59,7 +68,7 @@ const isLoading = ref(true)
 onMounted(async () => {
   isLoading.value = true
   await patientsStore.fetchPatients()
-  await patientsStore.fetchPatientsRecursive()
+  // await patientsStore.fetchPatientsRecursive()
   isLoading.value = false
 })
 </script>
