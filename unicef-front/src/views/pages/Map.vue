@@ -83,8 +83,8 @@ watch(filteredMarkers, (newMarkers, oldMarkers) => {
         if (status === 'OK') {
           const address = results[0].formatted_address
           filteredMarkers.value[k].address.formatted_address = address
-        // } else {
-        //   // isLoading.value = true
+          // } else {
+          //   // isLoading.value = true
         }
       }
     )

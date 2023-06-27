@@ -55,7 +55,6 @@
                     </div>
                   </DialogTitle>
                 </div>
-                <!-- <pre>{{ doseForm }}</pre> -->
                 <form class="w-full max-w-lg" @submit.prevent="submit">
                   <input type="hidden" name="patient_id" v-model="doseForm.patient_id" />
 
