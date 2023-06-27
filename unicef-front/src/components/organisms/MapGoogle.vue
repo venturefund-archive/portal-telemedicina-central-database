@@ -181,14 +181,16 @@
                   }"
                   @dragend="handleMarkerDrag($event, marker.id)"
                   @click="patientCursorLocal = marker.id"
-                />
+                >
 
                 <InfoWindow
                   v-if="isCursorOnMarker(marker)"
-                  :options="{
-                    position: patientLocation(marker, true),
-                  }"
                   @closeclick="patientCursorLocal = null"
+                  :ref="
+                    (el) => {
+                      markerInfoWindows[marker.id] = el
+                    }
+                  "
                 >
                   <div id="content">
                     <div id="bodyContent" class="h-auto w-96 p-1">
@@ -462,6 +464,7 @@
                     </div>
                   </Dialog>
                 </InfoWindow>
+                </Marker>
               </div>
             </MarkerCluster>
           </template>
@@ -888,6 +891,7 @@ onBeforeUnmount(() => {
   document.removeEventListener('click', handleOutsideClick)
 })
 
+const markerInfoWindows = ref([])
 const markers = ref([])
 onBeforeUpdate(() => {
   markers.value = []
@@ -914,11 +918,12 @@ watch(onlyAlerts, (newOnlyAlerts, oldValue) => {
   emit('update:onlyAlerts', newOnlyAlerts)
 })
 
-const patientCursorLocalWhileMoving = ref(null)
+// const patientCursorLocalWhileMoving = ref(null)
 function moveMarker(event, index) {
-  patientCursorLocalWhileMoving.value = patientCursorLocal.value
-  patientCursorLocal.value = null
+  // patientCursorLocalWhileMoving.value = patientCursorLocal.value
+  // patientCursorLocal.value = null
   movingPatientId.value = index
+  console.log(markerInfoWindows.value[index])
 }
 
 async function handleMarkerDrag(event, patientId) {
@@ -927,7 +932,8 @@ async function handleMarkerDrag(event, patientId) {
   const latitude = event.latLng.lat()
   const longitude = event.latLng.lng()
 
-  patientCursorLocal.value = patientCursorLocalWhileMoving.value
+  // markerInfoWindows[movingPatientId.value].value.open()
+  // patientCursorLocal.value = patientCursorLocalWhileMoving.value
 
   emit('dragend', { patientId, latitude, longitude })
   movingPatientId.value = null
