@@ -308,13 +308,18 @@ class VaccineAlert(Alert, models.Model):
     @staticmethod
     def get_alerts_by_doses(vaccine_doses, fhir_store_id):
         return VaccineAlert.objects.filter(
-            vaccine_dose__in=vaccine_doses, fhir_store_id=fhir_store_id
+            vaccine_dose__in=vaccine_doses,
+            fhir_store_id=fhir_store_id,
+            active=True,
         )
 
     @staticmethod
     def get_alerts_by_patient(patient_ids):
         alerts = (
-            VaccineAlert.objects.filter(patient_id__in=patient_ids)
+            VaccineAlert.objects.filter(
+                active=True,
+                patient_id__in=patient_ids,
+            )
             .select_related("vaccine_dose__vaccine")
             .values("patient_id", "vaccine_dose__vaccine__display")
         )
@@ -380,4 +385,5 @@ class VaccineProtocol(models.Model):
         return VaccineAlert.objects.filter(
             fhir_store_id=self.client.fhir_store.id,
             vaccine_dose__in=self.vaccine_doses.all(),
+            active=True,
         ).count()
