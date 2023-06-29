@@ -179,7 +179,7 @@
                     </div>
                   </div>
 
-                  <div class="flex items-center justify-center">
+                  <div class="flex items-center justify-center"  v-if=" ! ['local', 'production'].includes(node_env)">
                     <span class="ml-10 flex cursor-pointer items-center" @click="openModal2">
                       <CloudUploadIcon class="mr-6 h-6 w-6 text-blue-500" />
                       <span class="text-sm font-semibold text-blue-500">{{ $t('patient-details.uploadbooklet') }}</span>
@@ -252,6 +252,7 @@ import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } fro
 import { parseISO, formatRelative, formatDuration, add, setDefaultOptions, differenceInMonths, format } from 'date-fns'
 import { errorToast, successToast } from '@/toast'
 
+const node_env = ref(import.meta.env.NODE_ENV)
 const patientsStore = usePatientsStore()
 const dosesStore = useDosesStore()
 const vaccinesStore = useVaccinesStore()
@@ -261,6 +262,7 @@ const filteredVaccines = computed(() => {
     return vaccine.system == 'BRI' && dosesStore.items.map((e) => e.vaccine).includes(vaccine.id)
   })
 })
+
 const filteredDosesByVaccine = computed(() => {
   return (vaccine) =>
     dosesStore.items.filter((dose) => {

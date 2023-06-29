@@ -8,7 +8,7 @@
       <!-- List contents here -->
       <div class="flex flex-col flex-grow">
         <BaseCard class="flex-grow px-1" @update:query="handleMarkerChange">
-          <div class="-mt-10 flex hidden pb-10">
+          <div class="-mt-10 flex pb-10"  v-if=" ! ['local', 'production'].includes(node_env)">
           <button
             class="border-1 rounded-l-md border border-gray-300 py-2 px-4 text-sm hover:text-green-500"
             :class="{
@@ -165,6 +165,8 @@ import {
 import { usePatientsStore } from '@/stores/patients'
 const patientsStore = usePatientsStore()
 
+
+const node_env = ref(import.meta.env.NODE_ENV)
 const mode = ref('cpfs')
 const patientQuery = ref('')
 const current = ref(1)
