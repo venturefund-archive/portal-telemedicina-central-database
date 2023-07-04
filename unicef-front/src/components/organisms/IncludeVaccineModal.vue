@@ -1,13 +1,25 @@
 <template>
   <div>
-    <button
-      type="button"
-      @click="openModal"
-      class="flex items-center space-x-5 rounded-full bg-blue-500 py-2 px-3 text-sm font-medium text-white hover:bg-blue-600"
-    >
-      <PlusCircleIcon class="h-6 w-6" />
-      <span class="uppercase tracking-wide">{{ $t('patient-details.add-vaccine') }}</span>
-    </button>
+    <div class="relative inline-block text-left">
+      <button
+        type="button"
+        class="flex items-center space-x-5 rounded-lg bg-green-500 py-2 px-3 text-sm font-medium text-white hover:bg-green-600"
+        @click="dropdownOpen = !dropdownOpen"
+      >
+        <PlusCircleIcon class="h-6 w-6" />
+        <span class="uppercase tracking-wide">{{ $t('patient-details.add-vaccine') }}</span>
+      </button>
+
+     <div v-show="dropdownOpen" class="inset-x-0 absolute  mt-2 w-56 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+    <div class="py-1 flex flex-col" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+        <div>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 hover:no-underline w-full text-center" role="menuitem" @click="openModal">Incluir manualmente</a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 hover:no-underline w-full text-center" role="menuitem" @click="openModal2">Enviar caderneta </a>
+        </div>
+    </div>
+</div>
+
+    </div>
     <TransitionRoot appear :show="isOpen" as="template">
       <Dialog as="div" @close="closeModal" class="relative z-10">
         <TransitionChild
@@ -190,7 +202,7 @@
                       <div class="rounded bg-blue-500 p-4 shadow-2xl" style="height: 250px">
                         <div class="flex justify-between">
                           <CloudUploadIcon class="h-7 w-7 text-white" />
-                          <h3 class="text-lg font-medium text-white">{{ $t('patient-details.sendbooklet') }}</h3>
+                          <h3 class="text-lg font-medium text-white"  v-if=" ! ['local', 'production'].includes(node_env)">{{ $t('patient-details.sendbooklet') }}</h3>
                           <div class="flex justify-end">
                             <button
                               type="button"
@@ -262,7 +274,7 @@ const filteredVaccines = computed(() => {
     return vaccine.system == 'BRI' && dosesStore.items.map((e) => e.vaccine).includes(vaccine.id)
   })
 })
-
+const dropdownOpen = ref(false)
 const filteredDosesByVaccine = computed(() => {
   return (vaccine) =>
     dosesStore.items.filter((dose) => {
