@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div v-for="(marker, index) in markerOptions" :key="patients[index].id">
-      <div v-if="isCursorOnMarker(marker)">{{marker}}a</div>
-    </div>
     <p class="mb-4 text-xl font-semibold text-gray-700">
       {{ !isMapView ? $t('manager.table-view-text') : $t('manager.vaccination-map') }}
     </p>
@@ -1028,13 +1025,13 @@ const patientLocation = computed(() => (patientMarker, offset = false) => {
   }
   return { lat: patientMarker.address.latitude, lng: patientMarker.address.longitude }
 })
-const dddd = computed(() => (polygonIndex) => {
-  console.log('asd dddd')
-})
-const ddd = () => {
-  console.log('asd ddd')
-}
-let count = 0
+// const dddd = computed(() => (polygonIndex) => {
+//   console.log('asd dddd')
+// })
+// const ddd = () => {
+//   console.log('asd ddd')
+// }
+// let count = 0
 // onRenderTracked((debug) => {
 //   count++
 //   console.log(`MapGoogle.vue render tracked. \nCount: ${count} key: ${debug.key}.`)
