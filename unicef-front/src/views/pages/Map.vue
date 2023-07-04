@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import { onMounted, onUpdated, reactive, ref, watch } from 'vue'
+import { onMounted, onUpdated, reactive, ref, watch, onRenderTracked } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
@@ -66,7 +66,6 @@ const filteredMarkers = ref([])
 onMounted(async () => {
   isLoading.value = true
   markers.value = filteredMarkers.value = patientsStore.items
-  // await fetchPaginatedPatients()
 })
 const geoCoder = ref(null)
 const handleGeoCoderReady = (geoCoder2) => {
@@ -125,4 +124,9 @@ const handleMarkerDrag = ({ patientId, latitude, longitude }) => {
     patient.address.longitude = longitude
   }
 }
+let count = 0
+onRenderTracked((debug) => {
+  count++
+  console.log(`Map.vue render tracked. \nCount: ${count} key: ${debug.key}.`)
+})
 </script>
