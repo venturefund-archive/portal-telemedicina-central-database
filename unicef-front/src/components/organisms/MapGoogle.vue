@@ -594,6 +594,13 @@ const props = defineProps({
   },
 })
 
+watch(
+  () => props.center,
+  async (center) => {
+    map.value.panTo(center)
+  }
+)
+
 const showList = ref(false)
 const dropdown = ref(null)
 

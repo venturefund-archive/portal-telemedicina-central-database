@@ -105,10 +105,10 @@ const updateMarkersFiltered = (newMarkers) => {
 }
 
 const patientCursor = ref(null)
-const updateCenterInView = ({ latitude, longitude, newPatientCursor }) => {
-  console.log({ latitude, longitude, newPatientCursor })
+const updateCenterInView = async ({ latitude, longitude, newPatientCursor }) => {
+  // console.log({ latitude, longitude, newPatientCursor })
   currentCenter.value = { lat: latitude, lng: longitude }
-  currentZoom.value = 19
+  currentZoom.value = 18
   patientCursor.value = newPatientCursor
 }
 
