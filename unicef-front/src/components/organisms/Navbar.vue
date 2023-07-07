@@ -157,8 +157,7 @@ const filteredResults = computed(() => {
 
 onMounted(async () => {
   document.addEventListener('scroll', handleScroll)
-  await loggedUserStore.fetchMe()
-  items.value = await patientsStore.searchPatients()
+  items.value = patientsStore.items
 })
 
 onUnmounted(() => {

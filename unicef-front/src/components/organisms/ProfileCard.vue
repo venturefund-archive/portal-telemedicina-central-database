@@ -13,7 +13,7 @@
     <ul class="px-3 text-sm text-neutral-500">
       <li>
         <span class="font-semibold">{{ $t('patient-details.age') }}</span
-        >: {{ age }}
+        >: {{ formatedAge }}
       </li>
       <li>
         <span class="font-semibold">{{ $t('patient-details.date-of-birth') }}</span
@@ -39,17 +39,17 @@
     <div class="mt-4">
       <ul class="divide-y divide-gray-100 text-sm font-semibold">
         <li class=""></li>
-        <Tooltip>
+        <Tooltip variant="gray" position="right">
           <template #trigger>
             <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
                 <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-01.png" />
               </div>
-              <span class="pl-3">Peso, altura, IMC</span>
+              <span class="pl-3">{{ $t('patient-details.imc') }}</span>
             </li>
           </template>
           <template #content>
-            <div>Em breve!</div>
+            <div class="flex">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <li class="flex cursor-pointer items-center border-r-4 !border-r-blue-500 py-4 pl-4 hover:bg-[#F8F9FB]">
@@ -58,7 +58,7 @@
           </div>
           <span class="pl-3">{{ $t('patient-details.booklet') }}</span>
         </li>
-        <Tooltip>
+        <Tooltip variant="gray" position="right">
           <template #trigger>
             <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
@@ -67,66 +67,66 @@
               <span
                 data-tooltip-target="tooltip-default"
                 type="button"
-                class="-my-1 rounded-lg text-left text-sm font-medium"
+                class="-my-1 rounded-lg text-left text-sm font-normal"
               >
-                <span class="pl-3">Período fetal</span>
+                <span class="pl-3">{{ $t('patient-details.fetal-period') }}</span>
               </span>
             </li>
           </template>
           <template #content>
-            <div>Em breve!</div>
+            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
-        <Tooltip>
+        <Tooltip variant="gray" position="right">
           <template #trigger>
             <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
                 <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-04.png" />
               </div>
-              <span class="pl-3">Alergias</span>
+              <span class="pl-3">{{ $t('patient-details.allergie') }}</span>
             </li>
           </template>
           <template #content>
-            <div>Em breve!</div>
+            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
-        <Tooltip>
+        <Tooltip variant="gray" position="right">
           <template #trigger>
             <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
                 <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-05.png" />
               </div>
-              <span class="pl-3">Medicamentos</span>
+              <span class="pl-3">{{ $t('patient-details.medication') }}</span>
             </li>
           </template>
           <template #content>
-            <div>Em breve!</div>
+            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
-        <Tooltip>
+        <Tooltip variant="gray" position="right">
           <template #trigger>
             <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
                 <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-06.png" />
               </div>
-              <span class="pl-3">Doenças</span>
+              <span class="pl-3">{{ $t('patient-details.desease') }}</span>
             </li>
           </template>
           <template #content>
-            <div>Em breve!</div>
+            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
-        <Tooltip>
+        <Tooltip variant="gray" position="right">
           <template #trigger>
-            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+            <li class="flex items-center rounded rounded-b-full bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
                 <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-07.png" />
               </div>
-              <span class="pl-3">Dados socioculturais</span>
+              <span class="pl-3">{{ $t('patient-details.social-data') }}</span>
             </li>
           </template>
           <template #content>
-            <div>Em breve!</div>
+            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
       </ul>
@@ -160,7 +160,9 @@ const patientsStore = usePatientsStore()
 const router = useRouter()
 
 const name = ref(patientsStore.item.name.toLowerCase())
-const gender = ref('male' == patientsStore.item.gender ? 'Masculino' : 'Feminino')
+const gender = computed(() =>
+  'male' == patientsStore.item.gender ? t('patient-details.male') : t('patient-details.female')
+)
 const region = ref(patientsStore.item.address[0].city + ' / ' + patientsStore.item.address[0].state)
 const postalCode = ref(patientsStore.item.address[0].postal_code)
 
@@ -185,7 +187,6 @@ const formatedAge = computed(() => {
   }
   return ageInYears + ' ' + t('patient-details.years')
 })
-const age = ref(formatedAge.value)
 
 const props = defineProps({
   id: {

@@ -22,6 +22,8 @@
       </p>
     </div>
     <div class="hidden">
+      node_env: {{ node_env }}<br />
+      api_url: {{ api_url }}<br />
       site_name: {{ site_name }}<br />
       repository_url: {{ repository_url }}<br />
       branch: {{ branch }}<br />
@@ -34,9 +36,11 @@
 <script setup>
 import { ref } from 'vue'
 
-const site_name = ref(import.meta.env.SITE_NAME)
-const url = ref(import.meta.env.URL)
-const repository_url = ref(import.meta.env.REPOSITORY_URL) // URL for the linked Git repository.
-const commit_ref = ref(import.meta.env.COMMIT_REF) // Reference of the commit we’re building.
-const branch = ref(import.meta.env.BRANCH) // Reference to check out after fetching changes from the Git repository. useful in split testing https://www.netlify.com/docs/split-testing/#exposing-split-test-information-in-your-site
+const node_env = ref(import.meta.env.NODE_ENV)
+const api_url = ref(import.meta.env.VITE_API_URL)
+const site_name = ref(import.meta.env.VITE_SITE_NAME)
+const url = ref(import.meta.env.VITE_URL)
+const repository_url = ref(import.meta.env.VITE_REPOSITORY_URL) // URL for the linked Git repository.
+const commit_ref = ref(import.meta.env.VITE_COMMIT_REF) // Reference of the commit we’re building.
+const branch = ref(import.meta.env.VITE_BRANCH) // Reference to check out after fetching changes from the Git repository. useful in split testing https://www.netlify.com/docs/split-testing/#exposing-split-test-information-in-your-site
 </script>

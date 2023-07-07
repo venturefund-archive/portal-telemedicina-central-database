@@ -85,8 +85,15 @@ export const useMicroRegionsStore = defineStore('microregions', () => {
           Authorization: `token ${state.value.token}`,
         },
       })
-      this.item = response.data
-      return this.item
+      const polygon = response.data
+      item.value = {
+        id: polygon.id,
+        name: polygon.properties.name,
+        coordinates: polygon.geometry.coordinates[0].map((coordinate) => {
+          return { lat: coordinate[1], lng: coordinate[0] }
+        }),
+      }
+      return item.value
     } catch (err) {
       errorToast({ text: err.message })
     }

@@ -1,6 +1,9 @@
 <template>
   <div class="p-3">
+    <h2 class="text-center text-lg font-medium text-gray-700">Editar informações</h2>
+    <hr class="my-3 w-full border border-dashed" />
     <form
+      class="py-5"
       @submit.prevent="
         $emit('saved', { localPolygon: { ...localPolygon, coordinates: polygonCoordinates }, polygonIndex })
       "
@@ -13,17 +16,20 @@
           placeholder="Nome do poligono"
           v-model="localPolygon.name"
           withIcon
-          class="mb-3 block w-full rounded-lg border border-transparent bg-gray-50 p-4 pl-10 text-sm text-gray-900"
+          required
+          class="mb-3 block w-full rounded-lg border border-gray-200 border-transparent bg-gray-50 p-4 pl-10 text-sm font-medium text-gray-900 focus:border-green-500"
         />
       </InputIconWrapper>
-      <Button class="mx-3" type="button" variant="danger" @click="$emit('delete')">
-        <HandIcon aria-hidden="true" />
-        <span>Excluir</span>
-      </Button>
-      <Button type="submit" variant="success-outline" class="mx-3">
-        <PencilIcon aria-hidden="true" />
-        <span>Salvar</span>
-      </Button>
+      <div class="flex pt-7" :class="[{ 'justify-end': !isCreating }, 'justify-between']">
+        <Button class="mx-3" type="button" variant="danger" @click="handleSubmit" v-if="isCreating">
+          <HandIcon aria-hidden="true" />
+          <span>Excluir</span>
+        </Button>
+        <Button type="submit" variant="success-outline" class="mx-3">
+          <PencilIcon aria-hidden="true" />
+          <span>Salvar</span>
+        </Button>
+      </div>
     </form>
   </div>
 </template>
@@ -60,6 +66,14 @@ const localPolygon = ref({ ...props.polygon }) // Create local ref copy of polyg
 watchEffect(() => {
   // Update localPolygon when props.polygon changes
   localPolygon.value = { ...props.polygon }
+})
+const handleSubmit = () => {
+  localPolygon.value = { id: 0, name: '', coordinates: [] }
+  emit('delete')
+}
+
+const isCreating = computed(() => {
+  return Boolean(props.polygon.name)
 })
 
 const emit = defineEmits(['delete', 'saved'])

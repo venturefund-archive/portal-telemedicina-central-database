@@ -4,19 +4,19 @@
       <thead class="bg-white">
         <tr>
           <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
-            Grupo populacional
+            {{ $t('manager.group') }}
           </th>
           <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
-            QTD
+            {{ $t('manager.quantity') }}
           </th>
           <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
-            Equipe responsável
+            {{ $t('manager.team') }}
           </th>
           <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
-            Área
+            {{ $t('manager.area') }}
           </th>
           <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">
-            Rua
+            {{ $t('manager.street') }}
           </th>
         </tr>
       </thead>
@@ -46,57 +46,58 @@
 
 <script setup>
 import { faStreetView } from '@fortawesome/free-solid-svg-icons'
-import { ref } from 'vue'
-
-const users = ref([
+import { ref, computed } from 'vue'
+import { useI18n } from 'vue3-i18n'
+const { t } = useI18n()
+const users = computed(() => [
   {
-    group: 'Diabéticos',
+    group: t('manager.diabetic'),
     qtd: '20',
     team: '02-Integração',
     area: '15',
-    street: 'street name',
+    street: t('manager.street'),
   },
   {
-    group: 'Gestantes',
+    group: t('manager.pregnant'),
     qtd: '50',
     team: '03-Riviera',
     area: '10',
-    street: 'street name',
+    street: t('manager.street'),
   },
   {
-    group: 'Diabéticos',
+    group: t('manager.diabetic'),
     qtd: '10',
     team: '02-Miami',
     area: '12',
-    street: 'street name',
+    street: t('manager.street'),
   },
   {
-    group: 'Idosos',
+    group: t('manager.elderly'),
     qtd: '60',
     team: '02-Integração',
     area: '01',
-    street: 'street name',
+    street: t('manager.street'),
   },
   {
-    group: 'Menos de 01  ano',
+    group: t('manager.lessone'),
     qtd: '20',
     team: '02-Integração',
     area: '05',
-    street: 'street name',
+    street: t('manager.street'),
   },
   {
-    group: 'Menos de 05 anos',
+    group: t('manager.lessfive'),
     qtd: '20',
     team: '02-Integração',
     area: '19',
-    street: 'street name',
+    street: t('manager.street'),
   },
   {
-    group: 'Diabéticos',
+    group: t('manager.diabetic'),
     qtd: '20',
     team: '02-Integração',
     area: '15',
-    street: 'street name',
+    street: t('manager.street'),
   },
   // adicione mais usuários aqui
 ])

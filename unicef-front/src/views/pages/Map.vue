@@ -14,7 +14,7 @@
             :patientCursor="patientCursor"
           />
         </div>
-        <div class="m-3 h-[59rem] md:w-1/3">
+        <div class="m-3 md:w-1/3">
           <PatientListCard
             :patients="filteredMarkers"
             :onlyAlerts="onlyAlerts"
@@ -27,12 +27,11 @@
 </template>
 
 <script setup>
-import { onMounted, onUpdated, reactive, ref } from 'vue'
+import { onMounted, onUpdated, reactive, ref, watch, onRenderTracked } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
-import { watch, computed } from 'vue'
 import { usePatientsStore } from '@/stores/patients'
 import { useVaccinesStore } from '@/stores/vaccines'
 import { useLoggedUserStore } from '@/stores/loggedUser'
@@ -65,7 +64,7 @@ const onlyAlerts = ref(undefined)
 const filteredMarkers = ref([])
 
 onMounted(async () => {
-  await patientsStore.fetchPatients()
+  isLoading.value = true
   markers.value = filteredMarkers.value = patientsStore.items
 })
 const geoCoder = ref(null)
@@ -76,20 +75,27 @@ watch(filteredMarkers, (newMarkers, oldMarkers) => {
   if (!geoCoder.value) {
     return
   }
-  filteredMarkers.value.slice(0, 9).map((patient, k) => {
+  filteredMarkers.value.map((patient, k) => {
     geoCoder.value.geocode(
       { location: { lat: patient.address.latitude, lng: patient.address.longitude } },
       function (results, status) {
         if (status === 'OK') {
           const address = results[0].formatted_address
           filteredMarkers.value[k].address.formatted_address = address
-        } else {
-          showEmptyResult.value = true
+          // } else {
+          //   // isLoading.value = true
         }
       }
     )
   })
 })
+
+const isLoading = ref(false)
+const fetchPaginatedPatients = async () => {
+  await patientsStore.fetchPatientsRecursive()
+  markers.value = filteredMarkers.value = patientsStore.items
+  isLoading.value = false
+}
 
 const currentCenter = ref(undefined)
 const currentZoom = ref(16)
@@ -111,7 +117,16 @@ const updateOnlyAlerts = (newOnlyAlerts) => {
 }
 
 const handleMarkerDrag = ({ patientId, latitude, longitude }) => {
-  markers.value.find((p) => patientId == p.id).address.latitude = latitude
-  markers.value.find((p) => patientId == p.id).address.longitude = longitude
+  const patient = markers.value.find((p) => patientId === p.id)
+
+  if (patient && patient.address) {
+    patient.address.latitude = latitude
+    patient.address.longitude = longitude
+  }
 }
+let count = 0
+onRenderTracked((debug) => {
+  count++
+  console.log(`Map.vue render tracked. \nCount: ${count} key: ${debug.key}.`)
+})
 </script>

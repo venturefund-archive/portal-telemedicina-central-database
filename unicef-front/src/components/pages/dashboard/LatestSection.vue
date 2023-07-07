@@ -1,26 +1,37 @@
 <template>
   <section class="mx-auto grid w-full grid-cols-1 place-content-center gap-6 pt-5 md:pt-0 lg:pt-0">
     <p class="mt-5 mt-16 text-xl font-semibold text-gray-700">{{ $t('dashboard.total-alerts-per-patient') }}</p>
-    <div class="grid grid-cols-1 gap-6" v-if="paginated">
-      <BaseCard class="flex flex-col rounded-xl bg-[#F2F2F2] px-5 shadow-md" @update:query="patientQuery = $event">
-        <div
-          class="flex items-center justify-between border-b border-white px-2 py-4 hover:rounded hover:bg-gray-100"
-          v-for="(patient, index) in paginated"
-          :key="index"
-        >
-          <div class="flex flex-auto items-center gap-2">
-            <span class="hidden align-baseline text-xs text-gray-500">{{ indexStart + ++index }}.</span>
-            <img class="h-10 w-10 rounded-md rounded-full bg-neutral-200 object-cover p-1" src="/avatar.png" />
-            <div>
-              <h5 class="font-medium capitalize">
-                <router-link :to="{ name: 'PatientDetails', params: { id: patient.id } }" class="hover:underline">{{
-                  patient.name.toLowerCase()
-                }}</router-link>
-              </h5>
+    <div class="grid grid-cols-1 gap-6">
+      <BaseCard class="flex flex-col rounded-xl bg-[#F2F2F2] px-5 shadow-md" @update:query="searchHandler">
+        <div class="outer-container" style="max-height: 400px; overflow-y: auto" v-if="paginated.length > 0">
+          <div
+            class="flex items-center justify-between border-b border-white px-2 py-4 hover:rounded hover:bg-gray-100"
+            v-for="(patient, index) in paginated"
+            :key="index"
+          >
+            <div class="flex flex-auto items-center gap-2">
+              <span class="hidden align-baseline text-xs text-gray-500">{{ indexStart + ++index }}.</span>
+              <img class="h-10 w-10 rounded-md rounded-full bg-neutral-200 object-cover p-1" src="/avatar.png" />
+              <div>
+                <h5 class="font-medium capitalize">
+                  <router-link :to="{ name: 'PatientDetails', params: { id: patient.id } }" class="hover:underline">
+                    {{ patient.name.toLowerCase() }}
+                  </router-link>
+                </h5>
+              </div>
+              <hr class="divide-dotted border text-white" />
             </div>
-            <hr class="divide-dotted border text-white" />
+            <span class="flex-none pr-14 font-normal text-neutral-500">{{ patient.number_of_alerts_by_protocol }}</span>
           </div>
-          <span class="flex-none pr-14 font-normal text-neutral-500">{{ patient.number_of_alerts_by_protocol }}</span>
+        </div>
+
+        <div v-else class="pt-4" style="height: 365px">
+          <SkeletonLoader
+            type="text"
+            animation="fade-in"
+            style="height: 73px"
+            class="flex items-center justify-between border-b border-white py-2 px-2 py-4 hover:rounded hover:bg-gray-100"
+          />
         </div>
 
         <div class="flex justify-between pt-3 pb-2 pt-16">
@@ -79,7 +90,7 @@ const router = useRouter()
 
 const patientQuery = ref('')
 const current = ref(1)
-const pageSize = ref(5)
+const pageSize = ref(props.pageSize)
 const isLastPage = computed(() => current.value + 1 >= totalPages.value + 1)
 const isFirstPage = computed(() => current.value == 1)
 const indexStart = computed(() => (current.value - 1) * pageSize.value)
@@ -89,6 +100,10 @@ const filteredPatients = computed(() => {
     return patient.name.toLowerCase().includes(patientQuery.value.toLowerCase())
   })
 })
+const searchHandler = (event) => {
+  patientQuery.value = event
+  current.value = 1
+}
 const totalPages = computed(() => Math.ceil(filteredPatients.value.length / pageSize.value))
 const paginated = computed(() => filteredPatients.value.slice(indexStart.value, indexEnd.value))
 
@@ -106,15 +121,9 @@ function next() {
 }
 
 const props = defineProps({
-  id: {
-    type: String,
-    default: '',
+  pageSize: {
+    type: Number,
+    default: 10,
   },
-})
-
-onMounted(async () => {
-  if (patientsStore.items.length !== 0) {
-    await patientsStore.fetchPatients()
-  }
 })
 </script>

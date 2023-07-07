@@ -5,6 +5,11 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 from central_database.base_models import Alert, AlertType, CDModel
+from central_database.customers.models import (  # noqa: E501
+    Client,
+    FhirStore,
+    HealthProfessional,
+)
 
 
 class Vaccine(CDModel, models.Model):
@@ -197,15 +202,35 @@ class VaccineStatus(CDModel, models.Model):
     vaccine_dose = models.ForeignKey(
         VaccineDose, on_delete=models.CASCADE
     )  # noqa: E501
+
+    batch = models.CharField(max_length=255, blank=True, null=True)
+
+    health_professional = models.ForeignKey(
+        HealthProfessional, on_delete=models.PROTECT, null=True, blank=True
+    )
+
     patient_id = models.CharField(
         max_length=255, help_text="Patient ID from FHIR."
     )  # noqa: E501
+
+    fhir_store = models.ForeignKey(
+        FhirStore, on_delete=models.PROTECT, null=True, blank=True
+    )  # noqa: E501
+
     completed = models.BooleanField(default=False)
 
     application_date = models.DateField(blank=True, null=True)
+    next_dose_application_date = models.DateField(blank=True, null=True)
 
     class Meta:
         indexes = [models.Index(fields=["patient_id"])]  # noqa: E501
+
+        constraints = [
+            models.UniqueConstraint(
+                fields=["vaccine_dose", "patient_id"],
+                name="unique_vaccine_dose_per_patient",
+            ),
+        ]
 
     def __str__(self):
         return f"Vaccine dose {self.vaccine_dose} for patient {self.patient_id} has completion status: {self.completed}."  # noqa: E501
@@ -228,6 +253,11 @@ class VaccineAlert(Alert, models.Model):
     patient_id = models.CharField(
         max_length=255, help_text="Patient ID from FHIR."
     )  # noqa: E501
+
+    fhir_store = models.ForeignKey(
+        FhirStore, on_delete=models.PROTECT, null=True, blank=True
+    )  # noqa: E501
+
     alert_type = models.ForeignKey(
         VaccineAlertType,
         on_delete=models.CASCADE,
@@ -276,13 +306,20 @@ class VaccineAlert(Alert, models.Model):
         ).count()
 
     @staticmethod
-    def get_alerts_by_doses(vaccine_doses):
-        return VaccineAlert.objects.filter(vaccine_dose__in=vaccine_doses)
+    def get_alerts_by_doses(vaccine_doses, fhir_store_id):
+        return VaccineAlert.objects.filter(
+            vaccine_dose__in=vaccine_doses,
+            fhir_store_id=fhir_store_id,
+            active=True,
+        )
 
     @staticmethod
     def get_alerts_by_patient(patient_ids):
         alerts = (
-            VaccineAlert.objects.filter(patient_id__in=patient_ids)
+            VaccineAlert.objects.filter(
+                active=True,
+                patient_id__in=patient_ids,
+            )
             .select_related("vaccine_dose__vaccine")
             .values("patient_id", "vaccine_dose__vaccine__display")
         )
@@ -300,6 +337,7 @@ class VaccineProtocol(models.Model):
     vaccine_doses = models.ManyToManyField(VaccineDose)
     name = models.CharField(max_length=255, help_text="Protocol Name")
     description = models.CharField(max_length=100)
+    client = models.ForeignKey(Client, on_delete=models.PROTECT, null=True)
 
     class Meta:
         indexes = [
@@ -315,12 +353,19 @@ class VaccineProtocol(models.Model):
             return VaccineProtocol.objects.prefetch_related(
                 "vaccine_doses__vaccine_alerts"
             ).first()
+        return (
+            VaccineProtocol.objects.filter(client=client_id)
+            .prefetch_related("vaccine_doses__vaccine_alerts")
+            .first()
+        )
 
     def get_number_of_doses_with_alerts_by_patient(self):
         vaccine_doses = self.vaccine_doses.all().values_list("id", flat=True)
 
         alerts = (
-            VaccineAlert.get_alerts_by_doses(vaccine_doses)
+            VaccineAlert.get_alerts_by_doses(
+                vaccine_doses, fhir_store_id=self.client.fhir_store
+            )
             .values("patient_id")
             .annotate(number_of_alerts=models.Count("patient_id"))
         )
@@ -331,10 +376,14 @@ class VaccineProtocol(models.Model):
 
     def get_total_amount_of_completed_doses(self):
         return VaccineStatus.objects.filter(
-            vaccine_dose__in=self.vaccine_doses.all(), completed=True
+            fhir_store=self.client.fhir_store,
+            vaccine_dose__in=self.vaccine_doses.all(),
+            completed=True,
         ).count()
 
     def get_total_amount_of_alert_doses(self):
         return VaccineAlert.objects.filter(
-            vaccine_dose__in=self.vaccine_doses.all()
+            fhir_store_id=self.client.fhir_store.id,
+            vaccine_dose__in=self.vaccine_doses.all(),
+            active=True,
         ).count()

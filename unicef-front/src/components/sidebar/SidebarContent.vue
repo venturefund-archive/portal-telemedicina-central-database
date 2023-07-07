@@ -67,6 +67,8 @@ import SidebarCollapsible from '@/components/sidebar/SidebarCollapsible.vue'
 import SidebarCollapsibleItem from '@/components/sidebar/SidebarCollapsibleItem.vue'
 import { XIcon } from '@heroicons/vue/outline'
 import { sidebarState } from '@/composables'
+import { computed } from 'vue'
+import { useStorage } from '@vueuse/core'
 
 const isCurrentRoute = (routeName) => {
   return useRouter().currentRoute.value.name == routeName

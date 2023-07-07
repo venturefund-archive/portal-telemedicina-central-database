@@ -1,20 +1,6 @@
 <template>
   <transition name="fade" mode="out-in">
-    <div class="flex h-96 justify-center" v-if="loggedUserStore.isLoading || vaccinesStore.items.length == 0">
-      <svg
-        class="-ml-1 mr-3 w-20 animate-spin text-blue-500"
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-      >
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path
-          class="opacity-75"
-          fill="currentColor"
-          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-        ></path>
-      </svg>
-    </div>
+    <spinner v-if="loggedUserStore.isLoading || vaccinesStore.items.length == 0" />
     <div class="mt-16 flex flex-col-reverse md:flex-row" v-else>
       <div class="p-8">
         <ProfileCard :id="id" class="mt-10" />
@@ -78,7 +64,7 @@
         </p>
         <div class="-mt-24 flex justify-end">
           <div class="flex items-center">
-            <IncludeVaccineModal v-if="!props.noMenubar" />
+            <IncludeVaccineModal v-if="!props.noMenubar" @saved="atualizarChave" />
           </div>
           <div scope="col" colspan="2" class="px-6 pt-8 text-center uppercase">
             <InputIconWrapper>
@@ -112,7 +98,7 @@
             </div>
           </div>
         </div>
-        <div class="py-2">
+        <div class="py-2" :key="chave">
           <div class="overflow-auto px-2 pt-2 pb-52">
             <table class="w-full table-auto text-left tracking-wide md:table-fixed lg:table-fixed">
               <thead class="">
@@ -132,11 +118,11 @@
                   <th
                     scope="col"
                     colspan="2"
-                    class="-mt-10 whitespace-nowrap px-2.5 pl-6 text-left !font-semibold uppercase text-gray-700"
+                    class="-mt-10 whitespace-nowrap px-2.5 pl-3.5 text-left !font-semibold uppercase text-gray-700"
                   >
                     <div class="flex flex-col">
                       <div class="flex items-center text-[#636464]">
-                        <VaccineAlert :status="3" class="-mt-20 pr-2" />
+                        <VaccineAlert :status="3" class="-mt-20 pr-1" />
                         <span class="-mt-20 text-sm normal-case" v-html="$t('patient-details.overdue-doses')"></span>
                       </div>
                       <div>
@@ -251,19 +237,26 @@
                   v-for="(vaccine, k) in orderedVaccinesByDoseAlerts"
                   :key="k"
                 >
-                  <td colspan="2" class="relative rounded-l-full bg-[#F1F1F1] py-1 px-5 text-sm">
-                    <Tooltip>
+                  <td colspan="2" class="relative cursor-default rounded-l-full bg-[#F1F1F1] py-1 px-5 text-sm">
+                    <Tooltip variant="blue" position="default">
                       <template #trigger>
                         <span
                           data-tooltip-target="tooltip-default"
                           type="button"
                           class="-my-1 rounded-lg text-left text-sm font-medium"
                         >
-                          <p class="truncate2 -mb-1.5 p-0 text-sm">{{ vaccine.description }}</p>
+                          <p class="-mb-1.5 p-0">{{ vaccine.display }}</p>
+                          <p
+                            class="mt-0.5 text-xs tracking-widest text-gray-400"
+                            v-if="vaccine.description != vaccine.display"
+                          >
+                            {{ vaccine.description }}
+                          </p>
                         </span>
                       </template>
                       <template #content>
-                        <div>{{ vaccine.description }}</div>
+                        <!-- tooltip -->
+                        <div class="flex justify-center">{{ vaccine.description }}</div>
                       </template>
                     </Tooltip>
                   </td>
@@ -297,6 +290,8 @@
                           "
                           :rangeIndex="rangeIndex"
                           :status="1"
+                          :data-dose-id="dose.id"
+                          data-dose-type="completed"
                         >
                           <VaccineAlertInfo @update:toggle-active="toggleMuted" :vaccine="vaccine" :dose="dose" />
                         </VaccineAlert>
@@ -322,6 +317,8 @@
                         <VaccineAlert
                           :vaccine="vaccine"
                           :dose="dose"
+                          :data-dose-id="dose.id"
+                          data-dose-type="recomended"
                           :rangeIndex="rangeIndex"
                           :status="4"
                           v-else-if="
@@ -436,7 +433,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import InputIconWrapper from '@/components/InputIconWrapper.vue'
 import { SearchIcon, VolumeOffIcon, LightBulbIcon } from '@heroicons/vue/outline'
 import { useRouter } from 'vue-router'
@@ -464,6 +461,14 @@ const patientsStore = usePatientsStore()
 const dosesStore = useDosesStore()
 const vaccinesStore = useVaccinesStore()
 const loggedUserStore = useLoggedUserStore()
+
+// Criar uma propriedade reativa para a chave
+const chave = ref(0)
+
+// Função para alterar a chave e forçar a rerenderização da tag
+const atualizarChave = () => {
+  chave.value++
+}
 
 const toggleMuted = async ({ dose, active }) => {
   try {
@@ -526,7 +531,7 @@ const totalAlerts = computed(() => {
 })
 
 const orderedVaccinesByDoseAlerts = computed(() => {
-  return filteredVaccines.value.sort((a, b) => totalAlerts.value(b) - totalAlerts.value(a))
+  return filteredVaccines.value.slice().sort((a, b) => totalAlerts.value(b) - totalAlerts.value(a))
 })
 
 const filteredDosesByVaccine = computed(() => {

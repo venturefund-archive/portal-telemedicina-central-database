@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-[#F8F9FB] text-gray-900">
+  <div class="min-h-screen bg-[#F8F9FB] text-gray-900" v-if="!isLoading">
     <div class="hidden sm:block">
       <Sidebar />
     </div>
@@ -17,24 +17,73 @@
       <Navbar />
 
       <router-view v-slot="{ Component, route }">
-        <transition name="fade" mode="out-in">
-          <div>
-            <keep-alive>
-              <component :is="Component" :key="route.name" />
-            </keep-alive>
-          </div>
-        </transition>
+        <template v-if="Component">
+          <Transition mode="out-in">
+            <div>
+              <KeepAlive>
+                <Suspense>
+                  <component :is="Component" :key="route.name" />
+
+                  <template #fallback> Loading... </template>
+                </Suspense>
+              </KeepAlive>
+            </div>
+          </Transition>
+        </template>
       </router-view>
 
       <PageFooter />
     </div>
   </div>
+  <div v-else class="min-h-screen bg-[#F8F9FB] text-gray-900">
+    <spinner />
+    <span class="flex justify-center"
+      >Carregando {{ patientsStore.items.length }} pacientes
+      <span class="dot dot1" aria-hidden="true">.</span>
+      <span class="dot dot2" aria-hidden="true">.</span>
+      <span class="dot dot3" aria-hidden="true">.</span></span
+    >
+  </div>
 </template>
 
 <script setup>
 import { sidebarState } from '@/composables'
+import { onMounted, ref, computed, reactive } from 'vue'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
+import { useStorage } from '@vueuse/core'
+import { errorToast, successToast } from '@/toast'
+import { usePatientsStore } from '@/stores/patients'
+import { useVaccinesStore } from '@/stores/vaccines'
+import { useLoggedUserStore } from '@/stores/loggedUser'
+import { useDosesStore } from '@/stores/doses'
+const loggedUserStore = useLoggedUserStore()
+const patientsStore = usePatientsStore()
+const vaccinesStore = useVaccinesStore()
+const router = useRouter()
+const dosesStore = useDosesStore()
+
+const isLoading = ref(true)
+
+onMounted(async () => {
+  isLoading.value = true
+  await patientsStore.fetchPatients()
+  // await patientsStore.fetchPatientsRecursive()
+  isLoading.value = false
+})
 </script>
-<style>
+<style scoped>
+.dot1 {
+  animation: dot1 2s infinite;
+}
+
+.dot2 {
+  animation: dot2 2s infinite;
+}
+
+.dot3 {
+  animation: dot3 2s infinite;
+}
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.4s ease;
@@ -43,5 +92,40 @@ import { sidebarState } from '@/composables'
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+@keyframes dot1 {
+  0%,
+  20%,
+  100% {
+    opacity: 0;
+  }
+  25%,
+  90% {
+    opacity: 1;
+  }
+}
+
+@keyframes dot2 {
+  0%,
+  50%,
+  100% {
+    opacity: 0;
+  }
+  55%,
+  90% {
+    opacity: 1;
+  }
+}
+
+@keyframes dot3 {
+  0%,
+  80%,
+  100% {
+    opacity: 0;
+  }
+  85%,
+  90% {
+    opacity: 1;
+  }
 }
 </style>

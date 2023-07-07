@@ -83,7 +83,8 @@ class TestPatientViewSet(APITestCase):
         )
 
         self.protocol = VaccineProtocolFactory(
-            vaccine_doses=[self.vaccine_dose_1, self.vaccine_dose_2]
+            vaccine_doses=[self.vaccine_dose_1, self.vaccine_dose_2],
+            client=self.user.client,
         )
         mock_get.return_value = (queryset, "fake_url")
 

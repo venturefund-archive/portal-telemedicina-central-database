@@ -69,7 +69,9 @@ class PatientsViewSet(
         return request
 
     def _get_fhir_client(self, client):
-        settings = server_settings(client.dataset_id, client.fhir_store_id)
+        settings = server_settings(
+            client.fhir_store.dataset, client.fhir_store.fhir_store_id
+        )
         return self.fhir_client_class(settings=settings)
 
     def get_object(self):
@@ -90,7 +92,11 @@ class PatientsViewSet(
         client_city = self.request.user.client.city
         if page_token:
             search = Patient.where(
-                struct={"address-city": client_city, "_page_token": page_token}
+                struct={
+                    "address-city": client_city,
+                    "_page_token": page_token,
+                    "_count": "1000",
+                }
             )
         else:
             search = Patient.where(
