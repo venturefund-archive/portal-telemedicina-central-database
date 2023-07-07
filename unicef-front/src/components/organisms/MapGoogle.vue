@@ -148,6 +148,9 @@
                 v-if="currentInfoWindowIndex === polygonIndex"
                 @closeclick="closeInfoWindowHandler(polygonIndex)"
                 ref="infoWindow"
+                :options="{
+                  position: calculatePolygonCenter(polygon.getPath()),
+                }"
               >
                 <RegionForm
                   @delete="deletePolygon(polygonIndex)"
@@ -159,17 +162,30 @@
               </InfoWindow>
             </div>
             <MarkerCluster>
-              <div v-for="(marker, index) in markerOptions" :key="patients[index].id">
+              <div v-for="marker in patients" :key="marker.id">
                 <Marker
-                  v-if="(onlyAlerts && 0 !== patients[index].alerts.length) || !onlyAlerts"
-                  :ref="(el) => (markers[patients[index].id] = el)"
-                  :options="marker"
-                  @dragend="handleMarkerDrag($event, patients[index].id)"
-                  @click="movingPatientCursor = patients[index].id"
+                  v-if="(onlyAlerts && 0 != marker.alerts.length) || !onlyAlerts"
+                  :ref="
+                    (el) => {
+                      markers[marker.id] = el
+                    }
+                  "
+                  :options="{
+                    position: patientLocation(marker),
+                    draggable: isDraggable(marker.id),
+                    icon: isDraggable(marker.id)
+                      ? markerIconEditing
+                      : 0 !== marker.alerts.length
+                      ? markerIconAlert
+                      : markerIconNormal,
+                    // opacity: isDraggable(i) ? 1 : 0.5
+                  }"
+                  @dragend="handleMarkerDrag($event, marker.id)"
+                  @click="patientCursorLocal = marker.id"
                 >
                   <InfoWindow
                     v-if="isCursorOnMarker(marker)"
-                    @closeclick="movingPatientCursor = null"
+                    @closeclick="patientCursorLocal = null"
                     :ref="
                       (el) => {
                         markerInfoWindows[marker.id] = el
@@ -237,7 +253,7 @@
                           <Button
                             type="submit"
                             variant="success-outline"
-                            @click="moveMarker(marker.id)"
+                            @click="moveMarker($event, marker.id)"
                             class="mx-2 gap-2 focus:outline-none"
                             :disabled="editForm.processing"
                             v-slot="{ iconSizeClasses }"
@@ -249,7 +265,7 @@
                             type="button"
                             variant="success"
                             class="mx-2 gap-2 bg-white focus:outline-none"
-                            @click="editPatientModalOpen = true"
+                            @click="isModalOpen = true"
                             v-slot="{ iconSizeClasses }"
                           >
                             <PencilIcon aria-hidden="true" :class="iconSizeClasses" />
@@ -257,13 +273,13 @@
                           </Button>
                         </div>
                       </div>
-
+                    </div>
 
                     <Dialog
                       as="div"
                       class="fixed inset-0 z-10 overflow-y-auto"
-                      :open="editPatientModalOpen"
-                      @close="editPatientModalOpen = false"
+                      :open="isModalOpen"
+                      @close="isModalOpen = false"
                     >
                       <div class="flex min-h-screen items-center justify-center">
                         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
@@ -276,7 +292,7 @@
                               >Editar Informações</Dialog-title
                             >
                             <button
-                              @click="editPatientModalOpen = false"
+                              @click="isModalOpen = false"
                               class="mb-2 rounded p-0.5 hover:bg-gray-100 focus:outline-none"
                             >
                               <XIcon class="h-6 w-6 text-gray-500 hover:text-green-500" />
@@ -438,7 +454,7 @@
 
                             <!-- Buttons -->
                             <div class="flex justify-end pt-10">
-                              <Button type="button" variant="success-outline" class="mr-3" @click="editPatientModalOpen = false">
+                              <Button type="button" variant="success-outline" class="mr-3" @click="isModalOpen = false">
                                 Cancelar
                               </Button>
                               <Button type="submit" variant="success"> Salvar </Button>
@@ -447,7 +463,6 @@
                         </div>
                       </div>
                     </Dialog>
-                      </div>
                   </InfoWindow>
                 </Marker>
               </div>
@@ -482,7 +497,6 @@ import {
   ref,
   onUnmounted,
   onBeforeUnmount,
-  onRenderTracked,
 } from 'vue'
 import { GoogleMap, Marker, CustomMarker, MarkerCluster, InfoWindow, Polygon } from 'vue3-google-map'
 import { useGeolocation } from '@/composables/useGeolocation'
@@ -668,11 +682,11 @@ const showInfoWindow = (index) => {
   currentInfoWindowIndex.value = index
 }
 
-const movingPatientCursor = ref(props.patientCursor)
+const patientCursorLocal = ref(props.patientCursor)
 const isCursorOnMarker = computed(() => (marker) => {
-  // console.log(`${marker.id} === ${props.patientCursor} || ${marker.id} === ${movingPatientCursor.value}`)
-  // console.log(`${(marker.id === props.patientCursor || marker.id === movingPatientCursor.value)} = ${(marker.id === props.patientCursor)} || ${(marker.id === movingPatientCursor.value)}`)
-  return marker.id === props.patientCursor || marker.id === movingPatientCursor.value
+  // console.log(`${marker.id} === ${props.patientCursor} || ${marker.id} === ${patientCursorLocal.value}`)
+  // console.log(`${(marker.id === props.patientCursor || marker.id === patientCursorLocal.value)} = ${(marker.id === props.patientCursor)} || ${(marker.id === patientCursorLocal.value)}`)
+  return marker.id === props.patientCursor || marker.id === patientCursorLocal.value
 })
 
 const getCenterOfPolygon = computed(() => (index) => {
@@ -690,7 +704,7 @@ const getCenterOfPolygon = computed(() => (index) => {
   infoWindow.setPosition(center)
 })
 
-const editPatientModalOpen = ref(false)
+const isModalOpen = ref(false)
 // const isOpen = ref(true) // You can control this variable to show or hide the modal
 
 const addressQuery = ref([])
@@ -900,26 +914,7 @@ onBeforeUpdate(() => {
   markers.value = []
 })
 
-const markerOptions = computed(() => {
-  return patients.value.map((patient, k) => {
-    const isDraggable = patient.id === movingPatientId.value
-
-    return {
-      ...patient,
-      draggable: isDraggable,
-      optimized: true,
-      position: {
-        lat: patient.address.latitude,
-        lng: patient.address.longitude,
-      },
-      icon: isDraggable
-        ? markerIconEditing.value
-        : 0 !== patient.alerts.length
-        ? markerIconAlert.value
-        : markerIconNormal.value,
-    }
-  })
-})
+const isDraggable = computed(() => (index) => index == movingPatientId.value)
 
 // const maxPatientsToProcess = 30
 const patients = computed(() => {
@@ -940,12 +935,10 @@ watch(onlyAlerts, (newOnlyAlerts, oldValue) => {
   emit('update:onlyAlerts', newOnlyAlerts)
 })
 
-const patientCursorLocalWhileMoving = ref(null)
-function moveMarker(markerId) {
-  patientCursorLocalWhileMoving.value = movingPatientCursor.value
-  movingPatientCursor.value = null
-  movingPatientId.value = markerId
-  // console.log(markerInfoWindows.value[markerId])
+function moveMarker(event, index) {
+  // patientCursorLocal.value = null
+  movingPatientId.value = index
+  console.log(markerInfoWindows.value[index])
 }
 
 async function handleMarkerDrag(event, patientId) {
@@ -954,20 +947,23 @@ async function handleMarkerDrag(event, patientId) {
   const latitude = event.latLng.lat()
   const longitude = event.latLng.lng()
 
-  // markerInfoWindows[movingPatientId.value].value.open()
-  // movingPatientCursor.value = patientCursorLocalWhileMoving.value
-
-  emit('dragend', { patientId, latitude, longitude })
-  movingPatientId.value = null
-  await patientsStore.movePatient(patientId, {
-    address: [
-      {
-        id: 1,
-        latitude,
-        longitude,
-      },
-    ],
+  geoCoder.value.geocode({ location: {lat: latitude, lng:longitude}}, async function (results, status) {
+    if (status === 'OK') {
+      emit('dragend', { patientId, latitude, longitude })
+      movingPatientId.value = null
+      await patientsStore.movePatient(patientId, {
+        address: [
+          {
+            id: 1,
+            latitude,
+            longitude,
+            line: [ results[0].formatted_address ]
+          },
+        ],
+      })
+    }
   })
+
 }
 
 const emit = defineEmits(['update:markers-in-view', 'update:onlyAlerts', 'dragend', 'geoCoderReady'])
@@ -993,17 +989,12 @@ const deletePolygon = async (polygonIndex) => {
   console.log(polygons.value.length)
   console.log(polygonIndex)
   console.log(polygons.value[polygonIndex])
-  if (polygons.value.length - 1 == polygonIndex) {
-    googlePolygons.value[polygonIndex].setMap(null)
-    googlePolygons.value.splice(polygonIndex, 1)
-    googleLabels.value[polygonIndex].setLabel('')
-    googleLabels.value.splice(polygonIndex, 1)
-    showInfoWindow(null)
-    return
-  }
+
   const confirmed = confirm('Tem certeza que deseja excluir este polígono?')
   if (confirmed) {
     await microregionsStore.deleteMicroRegion(polygons.value[polygonIndex].id)
+
+    googlePolygons.value[polygonIndex].setMap(null) // Remover o polígono do mapa
 
     polygons.value.splice(polygonIndex, 1)
     googlePolygons.value.splice(polygonIndex, 1)
@@ -1025,17 +1016,12 @@ const patientLocation = computed(() => (patientMarker, offset = false) => {
   }
   return { lat: patientMarker.address.latitude, lng: patientMarker.address.longitude }
 })
-// const dddd = computed(() => (polygonIndex) => {
-//   console.log('asd dddd')
-// })
-// const ddd = () => {
-//   console.log('asd ddd')
-// }
-// let count = 0
-// onRenderTracked((debug) => {
-//   count++
-//   console.log(`MapGoogle.vue render tracked. \nCount: ${count} key: ${debug.key}.`)
-// })
+const dddd = computed(() => (polygonIndex) => {
+  console.log('asd dddd')
+})
+const ddd = () => {
+  console.log('asd ddd')
+}
 
 defineExpose({ patientsInView })
 </script>
