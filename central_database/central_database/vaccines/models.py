@@ -225,6 +225,13 @@ class VaccineStatus(CDModel, models.Model):
     class Meta:
         indexes = [models.Index(fields=["patient_id"])]  # noqa: E501
 
+        constraints = [
+            models.UniqueConstraint(
+                fields=["vaccine_dose", "patient_id"],
+                name="unique_vaccine_dose_per_patient",
+            ),
+        ]
+
     def __str__(self):
         return f"Vaccine dose {self.vaccine_dose} for patient {self.patient_id} has completion status: {self.completed}."  # noqa: E501
 
@@ -301,13 +308,18 @@ class VaccineAlert(Alert, models.Model):
     @staticmethod
     def get_alerts_by_doses(vaccine_doses, fhir_store_id):
         return VaccineAlert.objects.filter(
-            vaccine_dose__in=vaccine_doses, fhir_store_id=fhir_store_id
+            vaccine_dose__in=vaccine_doses,
+            fhir_store_id=fhir_store_id,
+            active=True,
         )
 
     @staticmethod
     def get_alerts_by_patient(patient_ids):
         alerts = (
-            VaccineAlert.objects.filter(patient_id__in=patient_ids)
+            VaccineAlert.objects.filter(
+                active=True,
+                patient_id__in=patient_ids,
+            )
             .select_related("vaccine_dose__vaccine")
             .values("patient_id", "vaccine_dose__vaccine__display")
         )
@@ -373,4 +385,5 @@ class VaccineProtocol(models.Model):
         return VaccineAlert.objects.filter(
             fhir_store_id=self.client.fhir_store.id,
             vaccine_dose__in=self.vaccine_doses.all(),
+            active=True,
         ).count()

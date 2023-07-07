@@ -12,7 +12,6 @@ describe('Vaccine Table Test', () => {
     //     cy.contains('h2', 'Dose recomendada').should('be.visible')
     // cy.get('body').type('{esc}');
 
-
     cy.get('.-mt-24 > :nth-child(1) > div > .flex > .uppercase', { timeout: 10000 }).click()
     cy.get('#vacina').select('8')
     cy.get('#dose').select('2')
@@ -24,11 +23,11 @@ describe('Vaccine Table Test', () => {
     cy.get('input#health_professional').type('aaa')
     cy.get('input#health_professional').type('{enter}')
 
-        // verifica se o elemento existe
-        cy.get('div[data-dose-id="2"][data-dose-type="completed"]').click()
-        cy.get('div[data-dose-id="2"][data-dose-type="completed"]').should('be.visible')
-        cy.contains('h2', 'Dose completa').should('be.visible')
-        cy.get('body').type('{esc}');
+    // verifica se o elemento existe
+    cy.get('div[data-dose-id="2"][data-dose-type="completed"]').click()
+    cy.get('div[data-dose-id="2"][data-dose-type="completed"]').should('be.visible')
+    cy.contains('h2', 'Dose completa').should('be.visible')
+    cy.get('body').type('{esc}')
   })
 
   const clean = () => {

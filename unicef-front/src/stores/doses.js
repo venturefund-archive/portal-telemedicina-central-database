@@ -86,17 +86,17 @@ export const useDosesStore = defineStore('doses', () => {
         if (foundedItemIndex !== -1) {
           // Update item
           items.value[foundedItemIndex].status = {
-              completed: updatedItem.completed,
-              batch: updatedItem.batch,
-              fhir_store: updatedItem.fhir_store,
-              application_date: updatedItem.application_date,
-              next_dose_application_date: updatedItem.next_dose_application_date,
-              health_professional: {
-                id: updatedItem.id,
-                client: updatedItem.client,
-                name: updatedItem.name,
-                cns_number: updatedItem.cns_number,
-                cnes_number: updatedItem.cnes_number,
+            completed: updatedItem.completed,
+            batch: updatedItem.batch,
+            fhir_store: updatedItem.fhir_store,
+            application_date: updatedItem.application_date,
+            next_dose_application_date: updatedItem.next_dose_application_date,
+            health_professional: {
+              id: updatedItem.health_professional.id,
+              client: updatedItem.health_professional.client,
+              name: updatedItem.health_professional.name,
+              cns_number: updatedItem.health_professional.cns_number,
+              cnes_number: updatedItem.health_professional.cnes_number,
             },
           }
           console.log(items.value[foundedItemIndex])

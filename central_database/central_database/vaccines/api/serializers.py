@@ -41,6 +41,14 @@ class VaccineStatusSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
     def create(self, validated_data):
+        if VaccineStatus.objects.filter(
+            vaccine_dose=validated_data["vaccine_dose"],
+            patient_id=validated_data["patient_id"],
+        ).exists():
+            raise serializers.ValidationError(
+                "A status for this dose and patient already exists"
+            )
+
         health_professional_data = validated_data.pop(
             "health_professional", {}
         )  # noqa: E501

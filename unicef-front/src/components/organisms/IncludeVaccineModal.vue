@@ -1,13 +1,25 @@
 <template>
   <div>
-    <button
-      type="button"
-      @click="openModal"
-      class="flex items-center space-x-5 rounded-full bg-blue-500 py-2 px-3 text-sm font-medium text-white hover:bg-blue-600"
-    >
-      <PlusCircleIcon class="h-6 w-6" />
-      <span class="uppercase tracking-wide">{{ $t('patient-details.add-vaccine') }}</span>
-    </button>
+    <div class="relative inline-block text-left">
+      <button
+        type="button"
+        class="flex items-center space-x-5 rounded-lg bg-green-500 py-2 px-3 text-sm font-medium text-white hover:bg-green-600"
+        @click="dropdownOpen = !dropdownOpen"
+      >
+        <PlusCircleIcon class="h-6 w-6" />
+        <span class="uppercase tracking-wide">{{ $t('patient-details.add-vaccine') }}</span>
+      </button>
+
+     <div v-show="dropdownOpen" class="inset-x-0 absolute  mt-2 w-56 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5">
+    <div class="py-1 flex flex-col" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+        <div>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 hover:no-underline w-full text-center" role="menuitem" @click="openModal">Incluir manualmente</a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 hover:no-underline w-full text-center" role="menuitem" @click="openModal2">Enviar caderneta </a>
+        </div>
+    </div>
+</div>
+
+    </div>
     <TransitionRoot appear :show="isOpen" as="template">
       <Dialog as="div" @close="closeModal" class="relative z-10">
         <TransitionChild
@@ -55,11 +67,10 @@
                     </div>
                   </DialogTitle>
                 </div>
-                <!-- <pre>{{ doseForm }}</pre> -->
                 <form class="w-full max-w-lg" @submit.prevent="submit">
                   <input type="hidden" name="patient_id" v-model="doseForm.patient_id" />
 
-                  <div class="m-5 rounded-2xl border border-gray-50 bg-white p-6 shadow-lg">
+                  <div class="m-5 rounded-2xl border border-gray-50 bg-white p-6 drop-shadow-md">
                     <div class="mb-4 flex">
                       <div class="flex-1">
                         <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="vacina">{{
@@ -180,7 +191,7 @@
                     </div>
                   </div>
 
-                  <div class="flex items-center justify-center">
+                  <div class="flex items-center justify-center"  v-if=" ! ['local', 'production'].includes(node_env)">
                     <span class="ml-10 flex cursor-pointer items-center" @click="openModal2">
                       <CloudUploadIcon class="mr-6 h-6 w-6 text-blue-500" />
                       <span class="text-sm font-semibold text-blue-500">{{ $t('patient-details.uploadbooklet') }}</span>
@@ -191,7 +202,7 @@
                       <div class="rounded bg-blue-500 p-4 shadow-2xl" style="height: 250px">
                         <div class="flex justify-between">
                           <CloudUploadIcon class="h-7 w-7 text-white" />
-                          <h3 class="text-lg font-medium text-white">{{ $t('patient-details.sendbooklet') }}</h3>
+                          <h3 class="text-lg font-medium text-white"  v-if=" ! ['local', 'production'].includes(node_env)">{{ $t('patient-details.sendbooklet') }}</h3>
                           <div class="flex justify-end">
                             <button
                               type="button"
@@ -220,14 +231,14 @@
                   <div class="flex justify-end p-10 pt-20">
                     <button
                       type="button"
-                      class="mr-3 inline-flex justify-center rounded-full border border-transparent bg-[#F3F3F3] px-12 py-2 text-xs font-medium uppercase tracking-wide text-blue-500 shadow-lg hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      class="mr-3 inline-flex justify-center rounded-full border border-transparent bg-[#F3F3F3] px-12 py-2 text-xs font-medium uppercase tracking-wide text-blue-500 drop-shadow-md hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                       @click="closeModal"
                     >
                       {{ $t('patient-details.cancel') }}
                     </button>
                     <button
                       type="submit"
-                      class="inline-flex justify-center rounded-full border border-transparent bg-blue-500 px-12 py-2 text-xs font-medium uppercase tracking-wide text-white shadow-lg hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      class="inline-flex justify-center rounded-full border border-transparent bg-blue-500 px-12 py-2 text-xs font-medium uppercase tracking-wide text-white drop-shadow-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                     >
                       {{ $t('patient-details.send') }}
                     </button>
@@ -253,6 +264,7 @@ import { TransitionRoot, TransitionChild, Dialog, DialogPanel, DialogTitle } fro
 import { parseISO, formatRelative, formatDuration, add, setDefaultOptions, differenceInMonths, format } from 'date-fns'
 import { errorToast, successToast } from '@/toast'
 
+const node_env = ref(import.meta.env.NODE_ENV)
 const patientsStore = usePatientsStore()
 const dosesStore = useDosesStore()
 const vaccinesStore = useVaccinesStore()
@@ -262,6 +274,7 @@ const filteredVaccines = computed(() => {
     return vaccine.system == 'BRI' && dosesStore.items.map((e) => e.vaccine).includes(vaccine.id)
   })
 })
+const dropdownOpen = ref(false)
 const filteredDosesByVaccine = computed(() => {
   return (vaccine) =>
     dosesStore.items.filter((dose) => {

@@ -68,7 +68,7 @@ const isLoading = ref(true)
 onMounted(async () => {
   isLoading.value = true
   await patientsStore.fetchPatients()
-  await patientsStore.fetchPatientsRecursive()
+  // await patientsStore.fetchPatientsRecursive()
   isLoading.value = false
 })
 </script>

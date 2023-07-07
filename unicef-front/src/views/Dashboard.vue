@@ -13,12 +13,11 @@
     <StatisticsSection class="lg:my-6" />
 
     <!-- Latest users section -->
-    <LatestSection class="lg:my-4" />
+    <LatestSection class="lg:my-4" :page-size="100" v-once />
   </PageWrapper>
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
 import { useLoggedUserStore } from '@/stores/loggedUser'
 const loggedUserStore = useLoggedUserStore()
 </script>

@@ -59,6 +59,7 @@
                 <button
                   @click="showList = !showList"
                   class="relative flex flex-col items-center rounded-md py-2 px-4 text-gray-500"
+                   v-if=" ! ['local', 'production'].includes(node_env)"
                 >
                   <UsersIcon title="{{ $t('manager.population') }}" class="h-6 w-6 text-green-500" />
                   <span class="text-sm">{{ $t('manager.population') }}</span>
@@ -90,7 +91,7 @@
               </div>
 
               <div class="flex cursor-pointer items-center space-x-10">
-                <button @click="toggleView" class="flex flex-col items-center">
+                <button @click="toggleView" class="flex flex-col items-center"  v-if=" ! ['local', 'production'].includes(node_env)">
                   <TableIcon v-if="isMapView" class="h-8 w-9 text-gray-500" />
                   <MapIcon v-else class="h-7 w-10 text-gray-500" />
                   <span class="text-sm text-gray-500">{{ $t('manager.visualization') }}</span>
@@ -145,149 +146,124 @@
               />
               <InfoWindow
                 v-if="currentInfoWindowIndex === polygonIndex"
-                @closeclick="showInfoWindow(null)"
+                @closeclick="closeInfoWindowHandler(polygonIndex)"
                 ref="infoWindow"
-                :options="{
-                  position: calculatePolygonCenter(polygon.getPath()),
-                }"
               >
                 <RegionForm
                   @delete="deletePolygon(polygonIndex)"
                   :polygon="polygons[polygonIndex]"
                   :googlePolygon="polygon"
                   :polygonIndex="polygonIndex"
-                  @saved="updateLabel"
+                  @saved="updatePolygon"
                 />
               </InfoWindow>
             </div>
             <MarkerCluster>
-              <div v-for="marker in patients" :key="marker.id">
+              <div v-for="(marker, index) in markerOptions" :key="patients[index].id">
                 <Marker
-                  v-if="(onlyAlerts && 0 != marker.alerts.length) || !onlyAlerts"
-                  :ref="
-                    (el) => {
-                      markers[marker.id] = el
-                    }
-                  "
-                  :options="{
-                    position: patientLocation(marker),
-                    draggable: isDraggable(marker.id),
-                    icon: isDraggable(marker.id)
-                      ? markerIconEditing
-                      : 0 !== marker.alerts.length
-                      ? markerIconAlert
-                      : markerIconNormal,
-                    // opacity: isDraggable(i) ? 1 : 0.5
-                  }"
-                  @dragend="handleMarkerDrag($event, marker.id)"
-                  @click="patientCursorLocal = marker.id"
-                />
-
-                <InfoWindow
-                  v-if="isCursorOnMarker(marker)"
-                  :options="{
-                    position: patientLocation(marker, true),
-                  }"
-                  @closeclick="patientCursorLocal = null"
+                  v-if="(onlyAlerts && 0 !== patients[index].alerts.length) || !onlyAlerts"
+                  :ref="(el) => (markers[patients[index].id] = el)"
+                  :options="marker"
+                  @dragend="handleMarkerDrag($event, patients[index].id)"
+                  @click="movingPatientCursor = patients[index].id"
                 >
-                  <div id="content">
-                    <div id="bodyContent" class="h-auto w-96 p-1">
-                      <div class="rounded-lg p-6">
-                        <header class="mb-4">
-                          <h2 class="text-xl font-semibold capitalize" v-if="marker">
-                            {{ marker && marker.name.toLowerCase() }}
-                          </h2>
-                          <p class="text-sm text-gray-500">ID: {{ marker.id }}</p>
-                          <hr class="my-3 w-full border border-dashed" />
-                        </header>
+                  <InfoWindow
+                    v-if="isCursorOnMarker(marker)"
+                    @closeclick="movingPatientCursor = null"
+                    :ref="
+                      (el) => {
+                        markerInfoWindows[marker.id] = el
+                      }
+                    "
+                  >
+                    <div id="content">
+                      <div id="bodyContent" class="h-auto w-96 p-1">
+                        <div class="rounded-lg p-6">
+                          <header class="mb-4">
+                            <h2 class="text-xl font-semibold capitalize" v-if="marker">
+                              {{ marker && marker.name.toLowerCase() }}
+                            </h2>
+                            <p class="text-sm text-gray-500">ID: {{ marker.id }}</p>
+                            <hr class="my-3 w-full border border-dashed" />
+                          </header>
 
-                        <div class="mb-4">
-                          <div class="flex justify-between">
-                            <span
-                              class="mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-sm lowercase text-black"
-                            >
-                              {{ formatAge(marker.age_in_days) }}
-                            </span>
-                            <p class="text-sm">
+                          <div class="mb-4">
+                            <div class="flex justify-between">
                               <span
-                                :class="{
-                                  'bg-red-100 text-red-800': marker.number_of_alerts_by_protocol > 0,
-                                  'bg-gray-100 text-gray-500': marker.number_of_alerts_by_protocol === 0,
-                                }"
-                                class="mr-2 inline-block rounded-full px-3 py-1 text-sm text-black"
+                                class="mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-sm lowercase text-black"
                               >
-                                {{ marker.number_of_alerts_by_protocol }} alerta por protocolo
+                                {{ formatAge(marker.age_in_days) }}
                               </span>
+                              <p class="text-sm">
+                                <span
+                                  :class="{
+                                    'bg-red-100 text-red-800': marker.number_of_alerts_by_protocol > 0,
+                                    'bg-gray-100 text-gray-500': marker.number_of_alerts_by_protocol === 0,
+                                  }"
+                                  class="mr-2 inline-block rounded-full px-3 py-1 text-sm text-black"
+                                >
+                                  {{ marker.number_of_alerts_by_protocol }} alerta por protocolo
+                                </span>
+                              </p>
+                            </div>
+                            <div v-if="0 !== marker.alerts.length" class="inline-block pb-3 pt-2">
+                              <p class="pt-1 text-sm font-medium text-gray-600">Vacinas em atraso:</p>
+                              <span
+                                v-for="alert in marker.alerts"
+                                :key="alert.id"
+                                class="mr-2 mt-1 inline-block rounded-full bg-red-100 px-3 py-1 text-xs text-red-900"
+                              >
+                                {{ alert }}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div class="mb-2 flex">
+                            <p class="pr-1 text-sm font-medium text-gray-600">Birthdate:</p>
+                            <p class="text-sm">
+                              {{ format(new Date(marker.birth_date), 'dd/MM/yyyy') }}
                             </p>
                           </div>
-                          <div v-if="0 !== marker.alerts.length" class="inline-block pb-3 pt-2">
-                            <p class="pt-1 text-sm font-medium text-gray-600">Vacinas em atraso:</p>
-                            <span
-                              v-for="alert in marker.alerts"
-                              :key="alert.id"
-                              class="mr-2 mt-1 inline-block rounded-full bg-red-100 px-3 py-1 text-xs text-red-900"
-                            >
-                              {{ alert }}
-                            </span>
+
+                          <div class="flex">
+                            <p class="pr-1 text-sm font-medium text-gray-600">Address:</p>
+                            <p class="text-sm">
+                              {{ marker.address.formatted_address }}
+                            </p>
                           </div>
                         </div>
 
-                        <div class="mb-2 flex">
-                          <p class="pr-1 text-sm font-medium text-gray-600">Birthdate:</p>
-                          <p class="text-sm">
-                            {{ format(new Date(marker.birth_date), 'dd/MM/yyyy') }}
-                          </p>
-                        </div>
-
-                        <div class="flex">
-                          <p class="pr-1 text-sm font-medium text-gray-600">Address:</p>
-                          <p class="text-sm">
-                            {{ marker.address.formatted_address }}
-                          </p>
+                        <div class="flex justify-evenly py-3">
+                          <Button
+                            type="submit"
+                            variant="success-outline"
+                            @click="moveMarker(marker.id)"
+                            class="mx-2 gap-2 focus:outline-none"
+                            :disabled="editForm.processing"
+                            v-slot="{ iconSizeClasses }"
+                          >
+                            <HandIcon aria-hidden="true" :class="iconSizeClasses" />
+                            <span>Mover</span>
+                          </Button>
+                          <Button
+                            type="button"
+                            variant="success"
+                            class="mx-2 gap-2 bg-white focus:outline-none"
+                            @click="editPatientModalOpen = true"
+                            v-slot="{ iconSizeClasses }"
+                          >
+                            <PencilIcon aria-hidden="true" :class="iconSizeClasses" />
+                            <span>Editar</span>
+                          </Button>
                         </div>
                       </div>
 
-                      <div class="flex justify-evenly py-3">
-                        <Button
-                          type="submit"
-                          variant="success-outline"
-                          @click="moveMarker($event, marker.id)"
-                          class="mx-2 gap-2 focus:outline-none"
-                          :disabled="editForm.processing"
-                          v-slot="{ iconSizeClasses }"
-                        >
-                          <HandIcon aria-hidden="true" :class="iconSizeClasses" />
-                          <span>Mover</span>
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="success"
-                          class="mx-2 gap-2 bg-white focus:outline-none"
-                          @click="isModalOpen = true"
-                          v-slot="{ iconSizeClasses }"
-                        >
-                          <PencilIcon aria-hidden="true" :class="iconSizeClasses" />
-                          <span>Editar</span>
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
 
-                  <!-- Modal do Headless UI -->
-                  <Transition
-                    as="template"
-                    enter="transition-opacity duration-100"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="transition-opacity duration-100"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
                     <Dialog
                       as="div"
                       class="fixed inset-0 z-10 overflow-y-auto"
-                      :open="isModalOpen"
-                      @close="isModalOpen = false"
+                      :open="editPatientModalOpen"
+                      @close="editPatientModalOpen = false"
                     >
                       <div class="flex min-h-screen items-center justify-center">
                         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
@@ -300,7 +276,7 @@
                               >Editar Informações</Dialog-title
                             >
                             <button
-                              @click="isModalOpen = false"
+                              @click="editPatientModalOpen = false"
                               class="mb-2 rounded p-0.5 hover:bg-gray-100 focus:outline-none"
                             >
                               <XIcon class="h-6 w-6 text-gray-500 hover:text-green-500" />
@@ -462,7 +438,7 @@
 
                             <!-- Buttons -->
                             <div class="flex justify-end pt-10">
-                              <Button type="button" variant="success-outline" class="mr-3" @click="isModalOpen = false">
+                              <Button type="button" variant="success-outline" class="mr-3" @click="editPatientModalOpen = false">
                                 Cancelar
                               </Button>
                               <Button type="submit" variant="success"> Salvar </Button>
@@ -471,8 +447,9 @@
                         </div>
                       </div>
                     </Dialog>
-                  </Transition>
-                </InfoWindow>
+                      </div>
+                  </InfoWindow>
+                </Marker>
               </div>
             </MarkerCluster>
           </template>
@@ -505,6 +482,7 @@ import {
   ref,
   onUnmounted,
   onBeforeUnmount,
+  onRenderTracked,
 } from 'vue'
 import { GoogleMap, Marker, CustomMarker, MarkerCluster, InfoWindow, Polygon } from 'vue3-google-map'
 import { useGeolocation } from '@/composables/useGeolocation'
@@ -533,6 +511,7 @@ import { useLoggedUserStore } from '@/stores/loggedUser'
 import { useI18n } from 'vue3-i18n'
 import RegionForm from '@/components/atoms/RegionForm.vue'
 
+const node_env = ref(import.meta.env.NODE_ENV)
 // const dataAtual = new Date();
 
 // const idadeEmAnos = differenceInYears(dataAtual, dataNascimento);
@@ -629,7 +608,7 @@ const markerIconAlert = ref({
   scale: 2,
 })
 
-const editForm = reactive({
+const editForm = ref({
   name: '',
   birthDate: '',
   healthUnit: '',
@@ -689,11 +668,11 @@ const showInfoWindow = (index) => {
   currentInfoWindowIndex.value = index
 }
 
-const patientCursorLocal = ref(props.patientCursor)
+const movingPatientCursor = ref(props.patientCursor)
 const isCursorOnMarker = computed(() => (marker) => {
-  // console.log(`${marker.id} === ${props.patientCursor} || ${marker.id} === ${patientCursorLocal.value}`)
-  // console.log(`${(marker.id === props.patientCursor || marker.id === patientCursorLocal.value)} = ${(marker.id === props.patientCursor)} || ${(marker.id === patientCursorLocal.value)}`)
-  return marker.id === props.patientCursor || marker.id === patientCursorLocal.value
+  // console.log(`${marker.id} === ${props.patientCursor} || ${marker.id} === ${movingPatientCursor.value}`)
+  // console.log(`${(marker.id === props.patientCursor || marker.id === movingPatientCursor.value)} = ${(marker.id === props.patientCursor)} || ${(marker.id === movingPatientCursor.value)}`)
+  return marker.id === props.patientCursor || marker.id === movingPatientCursor.value
 })
 
 const getCenterOfPolygon = computed(() => (index) => {
@@ -711,7 +690,7 @@ const getCenterOfPolygon = computed(() => (index) => {
   infoWindow.setPosition(center)
 })
 
-const isModalOpen = ref(false)
+const editPatientModalOpen = ref(false)
 // const isOpen = ref(true) // You can control this variable to show or hide the modal
 
 const addressQuery = ref([])
@@ -719,10 +698,13 @@ const infoWindowsOpened = ref([])
 
 const googleLabels = ref([])
 
-const updateLabel = async ({ localPolygon, polygonIndex }) => {
+const updatePolygon = async ({ localPolygon, polygonIndex }) => {
   try {
+    console.log(localPolygon)
+    console.log(polygonIndex)
     if (0 === localPolygon.id) {
       await microregionsStore.createMicroRegion(localPolygon)
+      polygons.value.push(microregionsStore.item)
       let bounds = new google.maps.LatLngBounds()
       googlePolygons.value[polygonIndex].getPath().forEach((latLng) => bounds.extend(latLng))
       // map.value.fitBounds(bounds) // centraliza
@@ -796,11 +778,24 @@ watch(
     // Set the drawing manager to draw on the map instance
     drawingManager.value.setMap(mapRef.value.map)
 
-    // Add an event listener for when the user finishes drawing a polygon
+    // Adiciona um ouvinte de evento para quando o usuário termina de desenhar um polígono
     google.maps.event.addListener(drawingManager.value, 'overlaycomplete', (event) => {
       if (event.type === google.maps.drawing.OverlayType.POLYGON) {
         const newPolygon = event.overlay
         googlePolygons.value.push(newPolygon)
+
+        // Adiciona um ouvinte de clique ao novo polígono
+        google.maps.event.addListener(newPolygon, 'click', (clickEvent) => {
+          // Encontrar o índice do novo polígono na matriz googlePolygons
+          const polygonIndex = googlePolygons.value.indexOf(newPolygon)
+
+          // Verifica se o clique ocorreu dentro deste polígono
+          if (google.maps.geometry.poly.containsLocation(clickEvent.latLng, newPolygon)) {
+            showInfoWindow(polygonIndex)
+          }
+        })
+
+        // Mostrar a janela de informações imediatamente após o polígono ser desenhado
         showInfoWindow(googlePolygons.value.length - 1)
       }
     })
@@ -899,12 +894,32 @@ onBeforeUnmount(() => {
   document.removeEventListener('click', handleOutsideClick)
 })
 
+const markerInfoWindows = ref([])
 const markers = ref([])
 onBeforeUpdate(() => {
   markers.value = []
 })
 
-const isDraggable = computed(() => (index) => index == movingPatientId.value)
+const markerOptions = computed(() => {
+  return patients.value.map((patient, k) => {
+    const isDraggable = patient.id === movingPatientId.value
+
+    return {
+      ...patient,
+      draggable: isDraggable,
+      optimized: true,
+      position: {
+        lat: patient.address.latitude,
+        lng: patient.address.longitude,
+      },
+      icon: isDraggable
+        ? markerIconEditing.value
+        : 0 !== patient.alerts.length
+        ? markerIconAlert.value
+        : markerIconNormal.value,
+    }
+  })
+})
 
 // const maxPatientsToProcess = 30
 const patients = computed(() => {
@@ -926,10 +941,11 @@ watch(onlyAlerts, (newOnlyAlerts, oldValue) => {
 })
 
 const patientCursorLocalWhileMoving = ref(null)
-function moveMarker(event, index) {
-  patientCursorLocalWhileMoving.value = patientCursorLocal.value
-  patientCursorLocal.value = null
-  movingPatientId.value = index
+function moveMarker(markerId) {
+  patientCursorLocalWhileMoving.value = movingPatientCursor.value
+  movingPatientCursor.value = null
+  movingPatientId.value = markerId
+  // console.log(markerInfoWindows.value[markerId])
 }
 
 async function handleMarkerDrag(event, patientId) {
@@ -938,7 +954,8 @@ async function handleMarkerDrag(event, patientId) {
   const latitude = event.latLng.lat()
   const longitude = event.latLng.lng()
 
-  patientCursorLocal.value = patientCursorLocalWhileMoving.value
+  // markerInfoWindows[movingPatientId.value].value.open()
+  // movingPatientCursor.value = patientCursorLocalWhileMoving.value
 
   emit('dragend', { patientId, latitude, longitude })
   movingPatientId.value = null
@@ -962,7 +979,28 @@ const getMarkersInView = () => {
   emit('update:markers-in-view', patientsInView.value)
 }
 
+const closeInfoWindowHandler = (polygonIndex) => {
+  if (polygons.value.length == polygonIndex) {
+    googlePolygons.value[polygonIndex].setMap(null)
+    googlePolygons.value.splice(polygonIndex, 1)
+    googleLabels.value[polygonIndex].setLabel('')
+    googleLabels.value.splice(polygonIndex, 1)
+  }
+  showInfoWindow(null)
+}
+
 const deletePolygon = async (polygonIndex) => {
+  console.log(polygons.value.length)
+  console.log(polygonIndex)
+  console.log(polygons.value[polygonIndex])
+  if (polygons.value.length - 1 == polygonIndex) {
+    googlePolygons.value[polygonIndex].setMap(null)
+    googlePolygons.value.splice(polygonIndex, 1)
+    googleLabels.value[polygonIndex].setLabel('')
+    googleLabels.value.splice(polygonIndex, 1)
+    showInfoWindow(null)
+    return
+  }
   const confirmed = confirm('Tem certeza que deseja excluir este polígono?')
   if (confirmed) {
     await microregionsStore.deleteMicroRegion(polygons.value[polygonIndex].id)
@@ -987,12 +1025,17 @@ const patientLocation = computed(() => (patientMarker, offset = false) => {
   }
   return { lat: patientMarker.address.latitude, lng: patientMarker.address.longitude }
 })
-const dddd = computed(() => (polygonIndex) => {
-  console.log('asd dddd')
-})
-const ddd = () => {
-  console.log('asd ddd')
-}
+// const dddd = computed(() => (polygonIndex) => {
+//   console.log('asd dddd')
+// })
+// const ddd = () => {
+//   console.log('asd ddd')
+// }
+// let count = 0
+// onRenderTracked((debug) => {
+//   count++
+//   console.log(`MapGoogle.vue render tracked. \nCount: ${count} key: ${debug.key}.`)
+// })
 
 defineExpose({ patientsInView })
 </script>

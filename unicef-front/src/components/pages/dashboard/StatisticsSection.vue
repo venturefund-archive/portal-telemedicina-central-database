@@ -34,6 +34,7 @@
         </template>
       </QuickStatisticsCard>
     </section>
+    <section class="flex flex-wrap justify-around" style="height: 120px" v-else></section>
   </div>
 </template>
 
