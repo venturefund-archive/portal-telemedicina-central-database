@@ -13,8 +13,8 @@
      <div v-show="dropdownOpen" class="inset-x-0 absolute  mt-2 w-56 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5">
     <div class="py-1 flex flex-col" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
         <div>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 hover:no-underline w-full text-center" role="menuitem" @click="openModal">Incluir manualmente</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 hover:no-underline w-full text-center" role="menuitem" @click="openModal2">Enviar caderneta </a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 hover:no-underline w-full text-center" role="menuitem" @click="openModal">{{ $t('patient-details.manually-include') }}</a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 hover:no-underline w-full text-center" role="menuitem" @click="openModal2">{{ $t('patient-details.send-booklet') }}</a>
         </div>
     </div>
 </div>

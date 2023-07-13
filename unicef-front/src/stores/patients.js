@@ -63,7 +63,6 @@ export const usePatientsStore = defineStore('patients', () => {
 
   async function fetchPatient(id) {
     try {
-      isLoading.value = true
       const response = await axios.get(import.meta.env.VITE_API_URL + `/api/patients/${id}/`, {
         headers: {
           'Content-type': 'application/json',
@@ -71,10 +70,8 @@ export const usePatientsStore = defineStore('patients', () => {
         },
       })
       item.value = response.data
-      isLoading.value = false
       state.value.patientLastViewed = id
     } catch (err) {
-      isLoading.value = false
       errorToast({ text: err.response.data.detail })
       console.log(err)
     }

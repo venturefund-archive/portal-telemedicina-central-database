@@ -5,13 +5,13 @@
       @input="$emit('update:modelValue', $event.target.value); hideSuggestions = false"
       :placeholder="$t('dashboard.pesquisar-por-pacientes-numero-de-documento-etc')"
       class="py-4.5 block w-full pl-10 text-gray-900 focus:ring-none !focus:ring-white !focus:ring-offset-none"
-      :class="{ 'w-full rounded-full bg-[#F3F3F3]  py-2.5 !shadow-md focus:shadow-none ': isInPage }"
+      :class="{ 'w-full rounded-md bg-[#F3F3F3]  py-2.5 !shadow-md focus:shadow-none ': isInPage }"
       :autofocus="isInPage"
     />
 <div class="flex justify-center">
     <ul class="border border-gray-100 absolute rounded-2xl bg-white p-2 !w-96 mt-1"
         v-if="suggestions.length && !hideSuggestions">
-      <li v-for="suggestion in filtedSuggestions" :key="suggestion.name" class="cursor-pointer hover:bg-gray-100 rounded-lg">
+      <li v-for="suggestion in filtedSuggestions" :key="suggestion.name" class="cursor-pointer hover:bg-gray-100 rounded">
         <router-link
           :to="{ name: 'PatientDetails', params: { id: suggestion.id } }"
           class="hover:underline"

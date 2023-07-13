@@ -34,7 +34,9 @@
         </template>
       </QuickStatisticsCard>
     </section>
-    <section class="flex flex-wrap justify-around" style="height: 120px" v-else></section>
+      <section class="flex flex-wrap justify-around" v-else>
+      <SkeletonLoader type="text" animation="fade-in" class="py-3 h-[130px] w-[300px]" v-for="i in 4" />
+    </section>
   </div>
 </template>
 
@@ -49,7 +51,7 @@ const protocolStore = useProtocolStore()
 const router = useRouter()
 
 onMounted(async () => {
-  await protocolStore.fetchProtocol(1)
+  await protocolStore.fetchProtocol(3)
 })
 </script>
 
