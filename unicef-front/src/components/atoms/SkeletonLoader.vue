@@ -21,7 +21,7 @@ const props = defineProps({
   },
   height: {
     type: [Number, String],
-    default: '16px',
+    default: '100%',
   },
   type: {
     type: String,
@@ -35,7 +35,7 @@ const props = defineProps({
   },
   radius: {
     type: Number,
-    default: 12,
+    default: 5,
   },
   count: {
     type: Number,
@@ -46,11 +46,12 @@ const props = defineProps({
 
 <style scoped>
 .skeleton-loader {
-  @apply bg-gray-300;
+  @apply bg-gray-200;
   margin-bottom: 8px;
 }
 
 .text {
+  @apply h-9 w-20;
 }
 
 .button {

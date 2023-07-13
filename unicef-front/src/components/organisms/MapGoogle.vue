@@ -13,7 +13,7 @@
               <div class="flex">
                 <input
                   type="date"
-                  class="rounded-lg border border-gray-300 shadow focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
+                  cclass="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none "
                 />
               </div>
             </div>
@@ -39,14 +39,14 @@
                     <Input
                       :placeholder="$t('manager.search')"
                       v-model="addressQuery"
-                      class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none focus:ring focus:ring-green-500 focus:ring-offset-white"
+                      class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none "
                     />
                   </div>
                   <div v-if="isMapView">
                     <Input
                       :placeholder="$t('manager.search-map')"
                       v-model="geoCoderQuery"
-                      class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none focus:ring focus:ring-green-500 focus:ring-offset-white"
+                      class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none "
                     />
                   </div>
                 </div>
@@ -218,12 +218,12 @@
                                   }"
                                   class="mr-2 inline-block rounded-full px-3 py-1 text-sm text-black"
                                 >
-                                  {{ marker.number_of_alerts_by_protocol }} alerta por protocolo
+                                  {{ marker.number_of_alerts_by_protocol }} {{ $t('manager.alert-protocol') }}
                                 </span>
                               </p>
                             </div>
                             <div v-if="0 !== marker.alerts.length" class="inline-block pb-3 pt-2">
-                              <p class="pt-1 text-sm font-medium text-gray-600">Vacinas em atraso:</p>
+                              <p class="pt-1 text-sm font-medium text-gray-600">{{ $t('manager.vaccine-delay') }}:</p>
                               <span
                                 v-for="alert in marker.alerts"
                                 :key="alert.id"
@@ -235,14 +235,15 @@
                           </div>
 
                           <div class="mb-2 flex">
-                            <p class="pr-1 text-sm font-medium text-gray-600">Birthdate:</p>
+                            <p class="pr-1 text-sm font-medium text-gray-600">{{ $t('manager.birthdate') }}:</p>
                             <p class="text-sm">
                               {{ format(new Date(marker.birth_date), 'dd/MM/yyyy') }}
                             </p>
                           </div>
 
                           <div class="flex">
-                            <p class="pr-1 text-sm font-medium text-gray-600">Address:</p>
+                            <p class="pr-1 text-sm font-medium text-gray-600">{{ $t('manager.address') }}:</p>
+                            <br />
                             <p class="text-sm">
                               {{ marker.address.formatted_address }}
                             </p>
@@ -259,7 +260,7 @@
                             v-slot="{ iconSizeClasses }"
                           >
                             <HandIcon aria-hidden="true" :class="iconSizeClasses" />
-                            <span>Mover</span>
+                            <span>{{ $t('manager.move') }}</span>
                           </Button>
                           <Button
                             type="button"
@@ -269,7 +270,7 @@
                             v-slot="{ iconSizeClasses }"
                           >
                             <PencilIcon aria-hidden="true" :class="iconSizeClasses" />
-                            <span>Editar</span>
+                            <span>{{ $t('manager.edit') }}</span>
                           </Button>
                         </div>
                       </div>
@@ -289,7 +290,7 @@
                         <div class="relative mx-auto max-w-xl space-y-4 rounded-xl bg-white p-6 shadow drop-shadow">
                           <div class="flex items-center justify-between">
                             <Dialog-title as="h3" class="mx-auto text-xl font-medium leading-6 text-gray-700"
-                              >Editar Informações</Dialog-title
+                              >{{ $t('manager.edit-info') }}</Dialog-title
                             >
                             <button
                               @click="isModalOpen = false"
@@ -304,11 +305,10 @@
                             <div class="grid grid-cols-2 gap-4">
                               <!-- Personal Data -->
                               <div class="space-y-3">
-                                <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">Dados pessoais</h4>
+                                <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">{{ $t('manager.personal-data') }}</h4>
 
-                                <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
+                                <label for="name" class="block text-sm font-medium text-gray-700">{{ $t('manager.name') }}</label>
                                 <Input
-                                  placeholder="name"
                                   id="name"
                                   type="text"
                                   class="w-full border-gray-300 focus:border-lime-300"
@@ -317,7 +317,7 @@
                                 />
 
                                 <label for="birthDate" class="block text-sm font-medium text-gray-700"
-                                  >Data de Nascimento</label
+                                  >{{ $t('manager.birthdate') }}</label
                                 >
                                 <Input
                                   id="birthDate"
@@ -327,9 +327,8 @@
                                   required
                                 />
 
-                                <label for="age" class="block text-sm font-medium text-gray-700">Idade</label>
+                                <label for="age" class="block text-sm font-medium text-gray-700">{{ $t('manager.age') }}</label>
                                 <Input
-                                  placeholder="age"
                                   id="age"
                                   type="number"
                                   class="w-full border-gray-300 focus:border-lime-300"
@@ -337,9 +336,8 @@
                                   required
                                 />
 
-                                <label for="address" class="block text-sm font-medium text-gray-700">Endereço</label>
+                                <label for="address" class="block text-sm font-medium text-gray-700">{{ $t('manager.address') }}</label>
                                 <Input
-                                  placeholder="address"
                                   id="address"
                                   type="text"
                                   class="w-full border-gray-300 focus:border-lime-300"
@@ -347,9 +345,8 @@
                                   required
                                 />
 
-                                <label for="cpf" class="block text-sm font-medium text-gray-700">CPF</label>
+                                <label for="cpf" class="block text-sm font-medium text-gray-700">{{ $t('manager.document') }}</label>
                                 <Input
-                                  placeholder="document"
                                   id="document"
                                   type="text"
                                   class="w-full border-gray-300 focus:border-lime-300"
@@ -360,13 +357,12 @@
 
                               <!-- Clinical Data -->
                               <div class="space-y-3">
-                                <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">Dados clínicos</h4>
+                                <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">{{ $t('manager.clinic-data') }}</h4>
 
                                 <label for="healthUnit" class="block text-sm font-medium text-gray-700"
-                                  >Unidade de saúde</label
+                                  >{{ $t('manager.uniot-health') }}</label
                                 >
                                 <Input
-                                  placeholder="Unidade de saúde"
                                   id="healthUnit"
                                   type="text"
                                   class="w-full border-gray-300 focus:border-lime-300"
@@ -376,7 +372,6 @@
 
                                 <label for="cns" class="block text-sm font-medium text-gray-700">CNS</label>
                                 <Input
-                                  placeholder="cns"
                                   id="CNS"
                                   type="text"
                                   class="w-full border-gray-300 focus:border-lime-300"
@@ -387,10 +382,9 @@
                                 <div class="flex">
                                   <div class="flex-1 pr-3">
                                     <label for="codeFile" class="block text-sm font-medium text-gray-700"
-                                      >Cód ficha</label
+                                      >{{ $t('manager.code-record') }}</label
                                     >
                                     <Input
-                                      placeholder="Cód ficha"
                                       id="codeFile"
                                       type="text"
                                       class="w-full border-gray-300 focus:border-lime-300"
@@ -400,10 +394,9 @@
                                   </div>
                                   <div class="flex-1">
                                     <label for="fileDate" class="block text-sm font-medium text-gray-700"
-                                      >Data ficha</label
+                                      >{{ $t('manager.data-record') }}</label
                                     >
                                     <Input
-                                      placeholder="Data ficha"
                                       id="fileDate"
                                       type="date"
                                       class="w-full border-gray-300 focus:border-lime-300"
@@ -414,10 +407,9 @@
                                 </div>
 
                                 <label for="professional" class="block text-sm font-medium text-gray-700"
-                                  >Profissional</label
+                                  >{{ $t('manager.profissional') }}</label
                                 >
                                 <Input
-                                  placeholder="profissional"
                                   id="professional"
                                   type="text"
                                   class="w-full border-gray-300 focus:border-lime-300"
@@ -427,9 +419,9 @@
 
                                 <div class="flex space-x-2">
                                   <div class="flex-1">
-                                    <label for="vaccine" class="block text-sm font-medium text-gray-700">Vacina</label>
+                                    <label for="vaccine" class="block text-sm font-medium text-gray-700">{{ $t('manager.vaccine') }}</label>
                                     <Input
-                                      placeholder="vaccine"
+
                                       id="vaccine"
                                       type="text"
                                       class="w-full border-gray-300 focus:border-lime-300"
@@ -438,9 +430,8 @@
                                     />
                                   </div>
                                   <div class="flex-1">
-                                    <label for="dose" class="block text-sm font-medium text-gray-700">Dose</label>
+                                    <label for="dose" class="block text-sm font-medium text-gray-700">{{ $t('manager.dose') }}</label>
                                     <Input
-                                      placeholder="dose"
                                       id="dose"
                                       type="text"
                                       class="w-full border-gray-300 focus:border-lime-300"
@@ -455,9 +446,9 @@
                             <!-- Buttons -->
                             <div class="flex justify-end pt-10">
                               <Button type="button" variant="success-outline" class="mr-3" @click="isModalOpen = false">
-                                Cancelar
+                                  {{ $t('manager.cancel') }}
                               </Button>
-                              <Button type="submit" variant="success"> Salvar </Button>
+                              <Button type="submit" variant="success"> {{ $t('manager.save') }} </Button>
                             </div>
                           </form>
                         </div>
@@ -667,10 +658,11 @@ function onItemClick(item) {
   selectedItem.value = item
   console.log(`Item clicado: ${item}`)
 }
-
 const geoCoderQuery = ref(
-  loggedUserStore.item.client.city.charAt(0).toUpperCase() + loggedUserStore.item.client.city.slice(1)
+  (loggedUserStore.item.client && loggedUserStore.item.client.city ? loggedUserStore.item.client.city.charAt(0).toUpperCase() + loggedUserStore.item.client.city.slice(1) : "São Paulo")
 )
+
+
 const currentCenter = ref(undefined)
 const showEmptyResult = ref(false)
 const searchAddress = () => {

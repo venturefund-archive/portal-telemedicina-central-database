@@ -7,34 +7,13 @@
       </div>
 
       <div class="-mt-16 flex w-full flex-col pt-20">
-        <nav v-if="!props.noMenubar" class="flex" aria-label="Breadcrumb">
+        <nav class="flex" aria-label="Breadcrumb">
           <ol class="inline-flex items-center space-x-1 md:space-x-3">
             <li>
               <div class="flex items-center">
                 <router-link class="ml-1 text-gray-500 hover:text-blue-600" to="/patients">{{
-                  $t('patient-details.search-patients')
+                  $t('patient-details.patient-details-title')
                 }}</router-link>
-                <!-- <a href="#" class="ml-1  text-gray-500">vacinas</a> -->
-              </div>
-            </li>
-            <li>
-              <div class="flex items-center">
-                <svg
-                  aria-hidden="true"
-                  class="h-6 w-6 text-gray-400"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-                <a href="#" class="ml-1 text-gray-500 hover:text-blue-600 md:ml-2">{{
-                  $t('patient-details.patient')
-                }}</a>
                 <!-- <a href="#" class="ml-1  text-gray-500">vacinas</a> -->
               </div>
             </li>
@@ -64,7 +43,7 @@
         </p>
         <div class="-mt-24 flex justify-end">
           <div class="flex items-center">
-            <IncludeVaccineModal v-if="!props.noMenubar" @saved="atualizarChave" />
+            <IncludeVaccineModal @saved="atualizarChave" />
           </div>
           <div scope="col" colspan="2" class="px-6 pt-8 text-center uppercase">
             <InputIconWrapper>
@@ -75,7 +54,7 @@
                 v-model="vaccineQuery"
                 :placeholder="$t('patient-details.search-vaccines')"
                 withIcon
-                class="w-full rounded-full bg-[#F3F3F3] px-10 py-3 !shadow-md focus:shadow-none"
+                class="w-full rounded-lg px-10 py-2.5 border border-gray-200"
               />
             </InputIconWrapper>
             <div class="py-2 text-right text-sm font-normal lowercase text-gray-400">

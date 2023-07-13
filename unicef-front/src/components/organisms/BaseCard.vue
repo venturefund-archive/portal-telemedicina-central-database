@@ -34,7 +34,7 @@
                   @input="$emit('update:query', $event.target.value)"
                   :placeholder="$t('dashboard.search')"
                   withIcon
-                  class="w-full rounded-full border border-gray-100 bg-gray-50 px-10 py-2.5 focus:shadow"
+                  class="w-full rounded-lg border py-2 pl-10 pr-3"
                 />
               </InputIconWrapper>
             </div>
