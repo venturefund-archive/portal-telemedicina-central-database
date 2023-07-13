@@ -51,7 +51,7 @@ const protocolStore = useProtocolStore()
 const router = useRouter()
 
 onMounted(async () => {
-  await protocolStore.fetchProtocol(3)
+  await protocolStore.fetchProtocol(1)
 })
 </script>
 
