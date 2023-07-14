@@ -45,8 +45,10 @@
             </li>
           </ul>
         </div>
-        <spinner v-if="patientsStore.isLoading && 0 == paginated.length" />
-        <div class="flex h-full mt-72 flex-col items-center justify-center" v-else-if="false == patientsStore.isLoading && 0 == paginated.length">
+        <div v-if="patientsStore.items.length == 0" class="pt-4 flex flex-col">
+          <SkeletonLoader type="text" animation="fade-in" class="py-3 h-16" v-for="i in 11" />
+        </div>
+        <div class="flex h-full mt-72 flex-col items-center justify-center" v-else-if="!patientsStore.items">
           <div class="flex justify-center">
             <EmptyResultPhoto />
           </div>
@@ -55,7 +57,7 @@
         </div>
         <div
           v-else
-          class="flex items-center justify-between border-b border-gray-200 px-2 py-1 mt-2 hover:rounded hover:bg-gray-100"
+          class="flex items-center justify-between border-b border-gray-200 px-2 py-1 mt-2.5 hover:rounded hover:bg-gray-100"
           v-for="(patient, index) in paginated"
           :key="index"
         >

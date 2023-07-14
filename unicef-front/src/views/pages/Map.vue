@@ -50,11 +50,13 @@ const props = defineProps({
     default: '0',
   },
 })
-
+const isLoading = ref(false)
 watch(
   () => props.id,
   async (id) => {
+    // isLoading.value = true
     0 != props.id && (await patientsStore.fetchPatient(props.id))
+    // isLoading.value = false
   },
   { immediate: true }
 )
@@ -65,6 +67,10 @@ const filteredMarkers = ref([])
 
 onMounted(async () => {
   isLoading.value = true
+  if(patientsStore.items.length == 0){
+    await patientsStore.fetchPatients()
+    await patientsStore.fetchPatientsRecursive()
+  }
   markers.value = filteredMarkers.value = patientsStore.items
 })
 const geoCoder = ref(null)
@@ -90,7 +96,6 @@ watch(filteredMarkers, (newMarkers, oldMarkers) => {
   })
 })
 
-const isLoading = ref(false)
 const fetchPaginatedPatients = async () => {
   await patientsStore.fetchPatientsRecursive()
   markers.value = filteredMarkers.value = patientsStore.items
@@ -105,10 +110,10 @@ const updateMarkersFiltered = (newMarkers) => {
 }
 
 const patientCursor = ref(null)
-const updateCenterInView = ({ latitude, longitude, newPatientCursor }) => {
-  console.log({ latitude, longitude, newPatientCursor })
+const updateCenterInView = async ({ latitude, longitude, newPatientCursor }) => {
+  // console.log({ latitude, longitude, newPatientCursor })
   currentCenter.value = { lat: latitude, lng: longitude }
-  currentZoom.value = 19
+  currentZoom.value = 18
   patientCursor.value = newPatientCursor
 }
 

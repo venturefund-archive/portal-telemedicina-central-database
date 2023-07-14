@@ -13,7 +13,7 @@
           <TagIcon aria-hidden="true" class="h-5 w-5" />
         </template>
         <Input
-          placeholder="Nome do poligono"
+          :placeholder="$t('manager.region-name')"
           v-model="localPolygon.name"
           withIcon
           required
@@ -23,11 +23,11 @@
       <div class="flex pt-7" :class="[{ 'justify-end': !isCreating }, 'justify-between']">
         <Button class="mx-3" type="button" variant="danger" @click="handleSubmit" v-if="isCreating">
           <HandIcon aria-hidden="true" />
-          <span>Excluir</span>
+          <span>{{ $t('manager.delete') }}</span>
         </Button>
         <Button type="submit" variant="success-outline" class="mx-3">
           <PencilIcon aria-hidden="true" />
-          <span>Salvar</span>
+          <span>{{ $t('manager.save') }}</span>
         </Button>
       </div>
     </form>

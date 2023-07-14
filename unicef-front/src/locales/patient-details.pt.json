@@ -64,5 +64,7 @@
   "vaccines": "Vacinas",
   "year": "Ano",
   "years": "Anos",
-  "zero-to-fif": "0 a 15 anos"
+  "zero-to-fif": "0 a 15 anos",
+  "manually-include":"Incluir manualmente",
+  "send-booklet": "Enviar caderneta"
 }
