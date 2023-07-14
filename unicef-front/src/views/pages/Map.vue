@@ -67,10 +67,9 @@ const filteredMarkers = ref([])
 
 onMounted(async () => {
   isLoading.value = true
-  //await new Promise(resolve => setTimeout(resolve, 5000))
   if(patientsStore.items.length == 0){
     await patientsStore.fetchPatients()
-    // await patientsStore.fetchPatientsRecursive()
+    await patientsStore.fetchPatientsRecursive()
   }
   markers.value = filteredMarkers.value = patientsStore.items
 })

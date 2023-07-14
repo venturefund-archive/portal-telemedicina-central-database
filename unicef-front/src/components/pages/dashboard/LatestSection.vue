@@ -4,7 +4,7 @@
     <div class="grid grid-cols-1 gap-6">
       <BaseCard class="flex flex-col rounded-xl bg-[#F2F2F2] px-5 shadow-md" @update:query="searchHandler">
         <div class="outer-container" style="max-height: 400px; overflow-y: auto">
-          <div v-if="paginated.length > 0">
+          <div v-if="!patientsStore.isLoading">
             <div
               class="flex items-center justify-between border-b border-white px-2 py-4 hover:rounded hover:bg-gray-100"
               v-for="(patient, index) in paginated"
