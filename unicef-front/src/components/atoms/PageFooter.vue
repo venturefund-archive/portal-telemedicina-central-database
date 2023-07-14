@@ -37,7 +37,6 @@
 <script setup>
 import { ref } from 'vue'
 
-const google_api = ref(import.meta.VITE_GOOGLE_MAP_API_KEY)
 const node_env = ref(import.meta.env.NODE_ENV)
 const api_url = ref(import.meta.env.VITE_API_URL)
 const site_name = ref(import.meta.env.VITE_SITE_NAME)
@@ -45,4 +44,5 @@ const url = ref(import.meta.env.VITE_URL)
 const repository_url = ref(import.meta.env.VITE_REPOSITORY_URL) // URL for the linked Git repository.
 const commit_ref = ref(import.meta.env.VITE_COMMIT_REF) // Reference of the commit we’re building.
 const branch = ref(import.meta.env.VITE_BRANCH) // Reference to check out after fetching changes from the Git repository. useful in split testing https://www.netlify.com/docs/split-testing/#exposing-split-test-information-in-your-site
+const google_api = ref(import.meta.env.VITE_GOOGLE_MAP_API_KEY)
 </script>
