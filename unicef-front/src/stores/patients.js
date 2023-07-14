@@ -36,7 +36,7 @@ export const usePatientsStore = defineStore('patients', () => {
 
   const fetchPatientsRecursive = async (nextUrl) => {
     try {
-      isLoading.value = false
+      isLoading.value = true
       const response = await axios.get(!nextUrl ? next_url.value : nextUrl, {
         headers: {
           'Content-type': 'application/json',
@@ -53,6 +53,7 @@ export const usePatientsStore = defineStore('patients', () => {
         // shouldStop.value = true
         return await fetchPatientsRecursive(next_url.value)
       }
+      isLoading.value = false
       return response.data.results
     } catch (err) {
       isLoading.value = false

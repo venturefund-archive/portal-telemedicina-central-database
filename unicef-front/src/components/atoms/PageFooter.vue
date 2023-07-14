@@ -29,6 +29,7 @@
       branch: {{ branch }}<br />
       commit_ref: {{ commit_ref }}<br />
       url: {{ url }}<br />
+      google_api: {{ google_api }}<br />
     </div>
   </footer>
 </template>
@@ -36,6 +37,7 @@
 <script setup>
 import { ref } from 'vue'
 
+const google_api = ref(import.meta.VITE_GOOGLE_MAP_API_KEY)
 const node_env = ref(import.meta.env.NODE_ENV)
 const api_url = ref(import.meta.env.VITE_API_URL)
 const site_name = ref(import.meta.env.VITE_SITE_NAME)
