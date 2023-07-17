@@ -3,37 +3,32 @@
     <p class="mt-5 mt-16 text-xl font-semibold text-gray-700">{{ $t('dashboard.total-alerts-per-patient') }}</p>
     <div class="grid grid-cols-1 gap-6">
       <BaseCard class="flex flex-col rounded-xl bg-[#F2F2F2] px-5 shadow-md" @update:query="searchHandler">
-        <div class="outer-container" style="max-height: 400px; overflow-y: auto" v-if="paginated.length > 0">
-          <div
-            class="flex items-center justify-between border-b border-white px-2 py-4 hover:rounded hover:bg-gray-100"
-            v-for="(patient, index) in paginated"
-            :key="index"
-          >
-            <div class="flex flex-auto items-center gap-2">
-              <span class="hidden align-baseline text-xs text-gray-500">{{ indexStart + ++index }}.</span>
-              <img class="h-10 w-10 rounded-md rounded-full bg-neutral-200 object-cover p-1" src="/avatar.png" />
-              <div>
-                <h5 class="font-medium capitalize">
-                  <router-link :to="{ name: 'PatientDetails', params: { id: patient.id } }" class="hover:underline">
-                    {{ patient.name.toLowerCase() }}
-                  </router-link>
-                </h5>
+        <div class="outer-container" style="max-height: 400px; overflow-y: auto">
+          <div v-if="!patientsStore.isLoading">
+            <div
+              class="flex items-center justify-between border-b border-white px-2 py-4 hover:rounded hover:bg-gray-100"
+              v-for="(patient, index) in paginated"
+              :key="index"
+            >
+              <div class="flex flex-auto items-center gap-2">
+                <span class="hidden align-baseline text-xs text-gray-500">{{ indexStart + ++index }}.</span>
+                <img class="h-10 w-10 rounded-md rounded-full bg-neutral-200 object-cover p-1" src="/avatar.png" />
+                <div>
+                  <h5 class="font-medium capitalize">
+                    <router-link :to="{ name: 'PatientDetails', params: { id: patient.id } }" class="hover:underline">
+                      {{ patient.name.toLowerCase() }}
+                    </router-link>
+                  </h5>
+                </div>
+                <hr class="divide-dotted border text-white" />
               </div>
-              <hr class="divide-dotted border text-white" />
+              <span class="flex-none pr-14 font-normal text-neutral-500">{{ patient.number_of_alerts_by_protocol }}</span>
             </div>
-            <span class="flex-none pr-14 font-normal text-neutral-500">{{ patient.number_of_alerts_by_protocol }}</span>
+          </div>
+          <div v-else class="pt-4 flex flex-col">
+            <SkeletonLoader type="text" animation="fade-in" class="py-3 h-20" v-for="i in 6" />
           </div>
         </div>
-
-        <div v-else class="pt-4" style="height: 365px">
-          <SkeletonLoader
-            type="text"
-            animation="fade-in"
-            style="height: 73px"
-            class="flex items-center justify-between border-b border-white py-2 px-2 py-4 hover:rounded hover:bg-gray-100"
-          />
-        </div>
-
         <div class="flex justify-between pt-3 pb-2 pt-16">
           <div>
             <Button

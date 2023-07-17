@@ -29,6 +29,7 @@
       branch: {{ branch }}<br />
       commit_ref: {{ commit_ref }}<br />
       url: {{ url }}<br />
+      google_api: {{ google_api }}<br />
     </div>
   </footer>
 </template>
@@ -43,4 +44,5 @@ const url = ref(import.meta.env.VITE_URL)
 const repository_url = ref(import.meta.env.VITE_REPOSITORY_URL) // URL for the linked Git repository.
 const commit_ref = ref(import.meta.env.VITE_COMMIT_REF) // Reference of the commit we’re building.
 const branch = ref(import.meta.env.VITE_BRANCH) // Reference to check out after fetching changes from the Git repository. useful in split testing https://www.netlify.com/docs/split-testing/#exposing-split-test-information-in-your-site
+const google_api = ref(import.meta.env.VITE_GOOGLE_MAP_API_KEY)
 </script>

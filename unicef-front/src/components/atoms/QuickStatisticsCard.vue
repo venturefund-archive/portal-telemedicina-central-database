@@ -11,6 +11,10 @@
         <h4 class="text-3xl font-semibold text-white">{{ result }}</h4>
         <p class="w-48 text-xl font-semibold text-white">{{ title }}</p>
       </div>
+
+      <div v-if="protocolStore.isLoading" class="pt-4 flex flex-col">
+          <SkeletonLoader type="text" animation="fade-in" class="py-3 h-16" />
+        </div>
     </div>
   </BaseCard>
 </template>
@@ -19,7 +23,10 @@
 import { onMounted, ref } from 'vue'
 import ApexCharts from 'apexcharts'
 import { ChartBarIcon, TrendingUpIcon, TrendingDownIcon, MinusIcon } from '@heroicons/vue/outline'
+import { useProtocolStore } from '@/stores/protocol'
 
+
+const protocolStore = useProtocolStore()
 const chartEl = ref(null)
 
 const props = defineProps({

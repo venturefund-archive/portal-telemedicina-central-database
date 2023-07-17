@@ -13,7 +13,7 @@
               <div class="flex">
                 <input
                   type="date"
-                  class="rounded-lg border border-gray-300 shadow focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-white"
+                  cclass="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none "
                 />
               </div>
             </div>
@@ -39,14 +39,14 @@
                     <Input
                       :placeholder="$t('manager.search')"
                       v-model="addressQuery"
-                      class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none focus:ring focus:ring-green-500 focus:ring-offset-white"
+                      class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none "
                     />
                   </div>
                   <div v-if="isMapView">
                     <Input
                       :placeholder="$t('manager.search-map')"
                       v-model="geoCoderQuery"
-                      class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none focus:ring focus:ring-green-500 focus:ring-offset-white"
+                      class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none "
                     />
                   </div>
                 </div>
@@ -148,6 +148,9 @@
                 v-if="currentInfoWindowIndex === polygonIndex"
                 @closeclick="closeInfoWindowHandler(polygonIndex)"
                 ref="infoWindow"
+                :options="{
+                  position: calculatePolygonCenter(polygon.getPath()),
+                }"
               >
                 <RegionForm
                   @delete="deletePolygon(polygonIndex)"
@@ -159,17 +162,30 @@
               </InfoWindow>
             </div>
             <MarkerCluster>
-              <div v-for="(marker, index) in markerOptions" :key="patients[index].id">
+              <div v-for="marker in patients" :key="marker.id">
                 <Marker
-                  v-if="(onlyAlerts && 0 !== patients[index].alerts.length) || !onlyAlerts"
-                  :ref="(el) => (markers[patients[index].id] = el)"
-                  :options="marker"
-                  @dragend="handleMarkerDrag($event, patients[index].id)"
-                  @click="movingPatientCursor = patients[index].id"
+                  v-if="(onlyAlerts && 0 != marker.alerts.length) || !onlyAlerts"
+                  :ref="
+                    (el) => {
+                      markers[marker.id] = el
+                    }
+                  "
+                  :options="{
+                    position: patientLocation(marker),
+                    draggable: isDraggable(marker.id),
+                    icon: isDraggable(marker.id)
+                      ? markerIconEditing
+                      : 0 !== marker.alerts.length
+                      ? markerIconAlert
+                      : markerIconNormal,
+                    // opacity: isDraggable(i) ? 1 : 0.5
+                  }"
+                  @dragend="handleMarkerDrag($event, marker.id)"
+                  @click="patientCursorLocal = marker.id"
                 >
                   <InfoWindow
                     v-if="isCursorOnMarker(marker)"
-                    @closeclick="movingPatientCursor = null"
+                    @closeclick="patientCursorLocal = null"
                     :ref="
                       (el) => {
                         markerInfoWindows[marker.id] = el
@@ -202,12 +218,12 @@
                                   }"
                                   class="mr-2 inline-block rounded-full px-3 py-1 text-sm text-black"
                                 >
-                                  {{ marker.number_of_alerts_by_protocol }} alerta por protocolo
+                                  {{ marker.number_of_alerts_by_protocol }} {{ $t('manager.alert-protocol') }}
                                 </span>
                               </p>
                             </div>
                             <div v-if="0 !== marker.alerts.length" class="inline-block pb-3 pt-2">
-                              <p class="pt-1 text-sm font-medium text-gray-600">Vacinas em atraso:</p>
+                              <p class="pt-1 text-sm font-medium text-gray-600">{{ $t('manager.vaccine-delay') }}:</p>
                               <span
                                 v-for="alert in marker.alerts"
                                 :key="alert.id"
@@ -219,14 +235,15 @@
                           </div>
 
                           <div class="mb-2 flex">
-                            <p class="pr-1 text-sm font-medium text-gray-600">Birthdate:</p>
+                            <p class="pr-1 text-sm font-medium text-gray-600">{{ $t('manager.birthdate') }}:</p>
                             <p class="text-sm">
                               {{ format(new Date(marker.birth_date), 'dd/MM/yyyy') }}
                             </p>
                           </div>
 
                           <div class="flex">
-                            <p class="pr-1 text-sm font-medium text-gray-600">Address:</p>
+                            <p class="pr-1 text-sm font-medium text-gray-600">{{ $t('manager.address') }}:</p>
+                            <br />
                             <p class="text-sm">
                               {{ marker.address.formatted_address }}
                             </p>
@@ -237,33 +254,33 @@
                           <Button
                             type="submit"
                             variant="success-outline"
-                            @click="moveMarker(marker.id)"
+                            @click="moveMarker($event, marker.id)"
                             class="mx-2 gap-2 focus:outline-none"
                             :disabled="editForm.processing"
                             v-slot="{ iconSizeClasses }"
                           >
                             <HandIcon aria-hidden="true" :class="iconSizeClasses" />
-                            <span>Mover</span>
+                            <span>{{ $t('manager.move') }}</span>
                           </Button>
                           <Button
                             type="button"
                             variant="success"
                             class="mx-2 gap-2 bg-white focus:outline-none"
-                            @click="editPatientModalOpen = true"
+                            @click="isModalOpen = true"
                             v-slot="{ iconSizeClasses }"
                           >
                             <PencilIcon aria-hidden="true" :class="iconSizeClasses" />
-                            <span>Editar</span>
+                            <span>{{ $t('manager.edit') }}</span>
                           </Button>
                         </div>
                       </div>
-
+                    </div>
 
                     <Dialog
                       as="div"
                       class="fixed inset-0 z-10 overflow-y-auto"
-                      :open="editPatientModalOpen"
-                      @close="editPatientModalOpen = false"
+                      :open="isModalOpen"
+                      @close="isModalOpen = false"
                     >
                       <div class="flex min-h-screen items-center justify-center">
                         <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"></div>
@@ -273,10 +290,10 @@
                         <div class="relative mx-auto max-w-xl space-y-4 rounded-xl bg-white p-6 shadow drop-shadow">
                           <div class="flex items-center justify-between">
                             <Dialog-title as="h3" class="mx-auto text-xl font-medium leading-6 text-gray-700"
-                              >Editar Informações</Dialog-title
+                              >{{ $t('manager.edit-info') }}</Dialog-title
                             >
                             <button
-                              @click="editPatientModalOpen = false"
+                              @click="isModalOpen = false"
                               class="mb-2 rounded p-0.5 hover:bg-gray-100 focus:outline-none"
                             >
                               <XIcon class="h-6 w-6 text-gray-500 hover:text-green-500" />
@@ -288,11 +305,10 @@
                             <div class="grid grid-cols-2 gap-4">
                               <!-- Personal Data -->
                               <div class="space-y-3">
-                                <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">Dados pessoais</h4>
+                                <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">{{ $t('manager.personal-data') }}</h4>
 
-                                <label for="name" class="block text-sm font-medium text-gray-700">Nome</label>
+                                <label for="name" class="block text-sm font-medium text-gray-700">{{ $t('manager.name') }}</label>
                                 <Input
-                                  placeholder="name"
                                   id="name"
                                   type="text"
                                   class="w-full border-gray-300 focus:border-lime-300"
@@ -301,7 +317,7 @@
                                 />
 
                                 <label for="birthDate" class="block text-sm font-medium text-gray-700"
-                                  >Data de Nascimento</label
+                                  >{{ $t('manager.birthdate') }}</label
                                 >
                                 <Input
                                   id="birthDate"
@@ -311,9 +327,8 @@
                                   required
                                 />
 
-                                <label for="age" class="block text-sm font-medium text-gray-700">Idade</label>
+                                <label for="age" class="block text-sm font-medium text-gray-700">{{ $t('manager.age') }}</label>
                                 <Input
-                                  placeholder="age"
                                   id="age"
                                   type="number"
                                   class="w-full border-gray-300 focus:border-lime-300"
@@ -321,9 +336,8 @@
                                   required
                                 />
 
-                                <label for="address" class="block text-sm font-medium text-gray-700">Endereço</label>
+                                <label for="address" class="block text-sm font-medium text-gray-700">{{ $t('manager.address') }}</label>
                                 <Input
-                                  placeholder="address"
                                   id="address"
                                   type="text"
                                   class="w-full border-gray-300 focus:border-lime-300"
@@ -331,9 +345,8 @@
                                   required
                                 />
 
-                                <label for="cpf" class="block text-sm font-medium text-gray-700">CPF</label>
+                                <label for="cpf" class="block text-sm font-medium text-gray-700">{{ $t('manager.document') }}</label>
                                 <Input
-                                  placeholder="document"
                                   id="document"
                                   type="text"
                                   class="w-full border-gray-300 focus:border-lime-300"
@@ -344,13 +357,12 @@
 
                               <!-- Clinical Data -->
                               <div class="space-y-3">
-                                <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">Dados clínicos</h4>
+                                <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">{{ $t('manager.clinic-data') }}</h4>
 
                                 <label for="healthUnit" class="block text-sm font-medium text-gray-700"
-                                  >Unidade de saúde</label
+                                  >{{ $t('manager.uniot-health') }}</label
                                 >
                                 <Input
-                                  placeholder="Unidade de saúde"
                                   id="healthUnit"
                                   type="text"
                                   class="w-full border-gray-300 focus:border-lime-300"
@@ -360,7 +372,6 @@
 
                                 <label for="cns" class="block text-sm font-medium text-gray-700">CNS</label>
                                 <Input
-                                  placeholder="cns"
                                   id="CNS"
                                   type="text"
                                   class="w-full border-gray-300 focus:border-lime-300"
@@ -371,10 +382,9 @@
                                 <div class="flex">
                                   <div class="flex-1 pr-3">
                                     <label for="codeFile" class="block text-sm font-medium text-gray-700"
-                                      >Cód ficha</label
+                                      >{{ $t('manager.code-record') }}</label
                                     >
                                     <Input
-                                      placeholder="Cód ficha"
                                       id="codeFile"
                                       type="text"
                                       class="w-full border-gray-300 focus:border-lime-300"
@@ -384,10 +394,9 @@
                                   </div>
                                   <div class="flex-1">
                                     <label for="fileDate" class="block text-sm font-medium text-gray-700"
-                                      >Data ficha</label
+                                      >{{ $t('manager.data-record') }}</label
                                     >
                                     <Input
-                                      placeholder="Data ficha"
                                       id="fileDate"
                                       type="date"
                                       class="w-full border-gray-300 focus:border-lime-300"
@@ -398,10 +407,9 @@
                                 </div>
 
                                 <label for="professional" class="block text-sm font-medium text-gray-700"
-                                  >Profissional</label
+                                  >{{ $t('manager.profissional') }}</label
                                 >
                                 <Input
-                                  placeholder="profissional"
                                   id="professional"
                                   type="text"
                                   class="w-full border-gray-300 focus:border-lime-300"
@@ -411,9 +419,9 @@
 
                                 <div class="flex space-x-2">
                                   <div class="flex-1">
-                                    <label for="vaccine" class="block text-sm font-medium text-gray-700">Vacina</label>
+                                    <label for="vaccine" class="block text-sm font-medium text-gray-700">{{ $t('manager.vaccine') }}</label>
                                     <Input
-                                      placeholder="vaccine"
+
                                       id="vaccine"
                                       type="text"
                                       class="w-full border-gray-300 focus:border-lime-300"
@@ -422,9 +430,8 @@
                                     />
                                   </div>
                                   <div class="flex-1">
-                                    <label for="dose" class="block text-sm font-medium text-gray-700">Dose</label>
+                                    <label for="dose" class="block text-sm font-medium text-gray-700">{{ $t('manager.dose') }}</label>
                                     <Input
-                                      placeholder="dose"
                                       id="dose"
                                       type="text"
                                       class="w-full border-gray-300 focus:border-lime-300"
@@ -438,16 +445,15 @@
 
                             <!-- Buttons -->
                             <div class="flex justify-end pt-10">
-                              <Button type="button" variant="success-outline" class="mr-3" @click="editPatientModalOpen = false">
-                                Cancelar
+                              <Button type="button" variant="success-outline" class="mr-3" @click="isModalOpen = false">
+                                  {{ $t('manager.cancel') }}
                               </Button>
-                              <Button type="submit" variant="success"> Salvar </Button>
+                              <Button type="submit" variant="success"> {{ $t('manager.save') }} </Button>
                             </div>
                           </form>
                         </div>
                       </div>
                     </Dialog>
-                      </div>
                   </InfoWindow>
                 </Marker>
               </div>
@@ -482,7 +488,6 @@ import {
   ref,
   onUnmounted,
   onBeforeUnmount,
-  onRenderTracked,
 } from 'vue'
 import { GoogleMap, Marker, CustomMarker, MarkerCluster, InfoWindow, Polygon } from 'vue3-google-map'
 import { useGeolocation } from '@/composables/useGeolocation'
@@ -580,6 +585,13 @@ const props = defineProps({
   },
 })
 
+watch(
+  () => props.center,
+  async (center) => {
+    map.value.panTo(center)
+  }
+)
+
 const showList = ref(false)
 const dropdown = ref(null)
 
@@ -646,10 +658,11 @@ function onItemClick(item) {
   selectedItem.value = item
   console.log(`Item clicado: ${item}`)
 }
-
 const geoCoderQuery = ref(
-  loggedUserStore.item.client.city.charAt(0).toUpperCase() + loggedUserStore.item.client.city.slice(1)
+  (loggedUserStore.item.client && loggedUserStore.item.client.city ? loggedUserStore.item.client.city.charAt(0).toUpperCase() + loggedUserStore.item.client.city.slice(1) : "São Paulo")
 )
+
+
 const currentCenter = ref(undefined)
 const showEmptyResult = ref(false)
 const searchAddress = () => {
@@ -668,11 +681,11 @@ const showInfoWindow = (index) => {
   currentInfoWindowIndex.value = index
 }
 
-const movingPatientCursor = ref(props.patientCursor)
+const patientCursorLocal = ref(props.patientCursor)
 const isCursorOnMarker = computed(() => (marker) => {
-  // console.log(`${marker.id} === ${props.patientCursor} || ${marker.id} === ${movingPatientCursor.value}`)
-  // console.log(`${(marker.id === props.patientCursor || marker.id === movingPatientCursor.value)} = ${(marker.id === props.patientCursor)} || ${(marker.id === movingPatientCursor.value)}`)
-  return marker.id === props.patientCursor || marker.id === movingPatientCursor.value
+  // console.log(`${marker.id} === ${props.patientCursor} || ${marker.id} === ${patientCursorLocal.value}`)
+  // console.log(`${(marker.id === props.patientCursor || marker.id === patientCursorLocal.value)} = ${(marker.id === props.patientCursor)} || ${(marker.id === patientCursorLocal.value)}`)
+  return marker.id === props.patientCursor || marker.id === patientCursorLocal.value
 })
 
 const getCenterOfPolygon = computed(() => (index) => {
@@ -690,7 +703,7 @@ const getCenterOfPolygon = computed(() => (index) => {
   infoWindow.setPosition(center)
 })
 
-const editPatientModalOpen = ref(false)
+const isModalOpen = ref(false)
 // const isOpen = ref(true) // You can control this variable to show or hide the modal
 
 const addressQuery = ref([])
@@ -900,26 +913,7 @@ onBeforeUpdate(() => {
   markers.value = []
 })
 
-const markerOptions = computed(() => {
-  return patients.value.map((patient, k) => {
-    const isDraggable = patient.id === movingPatientId.value
-
-    return {
-      ...patient,
-      draggable: isDraggable,
-      optimized: true,
-      position: {
-        lat: patient.address.latitude,
-        lng: patient.address.longitude,
-      },
-      icon: isDraggable
-        ? markerIconEditing.value
-        : 0 !== patient.alerts.length
-        ? markerIconAlert.value
-        : markerIconNormal.value,
-    }
-  })
-})
+const isDraggable = computed(() => (index) => index == movingPatientId.value)
 
 // const maxPatientsToProcess = 30
 const patients = computed(() => {
@@ -940,12 +934,10 @@ watch(onlyAlerts, (newOnlyAlerts, oldValue) => {
   emit('update:onlyAlerts', newOnlyAlerts)
 })
 
-const patientCursorLocalWhileMoving = ref(null)
-function moveMarker(markerId) {
-  patientCursorLocalWhileMoving.value = movingPatientCursor.value
-  movingPatientCursor.value = null
-  movingPatientId.value = markerId
-  // console.log(markerInfoWindows.value[markerId])
+function moveMarker(event, index) {
+  // patientCursorLocal.value = null
+  movingPatientId.value = index
+  console.log(markerInfoWindows.value[index])
 }
 
 async function handleMarkerDrag(event, patientId) {
@@ -954,20 +946,23 @@ async function handleMarkerDrag(event, patientId) {
   const latitude = event.latLng.lat()
   const longitude = event.latLng.lng()
 
-  // markerInfoWindows[movingPatientId.value].value.open()
-  // movingPatientCursor.value = patientCursorLocalWhileMoving.value
-
-  emit('dragend', { patientId, latitude, longitude })
-  movingPatientId.value = null
-  await patientsStore.movePatient(patientId, {
-    address: [
-      {
-        id: 1,
-        latitude,
-        longitude,
-      },
-    ],
+  geoCoder.value.geocode({ location: {lat: latitude, lng:longitude}}, async function (results, status) {
+    if (status === 'OK') {
+      emit('dragend', { patientId, latitude, longitude })
+      movingPatientId.value = null
+      await patientsStore.movePatient(patientId, {
+        address: [
+          {
+            id: 1,
+            latitude,
+            longitude,
+            line: [ results[0].formatted_address ]
+          },
+        ],
+      })
+    }
   })
+
 }
 
 const emit = defineEmits(['update:markers-in-view', 'update:onlyAlerts', 'dragend', 'geoCoderReady'])
@@ -993,17 +988,12 @@ const deletePolygon = async (polygonIndex) => {
   console.log(polygons.value.length)
   console.log(polygonIndex)
   console.log(polygons.value[polygonIndex])
-  if (polygons.value.length - 1 == polygonIndex) {
-    googlePolygons.value[polygonIndex].setMap(null)
-    googlePolygons.value.splice(polygonIndex, 1)
-    googleLabels.value[polygonIndex].setLabel('')
-    googleLabels.value.splice(polygonIndex, 1)
-    showInfoWindow(null)
-    return
-  }
+
   const confirmed = confirm('Tem certeza que deseja excluir este polígono?')
   if (confirmed) {
     await microregionsStore.deleteMicroRegion(polygons.value[polygonIndex].id)
+
+    googlePolygons.value[polygonIndex].setMap(null) // Remover o polígono do mapa
 
     polygons.value.splice(polygonIndex, 1)
     googlePolygons.value.splice(polygonIndex, 1)
@@ -1025,17 +1015,12 @@ const patientLocation = computed(() => (patientMarker, offset = false) => {
   }
   return { lat: patientMarker.address.latitude, lng: patientMarker.address.longitude }
 })
-// const dddd = computed(() => (polygonIndex) => {
-//   console.log('asd dddd')
-// })
-// const ddd = () => {
-//   console.log('asd ddd')
-// }
-// let count = 0
-// onRenderTracked((debug) => {
-//   count++
-//   console.log(`MapGoogle.vue render tracked. \nCount: ${count} key: ${debug.key}.`)
-// })
+const dddd = computed(() => (polygonIndex) => {
+  console.log('asd dddd')
+})
+const ddd = () => {
+  console.log('asd ddd')
+}
 
 defineExpose({ patientsInView })
 </script>
