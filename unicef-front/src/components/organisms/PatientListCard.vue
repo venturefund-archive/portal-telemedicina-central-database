@@ -45,10 +45,10 @@
             </li>
           </ul>
         </div>
-        <div v-if="patientsStore.items.length == 0" class="pt-4 flex flex-col">
+        <div v-if="patientsStore.isLoading" class="pt-4 flex flex-col">
           <SkeletonLoader type="text" animation="fade-in" class="py-3 h-16" v-for="i in 11" />
         </div>
-        <div class="flex h-full mt-72 flex-col items-center justify-center" v-else-if="!patientsStore.items">
+        <div class="flex h-full mt-72 flex-col items-center justify-center" v-else-if="paginated.length == 0">
           <div class="flex justify-center">
             <EmptyResultPhoto />
           </div>

@@ -235,15 +235,14 @@
                           </div>
 
                           <div class="mb-2 flex">
-                            <p class="pr-1 text-sm font-medium text-gray-600">{{ $t('manager.birthdate') }}:</p>
+                            <p class="pr-1 text-sm font-medium text-gray-600">{{ $t('manager.birthdate') }}</p>
                             <p class="text-sm">
                               {{ format(new Date(marker.birth_date), 'dd/MM/yyyy') }}
                             </p>
                           </div>
 
-                          <div class="flex">
-                            <p class="pr-1 text-sm font-medium text-gray-600">{{ $t('manager.address') }}:</p>
-                            <br />
+                          <div class="flex flex-col">
+                            <p class="pr-1 text-sm font-medium text-gray-600">{{ $t('manager.address') }}</p>
                             <p class="text-sm">
                               {{ marker.address.formatted_address }}
                             </p>
@@ -254,7 +253,7 @@
                           <Button
                             type="submit"
                             variant="success-outline"
-                            @click="moveMarker($event, marker.id)"
+                            @click="moveMarker(marker.id)"
                             class="mx-2 gap-2 focus:outline-none"
                             :disabled="editForm.processing"
                             v-slot="{ iconSizeClasses }"
@@ -486,7 +485,6 @@ import {
   onMounted,
   watch,
   ref,
-  onUnmounted,
   onBeforeUnmount,
 } from 'vue'
 import { GoogleMap, Marker, CustomMarker, MarkerCluster, InfoWindow, Polygon } from 'vue3-google-map'
@@ -934,10 +932,8 @@ watch(onlyAlerts, (newOnlyAlerts, oldValue) => {
   emit('update:onlyAlerts', newOnlyAlerts)
 })
 
-function moveMarker(event, index) {
-  // patientCursorLocal.value = null
+function moveMarker(index) {
   movingPatientId.value = index
-  console.log(markerInfoWindows.value[index])
 }
 
 async function handleMarkerDrag(event, patientId) {
@@ -948,7 +944,10 @@ async function handleMarkerDrag(event, patientId) {
 
   geoCoder.value.geocode({ location: {lat: latitude, lng:longitude}}, async function (results, status) {
     if (status === 'OK') {
-      emit('dragend', { patientId, latitude, longitude })
+      const patient = patients.value.find((p) => patientId === p.id)
+      patient.address.latitude = latitude
+      patient.address.longitude = longitude
+
       movingPatientId.value = null
       await patientsStore.movePatient(patientId, {
         address: [
