@@ -81,19 +81,23 @@ watch(filteredMarkers, (newMarkers, oldMarkers) => {
   if (!geoCoder.value) {
     return
   }
-  filteredMarkers.value.map((patient, k) => {
-    geoCoder.value.geocode(
-      { location: { lat: patient.address.latitude, lng: patient.address.longitude } },
-      function (results, status) {
-        if (status === 'OK') {
-          const address = results[0].formatted_address
-          filteredMarkers.value[k].address.formatted_address = address
-          // } else {
-          //   // isLoading.value = true
+  if (filteredMarkers.value && filteredMarkers.value[0] && filteredMarkers.value[0].address.formatted_address) {
+    return
+  } else {
+    filteredMarkers.value.map((patient, k) => {
+      geoCoder.value.geocode(
+        { location: { lat: patient.address.latitude, lng: patient.address.longitude } },
+        function (results, status) {
+          if (status === 'OK') {
+            const address = results[0].formatted_address
+            filteredMarkers.value[k].address.formatted_address = address
+            // } else {
+            //   // isLoading.value = true
+          }
         }
-      }
-    )
-  })
+      )
+    })
+  }
 })
 
 const fetchPaginatedPatients = async () => {
