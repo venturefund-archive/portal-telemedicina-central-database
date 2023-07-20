@@ -56,8 +56,7 @@ const dosesStore = useDosesStore()
 
 const isLoading = ref(true)
 
-onMounted(async () => {
-})
+onMounted(async () => {})
 </script>
 <style scoped>
 .dot1 {

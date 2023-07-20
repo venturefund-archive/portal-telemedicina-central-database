@@ -171,7 +171,7 @@
                     }
                   "
                   :options="{
-                    position: patientLocation(marker),
+                    position: { lat: marker.address.latitude, lng: marker.address.longitude },
                     draggable: isDraggable(marker.id),
                     icon: isDraggable(marker.id)
                       ? markerIconEditing
@@ -235,14 +235,14 @@
                           </div>
 
                           <div class="mb-2 flex">
-                            <p class="pr-1 text-sm font-medium text-gray-600">{{ $t('manager.birthdate') }}</p>
+                            <p class="pr-1 text-sm font-medium text-gray-600">{{ $t('manager.birthdate') }}:</p>
                             <p class="text-sm">
                               {{ format(new Date(marker.birth_date), 'dd/MM/yyyy') }}
                             </p>
                           </div>
 
                           <div class="flex flex-col">
-                            <p class="pr-1 text-sm font-medium text-gray-600">{{ $t('manager.address') }}</p>
+                            <p class="pr-1 text-sm font-medium text-gray-600">{{ $t('manager.address') }}:</p>
                             <p class="text-sm">
                               {{ marker.address.formatted_address }}
                             </p>
@@ -944,10 +944,7 @@ async function handleMarkerDrag(event, patientId) {
 
   geoCoder.value.geocode({ location: {lat: latitude, lng:longitude}}, async function (results, status) {
     if (status === 'OK') {
-      const patient = patients.value.find((p) => patientId === p.id)
-      patient.address.latitude = latitude
-      patient.address.longitude = longitude
-
+      emit('dragend', { patientId, latitude, longitude })
       movingPatientId.value = null
       await patientsStore.movePatient(patientId, {
         address: [
