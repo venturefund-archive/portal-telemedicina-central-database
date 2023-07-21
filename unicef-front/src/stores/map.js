@@ -176,6 +176,6 @@ export const useMapStore = defineStore('map', () => {
     deletePolygon,
     markers,
     fetchMarkers,
-    updateMarker
+    updateMarker,
   }
 })

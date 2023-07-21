@@ -154,7 +154,7 @@ const searchAddress = () => {
 const geocodeAddress = () => {
   geocoder.value.geocode({ address: geoCoderQuery.value }, function (results, status) {
     if (status === 'OK') {
-      if(map.value){
+      if (map.value) {
         map.value.setCenter(results[0].geometry.location)
       }
       // showEmptyResult.value = false
@@ -200,27 +200,33 @@ const createLoadedPolygon = (polygonData) => {
   const polygon = new google.maps.Polygon({
     paths: polygonData.coordinates,
     map: map.value,
-    strokeColor: '#FF0000',
+    strokeColor: '#166534',
     strokeOpacity: 0.8,
     strokeWeight: 2,
-    fillColor: '#FF0000',
+    fillColor: '#fb923c',
     fillOpacity: 0.35,
   })
 
   const infoWindow = new google.maps.InfoWindow()
-  const nameInput = document.createElement('input')
-  const saveButton = document.createElement('button')
-  const deleteButton = document.createElement('button')
 
-  nameInput.type = 'text'
-  nameInput.value = polygonData.name
-  saveButton.textContent = 'Save'
-  deleteButton.textContent = 'Delete'
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = `
+    <div class="flex flex-col">
+      <div class="sticky top-0 bg-white">
+        <h3 class="font-bold text-lg mb-2">Editar região</h3>
+        <hr class="my-3 w-full border border-dashed" />
+      </div>
+      <input type="text" value="${polygonData.name}" class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none mb-4">
+      <div class="flex justify-between">
+        <button id="deleteButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
+        <button id="saveButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Save</button>
+      </div>
+    </div>
+  `;
 
-  const content = document.createElement('div')
-  content.appendChild(nameInput)
-  content.appendChild(saveButton)
-  content.appendChild(deleteButton)
+  const nameInput = tempDiv.querySelector('input');
+  const saveButton = tempDiv.querySelector('#saveButton');
+  const deleteButton = tempDiv.querySelector('#deleteButton');
 
   const polygonObj = {
     polygon,
@@ -229,7 +235,6 @@ const createLoadedPolygon = (polygonData) => {
     label: null,
   }
 
-  // Click event listener
   google.maps.event.addListener(polygon, 'click', () => {
     infoWindow.setPosition(getPolygonCenter(polygon))
     infoWindow.open(map.value)
@@ -255,9 +260,8 @@ const createLoadedPolygon = (polygonData) => {
     deletePolygon(polygonObj)
   })
 
-  infoWindow.setContent(content)
+  infoWindow.setContent(tempDiv)
 
-  // Add label
   updatePolygonLabel(polygonObj)
 
   return polygonObj
@@ -267,7 +271,7 @@ const initializeMap = async () => {
   geocoder.value = new google.maps.Geocoder()
   map.value = new google.maps.Map(mapContainer.value, {
     zoom: 14,
-    center: geocodeAddress()
+    center: geocodeAddress(),
   })
 
   const drawingManager = new google.maps.drawing.DrawingManager({
@@ -337,8 +341,11 @@ const createPolygonInfoWindow = (polygon, openImmediately = true) => {
   const deleteButton = document.createElement('button')
 
   nameInput.type = 'text'
-  saveButton.textContent = 'Save'
+  nameInput.className = 'border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none' // Adiciona classes Tailwind CSS
   deleteButton.textContent = 'Delete'
+  deleteButton.className = 'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-4' // Adiciona classes Tailwind CSS
+  saveButton.textContent = 'Save'
+  saveButton.className = 'bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded' // Adiciona classes Tailwind CSS
 
   const content = document.createElement('div')
   content.appendChild(nameInput)
@@ -434,7 +441,6 @@ const deletePolygon = async (polygonData) => {
   const index = polygons.value.indexOf(polygonData)
   if (index !== -1) {
     try {
-      console.log(polygonData)
       await mapStore.deletePolygon(polygonData.id)
 
       const polygon = polygonData.polygon

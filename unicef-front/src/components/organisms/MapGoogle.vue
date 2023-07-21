@@ -11,10 +11,7 @@
           <div class="flex items-center space-x-5">
             <div v-if="!isMapView">
               <div class="flex">
-                <input
-                  type="date"
-                  cclass="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none "
-                />
+                <input type="date" cclass="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none " />
               </div>
             </div>
             <div class="flex items-center space-x-2">
@@ -39,14 +36,14 @@
                     <Input
                       :placeholder="$t('manager.search')"
                       v-model="addressQuery"
-                      class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none "
+                      class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none"
                     />
                   </div>
                   <div v-if="isMapView">
                     <Input
                       :placeholder="$t('manager.search-map')"
                       v-model="geoCoderQuery"
-                      class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none "
+                      class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none"
                     />
                   </div>
                 </div>
@@ -59,7 +56,7 @@
                 <button
                   @click="showList = !showList"
                   class="relative flex flex-col items-center rounded-md py-2 px-4 text-gray-500"
-                   v-if=" ! ['local', 'production'].includes(node_env)"
+                  v-if="!['local', 'production'].includes(node_env)"
                 >
                   <UsersIcon title="{{ $t('manager.population') }}" class="h-6 w-6 text-green-500" />
                   <span class="text-sm">{{ $t('manager.population') }}</span>
@@ -91,7 +88,11 @@
               </div>
 
               <div class="flex cursor-pointer items-center space-x-10">
-                <button @click="toggleView" class="flex flex-col items-center"  v-if=" ! ['local', 'production'].includes(node_env)">
+                <button
+                  @click="toggleView"
+                  class="flex flex-col items-center"
+                  v-if="!['local', 'production'].includes(node_env)"
+                >
                   <TableIcon v-if="isMapView" class="h-8 w-9 text-gray-500" />
                   <MapIcon v-else class="h-7 w-10 text-gray-500" />
                   <span class="text-sm text-gray-500">{{ $t('manager.visualization') }}</span>
@@ -288,9 +289,9 @@
                         <!-- This is the modal -->
                         <div class="relative mx-auto max-w-xl space-y-4 rounded-xl bg-white p-6 shadow drop-shadow">
                           <div class="flex items-center justify-between">
-                            <Dialog-title as="h3" class="mx-auto text-xl font-medium leading-6 text-gray-700"
-                              >{{ $t('manager.edit-info') }}</Dialog-title
-                            >
+                            <Dialog-title as="h3" class="mx-auto text-xl font-medium leading-6 text-gray-700">{{
+                              $t('manager.edit-info')
+                            }}</Dialog-title>
                             <button
                               @click="isModalOpen = false"
                               class="mb-2 rounded p-0.5 hover:bg-gray-100 focus:outline-none"
@@ -304,9 +305,13 @@
                             <div class="grid grid-cols-2 gap-4">
                               <!-- Personal Data -->
                               <div class="space-y-3">
-                                <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">{{ $t('manager.personal-data') }}</h4>
+                                <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">
+                                  {{ $t('manager.personal-data') }}
+                                </h4>
 
-                                <label for="name" class="block text-sm font-medium text-gray-700">{{ $t('manager.name') }}</label>
+                                <label for="name" class="block text-sm font-medium text-gray-700">{{
+                                  $t('manager.name')
+                                }}</label>
                                 <Input
                                   id="name"
                                   type="text"
@@ -315,9 +320,9 @@
                                   required
                                 />
 
-                                <label for="birthDate" class="block text-sm font-medium text-gray-700"
-                                  >{{ $t('manager.birthdate') }}</label
-                                >
+                                <label for="birthDate" class="block text-sm font-medium text-gray-700">{{
+                                  $t('manager.birthdate')
+                                }}</label>
                                 <Input
                                   id="birthDate"
                                   type="date"
@@ -326,7 +331,9 @@
                                   required
                                 />
 
-                                <label for="age" class="block text-sm font-medium text-gray-700">{{ $t('manager.age') }}</label>
+                                <label for="age" class="block text-sm font-medium text-gray-700">{{
+                                  $t('manager.age')
+                                }}</label>
                                 <Input
                                   id="age"
                                   type="number"
@@ -335,7 +342,9 @@
                                   required
                                 />
 
-                                <label for="address" class="block text-sm font-medium text-gray-700">{{ $t('manager.address') }}</label>
+                                <label for="address" class="block text-sm font-medium text-gray-700">{{
+                                  $t('manager.address')
+                                }}</label>
                                 <Input
                                   id="address"
                                   type="text"
@@ -344,7 +353,9 @@
                                   required
                                 />
 
-                                <label for="cpf" class="block text-sm font-medium text-gray-700">{{ $t('manager.document') }}</label>
+                                <label for="cpf" class="block text-sm font-medium text-gray-700">{{
+                                  $t('manager.document')
+                                }}</label>
                                 <Input
                                   id="document"
                                   type="text"
@@ -356,11 +367,13 @@
 
                               <!-- Clinical Data -->
                               <div class="space-y-3">
-                                <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">{{ $t('manager.clinic-data') }}</h4>
+                                <h4 class="pb-6 text-center text-sm font-semibold text-gray-600">
+                                  {{ $t('manager.clinic-data') }}
+                                </h4>
 
-                                <label for="healthUnit" class="block text-sm font-medium text-gray-700"
-                                  >{{ $t('manager.uniot-health') }}</label
-                                >
+                                <label for="healthUnit" class="block text-sm font-medium text-gray-700">{{
+                                  $t('manager.uniot-health')
+                                }}</label>
                                 <Input
                                   id="healthUnit"
                                   type="text"
@@ -380,9 +393,9 @@
 
                                 <div class="flex">
                                   <div class="flex-1 pr-3">
-                                    <label for="codeFile" class="block text-sm font-medium text-gray-700"
-                                      >{{ $t('manager.code-record') }}</label
-                                    >
+                                    <label for="codeFile" class="block text-sm font-medium text-gray-700">{{
+                                      $t('manager.code-record')
+                                    }}</label>
                                     <Input
                                       id="codeFile"
                                       type="text"
@@ -392,9 +405,9 @@
                                     />
                                   </div>
                                   <div class="flex-1">
-                                    <label for="fileDate" class="block text-sm font-medium text-gray-700"
-                                      >{{ $t('manager.data-record') }}</label
-                                    >
+                                    <label for="fileDate" class="block text-sm font-medium text-gray-700">{{
+                                      $t('manager.data-record')
+                                    }}</label>
                                     <Input
                                       id="fileDate"
                                       type="date"
@@ -405,9 +418,9 @@
                                   </div>
                                 </div>
 
-                                <label for="professional" class="block text-sm font-medium text-gray-700"
-                                  >{{ $t('manager.profissional') }}</label
-                                >
+                                <label for="professional" class="block text-sm font-medium text-gray-700">{{
+                                  $t('manager.profissional')
+                                }}</label>
                                 <Input
                                   id="professional"
                                   type="text"
@@ -418,9 +431,10 @@
 
                                 <div class="flex space-x-2">
                                   <div class="flex-1">
-                                    <label for="vaccine" class="block text-sm font-medium text-gray-700">{{ $t('manager.vaccine') }}</label>
+                                    <label for="vaccine" class="block text-sm font-medium text-gray-700">{{
+                                      $t('manager.vaccine')
+                                    }}</label>
                                     <Input
-
                                       id="vaccine"
                                       type="text"
                                       class="w-full border-gray-300 focus:border-lime-300"
@@ -429,7 +443,9 @@
                                     />
                                   </div>
                                   <div class="flex-1">
-                                    <label for="dose" class="block text-sm font-medium text-gray-700">{{ $t('manager.dose') }}</label>
+                                    <label for="dose" class="block text-sm font-medium text-gray-700">{{
+                                      $t('manager.dose')
+                                    }}</label>
                                     <Input
                                       id="dose"
                                       type="text"
@@ -445,7 +461,7 @@
                             <!-- Buttons -->
                             <div class="flex justify-end pt-10">
                               <Button type="button" variant="success-outline" class="mr-3" @click="isModalOpen = false">
-                                  {{ $t('manager.cancel') }}
+                                {{ $t('manager.cancel') }}
                               </Button>
                               <Button type="submit" variant="success"> {{ $t('manager.save') }} </Button>
                             </div>
@@ -477,16 +493,7 @@
 </template>
 
 <script setup>
-import {
-  defineComponent,
-  reactive,
-  computed,
-  onBeforeUpdate,
-  onMounted,
-  watch,
-  ref,
-  onBeforeUnmount,
-} from 'vue'
+import { defineComponent, reactive, computed, onBeforeUpdate, onMounted, watch, ref, onBeforeUnmount } from 'vue'
 import { GoogleMap, Marker, CustomMarker, MarkerCluster, InfoWindow, Polygon } from 'vue3-google-map'
 import { useGeolocation } from '@/composables/useGeolocation'
 import {
@@ -657,9 +664,10 @@ function onItemClick(item) {
   console.log(`Item clicado: ${item}`)
 }
 const geoCoderQuery = ref(
-  (loggedUserStore.item.client && loggedUserStore.item.client.city ? loggedUserStore.item.client.city.charAt(0).toUpperCase() + loggedUserStore.item.client.city.slice(1) : "São Paulo")
+  loggedUserStore.item.client && loggedUserStore.item.client.city
+    ? loggedUserStore.item.client.city.charAt(0).toUpperCase() + loggedUserStore.item.client.city.slice(1)
+    : 'São Paulo'
 )
-
 
 const currentCenter = ref(undefined)
 const showEmptyResult = ref(false)
@@ -942,7 +950,7 @@ async function handleMarkerDrag(event, patientId) {
   const latitude = event.latLng.lat()
   const longitude = event.latLng.lng()
 
-  geoCoder.value.geocode({ location: {lat: latitude, lng:longitude}}, async function (results, status) {
+  geoCoder.value.geocode({ location: { lat: latitude, lng: longitude } }, async function (results, status) {
     if (status === 'OK') {
       emit('dragend', { patientId, latitude, longitude })
       movingPatientId.value = null
@@ -952,13 +960,12 @@ async function handleMarkerDrag(event, patientId) {
             id: 1,
             latitude,
             longitude,
-            line: [ results[0].formatted_address ]
+            line: [results[0].formatted_address],
           },
         ],
       })
     }
   })
-
 }
 
 const emit = defineEmits(['update:markers-in-view', 'update:onlyAlerts', 'dragend', 'geoCoderReady'])
