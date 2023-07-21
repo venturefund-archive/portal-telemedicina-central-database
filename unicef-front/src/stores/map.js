@@ -1,14 +1,14 @@
-import { defineStore } from 'pinia';
-import { ref } from 'vue';
-import { useStorage } from '@vueuse/core';
-import axios from 'axios';
-import { errorToast } from '@/toast';
+import { defineStore } from 'pinia'
+import { ref } from 'vue'
+import { useStorage } from '@vueuse/core'
+import axios from 'axios'
+import { errorToast } from '@/toast'
 
 export const useMapStore = defineStore('map', () => {
-  const polygons = ref([]);
-  const newPolygon = ref(null);
-  const markers = ref([]);
-  const state = useStorage('app-store', { token: '' });
+  const polygons = ref([])
+  const newPolygon = ref(null)
+  const markers = ref([])
+  const state = useStorage('app-store', { token: '' })
 
   async function fetchPolygons() {
     try {
@@ -29,9 +29,9 @@ export const useMapStore = defineStore('map', () => {
       })
     } catch (err) {
       console.log(err)
-      err.response && errorToast({ text: err.response.data.detail });
+      err.response && errorToast({ text: err.response.data.detail })
     }
-    return polygons.value;
+    return polygons.value
   }
 
   async function fetchPolygon(id) {
@@ -41,11 +41,11 @@ export const useMapStore = defineStore('map', () => {
           'Content-type': 'application/json',
           Authorization: `token ${state.value.token}`,
         },
-      });
-      newPolygon.value = response.data;
+      })
+      newPolygon.value = response.data
     } catch (err) {
       console.log(err)
-      errorToast({ text: err.message });
+      errorToast({ text: err.message })
     }
   }
 
@@ -83,10 +83,10 @@ export const useMapStore = defineStore('map', () => {
           return { lat: coordinate[1], lng: coordinate[0] }
         }),
       }
-      return newPolygon.value;
+      return newPolygon.value
     } catch (err) {
       console.log(err)
-      errorToast({ text: err.message });
+      errorToast({ text: err.message })
     }
   }
 
@@ -97,12 +97,12 @@ export const useMapStore = defineStore('map', () => {
           'Content-type': 'application/json',
           Authorization: `token ${state.value.token}`,
         },
-      });
-      newPolygon.value = response.data;
-      return newPolygon.value;
+      })
+      newPolygon.value = response.data
+      return newPolygon.value
     } catch (err) {
       console.log(err)
-      errorToast({ text: err.message });
+      errorToast({ text: err.message })
     }
   }
 
@@ -113,10 +113,10 @@ export const useMapStore = defineStore('map', () => {
           'Content-type': 'application/json',
           Authorization: `token ${state.value.token}`,
         },
-      });
+      })
     } catch (err) {
       console.log(err)
-      errorToast({ text: err.message });
+      errorToast({ text: err.message })
     }
   }
 
@@ -135,10 +135,10 @@ export const useMapStore = defineStore('map', () => {
           id: marker.id,
           position: {
             lat: marker.latitude,
-            lng: marker.longitude
+            lng: marker.longitude,
           },
           address: marker.address,
-          age: marker.age
+          age: marker.age,
         }
       })
       console.log(err)
@@ -157,14 +157,14 @@ export const useMapStore = defineStore('map', () => {
           Authorization: `token ${state.value.token}`,
         },
       })
-      const index = markers.value.findIndex(marker => marker.id === id)
+      const index = markers.value.findIndex((marker) => marker.id === id)
       markers.value[index] = response.data
+      return response.data
     } catch (err) {
       console.log(err)
       errorToast({ text: err.message })
     }
   }
-
 
   return {
     polygons,
@@ -176,5 +176,6 @@ export const useMapStore = defineStore('map', () => {
     deletePolygon,
     markers,
     fetchMarkers,
+    updateMarker
   }
-});
+})
