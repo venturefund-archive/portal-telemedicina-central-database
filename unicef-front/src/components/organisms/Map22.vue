@@ -1,37 +1,129 @@
 <template>
   <div>
     <div ref="mapContainer" class="map-container"></div>
+    <Marker
+      v-for="marker in markers"
+      :key="marker.id"
+      :marker="marker"
+      @update:position="updateMarkerPosition(marker)"
+    />
+    <!-- <Polygon
+      v-for="polygon in polygons"
+      :key="polygon.id"
+      :polygon="polygon"
+      @update:position="updatePolygonPosition(polygon)"
+    /> -->
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, provide, inject } from 'vue'
+import { usePatientsStore } from '@/stores/patients'
+const patientsStore = usePatientsStore()
+import { useMapStore } from '@/stores/map';
 
+const markers = ref([]);
+const polygons = ref([]);
 const mapContainer = ref(null);
 const map = ref(null);
 const geocoder = ref(null);
-const markers = ref([]);
-const polygons = ref([]);
+const mapStore = useMapStore();
 
-onMounted(() => {
-  initializeMap();
-});
+provide('map', map);
+provide('geocoder', geocoder);
 
 onUnmounted(() => {
-  markers.value.forEach(marker => marker.setMap(null));
-  markers.value = [];
-
-  polygons.value.forEach(polygonData => {
-    polygonData.polygon.setMap(null);
-    polygonData.infoWindow.close();
-    if (polygonData.label) {
-      polygonData.label.setMap(null);
-    }
-  });
+  // polygonData.polygon.setMap(null);
+  // polygonData.infoWindow.close();
+  // if (polygonData.label) {
+  //   polygonData.label.setMap(null);
+  // }
   polygons.value = [];
-});
+})
 
-const initializeMap = () => {
+onMounted(async () => {
+  await initializeMap();
+  await loadPolygons()
+})
+
+const loadPolygons = async () => {
+  try {
+    const loadedPolygons = await mapStore.fetchPolygons();
+    loadedPolygons.forEach((polygonData) => {
+      const polygonObj = createLoadedPolygon(polygonData);
+      polygons.value.push(polygonObj);
+    });
+  } catch (error) {
+    console.error('Erro ao carregar polígonos:', error);
+  }
+}
+
+const createLoadedPolygon = (polygonData) => {
+  const polygon = new google.maps.Polygon({
+    paths: polygonData.coordinates,
+    map: map.value,
+    strokeColor: '#FF0000',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: '#FF0000',
+    fillOpacity: 0.35,
+  });
+
+  const infoWindow = new google.maps.InfoWindow();
+  const nameInput = document.createElement('input');
+  const saveButton = document.createElement('button');
+  const deleteButton = document.createElement('button');
+
+  nameInput.type = 'text';
+  nameInput.value = polygonData.name;
+  saveButton.textContent = 'Save';
+  deleteButton.textContent = 'Delete';
+
+  const content = document.createElement('div');
+  content.appendChild(nameInput);
+  content.appendChild(saveButton);
+  content.appendChild(deleteButton);
+
+  const polygonObj = {
+    polygon,
+    infoWindow,
+    name: polygonData.name,
+    label: null,
+  };
+
+  // Click event listener
+  google.maps.event.addListener(polygon, 'click', () => {
+    infoWindow.setPosition(getPolygonCenter(polygon));
+    infoWindow.open(map.value);
+  });
+
+  saveButton.addEventListener('click', async () => {
+    polygonObj.name = nameInput.value;
+    updatePolygonLabel(polygonObj);
+    await mapStore.updatePolygon(polygonData.id, {
+      name: polygonObj.name,
+      coordinates: polygon.getPath().getArray().map(latLng => {
+        return [latLng.lng(), latLng.lat()];
+      })
+    });
+    infoWindow.close();
+  });
+
+  deleteButton.addEventListener('click', () => {
+    polygonObj.id = polygonData.id
+    deletePolygon(polygonObj);
+  });
+
+  infoWindow.setContent(content);
+
+  // Add label
+  updatePolygonLabel(polygonObj);
+
+  return polygonObj;
+};
+
+
+const initializeMap = async () => {
   const mapOptions = {
     zoom: 14,
     center: new google.maps.LatLng(-23.5015, -48.5592),
@@ -61,23 +153,22 @@ const initializeMap = () => {
     drawingManager.setDrawingMode(null);
   });
 
-  placeMarkers();
+  await placeMarkers();
 };
 
-const placeMarkers = () => {
-  const data = Array.from({ length: 10 }, (_, id) => {
-    const latitude = -23.5015 + Math.random() * 0.02 - 0.01;
-    const longitude = -48.5592 + Math.random() * 0.02 - 0.01;
-    return {
-      id,
-      position: { lat: latitude, lng: longitude },
-      address: `Address ${id}`,
-      age: Math.floor(Math.random() * 100) + 1
-    };
-  });
+const placeMarkers = async () => {
+  try {
+    await patientsStore.fetchPatients()
+    markers.value = patientsStore.items
+  } catch (error) {
+    console.error('Erro ao carregar marcadores:', error)
+  }
 
-  data.forEach((person) => {
-    const marker = createMarker(person);
+  markers.value.forEach((person) => {
+    const marker = createMarker({
+      ...person,
+      position: { lat: person.address.latitude, lng: person.address.longitude },
+    });
     markers.value.push(marker);
   });
 };
@@ -150,13 +241,29 @@ const updateMarkerPosition = (marker, person) => {
 
 const getMarkerContent = (person, isMarkerMovable) => `
   <p>ID: ${person.id}</p>
-  <p>Address: ${person.address}</p>
-  <p>Age: ${person.age}</p>
+  <p>Address: ${JSON.stringify(person.address)}</p>
+  <p>Age: ${person.age_in_days}</p>
   <button id="marker${person.id}">${isMarkerMovable ? 'Cancel' : 'Move Marker'}</button>
 `;
 
+const createPolygon = (polygonData) => {
 
-const createPolygonInfoWindow = (polygon) => {
+  const polygon = new google.maps.Polygon({
+    paths: polygonData.coordinates,
+    map: map.value,
+    strokeColor: '#FF0000',
+    strokeOpacity: 0.8,
+    strokeWeight: 2,
+    fillColor: '#FF0000',
+    fillOpacity: 0.35,
+  });
+
+  // Aqui você poderia adicionar qualquer outro código para adicionar eventos de clique, janelas de informação, etc., se necessário.
+
+  return polygon;
+};
+
+const createPolygonInfoWindow = (polygon, openImmediately = true) => {
   const infoWindow = new google.maps.InfoWindow();
   const nameInput = document.createElement('input');
   const saveButton = document.createElement('button');
@@ -178,8 +285,14 @@ const createPolygonInfoWindow = (polygon) => {
     label: null,
   };
 
-  saveButton.addEventListener('click', () => {
-    polygonData.name = nameInput.value;
+  saveButton.addEventListener('click', async  () => {
+    polygonData.name = nameInput.value
+    await mapStore.createPolygon({
+      name: polygonData.name,
+      coordinates: polygonData.polygon.getPath().getArray().map(latLng => {
+        return [latLng.lng(), latLng.lat()];
+      })
+    });
     updatePolygonLabel(polygonData);
     infoWindow.close();
   });
@@ -191,8 +304,11 @@ const createPolygonInfoWindow = (polygon) => {
   infoWindow.setContent(content);
 
   // Open infoWindow when polygon is created
-  infoWindow.setPosition(polygon.getPath().getAt(0));
-  infoWindow.open(map.value);
+  // Abra infoWindow quando o polígono for criado apenas se openImmediately for true
+  if (openImmediately) {
+    infoWindow.setPosition(polygon.getPath().getAt(0));
+    infoWindow.open(map.value);
+  }
   nameInput.value = polygonData.name;
 
   // Add polygon click event listener
@@ -242,16 +358,25 @@ const getPolygonCenter = (polygon) => {
   return bounds.getCenter();
 };
 
-const deletePolygon = (polygonData) => {
+const deletePolygon = async (polygonData) => {
   const index = polygons.value.indexOf(polygonData);
   if (index !== -1) {
-    const polygon = polygonData.polygon;
-    polygon.setMap(null);
-    polygonData.infoWindow.close();
-    if (polygonData.label) {
-      polygonData.label.setMap(null);
+    try {
+      console.log(polygonData)
+      await mapStore.deletePolygon(polygonData.id);
+
+      const polygon = polygonData.polygon;
+      polygon.setMap(null);
+      polygonData.infoWindow.close();
+      if (polygonData.label) {
+        polygonData.label.setMap(null);
+      }
+      polygons.value.splice(index, 1);
+
+    } catch (err) {
+      console.log(err);
+      errorToast({ text: err.message });
     }
-    polygons.value.splice(index, 1);
   }
 };
 
