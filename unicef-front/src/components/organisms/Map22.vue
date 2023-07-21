@@ -179,7 +179,7 @@ const createMarker = (person) => {
     map: map.value,
     draggable: false,
     icon: {
-      url: 'marker.svg',
+      url: person.alerts.length > 0 ? 'marker-alert.svg' : 'marker.svg',
     },
   });
 
@@ -242,6 +242,7 @@ const updateMarkerPosition = (marker, person) => {
 const getMarkerContent = (person, isMarkerMovable) => `
   <p>ID: ${person.id}</p>
   <p>Address: ${JSON.stringify(person.address)}</p>
+  <p>Alerts: ${JSON.stringify(person.alerts)}</p>
   <p>Age: ${person.age_in_days}</p>
   <button id="marker${person.id}">${isMarkerMovable ? 'Cancel' : 'Move Marker'}</button>
 `;
