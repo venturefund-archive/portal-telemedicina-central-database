@@ -24,10 +24,9 @@ import { onMounted, ref, computed, reactive } from 'vue'
 import { usePatientsStore } from '@/stores/patients'
 const patientsStore = usePatientsStore()
 onMounted(async () => {
-  if(patientsStore.items.length == 0){
+  if (patientsStore.items.length == 0) {
     await patientsStore.fetchPatients()
     await patientsStore.fetchPatientsRecursive()
   }
-
 })
 </script>

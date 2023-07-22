@@ -10,15 +10,29 @@
         <span class="uppercase tracking-wide">{{ $t('patient-details.add-vaccine') }}</span>
       </button>
 
-     <div v-show="dropdownOpen" class="inset-x-0 absolute  mt-2 w-56 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-    <div class="py-1 flex flex-col" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-        <div>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 hover:no-underline w-full text-center" role="menuitem" @click="openModal">{{ $t('patient-details.manually-include') }}</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 hover:no-underline w-full text-center" role="menuitem" @click="openModal2">{{ $t('patient-details.send-booklet') }}</a>
+      <div
+        v-show="dropdownOpen"
+        class="absolute inset-x-0 mt-2 w-56 rounded-lg bg-white shadow-lg ring-1 ring-black ring-opacity-5"
+      >
+        <div class="flex flex-col py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+          <div>
+            <a
+              href="#"
+              class="block w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 hover:no-underline"
+              role="menuitem"
+              @click="openModal"
+              >{{ $t('patient-details.manually-include') }}</a
+            >
+            <a
+              href="#"
+              class="block w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 hover:no-underline"
+              role="menuitem"
+              @click="openModal2"
+              >{{ $t('patient-details.send-booklet') }}</a
+            >
+          </div>
         </div>
-    </div>
-</div>
-
+      </div>
     </div>
     <TransitionRoot appear :show="isOpen" as="template">
       <Dialog as="div" @close="closeModal" class="relative z-10">
@@ -191,7 +205,7 @@
                     </div>
                   </div>
 
-                  <div class="flex items-center justify-center"  v-if=" ! ['local', 'production'].includes(node_env)">
+                  <div class="flex items-center justify-center" v-if="!['local', 'production'].includes(node_env)">
                     <span class="ml-10 flex cursor-pointer items-center" @click="openModal2">
                       <CloudUploadIcon class="mr-6 h-6 w-6 text-blue-500" />
                       <span class="text-sm font-semibold text-blue-500">{{ $t('patient-details.uploadbooklet') }}</span>
@@ -202,7 +216,9 @@
                       <div class="rounded bg-blue-500 p-4 shadow-2xl" style="height: 250px">
                         <div class="flex justify-between">
                           <CloudUploadIcon class="h-7 w-7 text-white" />
-                          <h3 class="text-lg font-medium text-white"  v-if=" ! ['local', 'production'].includes(node_env)">{{ $t('patient-details.sendbooklet') }}</h3>
+                          <h3 class="text-lg font-medium text-white" v-if="!['local', 'production'].includes(node_env)">
+                            {{ $t('patient-details.sendbooklet') }}
+                          </h3>
                           <div class="flex justify-end">
                             <button
                               type="button"

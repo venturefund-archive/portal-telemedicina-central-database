@@ -4,10 +4,9 @@
       <div class="flex items-baseline justify-center py-10">
         <div class="mr-4 md:flex-1">
           <MapGoogle
-            :patients="markers"
+            :markers="markers"
             @update:markers-in-view="updateMarkersFiltered"
             @update:onlyAlerts="updateOnlyAlerts"
-            @dragend="handleMarkerDrag"
             @geoCoderReady="handleGeoCoderReady"
             :center="currentCenter"
             :zoom="currentZoom"
@@ -27,92 +26,56 @@
 </template>
 
 <script setup>
-import { onMounted, onUpdated, reactive, ref, watch, onRenderTracked } from 'vue'
-import axios from 'axios'
-import { useRouter } from 'vue-router'
-import { useStorage } from '@vueuse/core'
-import { errorToast, successToast } from '@/toast'
-import { usePatientsStore } from '@/stores/patients'
-import { useVaccinesStore } from '@/stores/vaccines'
-import { useLoggedUserStore } from '@/stores/loggedUser'
-import { useDosesStore } from '@/stores/doses'
-const loggedUserStore = useLoggedUserStore()
+import { onMounted, onUpdated, reactive, ref, inject, watch, onRenderTracked } from 'vue'
 import MapGoogle from '@/components/organisms/MapGoogle.vue'
-import PatientListCard from '@/components/organisms/PatientListCard.vue'
+import { usePatientsStore } from '@/stores/patients'
 const patientsStore = usePatientsStore()
-const vaccinesStore = useVaccinesStore()
-const router = useRouter()
-const dosesStore = useDosesStore()
-
-const props = defineProps({
-  id: {
-    type: String,
-    default: '0',
-  },
-})
-const isLoading = ref(false)
-watch(
-  () => props.id,
-  async (id) => {
-    // isLoading.value = true
-    0 != props.id && (await patientsStore.fetchPatient(props.id))
-    // isLoading.value = false
-  },
-  { immediate: true }
-)
+const currentCenter = ref(undefined)
+const currentZoom = ref(16)
 
 const markers = ref([])
 const onlyAlerts = ref(undefined)
 const filteredMarkers = ref([])
 
+const isLoading = ref(false)
 onMounted(async () => {
   isLoading.value = true
-  if(patientsStore.items.length == 0){
+  if (patientsStore.items.length == 0) {
     await patientsStore.fetchPatients()
     await patientsStore.fetchPatientsRecursive()
   }
   markers.value = filteredMarkers.value = patientsStore.items
 })
-const geoCoder = ref(null)
-const handleGeoCoderReady = (geoCoder2) => {
-  geoCoder.value = geoCoder2
+const geocoder = ref(null)
+const handleGeoCoderReady = (geocoderLocal) => {
+  geocoder.value = geocoderLocal
 }
-watch(filteredMarkers, (newMarkers, oldMarkers) => {
-  if (!geoCoder.value) {
-    return
-  }
-  if (filteredMarkers.value && filteredMarkers.value[0] && filteredMarkers.value[0].address.formatted_address) {
-    return
-  } else {
-    filteredMarkers.value.map((patient, k) => {
-      geoCoder.value.geocode(
-        { location: { lat: patient.address.latitude, lng: patient.address.longitude } },
-        function (results, status) {
-          if (status === 'OK') {
-            const address = results[0].formatted_address
-            filteredMarkers.value[k].address.formatted_address = address
-            // } else {
-            //   // isLoading.value = true
-          }
-        }
-      )
-    })
-  }
-})
-
-const fetchPaginatedPatients = async () => {
-  await patientsStore.fetchPatientsRecursive()
-  markers.value = filteredMarkers.value = patientsStore.items
-  isLoading.value = false
-}
-
-const currentCenter = ref(undefined)
-const currentZoom = ref(16)
-
 const updateMarkersFiltered = (newMarkers) => {
+  // @TODO: Find a better place to calculate geocode
+  newMarkers.map((newMarker, index) => {
+    if(!newMarkers[index].address.formatted_address){
+      console.log('processando geocode..')
+      geocoder.value.geocode({ location: { lat: newMarker.address.latitude, lng: newMarker.address.longitude } }, async (results, status) => {
+        if (status === 'OK') {
+          if (results[0]) {
+            newMarkers[index].address.formatted_address = results[0].formatted_address
+          } else {
+            console.log('No results found')
+          }
+        } else {
+          console.log('Geocoder failed due to: ' + status)
+        }
+      })
+    }else{
+      //console.log('cache..')
+    }
+  })
   filteredMarkers.value = newMarkers
 }
 
+const updateOnlyAlerts = (newOnlyAlerts) => {
+  onlyAlerts.value = newOnlyAlerts
+}
 const patientCursor = ref(null)
 const updateCenterInView = async ({ latitude, longitude, newPatientCursor }) => {
   // console.log({ latitude, longitude, newPatientCursor })
@@ -120,22 +83,4 @@ const updateCenterInView = async ({ latitude, longitude, newPatientCursor }) => 
   currentZoom.value = 18
   patientCursor.value = newPatientCursor
 }
-
-const updateOnlyAlerts = (newOnlyAlerts) => {
-  onlyAlerts.value = newOnlyAlerts
-}
-
-const handleMarkerDrag = ({ patientId, latitude, longitude }) => {
-  const patient = markers.value.find((p) => patientId === p.id)
-
-  if (patient && patient.address) {
-    patient.address.latitude = latitude
-    patient.address.longitude = longitude
-  }
-}
-let count = 0
-onRenderTracked((debug) => {
-  count++
-  console.log(`Map.vue render tracked. \nCount: ${count} key: ${debug.key}.`)
-})
 </script>

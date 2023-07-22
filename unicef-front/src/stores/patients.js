@@ -80,7 +80,7 @@ export const usePatientsStore = defineStore('patients', () => {
 
   async function movePatient(id, data) {
     try {
-      const response = await axios.patch(import.meta.env.VITE_API_URL + `/api/patients/${id}/`, data, {
+      const response = await axios.patch(import.meta.env.VITE_API_URL + `/api/patients/${id}`, data, {
         headers: {
           'Content-type': 'application/json',
           Authorization: `token ${state.value.token}`,

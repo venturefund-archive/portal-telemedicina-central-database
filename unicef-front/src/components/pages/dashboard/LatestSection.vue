@@ -22,11 +22,13 @@
                 </div>
                 <hr class="divide-dotted border text-white" />
               </div>
-              <span class="flex-none pr-14 font-normal text-neutral-500">{{ patient.number_of_alerts_by_protocol }}</span>
+              <span class="flex-none pr-14 font-normal text-neutral-500">{{
+                patient.number_of_alerts_by_protocol
+              }}</span>
             </div>
           </div>
-          <div v-else class="pt-4 flex flex-col">
-            <SkeletonLoader type="text" animation="fade-in" class="py-3 h-20" v-for="i in 6" />
+          <div v-else class="flex flex-col pt-4">
+            <SkeletonLoader type="text" animation="fade-in" class="h-20 py-3" v-for="i in 6" />
           </div>
         </div>
         <div class="flex justify-between pt-3 pb-2 pt-16">
