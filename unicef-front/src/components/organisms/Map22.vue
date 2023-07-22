@@ -1,5 +1,8 @@
 <template>
   <div>
+    <p class="mb-4 text-xl font-semibold text-gray-700">
+      {{ $t('manager.vaccination-map') }}
+    </p>
     <div class="!z-50 h-[106px] w-full rounded-t-2xl border !bg-gray-50 drop-shadow-lg drop-shadow-lg">
       <div>
         <!-- People with vaccines delayed -->
@@ -73,19 +76,13 @@
           </div>
         </div>
       </div>
-      <div ref="mapContainer" class="map-container"></div>
+      <div ref="mapContainer" class="map-container" ></div>
       <Marker
         v-for="marker in filteredMarkers"
         :key="marker.id"
         :marker="marker"
         @update:position="updateMarkerPosition"
       />
-      <!-- <Polygon
-      v-for="polygon in polygons"
-      :key="polygon.id"
-      :polygon="polygon"
-      @update:position="updatePolygonPosition(polygon)"
-    /> -->
     </div>
   </div>
 </template>
@@ -95,8 +92,6 @@ import { ref, onMounted, onBeforeUnmount, onUnmounted, provide, computed, watch 
 import { useI18n } from 'vue3-i18n'
 import { HandIcon, PencilIcon, SaveIcon } from '@heroicons/vue/solid'
 import { MapIcon, TableIcon, UsersIcon, XIcon } from '@heroicons/vue/outline'
-import { usePatientsStore } from '@/stores/patients'
-const patientsStore = usePatientsStore()
 import { useMapStore } from '@/stores/map'
 import { useLoggedUserStore } from '@/stores/loggedUser'
 import { Switch } from '@headlessui/vue'
@@ -113,6 +108,53 @@ const isMapView = ref(true)
 const showList = ref(false)
 const dropdown = ref(null)
 const onlyAlerts = ref(false)
+
+const emit = defineEmits(['update:markers-in-view', 'update:onlyAlerts', 'geoCoderReady'])
+
+const props = defineProps({
+  center: {
+    type: Object,
+    default: null,
+  },
+  zoom: {
+    type: Number,
+    default: 5,
+  },
+  markers: {
+    type: Array,
+    default: [],
+  },
+  patientCursor: {
+    type: String,
+    default: '0',
+  },
+})
+
+const markersInView = ref(props.markers)
+const getMarkersInView = () => {
+  const mapBounds = map.value.getBounds()
+  markersInView.value = filteredMarkers.value.filter((marker) => {
+    return mapBounds.contains({ lat: marker.address.latitude, lng: marker.address.longitude })
+  })
+  emit('update:markers-in-view', markersInView.value)
+}
+
+watch(onlyAlerts, (newOnlyAlerts, oldValue) => {
+  emit('update:onlyAlerts', newOnlyAlerts)
+})
+
+watch(
+  () => props.center,
+  async (center) => {
+    map.value.panTo(center)
+  }
+)
+// watch(
+//   () => props.patientCursor,
+//   async (patientCursor) => {
+//     // abre iw aqui
+//   }
+// )
 
 const toggleView = () => {
   isMapView.value = !isMapView.value
@@ -149,10 +191,10 @@ const geoCoderQuery = ref(
 const currentCenter = ref(undefined)
 const showEmptyResult = ref(false)
 const searchAddress = () => {
-  geocodeAddress()
+  geocodeAddress(geoCoderQuery.value)
 }
-const geocodeAddress = () => {
-  geocoder.value.geocode({ address: geoCoderQuery.value }, function (results, status) {
+const geocodeAddress = (query) => {
+  geocoder.value.geocode({ address: query }, function (results, status) {
     if (status === 'OK') {
       if (map.value) {
         map.value.setCenter(results[0].geometry.location)
@@ -181,20 +223,7 @@ onUnmounted(() => {
 onMounted(async () => {
   document.addEventListener('click', handleOutsideClick)
   await initializeMap()
-  await loadPolygons()
 })
-
-const loadPolygons = async () => {
-  try {
-    const loadedPolygons = await mapStore.fetchPolygons()
-    loadedPolygons.forEach((polygonData) => {
-      const polygonObj = createLoadedPolygon(polygonData)
-      polygons.value.push(polygonObj)
-    })
-  } catch (error) {
-    console.error('Erro ao carregar polígonos:', error)
-  }
-}
 
 const createLoadedPolygon = (polygonData) => {
   const polygon = new google.maps.Polygon({
@@ -211,15 +240,15 @@ const createLoadedPolygon = (polygonData) => {
 
   const tempDiv = document.createElement('div');
   tempDiv.innerHTML = `
-    <div class="flex flex-col">
+  <div class="flex flex-col">
       <div class="sticky top-0 bg-white">
-        <h3 class="font-bold text-lg mb-2">Editar região</h3>
-        <hr class="my-3 w-full border border-dashed" />
+        <h3 class="font-bold text-lg text-center">${t('manager.edit-info')}</h3>
+        <hr class="mb-4 mt-1 w-full border border-dashed" />
       </div>
-      <input type="text" value="${polygonData.name}" class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none mb-4">
+      <input type="text" class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm mb-4">
       <div class="flex justify-between">
-        <button id="deleteButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">Delete</button>
-        <button id="saveButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Save</button>
+        <button id="deleteButton" class="mx-2 gap-2 focus:outline-none text-base font-semibold py-2 rounded-md border text-white border-red-500 hover:bg-red-700 hover:border-red-700  bg-red-500 px-6">${t('manager.delete')}</button>
+        <button id="saveButton" class="mx-2 gap-2 focus:outline-none text-base font-semibold py-2 bg-white rounded-md border text-green-500 hover:text-white border-green-500 hover:bg-green-500 px-6">${t('manager.save')}</button>
       </div>
     </div>
   `;
@@ -269,10 +298,14 @@ const createLoadedPolygon = (polygonData) => {
 
 const initializeMap = async () => {
   geocoder.value = new google.maps.Geocoder()
+  emit('geoCoderReady', geocoder.value)
   map.value = new google.maps.Map(mapContainer.value, {
-    zoom: 14,
-    center: geocodeAddress(),
+    zoom: props.zoom,
+    center: geocodeAddress(geoCoderQuery.value),
   })
+  map.value.addListener('idle', () => {
+    getMarkersInView()
+  });
 
   const drawingManager = new google.maps.drawing.DrawingManager({
     drawingMode: null,
@@ -294,14 +327,16 @@ const initializeMap = async () => {
     drawingManager.setDrawingMode(null)
   })
 
-  await patientsStore.fetchPatients()
-  // await patientsStore.fetchPatientsRecursive()
-  markers.value = patientsStore.items
+  await mapStore.fetchPolygons()
+  mapStore.polygons.forEach((polygonData) => {
+    const polygonObj = createLoadedPolygon(polygonData)
+    polygons.value.push(polygonObj)
+  })
 }
 
 // const maxMarkersToProcess = 30
 const filteredMarkers = computed(() => {
-  return markers.value.filter((marker, index) => {
+  return props.markers.filter((marker, index) => {
     // if (index >= maxMarkersToProcess) {
     //   return false
     // }
@@ -315,7 +350,7 @@ const filteredMarkers = computed(() => {
 })
 
 const updateMarkerPosition = ({ payload, marker }) => {
-  marker.address.line = payload
+    marker.address.formatted_address = payload
 }
 
 const createPolygon = (polygonData) => {
@@ -336,21 +371,25 @@ const createPolygon = (polygonData) => {
 
 const createPolygonInfoWindow = (polygon, openImmediately = true) => {
   const infoWindow = new google.maps.InfoWindow()
-  const nameInput = document.createElement('input')
-  const saveButton = document.createElement('button')
-  const deleteButton = document.createElement('button')
 
-  nameInput.type = 'text'
-  nameInput.className = 'border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none' // Adiciona classes Tailwind CSS
-  deleteButton.textContent = 'Delete'
-  deleteButton.className = 'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-4' // Adiciona classes Tailwind CSS
-  saveButton.textContent = 'Save'
-  saveButton.className = 'bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded' // Adiciona classes Tailwind CSS
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = `
+    <div class="flex flex-col">
+      <div class="sticky top-0 bg-white">
+        <h3 class="font-bold text-lg mb-2">${t('manager.edit-info')}</h3>
+        <hr class="my-3 w-full border border-dashed" />
+      </div>
+      <input type="text" class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none mb-4">
+      <div class="flex justify-between">
+        <button id="deleteButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">${t('manager.delete')}</button>
+        <button id="saveButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">${t('manager.save')}</button>
+      </div>
+    </div>
+  `;
 
-  const content = document.createElement('div')
-  content.appendChild(nameInput)
-  content.appendChild(saveButton)
-  content.appendChild(deleteButton)
+  const nameInput = tempDiv.querySelector('input');
+  const saveButton = tempDiv.querySelector('#saveButton');
+  const deleteButton = tempDiv.querySelector('#deleteButton');
 
   const polygonData = {
     polygon,
@@ -378,17 +417,14 @@ const createPolygonInfoWindow = (polygon, openImmediately = true) => {
     deletePolygon(polygonData)
   })
 
-  infoWindow.setContent(content)
+  infoWindow.setContent(tempDiv)
 
-  // Open infoWindow when polygon is created
-  // Abra infoWindow quando o polígono for criado apenas se openImmediately for true
   if (openImmediately) {
     infoWindow.setPosition(polygon.getPath().getAt(0))
     infoWindow.open(map.value)
   }
   nameInput.value = polygonData.name
 
-  // Add polygon click event listener
   google.maps.event.addListener(polygon, 'click', () => {
     infoWindow.open(map.value)
     nameInput.value = polygonData.name // set the current name in the input field
@@ -396,6 +432,7 @@ const createPolygonInfoWindow = (polygon, openImmediately = true) => {
 
   polygons.value.push(polygonData)
 }
+
 
 const updatePolygonLabel = (polygonData) => {
   if (polygonData.label) {
@@ -436,31 +473,33 @@ const getPolygonCenter = (polygon) => {
   })
   return bounds.getCenter()
 }
-
 const deletePolygon = async (polygonData) => {
   const index = polygons.value.indexOf(polygonData)
   if (index !== -1) {
-    try {
-      await mapStore.deletePolygon(polygonData.id)
-
-      const polygon = polygonData.polygon
-      polygon.setMap(null)
-      polygonData.infoWindow.close()
-      if (polygonData.label) {
-        polygonData.label.setMap(null)
+    if(polygonData.id){
+      try {
+        await mapStore.deletePolygon(polygonData.id)
+      } catch (err) {
+        console.log(err)
+        errorToast({ text: err.message })
+        return
       }
-      polygons.value.splice(index, 1)
-    } catch (err) {
-      console.log(err)
-      errorToast({ text: err.message })
     }
+
+    const polygon = polygonData.polygon
+    polygon.setMap(null)
+    polygonData.infoWindow.close()
+    if (polygonData.label) {
+      polygonData.label.setMap(null)
+    }
+    polygons.value.splice(index, 1)
   }
 }
 </script>
 
 <style scoped>
 .map-container {
-  height: 500px;
+  height: 780px;
   width: 100%;
 }
 </style>

@@ -34,6 +34,8 @@ const geocoder = inject('geocoder')
 
 let googleMarker = null
 
+let currentInfoWindow = null;  // Variável para manter o controle do InfoWindow aberto atualmente
+
 onMounted(() => {
   googleMarker = new google.maps.Marker({
     position: { lat: props.marker.address.latitude, lng: props.marker.address.longitude },
@@ -45,12 +47,18 @@ onMounted(() => {
   })
 
   googleMarker.addListener('click', () => {
+    // Fecha o InfoWindow anterior, se existir
+    if (currentInfoWindow) {
+      currentInfoWindow.close();
+    }
+
     const infowindow = new google.maps.InfoWindow({
       content: getMarkerContent(props.marker, googleMarker.getDraggable()),
     })
 
-    googleMarker.infowindow = infowindow
-    infowindow.open(map.value, googleMarker)
+    googleMarker.infowindow = infowindow;
+    infowindow.open(map.value, googleMarker);
+    currentInfoWindow = infowindow;  // Atualiza o InfoWindow aberto atualmente
 
     infowindow.addListener('domready', () => {
       const moveButton = document.querySelector(`#marker${props.marker.id}`)
@@ -98,6 +106,7 @@ onMounted(() => {
   })
 })
 
+
 watch(
   () => props.marker.position,
   () => {
@@ -118,7 +127,7 @@ const getMarkerContent = (person, isMarkerMovable) => `
   <div id="content">
     <div id="bodyContent" class="w-auto">
       <div class="rounded-lg py-0 px-4">
-        <header class="sticky top-0 bg-white">
+        <header class="sticky top-0 bg-white pb-2">
           <div>
           <h2 class="text-xl font-semibold capitalize">${person.name.toLowerCase()}</h2>
           <p class="text-sm text-gray-500">ID: ${person.id}</p>
@@ -171,18 +180,17 @@ const getMarkerContent = (person, isMarkerMovable) => `
             <div class="flex flex-col py-2">
           <p class="pr-1 text-sm font-medium text-gray-600"> ${t('manager.address')}: </p>
           <p class="text-sm">
-            ${JSON.stringify(person.address.line)}
+            ${(person.address.formatted_address)}
           </p>
         </div>
         </div>
       </div>
 
-      <div class="sticky bottom-0 bg-white">
-        <hr class="my-3 w-full border border-dashed" />
+      <div class="sticky bottom-0 bg-white py-3">
       <div class="flex justify-evenly">
         <button
           type="button"
-          class="mx-2 gap-2 focus:outline-none text-base font-semibold py-2 bg-white rounded-lg border text-green-500 hover:text-white border-green-500 hover:bg-green-500 px-6"
+          class="mx-2 gap-2 focus:outline-none text-base font-semibold py-2 bg-white rounded-md border text-green-500 hover:text-white border-green-500 hover:bg-green-500 px-6"
           id="marker${person.id}"
         >
           ${isMarkerMovable ? t('manager.cancel') : t('manager.move')}
@@ -190,10 +198,10 @@ const getMarkerContent = (person, isMarkerMovable) => `
 
         <button
           type="button"
-          class="mx-2 gap-2 focus:outline-none text-base font-semibold py-2 bg-white rounded-lg border text-green-500 hover:text-white border-green-500 hover:bg-green-500 px-6"
+          class="mx-2 gap-2 focus:outline-none text-base font-semibold py-2 bg-white rounded-md border text-green-500 hover:text-white border-green-500 hover:bg-green-500 px-6"
           id="marker${person.id}"
         >
-          Editar
+        ${t('manager.edit')}
         </button>
       </div>
       </div>
