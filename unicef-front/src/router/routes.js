@@ -32,11 +32,6 @@ export default [
         props: true,
       },
       {
-        path: '/map2',
-        name: 'Map2',
-        component: () => import('@/views/pages/Map2.vue'),
-      },
-      {
         path: '/map/:id',
         name: 'MapPatient',
         component: () => import('@/views/pages/Map.vue'),
