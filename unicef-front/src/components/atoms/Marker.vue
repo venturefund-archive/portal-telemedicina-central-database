@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch, inject, defineEmits } from 'vue'
+import { ref, onMounted, onUnmounted, watch, inject, defineEmits, provide } from 'vue'
 import { usePatientsStore } from '@/stores/patients'
 import { useMapStore } from '@/stores/map'
 import { HandIcon, PencilIcon, SaveIcon } from '@heroicons/vue/solid'
@@ -27,7 +27,40 @@ const emit = defineEmits(['update:position'])
 
 const props = defineProps({
   marker: Object,
+  isOpen: Boolean,
 })
+
+watch(
+  () => props.isOpen,
+  (newValue) => {
+    if (newValue) {
+      const infowindow = new google.maps.InfoWindow({
+        content: getMarkerContent(props.marker, googleMarker.getDraggable()),
+      })
+
+      googleMarker.infowindow = infowindow;
+      infowindow.open(map.value, googleMarker);
+      currentInfoWindow = infowindow;  // Atualiza o InfoWindow aberto atualmente
+
+      infowindow.addListener('domready', () => {
+        const moveButton = document.querySelector(`#marker${props.marker.id}`)
+        moveButton.addEventListener('click', () => {
+          toggleMarkerMovement(googleMarker, props.marker)
+        })
+      })
+
+      infowindow.addListener('closeclick', () => {
+        if (googleMarker.getDraggable()) {
+          toggleMarkerMovement(googleMarker, props.marker)
+        }
+      })
+    } else if (currentInfoWindow) {
+      currentInfoWindow.close();
+      currentInfoWindow = null;
+    }
+  }
+)
+
 
 const map = inject('map')
 const geocoder = inject('geocoder')
@@ -96,6 +129,7 @@ onMounted(() => {
           googleMarker.setDraggable(false)
           googleMarker.setIcon(props.marker.alerts.length > 0 ? 'marker-alert.svg' : 'marker.svg')
           googleMarker.infowindow.setContent(getMarkerContent(props.marker, false))
+          // currentInfoWindow.close();
         } else {
           console.log('No results found')
         }
@@ -105,7 +139,6 @@ onMounted(() => {
     })
   })
 })
-
 
 watch(
   () => props.marker.position,
@@ -124,9 +157,9 @@ onUnmounted(() => {
 })
 
 const getMarkerContent = (person, isMarkerMovable) => `
-  <div id="content">
+  <div id="content" class="min-w-96 w-96">
     <div id="bodyContent" class="w-auto">
-      <div class="rounded-lg py-0 px-4">
+      <div class="rounded-lg px-3">
         <header class="sticky top-0 bg-white pb-2">
           <div>
           <h2 class="text-xl font-semibold capitalize">${person.name.toLowerCase()}</h2>
@@ -142,13 +175,11 @@ const getMarkerContent = (person, isMarkerMovable) => `
             </span>
             <p class="text-sm">
               <span
-                class="mr-2 inline-block rounded-full px-3 py-1 text-sm text-black"
+                class="mr-2 inline-block rounded-full px-3 py-1 text-sm"
                 style="background-color: ${person.number_of_alerts_by_protocol > 0 ? '#f87171' : '#f3f4f6'}; color: ${
   person.number_of_alerts_by_protocol > 0 ? 'white' : 'black'
-}"
-              >
-                ${person.number_of_alerts_by_protocol} ${t('manager.alert-protocol')}
-              </span>
+}">${person.number_of_alerts_by_protocol}
+${person.number_of_alerts_by_protocol === 1 ? t('manager.alert-protocol') : t('manager.alerts-protocol')}</span>
             </p>
           </div>
 
@@ -186,7 +217,7 @@ const getMarkerContent = (person, isMarkerMovable) => `
         </div>
       </div>
 
-      <div class="sticky bottom-0 bg-white py-3">
+      <div class="sticky bottom-0 bg-white pt-2 pb-1">
       <div class="flex justify-evenly">
         <button
           type="button"
