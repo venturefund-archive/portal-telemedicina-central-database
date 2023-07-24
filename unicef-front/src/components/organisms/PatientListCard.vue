@@ -77,8 +77,8 @@
             </div>
           </div>
           <div>
-            <div v-if="patient.number_of_alerts_by_protocol != false">
-              <!-- <span class="flex-none pr-14">{{ patient.number_of_alerts_by_protocol }}</span> -->
+            <div v-if="patient.number_of_alerts_by_protocol">
+              <span class="flex-none pr-14">{{ patient.number_of_alerts_by_protocol }}</span>
             </div>
 
             <a

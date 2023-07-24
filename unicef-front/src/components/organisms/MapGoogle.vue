@@ -81,6 +81,7 @@
         v-for="marker in filteredMarkers"
         :key="marker.id"
         :marker="marker"
+        :is-open="marker.id == patientCursor"
         @update:position="updateMarkerPosition"
       />
     </div>
@@ -88,13 +89,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, onUnmounted, provide, computed, watch } from 'vue'
+import { ref, onMounted, onBeforeUnmount, onUnmounted, provide, computed, watch, watchEffect } from 'vue'
 import { useI18n } from 'vue3-i18n'
 import { HandIcon, PencilIcon, SaveIcon } from '@heroicons/vue/solid'
 import { MapIcon, TableIcon, UsersIcon, XIcon } from '@heroicons/vue/outline'
 import { useMapStore } from '@/stores/map'
 import { useLoggedUserStore } from '@/stores/loggedUser'
 import { Switch } from '@headlessui/vue'
+
+import { MarkerClusterer } from "@googlemaps/markerclusterer";
+
 const { t } = useI18n()
 
 const loggedUserStore = useLoggedUserStore()
@@ -146,15 +150,17 @@ watch(onlyAlerts, (newOnlyAlerts, oldValue) => {
 watch(
   () => props.center,
   async (center) => {
-    map.value.panTo(center)
+    if (map.value) {
+    if(map.value.getZoom() == props.zoom){
+      map.value.setZoom(map.value.getZoom()-0.5)
+    }
+    setTimeout(() => {
+      map.value.setZoom(props.zoom)
+      map.value.panTo(center)
+    }, 250)
+  }
   }
 )
-// watch(
-//   () => props.patientCursor,
-//   async (patientCursor) => {
-//     // abre iw aqui
-//   }
-// )
 
 const toggleView = () => {
   isMapView.value = !isMapView.value
@@ -188,7 +194,7 @@ const geoCoderQuery = ref(
     ? loggedUserStore.item.client.city.charAt(0).toUpperCase() + loggedUserStore.item.client.city.slice(1)
     : 'São Paulo'
 )
-const currentCenter = ref(undefined)
+
 const showEmptyResult = ref(false)
 const searchAddress = () => {
   geocodeAddress(geoCoderQuery.value)
@@ -297,7 +303,7 @@ const createLoadedPolygon = (polygonData) => {
 }
 
 const initializeMap = async () => {
-  geocoder.value = new google.maps.Geocoder()
+    geocoder.value = new google.maps.Geocoder()
   emit('geoCoderReady', geocoder.value)
   map.value = new google.maps.Map(mapContainer.value, {
     zoom: props.zoom,

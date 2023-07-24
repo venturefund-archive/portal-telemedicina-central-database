@@ -173,11 +173,12 @@ import {
   VolumeOffIcon,
   LightBulbIcon,
 } from '@heroicons/vue/outline'
+import { useI18n } from 'vue3-i18n'
 
 import { usePatientsStore } from '@/stores/patients'
 import { parseISO, formatRelative, formatDuration, add, setDefaultOptions, differenceInMonths, format } from 'date-fns'
 const emit = defineEmits(['update:toggle-active'])
-
+const { t } = useI18n()
 const patientsStore = usePatientsStore()
 const birthDate = computed(() => parseISO(patientsStore.item.birth_date))
 
@@ -191,7 +192,10 @@ const nextDoseApplicationDate = computed(() => {
   if (!props.dose.status) {
     return ''
   }
-  return format(parseISO(props.dose.status.next_dose_application_date), 'dd/MM/yyyy')
+  if (!props.dose.status?.next_dose_application_date) {
+    return t('patient-details.unknown')
+  }
+  return format(parseISO(props.dose.status?.next_dose_application_date), 'dd/MM/yyyy')
 })
 
 const recommendedDate = ref(add(birthDate.value, { months: props.dose.maximum_recommended_age }))
@@ -208,15 +212,15 @@ const doseForm = ref({
   health_professional: {
     name:
       props.dose?.status?.health_professional?.name == null
-        ? 'Desconhecido'
+        ? t('patient-details.unknown')
         : props.dose?.status?.health_professional?.name,
     cns_number:
       props.dose?.status?.health_professional?.cns_number == null
-        ? 'Desconhecido'
+        ? t('patient-details.unknown')
         : props.dose?.status?.health_professional?.cns_number,
     cnes_number:
       props.dose?.status?.health_professional?.cnes_number == null
-        ? 'Desconhecido'
+        ? t('patient-details.unknown')
         : props.dose?.status?.health_professional?.cnes_number,
   },
   batch: props.dose.status?.batch,
