@@ -96,13 +96,9 @@ import { MapIcon, TableIcon, UsersIcon, XIcon } from '@heroicons/vue/outline'
 import { useMapStore } from '@/stores/map'
 import { useLoggedUserStore } from '@/stores/loggedUser'
 import { Switch } from '@headlessui/vue'
-
-import { MarkerClusterer } from "@googlemaps/markerclusterer";
-
 const { t } = useI18n()
 
 const loggedUserStore = useLoggedUserStore()
-const markers = ref([])
 const polygons = ref([])
 const mapContainer = ref(null)
 const map = ref(null)
