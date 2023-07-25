@@ -61,7 +61,7 @@ const props = defineProps({
 
   bgClasses: {
     type: String,
-    default: 'bg-white',
+    default: '',
   },
 
   title: String,
