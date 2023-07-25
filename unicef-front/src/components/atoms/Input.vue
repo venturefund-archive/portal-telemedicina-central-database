@@ -1,7 +1,7 @@
 <template>
   <input
     :class="[
-      'rounded-md py-2',
+      'rounded-md py-2 border-0',
       'focus:outline-none',
       {
         'px-4': !withIcon,

@@ -12,7 +12,7 @@
             >
               <div class="flex flex-auto items-center gap-2">
                 <span class="hidden align-baseline text-xs text-gray-500">{{ indexStart + ++index }}.</span>
-                <img class="h-10 w-10 rounded-md rounded-full bg-neutral-200 object-cover p-1" src="/avatar.png" />
+                <img class="h-10 w-10 rounded-full bg-neutral-200 object-cover p-1" src="/avatar.png" />
                 <div>
                   <h5 class="font-medium capitalize">
                     <router-link :to="{ name: 'PatientDetails', params: { id: patient.id } }" class="hover:underline">
