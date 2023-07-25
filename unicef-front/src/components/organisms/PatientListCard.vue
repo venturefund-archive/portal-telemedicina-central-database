@@ -77,16 +77,11 @@
             </div>
           </div>
           <div>
-            <div v-if="patient.number_of_alerts_by_protocol">
-              <span class="flex-none pr-14">{{ patient.number_of_alerts_by_protocol }}</span>
-            </div>
-
             <a
               :href="`/patients/${patient.id}`"
               class="border-1 cursor-pointer rounded border border-green-500 py-2 px-4 text-sm font-normal uppercase tracking-wide text-green-500 hover:bg-green-500 hover:text-white hover:no-underline"
               @click.prevent="vaccineModalIndex = patient.id; patientsStore.item = patient"
-              >{{ $t('manager.details') }}</a
-            >
+              >{{ $t('manager.details') }}</a>
             <VaccineTableModal
               v-if="patient.id === vaccineModalIndex"
               :patient="patientsStore.item"
