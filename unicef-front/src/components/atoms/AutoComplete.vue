@@ -2,7 +2,7 @@
   <div ref="target">
     <Input
       :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value); hideSuggestions = false"
+      @input="updateModelValue"
       :placeholder="$t('dashboard.pesquisar-por-pacientes-numero-de-documento-etc')"
       class="py-4.5 block w-full pl-10 text-gray-900 focus:ring-none !focus:ring-white !focus:ring-offset-none"
       :class="{ 'w-full rounded-md bg-[#F3F3F3]  py-2.5 !shadow-md focus:shadow-none ': isInPage }"
@@ -78,6 +78,11 @@ const filtedSuggestions = computed(() => {
 })
 
 const hideSuggestions = ref(true)
+const updateModelValue = (event) => {
+  emit('update:modelValue', event.target.value)
+  hideSuggestions.value = false
+}
+
 const target = ref(null)
 
 onClickOutside(target, (event) => (hideSuggestions.value = true))
