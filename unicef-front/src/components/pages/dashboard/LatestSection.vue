@@ -12,7 +12,7 @@
             >
               <div class="flex flex-auto items-center gap-2">
                 <span class="hidden align-baseline text-xs text-gray-500">{{ indexStart + ++index }}.</span>
-                <img class="h-10 w-10 rounded-md rounded-full bg-neutral-200 object-cover p-1" src="/avatar.png" />
+                <img class="h-10 w-10 rounded-full bg-neutral-200 object-cover p-1" src="/avatar.png" />
                 <div>
                   <h5 class="font-medium capitalize">
                     <router-link :to="{ name: 'PatientDetails', params: { id: patient.id } }" class="hover:underline">
@@ -22,11 +22,13 @@
                 </div>
                 <hr class="divide-dotted border text-white" />
               </div>
-              <span class="flex-none pr-14 font-normal text-neutral-500">{{ patient.number_of_alerts_by_protocol }}</span>
+              <span class="flex-none pr-14 font-normal text-neutral-500">{{
+                patient.number_of_alerts_by_protocol
+              }}</span>
             </div>
           </div>
-          <div v-else class="pt-4 flex flex-col">
-            <SkeletonLoader type="text" animation="fade-in" class="py-3 h-20" v-for="i in 6" />
+          <div v-else class="flex flex-col pt-4">
+            <SkeletonLoader type="text" animation="fade-in" class="h-20 py-3" v-for="i in 6" />
           </div>
         </div>
         <div class="flex justify-between pt-3 pb-2 pt-16">

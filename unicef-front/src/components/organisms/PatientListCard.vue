@@ -45,10 +45,10 @@
             </li>
           </ul>
         </div>
-        <div v-if="patientsStore.items.length == 0" class="pt-4 flex flex-col">
+        <div v-if="patientsStore.isLoading" class="pt-4 flex flex-col">
           <SkeletonLoader type="text" animation="fade-in" class="py-3 h-16" v-for="i in 11" />
         </div>
-        <div class="flex h-full mt-72 flex-col items-center justify-center" v-else-if="!patientsStore.items">
+        <div class="flex h-full mt-72 flex-col items-center justify-center" v-else-if="paginated.length == 0">
           <div class="flex justify-center">
             <EmptyResultPhoto />
           </div>
@@ -77,16 +77,11 @@
             </div>
           </div>
           <div>
-            <div v-if="patient.number_of_alerts_by_protocol != false">
-              <!-- <span class="flex-none pr-14">{{ patient.number_of_alerts_by_protocol }}</span> -->
-            </div>
-
             <a
               :href="`/patients/${patient.id}`"
               class="border-1 cursor-pointer rounded border border-green-500 py-2 px-4 text-sm font-normal uppercase tracking-wide text-green-500 hover:bg-green-500 hover:text-white hover:no-underline"
               @click.prevent="vaccineModalIndex = patient.id; patientsStore.item = patient"
-              >{{ $t('manager.details') }}</a
-            >
+              >{{ $t('manager.details') }}</a>
             <VaccineTableModal
               v-if="patient.id === vaccineModalIndex"
               :patient="patientsStore.item"

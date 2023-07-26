@@ -1,7 +1,8 @@
 {
   "address": "Dirección",
   "age": "Edad",
-  "alert-protocol": "alerta por protocolo",
+  "alert-protocol": "Alerta por protocolo",
+  "alerts-protocol": "Alertas por protocolo",
   "alerts": "Alertas",
   "all-group": "Todo",
   "area": "Área",

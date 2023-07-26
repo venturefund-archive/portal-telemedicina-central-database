@@ -22,11 +22,11 @@
       </InputIconWrapper>
       <div class="flex pt-7" :class="[{ 'justify-end': !isCreating }, 'justify-between']">
         <Button class="mx-3" type="button" variant="danger" @click="handleSubmit" v-if="isCreating">
-          <HandIcon aria-hidden="true" />
+          <HandIcon aria-hidden="true" :class="iconSizeClasses" />
           <span>{{ $t('manager.delete') }}</span>
         </Button>
         <Button type="submit" variant="success-outline" class="mx-3">
-          <PencilIcon aria-hidden="true" />
+          <PencilIcon aria-hidden="true" :class="iconSizeClasses" />
           <span>{{ $t('manager.save') }}</span>
         </Button>
       </div>
