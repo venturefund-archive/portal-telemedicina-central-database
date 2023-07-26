@@ -143,7 +143,7 @@ const filteredResults = computed(() => {
 
   let matches = 0
 
-  return items.value.filter((patient) => {
+  return patientsStore.items.filter((patient) => {
     if (
       (patient.name.toLowerCase().includes(queryText.value.toLowerCase()) ||
         patient.id.toLowerCase().includes(queryText.value.toLowerCase())) &&
@@ -157,7 +157,6 @@ const filteredResults = computed(() => {
 
 onMounted(async () => {
   document.addEventListener('scroll', handleScroll)
-  items.value = patientsStore.items
 })
 
 onUnmounted(() => {
