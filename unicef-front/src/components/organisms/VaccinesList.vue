@@ -54,7 +54,7 @@
                 v-model="vaccineQuery"
                 :placeholder="$t('patient-details.search-vaccines')"
                 withIcon
-                class="w-full rounded-lg px-10 py-2.5 border border-gray-200"
+                class="w-full rounded-lg border border-gray-200 px-10 py-2.5"
               />
             </InputIconWrapper>
             <div class="py-2 text-right text-sm font-normal lowercase text-gray-400">

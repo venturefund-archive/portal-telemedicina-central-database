@@ -1,7 +1,8 @@
 {
   "address": "Address",
   "age": "Age",
-  "alert-protocol": "alert by protocol",
+  "alert-protocol": "Alert by protocol",
+  "alerts-protocol": "Alerts by protocol",
   "alerts": "Alerts",
   "all-group": "All",
   "area": "Area",
