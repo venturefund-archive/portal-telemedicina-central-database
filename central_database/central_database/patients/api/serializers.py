@@ -21,7 +21,6 @@ class FHIRDateField(serializers.Field):
 
 
 class AddressSerializer(serializers.Serializer):
-    id = serializers.IntegerField()
     line = serializers.ListField(
         child=serializers.CharField(), required=False, allow_null=True
     )
@@ -51,7 +50,6 @@ class AddressSerializer(serializers.Serializer):
 class PatientListSerializer(ListSerializer):
     def to_representation(self, data):
         instances = super().to_representation(data)
-        keys_to_remove = ["telecom", "gender", "marital_status"]
         client = self.context.get("request").user.client
         protocol = VaccineProtocol.get_vaccine_protocol_by_client(
             client_id=client
@@ -61,26 +59,17 @@ class PatientListSerializer(ListSerializer):
         patient_ids = [instance["id"] for instance in instances]
         all_alerts = VaccineAlert.get_alerts_by_patient(patient_ids)
 
-        updated_instances = [
-            {
-                **{
-                    k: v
-                    for k, v in instance.items()
-                    if k not in keys_to_remove  # noqa: E501
-                },
-                "number_of_alerts_by_protocol": alerts.get(instance["id"], 0),
-                "age_in_days": calculate_age_in_days(instance["birth_date"]),
-                "alerts": all_alerts.get(instance["id"], []),
-                "address": {
-                    "latitude": instance["address"][0]["latitude"],
-                    "longitude": instance["address"][0]["longitude"],
-                },
-            }
-            for instance in instances
-        ]
+        for instance in instances:
+            instance["number_of_alerts_by_protocol"] = alerts.get(
+                instance["id"], 0
+            )  # noqa: E501
+            instance["age_in_days"] = calculate_age_in_days(
+                instance["birth_date"]
+            )  # noqa: E501
+            instance["alerts"] = all_alerts.get(instance["id"], [])
 
         return sorted(
-            updated_instances,
+            instances,
             key=lambda x: (
                 -x["number_of_alerts_by_protocol"],
                 x["age_in_days"],
@@ -98,7 +87,7 @@ class PatientSerializer(serializers.Serializer):
     marital_status = serializers.CharField(
         source="maritalStatus", allow_null=True
     )  # noqa: E501
-    address = serializers.SerializerMethodField(source="address")
+    address = AddressSerializer(many=True)
 
     def create(self, validated_data):
         return Patient(validated_data)
@@ -204,13 +193,6 @@ class PatientSerializer(serializers.Serializer):
                 parts.append(name.family)
             return " ".join(parts)
         return None
-
-    def get_address(self, obj):
-        if obj.address:
-            for index, address in enumerate(obj.address):
-                address.id = index + 1
-            return AddressSerializer(obj.address, many=True).data
-        return []
 
     class Meta:
         list_serializer_class = PatientListSerializer
