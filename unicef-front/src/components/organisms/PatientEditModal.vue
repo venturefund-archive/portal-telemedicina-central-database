@@ -17,7 +17,7 @@
               <div class="z-10 flex items-start justify-between rounded-t bg-gray-50 p-2 shadow-md">
                 <DialogTitle
                   as="h3"
-                  class="flex items-center bg-gray-50 py-5 px-6 text-2xl text-xl font-semibold leading-6 text-gray-700"
+                  class="flex items-center bg-gray-50 px-6 py-5 text-2xl text-xl font-semibold leading-6 text-gray-700"
                 >
                   <UserGroupIcon class="mr-2 h-7 w-7 text-green-500" />
                   {{ $t('editPatient.details') }}

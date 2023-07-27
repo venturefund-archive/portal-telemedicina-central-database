@@ -118,7 +118,7 @@ const login = async () => {
     if (state.value.intendedRoute) {
       router.replace(state.value.intendedRoute)
     } else {
-      router.replace({ name: 'Dashboard' })
+      router.replace({ name: 'Patients' })
     }
   } catch (err) {
     console.log(err)

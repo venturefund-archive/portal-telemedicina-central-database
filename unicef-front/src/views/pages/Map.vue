@@ -8,16 +8,19 @@
             @update:markers-in-view="updateMarkersFiltered"
             @update:onlyAlerts="updateOnlyAlerts"
             @geoCoderReady="handleGeoCoderReady"
+            @centralize-on-location="updateCenterInViewArea"
             :center="currentCenter"
             :zoom="currentZoom"
             :patientCursor="patientCursor"
-          />
-        </div>
-        <div class="m-3 md:w-1/3">
-          <PatientListCard
+            :areaCursor="areaCursor"
+            />
+          </div>
+          <div class="m-3 md:w-1/3">
+            <PatientListCard
             :patients="filteredMarkers"
             :onlyAlerts="onlyAlerts"
-            @centralize-on-location="updateCenterInView"
+            :patientCursor="patientCursor"
+            @centralize-on-location="updateCenterInViewPatient"
           />
         </div>
       </div>
@@ -29,6 +32,9 @@
 import { onMounted, onUpdated, reactive, ref, inject, watch, onRenderTracked } from 'vue'
 import MapGoogle from '@/components/organisms/MapGoogle.vue'
 import { usePatientsStore } from '@/stores/patients'
+import { useRoute } from 'vue-router'
+
+const route = useRoute()
 const patientsStore = usePatientsStore()
 const currentCenter = ref(undefined)
 const currentZoom = ref(16)
@@ -36,15 +42,29 @@ const currentZoom = ref(16)
 const markers = ref([])
 const onlyAlerts = ref(undefined)
 const filteredMarkers = ref([])
+const patientCursor = ref(null)
+const areaCursor = ref(null)
 
 const isLoading = ref(false)
 onMounted(async () => {
   isLoading.value = true
   if (patientsStore.items.length == 0) {
     await patientsStore.fetchPatients()
-    await patientsStore.fetchPatientsRecursive()
+    // await patientsStore.fetchPatientsRecursive()
   }
   markers.value = filteredMarkers.value = patientsStore.items
+  const inputFilterBy = route.path.split('/')[2]
+  if(props.id){
+    if('area' == inputFilterBy){
+      setTimeout(async () => {
+        areaCursor.value = props.id
+      }, 500)
+    }else{
+      setTimeout(async () => {
+        patientCursor.value = props.id
+      }, 500)
+    }
+  }
 })
 const geocoder = ref(null)
 const handleGeoCoderReady = (geocoderLocal) => {
@@ -53,20 +73,23 @@ const handleGeoCoderReady = (geocoderLocal) => {
 const updateMarkersFiltered = (newMarkers) => {
   // @TODO: Find a better place to calculate geocode
   newMarkers.map((newMarker, index) => {
-    if(!newMarkers[index].address.formatted_address){
+    if (!newMarkers[index].address.formatted_address) {
       console.log('processando geocode..')
-      geocoder.value.geocode({ location: { lat: newMarker.address.latitude, lng: newMarker.address.longitude } }, async (results, status) => {
-        if (status === 'OK') {
-          if (results[0]) {
-            newMarkers[index].address.formatted_address = results[0].formatted_address
+      geocoder.value.geocode(
+        { location: { lat: newMarker.address.latitude, lng: newMarker.address.longitude } },
+        async (results, status) => {
+          if (status === 'OK') {
+            if (results[0]) {
+              newMarkers[index].address.formatted_address = results[0].formatted_address
+            } else {
+              console.log('No results found')
+            }
           } else {
-            console.log('No results found')
+            console.log('Geocoder failed due to: ' + status)
           }
-        } else {
-          console.log('Geocoder failed due to: ' + status)
         }
-      })
-    }else{
+      )
+    } else {
       //console.log('cache..')
     }
   })
@@ -76,9 +99,23 @@ const updateMarkersFiltered = (newMarkers) => {
 const updateOnlyAlerts = (newOnlyAlerts) => {
   onlyAlerts.value = newOnlyAlerts
 }
-const patientCursor = ref(null)
-const updateCenterInView = async ({ latitude, longitude, newPatientCursor }) => {
+
+const props = defineProps({
+  id: {
+    type: String,
+    default: '0',
+  },
+})
+
+const updateCenterInViewArea = async ({ latitude, longitude, newAreaCursor }) => {
+  // console.log({ latitude, longitude, newAreaCursor })
+  currentCenter.value = { lat: latitude, lng: longitude }
+  currentZoom.value = 18
+  areaCursor.value = newAreaCursor
+}
+const updateCenterInViewPatient = async ({ latitude, longitude, newPatientCursor }) => {
   // console.log({ latitude, longitude, newPatientCursor })
+  markers.value = filteredMarkers.value = patientsStore.items
   currentCenter.value = { lat: latitude, lng: longitude }
   currentZoom.value = 18
   patientCursor.value = newPatientCursor

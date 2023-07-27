@@ -10,9 +10,9 @@
       <div v-if="isModalOpen" class="fixed inset-0 z-50 overflow-y-auto">
         <div class="flex h-screen">
           <div
-            class="fixed relative top-0 left-1/2 z-50 mx-auto flex h-full w-1/2 max-w-md -translate-x-1/2 transform flex-col rounded-md bg-white p-6 shadow-lg"
+            class="fixed relative left-1/2 top-0 z-50 mx-auto flex h-full w-1/2 max-w-md -translate-x-1/2 transform flex-col rounded-md bg-white p-6 shadow-lg"
           >
-            <button @click="isModalOpen = false" class="absolute top-2 right-2 text-gray-500">
+            <button @click="isModalOpen = false" class="absolute right-2 top-2 text-gray-500">
               <XIcon class="h-6 w-6 cursor-pointer hover:text-blue-500" />
             </button>
             <h2 class="mb-4 text-xl font-semibold">Alertas</h2>
@@ -36,7 +36,7 @@
                 <input
                   v-model="searchQuery"
                   placeholder="Pesquisar"
-                  class="mr-1 w-full rounded-md bg-neutral-100 py-3 px-7 focus:border-blue-500 focus:ring-blue-500"
+                  class="mr-1 w-full rounded-md bg-neutral-100 px-7 py-3 focus:border-blue-500 focus:ring-blue-500"
                 />
               </div>
             </div>
@@ -48,7 +48,7 @@
                 </div>
                 <button
                   @click="showDetails(city)"
-                  class="cursor-pointer rounded bg-red-500 py-2 px-2 text-sm font-semibold text-white hover:bg-red-700"
+                  class="cursor-pointer rounded bg-red-500 px-2 py-2 text-sm font-semibold text-white hover:bg-red-700"
                 >
                   Notificar
                 </button>

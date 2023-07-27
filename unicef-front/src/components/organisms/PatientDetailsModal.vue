@@ -17,15 +17,19 @@
               <div class="z-10 flex items-start justify-between rounded-t bg-gray-50 p-2 shadow-md">
                 <DialogTitle
                   as="h3"
-                  class="flex items-center bg-gray-50 py-5 px-6 text-2xl text-xl font-semibold leading-6 text-gray-700"
+                  class="flex items-center bg-gray-50 px-6 py-2 text-2xl text-xl font-semibold leading-6 text-gray-700"
                 >
-                  <UserGroupIcon class="mr-2 h-7 w-7 text-green-500" />
-                  {{ $t('manager.details') }}
+                  <span class="rounded-full border border-gray-300 p-2">
+                    <UserIcon class="h-6 w-6 text-blue-500" />
+                  </span>
+                  <h4 class="pl-3">
+                    {{ $t('manager.patient-details') }}
+                  </h4>
                 </DialogTitle>
                 <button
                   type="button"
                   @click="closeModal"
-                  class="rounded p-1.5 text-sm text-gray-500 hover:bg-gray-100 hover:text-green-500"
+                  class="rounded p-1.5 text-sm text-gray-500 hover:bg-gray-100 hover:text-blue-500"
                 >
                   <XIcon @click="closeModal" class="flex h-6 w-6 justify-end" />
                 </button>
@@ -45,7 +49,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { XIcon, UserGroupIcon } from '@heroicons/vue/outline'
+import { XIcon, UserIcon } from '@heroicons/vue/outline'
 import { TransitionRoot, TransitionChild, Dialog, DialogOverlay, DialogPanel, DialogTitle } from '@headlessui/vue'
 import PatientDetails from '@/views/pages/PatientDetails.vue'
 const emit = defineEmits(['on-close'])

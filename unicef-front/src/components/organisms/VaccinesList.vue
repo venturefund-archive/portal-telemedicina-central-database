@@ -78,16 +78,16 @@
           </div>
         </div>
         <div class="py-2" :key="chave">
-          <div class="overflow-auto px-2 pt-2 pb-52">
+          <div class="overflow-auto px-2 pb-52 pt-2">
             <table class="w-full table-auto text-left tracking-wide md:table-fixed lg:table-fixed">
               <thead class="">
                 <tr>
-                  <th scope="col" colspan="12" class="pt-10 pb-2 text-center">
+                  <th scope="col" colspan="12" class="pb-2 pt-10 text-center">
                     <span class="rounded-t-full border border-transparent bg-[#DDDDDD] p-2 pt-3 uppercase">{{
                       $t('patient-details.months')
                     }}</span>
                   </th>
-                  <th scope="col" colspan="4" class="pt-10 pb-2 text-center">
+                  <th scope="col" colspan="4" class="pb-2 pt-10 text-center">
                     <span class="rounded-t-full border border-transparent bg-[#D4D4D4] p-2 pt-3 uppercase">{{
                       $t('patient-details.years')
                     }}</span>
@@ -216,7 +216,7 @@
                   v-for="(vaccine, k) in orderedVaccinesByDoseAlerts"
                   :key="k"
                 >
-                  <td colspan="2" class="relative cursor-default rounded-l-full bg-[#F1F1F1] py-1 px-5 text-sm">
+                  <td colspan="2" class="relative cursor-default rounded-l-full bg-[#F1F1F1] px-5 py-1 text-sm">
                     <Tooltip variant="blue" position="default">
                       <template #trigger>
                         <span

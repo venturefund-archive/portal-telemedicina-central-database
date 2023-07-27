@@ -37,7 +37,7 @@
           leave-from="translate-x-0"
           leave-to="translate-x-full"
         >
-          <DialogPanel class="fixed top-0 bottom-0 right-0 overflow-auto" style="width: 800px">
+          <DialogPanel class="fixed bottom-0 right-0 top-0 overflow-auto" style="width: 800px">
             <div class="flex items-center justify-between bg-blue-500 p-4 text-white">
               <div class="flex items-center">
                 <div class="rounded-full bg-white p-2">

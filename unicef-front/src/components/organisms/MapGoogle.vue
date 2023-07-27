@@ -3,12 +3,12 @@
     <p class="mb-4 text-xl font-semibold text-gray-700">
       {{ $t('manager.vaccination-map') }}
     </p>
-    <div class="!z-50 h-[106px] w-full rounded-t-2xl border !bg-gray-50 drop-shadow-lg drop-shadow-lg">
+    <div class="!z-20 h-[106px] w-full rounded-t-2xl border !bg-gray-50 drop-shadow-lg">
       <div>
         <!-- People with vaccines delayed -->
-        <div class="flex flex-col items-center justify-between space-y-5 p-5 md:flex-row md:space-y-0 md:space-x-5">
+        <div class="flex flex-col items-center justify-between space-y-5 md:flex-row md:space-x-5 md:space-y-0">
           <div class="flex items-center space-x-5">
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-2 p-7">
               <form @submit.prevent="searchAddress">
                 <label for="default-search" class="sr-only">Procurar</label>
                 <div class="relative flex items-center">
@@ -42,16 +42,16 @@
               <div ref="dropdown" class="relative">
                 <button
                   @click="showList = !showList"
-                  class="relative flex flex-col items-center rounded-md py-2 px-4 text-gray-500"
+                  class="relative flex flex-col items-center rounded-md px-4 py-2 text-gray-500"
                 >
-                  <UsersIcon title="{{ $t('manager.population') }}" class="h-6 w-6 text-green-500" />
+                  <UsersIcon title="{{ $t('manager.population') }}" class="h-6 w-6 text-gray-500" />
                   <span class="text-sm">{{ $t('manager.population') }}</span>
                 </button>
                 <ul v-if="showList" class="absolute z-10 w-40 rounded-md bg-white shadow-md">
                   <li
                     v-for="item in items"
                     :class="{ 'font-bold': item === selectedItem }"
-                    class="w-full cursor-pointer py-2 px-4 font-normal capitalize hover:bg-gray-100"
+                    class="w-full cursor-pointer px-4 py-2 font-normal capitalize hover:bg-gray-100"
                     :key="item"
                   >
                     {{ item }}
@@ -59,7 +59,7 @@
                 </ul>
               </div>
 
-              <div class="flex flex-col items-center rounded-md py-2 px-4 text-gray-500">
+              <div class="flex flex-col items-center rounded-md px-4 py-2 text-gray-500">
                 <Switch
                   v-model="onlyAlerts"
                   :class="onlyAlerts ? 'bg-green-500' : 'bg-gray-200'"
@@ -72,16 +72,20 @@
                 </Switch>
                 <span class="pt-2 text-sm">{{ $t('manager.alerts') }}</span>
               </div>
+              <div class="flex flex-col items-center rounded-md px-4 py-2 text-gray-500 cursor-pointer">
+                <TableIcon class="w-8 h-8"/>
+                <span>{{ $t('manager.visualization') }}</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      <div ref="mapContainer" class="map-container" ></div>
+      <div ref="mapContainer" class="map-container"></div>
       <Marker
         v-for="marker in filteredMarkers"
         :key="marker.id"
         :marker="marker"
-        :is-open="marker.id == patientCursor"
+        :is-open="marker.id == props.patientCursor"
         @update:position="updateMarkerPosition"
       />
     </div>
@@ -109,7 +113,7 @@ const showList = ref(false)
 const dropdown = ref(null)
 const onlyAlerts = ref(false)
 
-const emit = defineEmits(['update:markers-in-view', 'update:onlyAlerts', 'geoCoderReady'])
+const emit = defineEmits(['update:markers-in-view', 'update:onlyAlerts', 'geoCoderReady', 'centralize-on-location'])
 
 const props = defineProps({
   center: {
@@ -128,9 +132,13 @@ const props = defineProps({
     type: String,
     default: '0',
   },
+  areaCursor: {
+    type: String,
+    default: '0',
+  },
 })
 
-const markersInView = ref(props.markers)
+const markersInView = ref(props.markers || [])
 const getMarkersInView = () => {
   const mapBounds = map.value.getBounds()
   markersInView.value = filteredMarkers.value.filter((marker) => {
@@ -147,14 +155,47 @@ watch(
   () => props.center,
   async (center) => {
     if (map.value) {
-    if(map.value.getZoom() == props.zoom){
-      map.value.setZoom(map.value.getZoom()-0.5)
+      if (map.value.getZoom() == props.zoom) {
+        map.value.setZoom(map.value.getZoom() - 0.5)
+      }
+      setTimeout(() => {
+        map.value.setZoom(props.zoom)
+        map.value.panTo(center)
+      }, 250)
     }
-    setTimeout(() => {
-      map.value.setZoom(props.zoom)
-      map.value.panTo(center)
-    }, 250)
   }
+)
+watch(
+  () => props.patientCursor,
+  async (patientCursor) => {
+    if (map.value && 0 != patientCursor) {
+      // console.log('Tracking patient id: '+ patientCursor)
+      const index = props.markers.findIndex((marker) => marker.id === patientCursor)
+      const patient = props.markers[index]
+      emit('centralize-on-location', { ...patient.address, newPatientCursor: patient.id })
+    }
+  }
+)
+watch(
+  () => props.areaCursor,
+  async (areaCursor) => {
+    if (map.value && mapStore.polygons.length > 0 && 0 != areaCursor) {
+      // console.log('Tracking area areaCursor: ' + areaCursor)
+      const index = mapStore.polygons.findIndex((polygon) => {
+        return polygon.id == areaCursor
+      })
+      if(-1 != index) {
+        const polygon = mapStore.polygons[index]
+        const googlePolygon = getPolygonCenter(new google.maps.Polygon({
+          paths: polygon.coordinates,
+        }))
+        const latitude = googlePolygon.lat()
+        const longitude = googlePolygon.lng()
+        emit('centralize-on-location', { latitude, longitude, newAreaCursor: `${polygon.id}` })
+      }else{
+        console.log('area not found')
+      }
+    }
   }
 )
 
@@ -240,7 +281,7 @@ const createLoadedPolygon = (polygonData) => {
 
   const infoWindow = new google.maps.InfoWindow()
 
-  const tempDiv = document.createElement('div');
+  const tempDiv = document.createElement('div')
   tempDiv.innerHTML = `
   <div class="flex flex-col">
       <div class="sticky top-0 bg-white">
@@ -249,15 +290,19 @@ const createLoadedPolygon = (polygonData) => {
       </div>
       <input type="text" class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm mb-4">
       <div class="flex justify-between">
-        <button id="deleteButton" class="mx-2 gap-2 focus:outline-none text-base font-semibold py-2 rounded-md border text-white border-red-500 hover:bg-red-700 hover:border-red-700  bg-red-500 px-6">${t('manager.delete')}</button>
-        <button id="saveButton" class="mx-2 gap-2 focus:outline-none text-base font-semibold py-2 bg-white rounded-md border text-green-500 hover:text-white border-green-500 hover:bg-green-500 px-6">${t('manager.save')}</button>
+        <button id="deleteButton" class="mx-2 gap-2 focus:outline-none text-base font-semibold py-2 rounded-md border text-white border-red-500 hover:bg-red-700 hover:border-red-700  bg-red-500 px-6">${t(
+          'manager.delete'
+        )}</button>
+        <button id="saveButton" class="mx-2 gap-2 focus:outline-none text-base font-semibold py-2 bg-white rounded-md border text-green-500 hover:text-white border-green-500 hover:bg-green-500 px-6">${t(
+          'manager.save'
+        )}</button>
       </div>
     </div>
-  `;
+  `
 
-  const nameInput = tempDiv.querySelector('input');
-  const saveButton = tempDiv.querySelector('#saveButton');
-  const deleteButton = tempDiv.querySelector('#deleteButton');
+  const nameInput = tempDiv.querySelector('input')
+  const saveButton = tempDiv.querySelector('#saveButton')
+  const deleteButton = tempDiv.querySelector('#deleteButton')
 
   const polygonObj = {
     polygon,
@@ -299,15 +344,17 @@ const createLoadedPolygon = (polygonData) => {
 }
 
 const initializeMap = async () => {
-    geocoder.value = new google.maps.Geocoder()
+  geocoder.value = new google.maps.Geocoder()
   emit('geoCoderReady', geocoder.value)
   map.value = new google.maps.Map(mapContainer.value, {
     zoom: props.zoom,
     center: geocodeAddress(geoCoderQuery.value),
   })
   map.value.addListener('idle', () => {
-    getMarkersInView()
-  });
+    if(map.value.getBounds()){
+      getMarkersInView()
+    }
+  })
 
   const drawingManager = new google.maps.drawing.DrawingManager({
     drawingMode: null,
@@ -352,7 +399,7 @@ const filteredMarkers = computed(() => {
 })
 
 const updateMarkerPosition = ({ payload, marker }) => {
-    marker.address.formatted_address = payload
+  marker.address.formatted_address = payload
 }
 
 const createPolygon = (polygonData) => {
@@ -374,7 +421,7 @@ const createPolygon = (polygonData) => {
 const createPolygonInfoWindow = (polygon, openImmediately = true) => {
   const infoWindow = new google.maps.InfoWindow()
 
-  const tempDiv = document.createElement('div');
+  const tempDiv = document.createElement('div')
   tempDiv.innerHTML = `
     <div class="flex flex-col">
       <div class="sticky top-0 bg-white">
@@ -383,15 +430,19 @@ const createPolygonInfoWindow = (polygon, openImmediately = true) => {
       </div>
       <input type="text" class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none mb-4">
       <div class="flex justify-between">
-        <button id="deleteButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">${t('manager.delete')}</button>
-        <button id="saveButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">${t('manager.save')}</button>
+        <button id="deleteButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">${t(
+          'manager.delete'
+        )}</button>
+        <button id="saveButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">${t(
+          'manager.save'
+        )}</button>
       </div>
     </div>
-  `;
+  `
 
-  const nameInput = tempDiv.querySelector('input');
-  const saveButton = tempDiv.querySelector('#saveButton');
-  const deleteButton = tempDiv.querySelector('#deleteButton');
+  const nameInput = tempDiv.querySelector('input')
+  const saveButton = tempDiv.querySelector('#saveButton')
+  const deleteButton = tempDiv.querySelector('#deleteButton')
 
   const polygonData = {
     polygon,
@@ -435,7 +486,6 @@ const createPolygonInfoWindow = (polygon, openImmediately = true) => {
   polygons.value.push(polygonData)
 }
 
-
 const updatePolygonLabel = (polygonData) => {
   if (polygonData.label) {
     polygonData.label.setMap(null)
@@ -478,7 +528,7 @@ const getPolygonCenter = (polygon) => {
 const deletePolygon = async (polygonData) => {
   const index = polygons.value.indexOf(polygonData)
   if (index !== -1) {
-    if(polygonData.id){
+    if (polygonData.id) {
       try {
         await mapStore.deletePolygon(polygonData.id)
       } catch (err) {

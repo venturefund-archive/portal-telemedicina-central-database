@@ -3,7 +3,7 @@
     :class="[
       'relative m-0 pl-6 leading-8',
       'before:absolute before:left-0 before:top-4 before:-mt-0.5 before:block before:h-0 before:w-4 before:border-t-2 before:border-t-gray-200',
-      'last:before:top-4 last:before:bottom-0 last:before:h-auto last:before:bg-white',
+      'last:before:bottom-0 last:before:top-4 last:before:h-auto last:before:bg-white',
       'dark:last:before:bg-dark-eval-1 dark:before:border-t-gray-600',
     ]"
   >

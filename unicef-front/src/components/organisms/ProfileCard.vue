@@ -32,9 +32,16 @@
         >: {{ postalCode }}
       </li>
 
-      <p v-if="patientsStore.item.marital_status && patientsStore.item.marital_status.text">
+      <li v-if="patientsStore.item.marital_status && patientsStore.item.marital_status.text">
         {{ $t('patient-details.civil-status') }} <span>{{ patientsStore.item.marital_status.text }}</span>
-      </p>
+      </li>
+      <li>
+        <div class="group flex justify-center">
+          <div ref="qrcode" class="absolute z-50 top-48 p-2 border drop-shadow-lg rounded bg-white invisible group-hover:visible"></div>
+          <p class="text-sm text-neutral-500 truncate">
+            <span class="font-semibold">ID</span>: {{ id }}</p>
+        </div>
+      </li>
     </ul>
     <div class="mt-4">
       <ul class="divide-y divide-gray-100 text-sm font-semibold">
@@ -155,6 +162,8 @@ import {
   addMonths,
 } from 'date-fns'
 import { useI18n } from 'vue3-i18n'
+import QRCode from 'easyqrcodejs';
+
 const { t } = useI18n()
 const patientsStore = usePatientsStore()
 const router = useRouter()
@@ -194,4 +203,19 @@ const props = defineProps({
     default: '0',
   },
 })
+
+const showQrcode = ref(false);
+const qrcodeUrl = ref(`${window.location.protocol}//${window.location.host}/patients/${patientsStore.item.id}`);
+let qrcode = ref(null);
+
+onMounted(() => {
+  new QRCode(qrcode.value, {
+    text: qrcodeUrl.value,
+    width: 96,
+    height: 96,
+    colorDark: "#000000",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H
+  });
+});
 </script>
