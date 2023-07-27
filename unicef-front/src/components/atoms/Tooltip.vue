@@ -4,7 +4,7 @@
 
     <div
       :class="[
-        'absolute z-10 w-36 rounded py-1 px-2 text-xs font-semibold text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100',
+        'absolute z-10 w-36 rounded px-2 py-1 text-xs font-semibold text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100',
         tooltipClass,
       ]"
       :style="tooltipStyle"

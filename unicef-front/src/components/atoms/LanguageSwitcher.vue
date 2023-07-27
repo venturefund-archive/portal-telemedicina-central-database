@@ -2,7 +2,7 @@
   <div class="relative">
     <button
       @click="toggleDropdown"
-      class="border-r-1 border-l-1 inline-flex items-center justify-center gap-2 border border-gray-100 border-t-transparent border-b-transparent py-2 px-4"
+      class="border-r-1 border-l-1 inline-flex items-center justify-center gap-2 border border-gray-100 border-b-transparent border-t-transparent px-4 py-2"
     >
       <img class="h-5 w-5 rounded" :src="selectedLang.flag" :alt="selectedLang.name" />
       <span class="text-sm font-semibold">{{ selectedLang.name }}</span>

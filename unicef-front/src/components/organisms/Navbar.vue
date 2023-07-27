@@ -2,7 +2,7 @@
   <nav
     aria-label="secondary"
     :class="[
-      'sticky top-0 z-10 flex items-center justify-between bg-white py-4 px-5 shadow-md transition-transform duration-500',
+      'sticky top-0 z-10 flex items-center justify-between bg-white px-5 py-4 shadow-md transition-transform duration-500',
       {
         '-translate-y-full': scrolling.down,
         'translate-y-0': scrolling.up,
@@ -10,7 +10,7 @@
     ]"
   >
     <div class="flex grow items-center pr-5">
-      <form @submit.prevent="search" class="w-full sm:w-96">
+      <form @submit.prevent="search" class="w-full sm:w-96 !border-0">
         <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900">Procurar</label>
         <InputIconWrapper>
           <template #icon>
@@ -25,7 +25,6 @@
       <div class="px-10">
         <LanguageSwitcher />
       </div>
-      <!-- Dropdwon -->
       <div>
         <div>
           <button
@@ -40,7 +39,7 @@
       </div>
       <div>
         <div
-          class="border-r-1 inline-flex items-center justify-center gap-2 border border-l-0 border-gray-100 border-t-transparent border-b-transparent py-5 px-4"
+          class="border-r-1 inline-flex items-center justify-center gap-2 border border-l-0 border-gray-100 border-b-transparent border-t-transparent px-4 py-5"
         ></div>
       </div>
       <Button

@@ -3,7 +3,7 @@
     <div class="relative inline-block text-left">
       <button
         type="button"
-        class="flex items-center space-x-5 rounded-lg bg-green-500 py-2 px-3 text-sm font-medium text-white hover:bg-green-600"
+        class="flex items-center space-x-5 rounded-lg bg-green-500 px-3 py-2 text-sm font-medium text-white hover:bg-green-600"
         @click="dropdownOpen = !dropdownOpen"
       >
         <PlusCircleIcon class="h-6 w-6" />
@@ -87,7 +87,7 @@
                   <div class="m-5 rounded-2xl border border-gray-50 bg-white p-6 drop-shadow-md">
                     <div class="mb-4 flex">
                       <div class="flex-1">
-                        <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="vacina">{{
+                        <label class="block px-4 py-2 text-sm font-medium text-gray-700" for="vacina">{{
                           $t('patient-details.vaccine')
                         }}</label>
                         <select
@@ -95,7 +95,7 @@
                           name="vaccine_id"
                           v-model="doseForm.vaccine_id"
                           required
-                          class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
+                          class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
                         >
                           <option v-for="vaccine in filteredVaccines" :key="vaccine.id" :value="vaccine.id">
                             {{ vaccine.display }}: {{ vaccine.description }}
@@ -103,7 +103,7 @@
                         </select>
 
                         <div class="flex-1" v-if="doseForm.vaccine_id">
-                          <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="dose">{{
+                          <label class="block px-4 py-2 text-sm font-medium text-gray-700" for="dose">{{
                             $t('patient-details.dose')
                           }}</label>
 
@@ -112,7 +112,7 @@
                             name="vaccine_dose"
                             v-model="doseForm.vaccine_dose"
                             required
-                            class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
+                            class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
                           >
                             <option
                               v-for="dose in filteredDosesByVaccine({ id: doseForm.vaccine_id })"
@@ -128,43 +128,43 @@
 
                     <div class="mb-4 flex">
                       <div class="flex-1">
-                        <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="batch">{{
+                        <label class="block px-4 py-2 text-sm font-medium text-gray-700" for="batch">{{
                           $t('patient-details.batch')
                         }}</label>
                         <input
                           id="batch"
                           type="text"
                           v-model="doseForm.batch"
-                          class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
+                          class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
                         />
                       </div>
                     </div>
 
                     <div class="mb-4 flex">
                       <div class="flex-1 pr-6">
-                        <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="cns_number">CNS</label>
+                        <label class="block px-4 py-2 text-sm font-medium text-gray-700" for="cns_number">CNS</label>
                         <input
                           id="cns_number"
                           type="text"
                           v-model="doseForm.health_professional.cns_number"
                           required
-                          class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
+                          class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
                         />
                       </div>
                       <div class="flex-1">
-                        <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="cnes_number">CNES</label>
+                        <label class="block px-4 py-2 text-sm font-medium text-gray-700" for="cnes_number">CNES</label>
                         <input
                           id="cnes_number"
                           type="text"
                           v-model="doseForm.health_professional.cnes_number"
-                          class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
+                          class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
                         />
                       </div>
                     </div>
 
                     <div class="mb-4 flex">
                       <div class="flex-1">
-                        <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="health_professional">{{
+                        <label class="block px-4 py-2 text-sm font-medium text-gray-700" for="health_professional">{{
                           $t('patient-details.profissional')
                         }}</label>
                         <input
@@ -172,26 +172,26 @@
                           type="text"
                           v-model="doseForm.health_professional.name"
                           required
-                          class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
+                          class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
                         />
                       </div>
                     </div>
 
                     <div class="mb-4 flex">
                       <div class="flex-1 pr-6">
-                        <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="data-application">
+                        <label class="block px-4 py-2 text-sm font-medium text-gray-700" for="data-application">
                           {{ $t('patient-details.dose-application-date') }}
                         </label>
                         <input
                           type="date"
                           id="data_application"
                           required
-                          class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
+                          class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
                           v-model="doseForm.application_date"
                         />
                       </div>
                       <div class="flex-1">
-                        <label class="block py-2 px-4 text-sm font-medium text-gray-700" for="next-data-application">
+                        <label class="block px-4 py-2 text-sm font-medium text-gray-700" for="next-data-application">
                           {{ $t('patient-details.next-application') }}
                         </label>
                         <input
@@ -199,7 +199,7 @@
                           id="next_data_application"
                           required
                           v-model="doseForm.next_dose_application_date"
-                          class="block w-full rounded-full border-none bg-gray-100 py-2 px-4"
+                          class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
                         />
                       </div>
                     </div>

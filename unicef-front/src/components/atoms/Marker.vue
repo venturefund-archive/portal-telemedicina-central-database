@@ -20,6 +20,7 @@ import {
   differenceInYears,
   differenceInDays,
 } from 'date-fns'
+
 const mapStore = useMapStore()
 const patientsStore = usePatientsStore()
 const { t } = useI18n()
@@ -38,9 +39,9 @@ watch(
         content: getMarkerContent(props.marker, googleMarker.getDraggable()),
       })
 
-      googleMarker.infowindow = infowindow;
-      infowindow.open(map.value, googleMarker);
-      currentInfoWindow = infowindow;  // Atualiza o InfoWindow aberto atualmente
+      googleMarker.infowindow = infowindow
+      infowindow.open(map.value, googleMarker)
+      currentInfoWindow = infowindow // Atualiza o InfoWindow aberto atualmente
 
       infowindow.addListener('domready', () => {
         const moveButton = document.querySelector(`#marker${props.marker.id}`)
@@ -55,19 +56,18 @@ watch(
         }
       })
     } else if (currentInfoWindow) {
-      currentInfoWindow.close();
-      currentInfoWindow = null;
+      currentInfoWindow.close()
+      currentInfoWindow = null
     }
-  }
+  },
 )
-
 
 const map = inject('map')
 const geocoder = inject('geocoder')
 
 let googleMarker = null
 
-let currentInfoWindow = null;  // Variável para manter o controle do InfoWindow aberto atualmente
+let currentInfoWindow = null // Variável para manter o controle do InfoWindow aberto atualmente
 
 onMounted(() => {
   googleMarker = new google.maps.Marker({
@@ -75,23 +75,23 @@ onMounted(() => {
     map: map.value,
     draggable: false,
     icon: {
-      url: props.marker.alerts.length > 0 ? 'marker-alert.svg' : 'marker.svg',
+      url: props.marker.alerts.length > 0 ? '/marker-alert.svg' : '/marker.svg',
     },
   })
 
   googleMarker.addListener('click', () => {
     // Fecha o InfoWindow anterior, se existir
     if (currentInfoWindow) {
-      currentInfoWindow.close();
+      currentInfoWindow.close()
     }
 
     const infowindow = new google.maps.InfoWindow({
       content: getMarkerContent(props.marker, googleMarker.getDraggable()),
     })
 
-    googleMarker.infowindow = infowindow;
-    infowindow.open(map.value, googleMarker);
-    currentInfoWindow = infowindow;  // Atualiza o InfoWindow aberto atualmente
+    googleMarker.infowindow = infowindow
+    infowindow.open(map.value, googleMarker)
+    currentInfoWindow = infowindow // Atualiza o InfoWindow aberto atualmente
 
     infowindow.addListener('domready', () => {
       const moveButton = document.querySelector(`#marker${props.marker.id}`)
@@ -127,7 +127,7 @@ onMounted(() => {
           emit('update:position', { payload: results[0].formatted_address, marker: props.marker })
           await mapStore.updateMarker(props.marker.id, updatedMarker)
           googleMarker.setDraggable(false)
-          googleMarker.setIcon(props.marker.alerts.length > 0 ? 'marker-alert.svg' : 'marker.svg')
+          googleMarker.setIcon(props.marker.alerts.length > 0 ? '/marker-alert.svg' : '/marker.svg')
           googleMarker.infowindow.setContent(getMarkerContent(props.marker, false))
           // currentInfoWindow.close();
         } else {
@@ -163,7 +163,10 @@ const getMarkerContent = (person, isMarkerMovable) => `
         <header class="sticky top-0 bg-white pb-2">
           <div>
           <h2 class="text-xl font-semibold capitalize">${person.name.toLowerCase()}</h2>
-          <p class="text-sm text-gray-500">ID: ${person.id}</p>
+
+          <p class="text-sm text-gray-500">
+            ID: ${person.id}
+          </p>
           <hr class="my-2 w-full border border-dashed" />
         </header>
 
@@ -171,7 +174,7 @@ const getMarkerContent = (person, isMarkerMovable) => `
 
           <div class="flex justify-between pb-2">
             <span class="mr-2 inline-block rounded-full bg-gray-100 px-3 py-1 text-sm lowercase text-black">
-              ${ formatAge(person.age_in_days) }
+              ${formatAge(person.age_in_days)}
             </span>
             <p class="text-sm">
               <span
@@ -183,7 +186,9 @@ ${person.number_of_alerts_by_protocol === 1 ? t('manager.alert-protocol') : t('m
             </p>
           </div>
 
-          ${(0 !== person.alerts.length && `
+          ${
+            (0 !== person.alerts.length &&
+              `
           <div class="inline-block pb-2">
               <p class="pt-1 text-sm font-medium text-gray-600">${t('manager.vaccine-delay')}:</p>
               ${person.alerts
@@ -199,21 +204,25 @@ ${person.number_of_alerts_by_protocol === 1 ? t('manager.alert-protocol') : t('m
                 .join('')}
                   </div>
                   </div>
-            `) || '' }
+            `) ||
+            ''
+          }
 
-            <div class="pt-1 flex">
-                            <p class="pr-1 text-sm font-medium text-gray-600"> ${ t('manager.birthdate') }:</p>
-                            <p class="text-sm">
-                              ${ format(new Date(person.birth_date), 'dd/MM/yyyy') }
-                            </p>
-                          </div>
-
-            <div class="flex flex-col py-2">
-          <p class="pr-1 text-sm font-medium text-gray-600"> ${t('manager.address')}: </p>
-          <p class="text-sm">
-            ${(person.address.formatted_address)}
-          </p>
-        </div>
+          <div class="pt-1 flex">
+            <p class="pr-1 text-sm font-medium text-gray-600"> ${t('manager.birthdate')}:</p>
+            <p class="text-sm">
+              ${format(new Date(person.birth_date), 'dd/MM/yyyy')}
+            </p>
+          </div>
+          ${
+            (person.address.formatted_address &&
+              `
+          <div class="flex flex-col py-2">
+            <p class="pr-1 text-sm font-medium text-gray-600"> ${t('manager.address')}: </p>
+            <p class="text-sm">
+              ${person.address.formatted_address}
+            </p>
+          </div>`) || ''}
         </div>
       </div>
 
@@ -228,8 +237,9 @@ ${person.number_of_alerts_by_protocol === 1 ? t('manager.alert-protocol') : t('m
         </button>
 
         <button
+          disabled="true"
           type="button"
-          class="mx-2 gap-2 focus:outline-none text-base font-semibold py-2 bg-white rounded-md border text-green-500 hover:text-white border-green-500 hover:bg-green-500 px-6"
+          class="mx-2 gap-2 focus:outline-none text-base font-semibold py-2 bg-white rounded-md border disabled:border-gray-400 disabled:text-gray-400 disabled:opacity-75 disabled:cursor-not-allowed  disabled:hover:bg-white text-green-500 hover:text-white border-green-500 hover:bg-green-500 px-6"
           id="marker${person.id}"
         >
         ${t('manager.edit')}
@@ -267,11 +277,11 @@ function formatAge(age_in_days) {
 
 const toggleMarkerMovement = (marker, person) => {
   if (marker.getDraggable()) {
-    marker.setIcon(props.marker.alerts.length > 0 ? 'marker-alert.svg' : 'marker.svg')
+    marker.setIcon(props.marker.alerts.length > 0 ? '/marker-alert.svg' : '/marker.svg')
     marker.setDraggable(false)
   } else {
     marker.setDraggable(true)
-    marker.setIcon('marker-editing.svg')
+    marker.setIcon('/marker-editing.svg')
     marker.infowindow.setContent(getMarkerContent(person, true))
   }
 }

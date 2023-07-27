@@ -14,7 +14,7 @@
       <EmptyCircleIcon aria-hidden="true" class="h-6 w-6 flex-shrink-0" />
     </slot>
 
-    <span class="text-base font-medium" v-show="sidebarState.isOpen || sidebarState.isHovered">{{ title }}</span>
+    <span class="text-base font-normal" v-show="sidebarState.isOpen || sidebarState.isHovered">{{ title }}</span>
   </a>
   <router-link
     v-else-if="to"
@@ -31,7 +31,7 @@
       <EmptyCircleIcon aria-hidden="true" class="h-6 w-6 flex-shrink-0" />
     </slot>
 
-    <span class="text-base font-medium" v-show="sidebarState.isOpen || sidebarState.isHovered">{{ title }}</span>
+    <span class="text-base font-normal" v-show="sidebarState.isOpen || sidebarState.isHovered">{{ title }}</span>
   </router-link>
   <button
     v-else
@@ -48,7 +48,7 @@
       <EmptyCircleIcon aria-hidden="true" class="h-6 w-6 flex-shrink-0" />
     </slot>
 
-    <span class="text-base font-medium" v-show="sidebarState.isOpen || sidebarState.isHovered">{{ title }}</span>
+    <span class="text-base font-normal" v-show="sidebarState.isOpen || sidebarState.isHovered">{{ title }}</span>
     <slot name="arrow" />
   </button>
 </template>
