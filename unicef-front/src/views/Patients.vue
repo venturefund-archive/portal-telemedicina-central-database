@@ -26,7 +26,7 @@ const patientsStore = usePatientsStore()
 onMounted(async () => {
   if (patientsStore.items.length == 0) {
     await patientsStore.fetchPatients()
-    // await patientsStore.fetchPatientsRecursive()
+    await patientsStore.fetchPatientsRecursive()
   }
 })
 </script>

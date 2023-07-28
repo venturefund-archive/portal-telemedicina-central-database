@@ -20,13 +20,13 @@
         <template v-if="Component">
           <Transition mode="out-in">
             <div>
-              <!-- <KeepAlive> -->
+              <KeepAlive>
                 <Suspense>
                   <component :is="Component" :key="route.name" />
 
                   <template #fallback> Loading... </template>
                 </Suspense>
-              <!-- </KeepAlive> -->
+              </KeepAlive>
             </div>
           </Transition>
         </template>

@@ -32,6 +32,11 @@ export default [
         props: true,
       },
       {
+        path: '/settings',
+        name: 'Settings',
+        component: () => import('@/views/pages/Settings.vue'),
+      },
+      {
         path: '/map/patient/:id',
         name: 'MapPatient',
         component: () => import('@/views/pages/Map.vue'),
