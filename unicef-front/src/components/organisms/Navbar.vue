@@ -25,18 +25,26 @@
       <div class="px-10">
         <LanguageSwitcher />
       </div>
-      <div>
-        <div>
+      <!-- Dropdwon -->
+      <Dropdown align="right" width="48">
+        <template #trigger>
           <button
             class="dark:focus:ring-offset-dark-eval-1 flex rounded-md border-2 border-transparent text-sm transition focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-1 focus:ring-offset-white"
           >
             <div class="flex flex-col items-end justify-center">
-              <p class="font-normal" v-if="loggedUserStore.item">{{ loggedUserStore.item.username }}</p>
+              <p class="font-bold">{{ loggedUserStore.item.username }}</p>
+              <p class="text-sm text-gray-500 hidden">Nurse</p>
             </div>
             <img class="mx-5 h-12 w-12 rounded-md object-cover" :src="userAvatar" alt="User Name" />
           </button>
-        </div>
-      </div>
+        </template>
+        <template #content>
+          <DropdownLink to="/settings" @click="settings" class="flex justify-around group" >
+            <CogIcon class="group-hover:animate-spin w-6 h-6" />
+            <span class="text-base">Configurações</span>
+          </DropdownLink>
+        </template>
+      </Dropdown>
       <div>
         <div
           class="border-r-1 inline-flex items-center justify-center gap-2 border border-l-0 border-gray-100 border-b-transparent border-t-transparent px-4 py-5"
@@ -47,7 +55,7 @@
         variant="secondary"
         @click="toggleFullScreen"
         v-slot="{ iconSizeClasses }"
-        class="hidden md:inline-flex"
+        class="hidden md:inline-flex transition-transform duration-500 duration-500 ease-in-out hover:scale-110"
         srText="Toggle fullscreen mode"
       >
         <ArrowsExpandIcon v-show="!isFullscreen" aria-hidden="true" :class="iconSizeClasses" />
@@ -102,7 +110,7 @@
 <script setup>
 import { onMounted, onUnmounted, reactive } from 'vue'
 import { useFullscreen } from '@vueuse/core'
-import { SunIcon, MoonIcon, SearchIcon, LogoutIcon, MenuIcon, XIcon, ArrowsExpandIcon } from '@heroicons/vue/outline'
+import { CogIcon, SearchIcon, LogoutIcon, MenuIcon, XIcon, ArrowsExpandIcon } from '@heroicons/vue/outline'
 import {
   handleScroll,
   isDark,
@@ -119,6 +127,7 @@ import { errorToast, successToast } from '@/toast'
 import { ref, watch, computed } from 'vue'
 import { usePatientsStore } from '@/stores/patients'
 import { useLoggedUserStore } from '@/stores/loggedUser'
+
 const loggedUserStore = useLoggedUserStore()
 const patientsStore = usePatientsStore()
 

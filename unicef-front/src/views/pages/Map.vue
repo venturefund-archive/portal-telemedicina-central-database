@@ -50,7 +50,7 @@ onMounted(async () => {
   isLoading.value = true
   if (patientsStore.items.length == 0) {
     await patientsStore.fetchPatients()
-    // await patientsStore.fetchPatientsRecursive()
+    await patientsStore.fetchPatientsRecursive()
   }
   markers.value = filteredMarkers.value = patientsStore.items
   const inputFilterBy = route.path.split('/')[2]
