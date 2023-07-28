@@ -72,7 +72,7 @@
                 </Switch>
                 <span class="pt-2 text-sm">{{ $t('manager.alerts') }}</span>
               </div>
-              <div class="flex flex-col items-center rounded-md px-4 py-2 text-gray-500 cursor-pointer">
+              <div class="flex flex-col items-center rounded-md px-4 py-2 text-gray-300 cursor-not-allowed">
                 <TableIcon class="w-8 h-8"/>
                 <span>{{ $t('manager.visualization') }}</span>
               </div>

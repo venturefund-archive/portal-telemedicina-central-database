@@ -2,11 +2,11 @@
   <div
     @click="clicked = !clicked"
     :class="{
-      'scale-110 border bg-gradient-to-t from-gray-100  via-transparent to-transparent shadow-lg ': clicked,
+      'scale-105 border bg-gradient-to-t from-gray-100  via-transparent to-transparent shadow-lg ': clicked,
       'shadow-md': !clicked,
     }"
     :actions="actions"
-    class="transition-shadow-md flex w-52 transform cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 shadow transition-transform duration-500 duration-500 ease-in-out hover:scale-110 hover:shadow-lg"
+    class="transition-shadow-md flex w-52 transform cursor-pointer flex-col items-center justify-center overflow-hidden rounded-2xl border border-gray-200 bg-white p-4 shadow transition-transform duration-500 duration-500 ease-in-out hover:scale-105 hover:shadow-lg"
   >
     <div class="flex w-full items-center justify-center py-2">
       <slot name="icon" :sizeClasses="'w-8 h-8 text-yellow-500 mr-2'"></slot>
@@ -15,7 +15,7 @@
 
     <div class="flex flex-grow flex-col items-center justify-center pt-3">
       <h4 class="break-word text-center text-xl font-light text-black">{{ title }}</h4>
-      <span class="text-md break-word text-center text-gray-400">subtitle</span>
+      <span class="text-md break-word text-center text-gray-400 hidden">subtitle</span>
     </div>
 
     <div v-if="protocolStore.isLoading" class="flex flex-col p-2">
