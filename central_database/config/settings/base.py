@@ -328,6 +328,10 @@ REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
+REST_FRAMEWORK["JSON_RENDERER_CLASSES"] = [
+    "rest_framework.renderers.JSONRenderer",
+]
+
 # django-cors-headers - https://github.com/adamchainz/django-cors-headers#setup
 CORS_ALLOW_ALL_ORIGINS = True
 # CORS_URLS_REGEX = r"^/api/.*$"
@@ -395,9 +399,10 @@ CHANNEL_LAYERS = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": env("REDIS_URL", default="redis://redis:6379"),
+        "LOCATION": env("REDIS_LOCATION", default="redis://redis:6379"),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PASSWORD": env("REDIS_PASSWORD", default=""),
         },
     }
 }
