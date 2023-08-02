@@ -30,7 +30,7 @@
                     <Input
                       :placeholder="$t('manager.search-map')"
                       v-model="geoCoderQuery"
-                      class="w-full rounded-lg border py-2 pl-10 pr-3 focus:outline-none"
+                      class="w-full rounded-lg border py-2 pl-10 pr-3"
                     />
                   </div>
                 </div>
@@ -39,7 +39,7 @@
 
             <!-- User List and Alerts -->
             <div class="flex items-center space-x-10">
-              <div ref="dropdown" class="relative">
+              <div ref="dropdown" class="relative hidden">
                 <button
                   @click="showList = !showList"
                   class="relative flex flex-col items-center rounded-md px-4 py-2 text-gray-500"
@@ -72,7 +72,7 @@
                 </Switch>
                 <span class="pt-2 text-sm">{{ $t('manager.alerts') }}</span>
               </div>
-              <div class="flex flex-col items-center rounded-md px-4 py-2 text-gray-300 cursor-not-allowed">
+              <div class="hidden flex flex-col items-center rounded-md px-4 py-2 text-gray-300 cursor-not-allowed">
                 <TableIcon class="w-8 h-8"/>
                 <span>{{ $t('manager.visualization') }}</span>
               </div>
@@ -285,15 +285,15 @@ const createLoadedPolygon = (polygonData) => {
   tempDiv.innerHTML = `
   <div class="flex flex-col">
       <div class="sticky top-0 bg-white">
-        <h3 class="font-bold text-lg text-center">${t('manager.edit-info')}</h3>
+        <h3 class="font-bold text-lg text-center text-gray-700">${t('manager.edit-info')}</h3>
         <hr class="mb-4 mt-1 w-full border border-dashed" />
       </div>
-      <input type="text" class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm mb-4">
+      <input type="text" placeholder="${t('manager.region-name')}" class="border border-gray-200 focus:ring-0 focus:border focus:border-green-500 bg-white h-10 px-5 pr-16 rounded-lg text-sm mb-4">
       <div class="flex justify-between">
-        <button id="deleteButton" class="mx-2 gap-2 focus:outline-none text-base font-semibold py-2 rounded-md border text-white border-red-500 hover:bg-red-700 hover:border-red-700  bg-red-500 px-6">${t(
+        <button id="deleteButton"class="mx-2 gap-2 focus:outline-none text-base font-semibold py-2 bg-white rounded-md border text-red-500 hover:text-white border-red-500 hover:bg-red-500 px-6">${t(
           'manager.delete'
         )}</button>
-        <button id="saveButton" class="mx-2 gap-2 focus:outline-none text-base font-semibold py-2 bg-white rounded-md border text-green-500 hover:text-white border-green-500 hover:bg-green-500 px-6">${t(
+        <button id="saveButton" class="mx-2 gap-2 focus:outline-none text-base font-semibold py-2 hover:bg-green-600 rounded-md border text-white  border-green-500 bg-green-500 px-6">${t(
           'manager.save'
         )}</button>
       </div>
@@ -428,7 +428,7 @@ const createPolygonInfoWindow = (polygon, openImmediately = true) => {
         <h3 class="font-bold text-lg mb-2">${t('manager.edit-info')}</h3>
         <hr class="my-3 w-full border border-dashed" />
       </div>
-      <input type="text" class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none mb-4">
+      <input type="text" class="border border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:ring-0 focus:border focus:border-green-500 mb-4">
       <div class="flex justify-between">
         <button id="deleteButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">${t(
           'manager.delete'

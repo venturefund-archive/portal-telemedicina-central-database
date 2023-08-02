@@ -1,5 +1,5 @@
 <template>
-  <div class="h-auto w-auto rounded-2xl border border-gray-50 bg-white p-4 text-lg font-normal drop-shadow-md">
+  <div class="h-auto w-auto rounded-2xl border border-gray-200 bg-white p-4 text-lg font-normal">
     <div class="z-10 p-10">
       <div class="relative">
         <div class="flex items-center justify-between pb-10 pt-1">
@@ -18,7 +18,7 @@
             </div>
           </div>
           <div class="ml-auto">
-            <span class="rounded-lg bg-blue-500 p-1.5 text-sm uppercase text-white">
+            <span class="rounded-lg bg-blue-500 p-1.5 text-sm uppercase tracking-wide text-white">
               {{ $t('patient-details.dose') }} <span class="font-semibold">#{{ props.dose.dose_order }}</span>
             </span>
           </div>
@@ -26,102 +26,102 @@
 
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label for="vaccine" class="block p-2 text-sm font-medium text-gray-700">{{
+            <label for="vaccine" class="block p-2 text-base ">{{
               $t('patient-details.vaccine')
             }}</label>
             <input
               id="vaccine"
               type="text"
               v-model="doseForm.vaccine.description"
-              class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
+              class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2"
               readonly
             />
           </div>
           <div>
-            <label for="recommended" class="block p-2 text-sm font-medium text-gray-700">{{
+            <label for="recommended" class="block p-2 text-base ">{{
               $t('patient-details.recommended')
             }}</label>
             <input
               id="recommended"
               type="text"
               v-model="doseForm.recommended_age"
-              class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
+              class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2"
               readonly
             />
           </div>
         </div>
         <div class="grid grid-cols-2 gap-4" v-if="props.dose.status && props.dose.status.completed">
           <div>
-            <label for="cns_number" class="block px-4 py-2 text-sm font-medium text-gray-700">
+            <label for="cns_number" class="block px-4 py-2 text-base ">
               CSN {{ $t('patient-details.profissional') }}
             </label>
             <input
               id="cns_number"
               type="text"
               v-model="doseForm.health_professional.cns_number"
-              class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
+              class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2"
               readonly
             />
           </div>
 
           <div>
-            <label for="profissional" class="block p-2 text-sm font-medium text-gray-700">{{
+            <label for="profissional" class="block p-2 text-base ">{{
               $t('patient-details.profissional')
             }}</label>
             <input
               id="profissional"
               type="text"
               v-model="doseForm.health_professional.name"
-              class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
+              class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2"
               readonly
             />
           </div>
 
           <div>
-            <label for="cnes_number" class="block px-4 py-2 text-sm font-medium text-gray-700"> CNES </label>
+            <label for="cnes_number" class="block px-4 py-2 text-base "> CNES </label>
             <input
               id="cnes_number"
               type="text"
               v-model="doseForm.health_professional.cnes_number"
-              class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
+              class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2"
               readonly
             />
           </div>
 
           <div>
-            <label for="batch" class="block p-2 text-sm font-medium text-gray-700">{{
+            <label for="batch" class="block p-2 text-base ">{{
               $t('patient-details.batch')
             }}</label>
             <input
               id="batch"
               type="text"
               v-model="doseForm.batch"
-              class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
+              class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2"
               readonly
             />
           </div>
 
           <div>
-            <label for="data-application" class="block px-4 py-2 text-sm font-medium text-gray-700">{{
+            <label for="data-application" class="block px-4 py-2 text-base ">{{
               $t('patient-details.dose-application-date')
             }}</label>
             <input
               id="data-application"
               type="text"
               v-model="doseForm.application_date"
-              class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
+              class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2"
               readonly
             />
           </div>
           <div>
-            <label for="next-data-application" class="block px-4 py-2 text-sm font-medium text-gray-700">
+            <label for="next-data-application" class="block px-4 py-2 text-base ">
               {{ $t('patient-details.next-application') }}
             </label>
             <input
               id="next-data-application"
               type="text"
               v-model="doseForm.next_dose_application_date"
-              class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
+              class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2"
               readonly
             />
           </div>
@@ -147,7 +147,7 @@
         <!--          v-if="!isCompleted"-->
         <!--          type="button"-->
         <!--          @click=""-->
-        <!--          class="mt-5 flex items-center space-x-5 rounded-full bg-red-700 py-2 px-3 text-sm font-medium text-white hover:bg-red-600"-->
+        <!--          class="mt-5 flex items-center space-x-5 rounded-full bg-red-700 py-2 px-3 text-base  text-white hover:bg-red-600"-->
         <!--        >-->
         <!--          <PlusCircleIcon class="h-6 w-6" />-->
         <!--          <span class="uppercase tracking-wide">{{ $t('patient-details.add-alert') }}</span>-->

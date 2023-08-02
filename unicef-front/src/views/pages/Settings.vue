@@ -8,8 +8,8 @@
         <hr class="text-gray-200 my-4">
         <form @submit.prevent="submitForm" class="flex w-full flex-col  sm:w-96">
         <div class="w-full flex flex-col p-4">
-          <input v-model="formData.username" type="text" id="username" class="p-2 border border-gray-300 rounded" placeholder="username" />
-          <input v-model="formData.name" type="text" id="name" class="p-2 border border-gray-300 rounded" placeholder="Nome completo" required />
+          <Input v-model="formData.username" type="text" id="username" class="p-2 border border-gray-300 rounded" placeholder="username" />
+          <Input v-model="formData.name" type="text" id="name" class="p-2 border border-gray-300 rounded" placeholder="Nome completo" required />
         </div>
 
         <div class="w-full p-4 flex justify-end">

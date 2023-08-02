@@ -48,7 +48,7 @@
         <li class=""></li>
         <Tooltip variant="gray" position="right">
           <template #trigger>
-            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
+            <li class="flex items-center text-green-50 bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
                 <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-01.png" />
               </div>
@@ -56,7 +56,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="flex text-gray-700 font-normal">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <li class="flex cursor-pointer items-center border-r-4 !border-r-blue-500 py-4 pl-4 hover:bg-[#F8F9FB]">
@@ -81,7 +81,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="flex text-gray-700 font-normal justify-center">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
@@ -94,7 +94,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="flex text-gray-700 font-normal justify-center">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
@@ -107,7 +107,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="flex text-gray-700 font-normal justify-center">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
@@ -120,7 +120,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="flex text-gray-700 font-normal justify-center">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
@@ -133,7 +133,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="flex text-gray-700 font-normal justify-center">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
       </ul>

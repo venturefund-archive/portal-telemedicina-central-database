@@ -1,8 +1,8 @@
 <template>
   <input
     :class="[
-      'rounded-md border border-gray-200 py-2',
-      'focus:outline-none',
+      'rounded-md border-1 border-gray-200 py-2',
+      'focus:ring-0 focus:border-green-500',
       {
         'px-4': !withIcon,
         'pl-8 pr-2': withIcon,
