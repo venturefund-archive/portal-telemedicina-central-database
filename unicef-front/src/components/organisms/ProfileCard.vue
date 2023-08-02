@@ -173,8 +173,8 @@ const name = ref(patientsStore.item.name.toLowerCase())
 const gender = computed(() =>
   'male' == patientsStore.item.gender ? t('patient-details.male') : t('patient-details.female')
 )
-const region = ref(patientsStore.item.address[0].city + ' / ' + patientsStore.item.address[0].state)
-const postalCode = ref(patientsStore.item.address[0].postal_code)
+const region = ref(patientsStore.item.address.city + ' / ' + patientsStore.item.address.state)
+const postalCode = ref(patientsStore.item.address.postal_code)
 
 const birthDate = computed(() => parseISO(patientsStore.item.birth_date))
 
