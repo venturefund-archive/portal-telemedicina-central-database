@@ -92,6 +92,13 @@ class PatientSerializer(serializers.Serializer):
     def create(self, validated_data):
         return Patient(validated_data)
 
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        if data.get("address"):
+            data["address"] = data["address"][0]
+
+        return data
+
     def to_internal_value(self, data):
         deserialized_data = super().to_internal_value(data)
 

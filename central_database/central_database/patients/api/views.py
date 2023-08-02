@@ -33,7 +33,7 @@ def invalidate_cache(callback):
         response = callback(*args, **kwargs)
         if response.status_code == status.HTTP_200_OK:
             client_city = args[
-                0
+                1
             ].user.client.city  # assume the request is the first argument
             cache_key = f"patients-{client_city}"
             cache.delete(cache_key)
