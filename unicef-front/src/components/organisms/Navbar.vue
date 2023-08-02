@@ -10,8 +10,7 @@
     ]"
   >
     <div class="flex grow items-center pr-5">
-      <form @submit.prevent="search" class="w-full sm:w-96 !border-0">
-        <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900">Procurar</label>
+      <form @submit.prevent="search" class="!w-full sm:w-96 ">
         <InputIconWrapper>
           <template #icon>
             <SearchIcon aria-hidden="true" class="h-5 w-5" />
@@ -29,7 +28,7 @@
       <Dropdown align="right" width="48">
         <template #trigger>
           <button
-            class="dark:focus:ring-offset-dark-eval-1 flex rounded-md border-2 border-transparent text-sm transition focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-1 focus:ring-offset-white"
+            class="flex rounded-md border border-transparent text-sm transition focus:outline-none focus:ring focus:ring-green-500 focus:ring-offset-0 focus:ring-offset-white"
           >
             <div class="flex flex-col items-end justify-center">
               <p class="font-bold">{{ loggedUserStore.item.username }}</p>
@@ -52,7 +51,7 @@
       </div>
       <Button
         iconOnly
-        variant="secondary"
+        variant="third"
         @click="toggleFullScreen"
         v-slot="{ iconSizeClasses }"
         class="hidden md:inline-flex transition-transform duration-500 duration-500 ease-in-out hover:scale-110"
@@ -63,7 +62,7 @@
       </Button>
       <Button
         iconOnly
-        variant="secondary"
+        variant="third"
         @click="logout"
         v-slot="{ iconSizeClasses }"
         class="hidden md:inline-flex"

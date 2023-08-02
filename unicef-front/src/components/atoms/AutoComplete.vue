@@ -4,13 +4,13 @@
       :value="modelValue"
       @input="updateModelValue"
       :placeholder="$t('dashboard.pesquisar-por-pacientes-numero-de-documento-etc')"
-      class="border-0 py-4.5 focus:ring-none !focus:ring-white !focus:ring-offset-none block w-full pl-10 text-gray-900"
-      :class="{ 'w-full rounded-md bg-[#F3F3F3]  py-2.5 !shadow-md focus:shadow-none ': isInPage }"
+      class=" border-transparent  py-4.5 block w-full md:w-1/2 pl-10 text-gray-900"
+      :class="{ 'w-full md:w-1/2 rounded-md bg-[#F3F3F3]  py-2.5 !shadow-md focus:shadow-none ': isInPage }"
       :autofocus="isInPage"
     />
-    <div class="flex justify-center">
+    <div class="flex justify-center w-full md:w-1/2 mt-1 absolute">
       <ul
-        class="absolute mt-1 !w-96 rounded-2xl border border-gray-100 bg-white p-2"
+        class="rounded-2xl w-full border border-gray-100 bg-white p-2"
         v-if="suggestions.length && !hideSuggestions"
       >
         <li

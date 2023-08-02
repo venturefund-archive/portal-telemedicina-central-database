@@ -18,14 +18,14 @@
           <div>
             <a
               href="#"
-              class="block w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 hover:no-underline"
+              class="block w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-white hover:text-gray-900 hover:no-underline"
               role="menuitem"
               @click="openModal"
               >{{ $t('patient-details.manually-include') }}</a
             >
             <a
               href="#"
-              class="block w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 hover:no-underline"
+              class="block w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-white hover:text-gray-900 hover:no-underline"
               role="menuitem"
               @click="openModal2"
               >{{ $t('patient-details.send-booklet') }}</a
@@ -62,7 +62,7 @@
               <DialogPanel
                 class="transform overflow-hidden rounded bg-[#F8F9FB] text-left align-middle shadow-xl transition-all"
               >
-                <div class="border border-transparent border-b-gray-500 bg-blue-500 p-6">
+                <div class="border border-transparent bg-blue-500 px-4 py-3">
                   <DialogTitle as="h3" class="flex justify-between text-lg font-medium leading-6 text-gray-900">
                     <div class="flex items-center">
                       <div class="rounded-full bg-white p-2">
@@ -74,7 +74,7 @@
                       <button
                         type="button"
                         @click="closeModal"
-                        class="absolute right-2 ml-auto inline-flex items-center rounded bg-transparent p-1.5 text-sm text-white"
+                        class="absolute right-2 ml-auto inline-flex items-center rounded bg-transparent p-1.5 text-sm text-white hover:bg-blue-600  hover:text-white"
                       >
                         <XIcon @click="closeModal" class="flex h-5 w-5 justify-end hover:cursor-pointer" />
                       </button>
@@ -82,9 +82,9 @@
                   </DialogTitle>
                 </div>
                 <form class="w-full max-w-lg" @submit.prevent="submit">
-                  <input type="hidden" name="patient_id" v-model="doseForm.patient_id" />
+                  <Input type="hidden" name="patient_id" v-model="doseForm.patient_id" />
 
-                  <div class="m-5 rounded-2xl border border-gray-50 bg-white p-6 drop-shadow-md">
+                  <div class="m-5 rounded-2xl bg-white p-6 bg-white border border-gray-200">
                     <div class="mb-4 flex">
                       <div class="flex-1">
                         <label class="block px-4 py-2 text-sm font-medium text-gray-700" for="vacina">{{
@@ -95,7 +95,7 @@
                           name="vaccine_id"
                           v-model="doseForm.vaccine_id"
                           required
-                          class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
+                          class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2 focus:ring-0 focus:border-green-500"
                         >
                           <option v-for="vaccine in filteredVaccines" :key="vaccine.id" :value="vaccine.id">
                             {{ vaccine.display }}: {{ vaccine.description }}
@@ -112,7 +112,7 @@
                             name="vaccine_dose"
                             v-model="doseForm.vaccine_dose"
                             required
-                            class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
+                            class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2 focus:ring-0 focus:border-green-500"
                           >
                             <option
                               v-for="dose in filteredDosesByVaccine({ id: doseForm.vaccine_id })"
@@ -131,11 +131,11 @@
                         <label class="block px-4 py-2 text-sm font-medium text-gray-700" for="batch">{{
                           $t('patient-details.batch')
                         }}</label>
-                        <input
+                        <Input
                           id="batch"
                           type="text"
                           v-model="doseForm.batch"
-                          class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
+                          class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2"
                         />
                       </div>
                     </div>
@@ -143,21 +143,21 @@
                     <div class="mb-4 flex">
                       <div class="flex-1 pr-6">
                         <label class="block px-4 py-2 text-sm font-medium text-gray-700" for="cns_number">CNS</label>
-                        <input
+                        <Input
                           id="cns_number"
                           type="text"
                           v-model="doseForm.health_professional.cns_number"
                           required
-                          class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
+                          class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2"
                         />
                       </div>
                       <div class="flex-1">
                         <label class="block px-4 py-2 text-sm font-medium text-gray-700" for="cnes_number">CNES</label>
-                        <input
+                        <Input
                           id="cnes_number"
                           type="text"
                           v-model="doseForm.health_professional.cnes_number"
-                          class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
+                          class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2"
                         />
                       </div>
                     </div>
@@ -167,12 +167,12 @@
                         <label class="block px-4 py-2 text-sm font-medium text-gray-700" for="health_professional">{{
                           $t('patient-details.profissional')
                         }}</label>
-                        <input
+                        <Input
                           id="health_professional"
                           type="text"
                           v-model="doseForm.health_professional.name"
                           required
-                          class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
+                          class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2"
                         />
                       </div>
                     </div>
@@ -182,11 +182,11 @@
                         <label class="block px-4 py-2 text-sm font-medium text-gray-700" for="data-application">
                           {{ $t('patient-details.dose-application-date') }}
                         </label>
-                        <input
+                        <Input
                           type="date"
                           id="data_application"
                           required
-                          class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
+                          class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2"
                           v-model="doseForm.application_date"
                         />
                       </div>
@@ -194,12 +194,12 @@
                         <label class="block px-4 py-2 text-sm font-medium text-gray-700" for="next-data-application">
                           {{ $t('patient-details.next-application') }}
                         </label>
-                        <input
+                        <Input
                           type="date"
                           id="next_data_application"
                           required
                           v-model="doseForm.next_dose_application_date"
-                          class="block w-full rounded-full border-none bg-gray-100 px-4 py-2"
+                          class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2"
                         />
                       </div>
                     </div>
@@ -231,12 +231,12 @@
                         </div>
                         <hr class="my-4 border-white" />
                         <div class="rounded-lg bg-white p-4" style="height: 100px">
-                          <input type="file" id="fotoVacina" name="fotoVacina" class="my-3 flex w-full" @click.stop />
+                          <Input type="file" id="fotoVacina" name="fotoVacina" class="my-3 flex w-full" @click.stop />
                         </div>
                         <div class="flex justify-end pt-3">
                           <button
                             type="button"
-                            class="mr-3 inline-flex justify-center rounded-full bg-[#F3F3F3] px-12 py-2 text-xs font-medium uppercase tracking-wide text-blue-500 shadow-lg hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                            class="mr-3 inline-flex justify-center rounded-lg bg-[#F3F3F3] px-12 py-2 text-xs font-medium uppercase tracking-wide text-blue-500 shadow-lg hover:bg-gray-200"
                           >
                             {{ $t('patient-details.send') }}
                           </button>
@@ -245,19 +245,19 @@
                     </div>
                   </div>
                   <div class="flex justify-end p-10 pt-20">
-                    <button
+                    <Button
                       type="button"
-                      class="mr-3 inline-flex justify-center rounded-full border border-transparent bg-[#F3F3F3] px-12 py-2 text-xs font-medium uppercase tracking-wide text-blue-500 drop-shadow-md hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
+                      variant="success-outline"
                       @click="closeModal"
+                      class="mr-3"
                     >
                       {{ $t('patient-details.cancel') }}
-                    </button>
-                    <button
-                      type="submit"
-                      class="inline-flex justify-center rounded-full border border-transparent bg-blue-500 px-12 py-2 text-xs font-medium uppercase tracking-wide text-white drop-shadow-md hover:bg-blue-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                    >
+                    </Button>
+                    <Button
+                      variant="success"
+                      type="submit"                    >
                       {{ $t('patient-details.send') }}
-                    </button>
+                    </Button>
                   </div>
                 </form>
               </DialogPanel>

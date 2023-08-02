@@ -226,7 +226,7 @@
                         >
                           <p class="-mb-1.5 p-0">{{ vaccine.display }}</p>
                           <p
-                            class="mt-0.5 text-xs tracking-widest text-gray-400"
+                            class="mt-0.5 text-xs text-gray-400 "
                             v-if="vaccine.description != vaccine.display"
                           >
                             {{ vaccine.description }}

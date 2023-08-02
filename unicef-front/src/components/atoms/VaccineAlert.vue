@@ -40,16 +40,20 @@
           <DialogPanel class="fixed bottom-0 right-0 top-0 overflow-auto" style="width: 800px">
             <div class="flex items-center justify-between bg-blue-500 p-4 text-white">
               <div class="flex items-center">
-                <div class="rounded-full bg-white p-2">
-                  <img class="h-7 w-8" src="@/assets/images/profile-menu-02.png" />
+                <div class="rounded-full bg-white">
+                  <div class="px-2 py-1">
+                  <img class="h-7 w-7" src="@/assets/images/profile-menu-02.png" />
+                </div>
                 </div>
                 <div class="flex w-full items-center justify-between space-x-4">
                   <h2 class="ml-2 text-lg font-semibold">{{ props.vaccine.description }}</h2>
                   <span>{{ $t('patient-details.dose') }} #{{ props.dose.dose_order }}</span>
                 </div>
               </div>
-              <button @click="close" class="text-white">
+              <button @click="close" class="text-white rounded hover:bg-blue-600">
+                <div class="p-1">
                 <XIcon class="h-6 w-6" />
+              </div>
               </button>
             </div>
 

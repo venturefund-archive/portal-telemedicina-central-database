@@ -72,14 +72,16 @@ const { type, variant, size, squared, pill, href, iconOnly, srText } = props
 const { disabled } = toRefs(props)
 
 const baseClasses = [
-  'inline-flex items-center transition-colors font-medium select-none disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring focus:ring-offset-2 focus:ring-offset-white dark:focus:ring-offset-dark-eval-2',
+  'inline-flex items-center transition-colors font-medium select-none disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring focus:ring-offset-2 focus:ring-offset-white',
 ]
 
 const variantClasses = (variant) => ({
   'bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500': variant == 'primary',
   'bg-white text-gray-500 hover:bg-gray-100 focus:ring-blue-500 dark:text-gray-400 dark:bg-dark-eval-1 dark:hover:bg-dark-eval-2 dark:hover:text-gray-200':
     variant == 'secondary',
-  'bg-green-500  border border-2 border-green-500 text-white hover:bg-green-600 focus:ring-green-500':
+    'bg-white text-gray-500 hover:bg-gray-100 focus:ring-green-500 dark:text-gray-400 dark:bg-dark-eval-1 dark:hover:bg-dark-eval-2 dark:hover:text-gray-200':
+    variant == 'third',
+  'bg-green-500  border border-2 border-green-500 text-white bg-green-500 hover:bg-green-600 hover:border-green-600 focus:ring-green-500':
     variant == 'success',
   'bg-white border border-2 border-green-500 text-green-500 hover:text-white hover:bg-green-500 focus:ring-green-500':
     variant == 'success-outline',

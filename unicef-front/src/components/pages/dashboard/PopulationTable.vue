@@ -41,7 +41,7 @@
                         :placeholder="$t('dashboard.pesquisar-por-pacientes-numero-de-documento-etc')"
                         v-model="patientQuery"
                         @update:query="searchHandler"
-                        class="w-96 rounded-lg !border !border-gray-200 py-2 pl-10 pr-3 focus:outline-none"
+                        class="w-96 rounded-lg py-2 pl-10 pr-3 focus:outline-none"
                       />
                     </div>
                   </div>
@@ -51,7 +51,7 @@
 
             <!-- User List and Alerts -->
             <div class="flex items-center md:space-x-10">
-              <div ref="dropdown" class="relative">
+              <div ref="dropdown" class="relative hidden">
                 <button
                   @click="showList = !showList"
                   class="relative flex flex-col items-center rounded-md px-4 py-2 text-gray-500"
@@ -77,10 +77,10 @@
       <div class="flex flex-col rounded rounded-b-2xl bg-white shadow-lg">
         <div class="flex justify-between gap-4 border-b text-left text-xs font-medium uppercase text-gray-500">
           <span class="flex-grow p-2 pl-5">{{$t('dashboard.patient')}}</span>
-          <span class="w-36 p-2 text-center">{{$t('dashboard.priority')}}</span>
-          <span class="w-36 p-2 text-center">{{$t('dashboard.alerts')}}</span>
-          <span class="w-36 p-2 text-center">{{$t('dashboard.team')}}</span>
-          <span class="w-36 p-2 text-center">{{$t('dashboard.area')}}</span>
+          <span class="w-36 p-2 text-center hidden">{{$t('dashboard.priority')}}</span>
+          <span class="w-36 p-2 text-center hidden">{{$t('dashboard.alerts')}}</span>
+          <span class="w-36 p-2 text-center hidden">{{$t('dashboard.team')}}</span>
+          <span class="w-48 p-2 text-center">{{$t('manager.alerts-protocol')}}</span>
           <span class="w-36 p-2 text-center"></span>
           <span class="w-36 p-2 text-center"></span>
         </div>
@@ -95,12 +95,13 @@
             <span class="flex-grow whitespace-nowrap p-2 font-semibold capitalize">
               {{ patient.name.toLowerCase() }}
             </span>
-            <span class="w-72 p-2 pl-16 text-center">
+            <span class="w-36 p-2 text-center text-gray-500">{{patient.number_of_alerts_by_protocol}}</span>
+            <span class="w-72 p-2 pl-16 text-center hidden">
               <span :class="['inline-block rounded-full px-2 py-1 text-sm', getClassByPriority(priority)]">
                 {{ priority }}
               </span>
             </span>
-            <span class="w-auto p-2 text-center">
+            <span class="w-auto p-2 text-center hidden">
               <span
                 class="mr-0.5 inline-block rounded-full px-2 py-2 opacity-90"
                 v-for="(color, index) in colors"
@@ -109,15 +110,15 @@
               >
               </span>
             </span>
-            <span class="w-36 p-2 text-center text-gray-500">49 - Integração</span>
-            <span class="w-36 p-2 text-center text-gray-500">
-              <!-- <router-link :to="`/map/area/${area.id}`">{{ area.name }}</router-link> -->
-              <router-link :to="`/map/area/1`">Região Exemplo</router-link>
+             <span class="w-36 p-2 text-center text-gray-500 hidden">49 - Integração</span>
+            <span class="w-36 p-2 text-center text-gray-500 hidden">
+              <!-- <router-link :to="`/map/area/${area.id}`">{{ area.name }}</router-link>
+              <router-link :to="`/map/area/1`">Região Exemplo</router-link> -->
             </span>
             <router-link :to="`/map/patient/${patient.id}`">
               <span class="group flex cursor-pointer flex-col w-36 items-center text-center">
                 <MapIcon class="h-6 w-6 font-light text-gray-500" />
-                <span class="text-gray-500 group-hover:underline text-sm"> {{$t('dashboard.see-on-map')}}</span>
+                <span class="text-gray-500 group-hover:underline text-sm lowercase"> {{$t('dashboard.see-on-map')}}</span>
               </span>
             </router-link>
             <span class="flex justify-end pr-5 w-36">

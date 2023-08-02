@@ -1,6 +1,6 @@
 <template>
-  <div class="">
-    <div class="flex justify-center">
+  <div class="bg-[#F8F9FB] ">
+    <div class="flex justify-center ">
       <div class="relative z-10 hidden bg-cover lg:block lg:w-2/3" style="background-image: url(/unicef_bg.jpg)">
         <div class="flex h-full items-center px-20">
           <div>
@@ -25,7 +25,7 @@
           </div>
         </div>
         <main class="flex w-full flex-1 items-center sm:max-w-md">
-          <div class="w-full overflow-hidden bg-white px-6 py-4 sm:rounded-lg">
+          <div class="w-full overflow-hidden px-6 py-4 sm:rounded-lg">
             <div class="flex justify-center py-5">
               <LanguageSwitcher />
             </div>
@@ -49,7 +49,7 @@
   width: 50%;
   height: 100%;
   clip-path: ellipse(25% 70% at 50% 50%);
-  background-color: white;
+  background-color: #F8F9FB;
   overflow: hidden;
   z-index: 1;
 }
