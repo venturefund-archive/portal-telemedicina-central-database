@@ -93,7 +93,13 @@
             :class="{ 'bg-gray-50': index % 2 }"
           >
             <span class="flex-grow whitespace-nowrap p-2 font-semibold capitalize">
+              <router-link
+            :to="{ name: 'PatientDetails', params: { id: patient.id } }"
+            class="hover:underline"
+            @click="handleClick({ id: patient.id })"
+          >
               {{ patient.name.toLowerCase() }}
+              </router-link>
             </span>
             <span class="w-36 p-2 text-center text-gray-500">{{patient.number_of_alerts_by_protocol}}</span>
             <span class="w-72 p-2 pl-16 text-center hidden">
@@ -231,6 +237,12 @@ const filteredPatients = computed(() => {
     return patient.name.toLowerCase().includes(patientQuery.value.toLowerCase())
   })
 })
+
+import { useStorage } from '@vueuse/core'
+const state = useStorage('app-store', { token: '' })
+const handleClick = ({ id }) => {
+  state.value.patientLastViewed = id
+}
 
 const filterAndSortPatients = computed(() => {
   return filteredPatients.value

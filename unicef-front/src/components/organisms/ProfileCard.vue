@@ -9,7 +9,15 @@
     </div>
     <div class="p-3 pt-14">
       <p class="text-sm font-semibold capitalize">{{ name }}</p>
-    </div>
+        <div ref="qrcode" class="absolute z-50 top-48 p-2 border drop-shadow-lg rounded bg-white invisible group-hover:visible"></div>
+
+<div class=" flex justify-center">
+  <span class="text-sm text-neutral-400 cursor-pointer" @click="copiarTexto">
+    <span v-if="showTooltip" class="absolute px-48 font-normal transition-opacity text-white  px-2 py-1 bg-green-500 bg-opacity-60 rounded-full " :class="{ 'opacity-0': !showTooltip, 'opacity-100': showTooltip }">Copiado com sucesso!</span>
+    <span>{{ id }}</span>
+  </span>
+</div>
+</div>
     <ul class="px-3 text-sm text-neutral-500">
       <li>
         <span class="font-semibold">{{ $t('patient-details.age') }}</span
@@ -35,20 +43,13 @@
       <li v-if="patientsStore.item.marital_status && patientsStore.item.marital_status.text">
         {{ $t('patient-details.civil-status') }} <span>{{ patientsStore.item.marital_status.text }}</span>
       </li>
-      <li>
-        <div class="group flex justify-center">
-          <div ref="qrcode" class="absolute z-50 top-48 p-2 border drop-shadow-lg rounded bg-white invisible group-hover:visible"></div>
-          <p class="text-sm text-neutral-500 truncate">
-            <span class="font-semibold">ID</span>: {{ id }}</p>
-        </div>
-      </li>
     </ul>
     <div class="mt-4">
       <ul class="divide-y divide-gray-100 text-sm font-semibold">
         <li class=""></li>
         <Tooltip variant="gray" position="right">
           <template #trigger>
-            <li class="flex items-center text-green-50 bg-white py-4 pl-4 font-normal opacity-50">
+            <li class="flex items-center bg-white py-4 pl-4 font-normal opacity-50">
               <div class="mr-2 h-12 w-12 rounded-full border border-gray-100 bg-[#F8F9FB] p-2">
                 <img class="mx-auto my-auto flex h-7 w-7" src="@/assets/images/profile-menu-01.png" />
               </div>
@@ -56,7 +57,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex text-gray-700 font-normal">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="flex text-gray-700 font-normalP">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <li class="flex cursor-pointer items-center border-r-4 !border-r-blue-500 py-4 pl-4 hover:bg-[#F8F9FB]">
@@ -81,7 +82,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex text-gray-700 font-normal justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="flex text-gray-700 font-normalP justify-center">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
@@ -94,7 +95,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex text-gray-700 font-normal justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="flex text-gray-700 font-normalP justify-center">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
@@ -107,7 +108,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex text-gray-700 font-normal justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="flex text-gray-700 font-normalP justify-center">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
@@ -120,7 +121,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex text-gray-700 font-normal justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="flex text-gray-700 font-normalP justify-center">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
@@ -133,7 +134,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex text-gray-700 font-normal justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="flex text-gray-700 font-normalP justify-center">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
       </ul>
@@ -203,6 +204,23 @@ const props = defineProps({
     default: '0',
   },
 })
+const showTooltip = ref(false);
+
+const copiarTexto = () => {
+  const areaDeTransferencia = document.createElement('textarea');
+  areaDeTransferencia.value = props.id;
+  document.body.appendChild(areaDeTransferencia);
+  areaDeTransferencia.select();
+  document.execCommand('copy');
+  document.body.removeChild(areaDeTransferencia);
+
+  showTooltip.value = true;
+
+  // Esconder o tooltip após 2 segundos (2000ms)
+  setTimeout(() => {
+    showTooltip.value = false;
+  }, 999);
+};
 
 const showQrcode = ref(false);
 const qrcodeUrl = ref(`${window.location.protocol}//${window.location.host}/patients/${patientsStore.item.id}`);
@@ -219,3 +237,33 @@ onMounted(() => {
   });
 });
 </script>
+<style>
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+.animate-tooltip {
+  animation: fadeInOut 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+</style>
