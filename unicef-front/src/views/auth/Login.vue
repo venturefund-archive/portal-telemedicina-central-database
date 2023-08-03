@@ -121,15 +121,14 @@ const login = async () => {
       router.replace({ name: 'Patients' })
     }
   } catch (err) {
-    console.log(err.response)
-    // if (err.response.data.non_field_errors) {
-    //   errorToast({ text: t('auth.user-under-approval-phase-or-user-under-analysis') })
-    //   return false
-    // }
-    // if (err.response.data.username) {
-    //   errorToast({ text: 'username: ' + err.response.data.username.join(', ') })
-    //   return false
-    // }
+     if (err.response.data.non_field_errors) {
+       errorToast({ text: t('auth.user-under-approval-phase-or-user-under-analysis') })
+      return false
+     }
+     if (err.response.data.username) {
+       errorToast({ text: 'username: ' + err.response.data.username.join(', ') })
+       return false
+     }
   }
 }
 </script>

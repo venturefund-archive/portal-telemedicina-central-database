@@ -33,7 +33,9 @@ import { onMounted, onUpdated, reactive, ref, inject, watch, onRenderTracked } f
 import MapGoogle from '@/components/organisms/MapGoogle.vue'
 import { usePatientsStore } from '@/stores/patients'
 import { useRoute } from 'vue-router'
+import { useMapStore } from '@/stores/map'
 
+const mapStore = useMapStore()
 const route = useRoute()
 const patientsStore = usePatientsStore()
 const currentCenter = ref(undefined)
@@ -73,13 +75,24 @@ const handleGeoCoderReady = (geocoderLocal) => {
 const updateMarkersFiltered = (newMarkers) => {
   // @TODO: Find a better place to calculate geocode
   newMarkers.map((newMarker, index) => {
-    if (!newMarkers[index].address.line || "Unknown" == newMarkers[index].address.line[0]) {
-      console.log('processando geocode..')
+    if (0 == newMarkers[index].address.line.length || "Unknown" == newMarkers[index].address.line[0]) {
       geocoder.value.geocode({ location: { lat: newMarker.address.latitude, lng: newMarker.address.longitude } }, async (results, status) => {
           if (status === 'OK') {
             if (results[0]) {
+
+              const updatedMarker = {
+                  address: [
+                  {
+                    id: 1,
+                    latitude: newMarker.address.latitude,
+                    longitude: newMarker.address.longitude,
+                    line: [results[0].formatted_address],
+                  },
+                ],
+              }
               newMarkers[index].address.line[0] = results[0].formatted_address
-              console.log('salvando no backend')
+              await mapStore.updateMarker(newMarker.id, updatedMarker)
+
             } else {
               console.log('No results found')
             }

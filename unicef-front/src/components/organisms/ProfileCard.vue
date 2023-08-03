@@ -7,17 +7,19 @@
         alt="Profile picture"
       />
     </div>
-    <div class="p-3 pt-14">
+    <div class="p-3 pt-14 group">
       <p class="text-sm font-semibold capitalize">{{ name }}</p>
-        <div ref="qrcode" class="absolute z-50 top-48 p-2 border drop-shadow-lg rounded bg-white invisible group-hover:visible"></div>
+      <div class="flex justify-center relative">
+        <div ref="qrcode" class="absolute z-50 -top-48 p-2 border drop-shadow-lg rounded bg-white hidden group-hover:block"></div>
+      </div>
 
-<div class=" flex justify-center">
-  <span class="text-sm text-neutral-400 cursor-pointer" @click="copiarTexto">
-    <span v-if="showTooltip" class="absolute px-48 font-normal transition-opacity text-white  px-2 py-1 bg-green-500 bg-opacity-60 rounded-full " :class="{ 'opacity-0': !showTooltip, 'opacity-100': showTooltip }">Copiado com sucesso!</span>
-    <span>{{ id }}</span>
-  </span>
-</div>
-</div>
+      <div class="flex justify-center">
+        <span class="text-sm text-neutral-400 cursor-pointer" @click="copiarTexto">
+          <span v-if="showTooltip" class="absolute font-normal transition-opacity text-gray-700  px-2 py-1 bg-gray-400 bg-opacity-60 rounded-lg" :class="{ 'opacity-0': !showTooltip, 'opacity-100': showTooltip }">Copiado com sucesso!</span>
+          <span class="truncate">{{ id }}</span>
+        </span>
+      </div>
+    </div>
     <ul class="px-3 text-sm text-neutral-500">
       <li>
         <span class="font-semibold">{{ $t('patient-details.age') }}</span
@@ -222,7 +224,6 @@ const copiarTexto = () => {
   }, 999);
 };
 
-const showQrcode = ref(false);
 const qrcodeUrl = ref(`${window.location.protocol}//${window.location.host}/patients/${patientsStore.item.id}`);
 let qrcode = ref(null);
 
