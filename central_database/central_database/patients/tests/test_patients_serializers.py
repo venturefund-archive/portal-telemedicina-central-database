@@ -40,20 +40,29 @@ class TestPatientSerializer(APITestCase):
         self.assertEqual(serialized_patient["gender"], patient.gender)
         self.assertIn("address", serialized_patient.keys())
 
-        for address_instance, address_data in zip(
-            patient.address, serialized_patient["address"]
-        ):
-            self.assertEqual(address_data["line"], address_instance.line)
-            self.assertEqual(address_data["city"], address_instance.city)
-            self.assertEqual(address_data["state"], address_instance.state)
+        self.assertEqual(
+            serialized_patient["address"]["line"], patient.address[0].line
+        )  # noqa: E501
+        self.assertEqual(
+            serialized_patient["address"]["city"], patient.address[0].city
+        )  # noqa: E501
+        self.assertEqual(
+            serialized_patient["address"]["state"], patient.address[0].state
+        )
+        self.assertEqual(
+            serialized_patient["address"]["postal_code"],
+            patient.address[0].postalCode,  # noqa: E501
+        )
+        self.assertEqual(
+            serialized_patient["address"]["country"],
+            patient.address[0].country,  # noqa: E501
+        )
+        for extension in patient.address[0].extension[0].extension:
             self.assertEqual(
-                address_data["postal_code"], address_instance.postalCode
-            )  # noqa: E501
-            self.assertEqual(address_data["country"], address_instance.country)
-            for extension in address_instance.extension[0].extension:
-                self.assertEqual(
-                    address_data[extension.url], extension.valueDecimal
-                )  # noqa: E501
+                serialized_patient["address"][extension.url],
+                extension.valueDecimal,  # noqa: E501
+            )
+
         return serialized_patient
 
     def test_it_serializes_only_some_fields_for_patient_list(self):
