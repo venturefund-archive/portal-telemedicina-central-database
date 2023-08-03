@@ -18,14 +18,14 @@
           <div>
             <a
               href="#"
-              class="block w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-white hover:text-gray-900 hover:no-underline"
+              class="block w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-white hover:text-gray-900"
               role="menuitem"
               @click="openModal"
               >{{ $t('patient-details.manually-include') }}</a
             >
             <a
               href="#"
-              class="block w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-white hover:text-gray-900 hover:no-underline"
+              class="hidden block w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-white hover:text-gray-900"
               role="menuitem"
               @click="openModal2"
               >{{ $t('patient-details.send-booklet') }}</a

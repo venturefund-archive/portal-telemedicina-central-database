@@ -73,14 +73,13 @@ const handleGeoCoderReady = (geocoderLocal) => {
 const updateMarkersFiltered = (newMarkers) => {
   // @TODO: Find a better place to calculate geocode
   newMarkers.map((newMarker, index) => {
-    if (!newMarkers[index].address.formatted_address) {
+    if (!newMarkers[index].address.line || "Unknown" == newMarkers[index].address.line[0]) {
       console.log('processando geocode..')
-      geocoder.value.geocode(
-        { location: { lat: newMarker.address.latitude, lng: newMarker.address.longitude } },
-        async (results, status) => {
+      geocoder.value.geocode({ location: { lat: newMarker.address.latitude, lng: newMarker.address.longitude } }, async (results, status) => {
           if (status === 'OK') {
             if (results[0]) {
-              newMarkers[index].address.formatted_address = results[0].formatted_address
+              newMarkers[index].address.line[0] = results[0].formatted_address
+              console.log('salvando no backend')
             } else {
               console.log('No results found')
             }
@@ -89,8 +88,9 @@ const updateMarkersFiltered = (newMarkers) => {
           }
         }
       )
-    } else {
-      //console.log('cache..')
+    // } else {
+    //   console.log('cache..')
+    //   console.log(newMarkers[index].address.line)
     }
   })
   filteredMarkers.value = newMarkers

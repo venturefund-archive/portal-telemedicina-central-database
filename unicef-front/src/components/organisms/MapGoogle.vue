@@ -399,7 +399,8 @@ const filteredMarkers = computed(() => {
 })
 
 const updateMarkerPosition = ({ payload, marker }) => {
-  marker.address.formatted_address = payload
+  // marker.address.line = []
+  marker.address.line[0] = payload
 }
 
 const createPolygon = (polygonData) => {
