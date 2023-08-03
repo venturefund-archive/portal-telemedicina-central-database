@@ -95,9 +95,8 @@ class TestPatientViewSet(APITestCase):
         response = self.client.get(reverse("api:patients-list"))
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.data), 2)
 
-        for data in response.data.get("results"):
+        for data in response.data:
             self.assertTrue("id" in data)
             self.assertTrue("birth_date" in data)
             self.assertTrue("name" in data)
@@ -283,5 +282,5 @@ class TestPatientUpdateViewSet(APITestCase):
         mock_update.update.assert_not_called()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data["address"][0].get("latitude"), 100)
-        self.assertEqual(response.data["address"][0].get("longitude"), 101)
+        self.assertEqual(response.data["address"].get("latitude"), 100)
+        self.assertEqual(response.data["address"].get("longitude"), 101)
