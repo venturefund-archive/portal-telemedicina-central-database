@@ -1,7 +1,8 @@
 import threading
 import urllib
 
-from django.urls import reverse
+from django.core.cache import cache
+from django.db.models.query import QuerySet
 from fhirclient import client
 from fhirclient.models.patient import Patient
 from rest_framework import status
@@ -19,11 +20,26 @@ from central_database.integrations.fhir_api.google_fhir import (
     server_settings,
 )
 from central_database.patients.api.serializers import PatientSerializer
+from central_database.patients.models import PatientProxy
 from central_database.permissions_manager.rest_api.permission_classes import (
     permission_class_assembler,
 )
 
 _fhir_client_local = threading.local()
+
+
+def invalidate_cache(callback):
+    def wrapper(*args, **kwargs):
+        response = callback(*args, **kwargs)
+        if response.status_code == status.HTTP_200_OK:
+            client_city = args[
+                1
+            ].user.client.city  # assume the request is the first argument
+            cache_key = f"patients-{client_city}"
+            cache.delete(cache_key)
+        return response
+
+    return wrapper
 
 
 class PatientsViewSet(
@@ -87,43 +103,39 @@ class PatientsViewSet(
         query_params = urllib.parse.parse_qs(parsed_url.query)
         return query_params.get("_page_token", [None])[0]
 
-    def get_queryset(self):
-        page_token = self.request.query_params.get("page_token", None)
+    def get_queryset(self) -> QuerySet:
+        return PatientProxy.objects.none()
+
+    def list(self, request):
         client_city = self.request.user.client.city
-        if page_token:
-            search = Patient.where(
-                struct={
-                    "address-city": client_city,
-                    "_page_token": page_token,
-                    "_count": "1000",
-                }
-            )
-        else:
+        cache_key = f"patients-{client_city}"
+
+        queryset = cache.get(cache_key)
+
+        if queryset is None:
             search = Patient.where(
                 struct={"address-city": client_city, "_count": "1000"}
             )
 
-        resources = []
-        queryset_bundle, next_url = self.fhir_client.fetch_page(search)
-        next_page_token = (
-            self.extract_page_token(next_url) if next_url else None
-        )  # noqa: E501
-        if next_page_token:
-            api_next_url = (
-                self.request.build_absolute_uri(reverse("api:patients-list"))
-                + f"?page_token={next_page_token}"
-            )
-        else:
-            api_next_url = None
-        resources.extend(queryset_bundle.entry)
+            queryset_bundle = self.fhir_client.fetch_all_pages(search)
 
-        return [entry.resource for entry in resources], api_next_url
+            queryset = [
+                entry.resource
+                for bundle in queryset_bundle
+                for entry in bundle.entry  # noqa: E501
+            ]
 
-    def list(self, request):
-        queryset, next_url = self.get_queryset()
+            cache.set(cache_key, queryset, timeout=3600 * 24)
+
         serializer = self.get_serializer(queryset, many=True)
-        return Response({"results": serializer.data, "next_url": next_url})
 
+        serializer_data = serializer.data
+
+        response = Response(serializer_data)
+
+        return response
+
+    @invalidate_cache
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop("partial", False)
         instance = self.get_object()

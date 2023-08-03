@@ -130,7 +130,7 @@ export const useMapStore = defineStore('map', () => {
       })
       // isLoading.value = false
       // next_url.value = response.data.next_url
-      markers.value = response.data.results.map((marker) => {
+      markers.value = response.data.map((marker) => {
         return {
           id: marker.id,
           position: {

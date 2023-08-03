@@ -23,8 +23,8 @@ export const usePatientsStore = defineStore('patients', () => {
         },
       })
       isLoading.value = false
-      next_url.value = response.data.next_url
-      items.value = response.data.results
+      items.value = response.data
+
     } catch (err) {
       isLoading.value = false
       console.log(err)
@@ -34,33 +34,33 @@ export const usePatientsStore = defineStore('patients', () => {
     return items.value
   }
 
-  const fetchPatientsRecursive = async (nextUrl) => {
-    try {
-      isLoading.value = true
-      const response = await axios.get(!nextUrl ? next_url.value : nextUrl, {
-        headers: {
-          'Content-type': 'application/json',
-          Authorization: `token ${state.value.token}`,
-        },
-      })
+  // const fetchPatientsRecursive = async (nextUrl) => {
+  //   try {
+  //     isLoading.value = true
+  //     const response = await axios.get(!nextUrl ? next_url.value : nextUrl, {
+  //       headers: {
+  //         'Content-type': 'application/json',
+  //         Authorization: `token ${state.value.token}`,
+  //       },
+  //     })
 
-      next_url.value = response.data.next_url
-      items.value.push(...response.data.results)
-      console.log(items.value.length)
+  //     next_url.value = response.data.next_url
+  //     items.value.push(...response.data.results)
+  //     console.log(items.value.length)
 
-      // Verificar se existe um next_url e, em caso afirmativo, chamar recursivamente a função auxiliar
-      if (next_url.value) {
-        // shouldStop.value = true
-        return await fetchPatientsRecursive(next_url.value)
-      }
-      isLoading.value = false
-      return response.data.results
-    } catch (err) {
-      isLoading.value = false
-      console.log(err)
-      err.response && errorToast({ text: err.response.data.detail })
-    }
-  }
+  //     // Verificar se existe um next_url e, em caso afirmativo, chamar recursivamente a função auxiliar
+  //     if (next_url.value) {
+  //       // shouldStop.value = true
+  //       return await fetchPatientsRecursive(next_url.value)
+  //     }
+  //     isLoading.value = false
+  //     return response.data.results
+  //   } catch (err) {
+  //     isLoading.value = false
+  //     console.log(err)
+  //     err.response && errorToast({ text: err.response.data.detail })
+  //   }
+  // }
 
   async function fetchPatient(id) {
     try {
@@ -98,7 +98,6 @@ export const usePatientsStore = defineStore('patients', () => {
     item,
     isLoading,
     fetchPatients,
-    fetchPatientsRecursive,
     fetchPatient,
     movePatient,
   }
