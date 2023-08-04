@@ -74,7 +74,7 @@
                 {{ patient.name.toLowerCase() }}
               </p>
 
-              <p class="text-xs text-gray-500 uppercase max-w-md truncate uppercase">{{ patient.address.line[0] }}</p>
+              <p class="text-xs text-gray-500 uppercase max-w-sm truncate uppercase">{{ patient.address.line[0] }}</p>
             </div>
           </div>
           <div>

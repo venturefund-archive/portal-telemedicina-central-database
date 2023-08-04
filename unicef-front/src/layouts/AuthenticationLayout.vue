@@ -1,6 +1,6 @@
 <template>
-  <div class="bg-[#F8F9FB] ">
-    <div class="flex justify-center ">
+  <div class="bg-[#F8F9FB]">
+    <div class="flex justify-center">
       <div class="relative z-10 hidden bg-cover lg:block lg:w-2/3" style="background-image: url(/unicef_bg.jpg)">
         <div class="flex h-full items-center px-20">
           <div>
@@ -49,7 +49,7 @@
   width: 50%;
   height: 100%;
   clip-path: ellipse(25% 70% at 50% 50%);
-  background-color: #F8F9FB;
+  background-color: #f8f9fb;
   overflow: hidden;
   z-index: 1;
 }

@@ -18,7 +18,7 @@
         </div>
       </span>
 
-      <div v-else-if="3 == status" class="h-9 w-9 rounded-full border bg-red-500">
+      <div v-else-if="3 == status" class="cursor-default h-9 w-9 rounded-full border bg-red-500">
         <span class="text-2xl font-semibold text-white">!</span>
       </div>
       <div v-else-if="4 == status" class="border-tranparent h-9 w-9 rounded-full border bg-blue-300 shadow-md"></div>
@@ -42,18 +42,18 @@
               <div class="flex items-center">
                 <div class="rounded-full bg-white">
                   <div class="px-2 py-1">
-                  <img class="h-7 w-7" src="@/assets/images/profile-menu-02.png" />
-                </div>
+                    <img class="h-7 w-7" src="@/assets/images/profile-menu-02.png" />
+                  </div>
                 </div>
                 <div class="flex w-full items-center justify-between space-x-4">
                   <h2 class="ml-2 text-lg font-semibold">{{ props.vaccine.description }}</h2>
                   <span>{{ $t('patient-details.dose') }} #{{ props.dose.dose_order }}</span>
                 </div>
               </div>
-              <button @click="close" class="text-white rounded hover:bg-blue-600">
+              <button @click="close" class="rounded text-white hover:bg-blue-600">
                 <div class="p-1">
-                <XIcon class="h-6 w-6" />
-              </div>
+                  <XIcon class="h-6 w-6" />
+                </div>
               </button>
             </div>
 

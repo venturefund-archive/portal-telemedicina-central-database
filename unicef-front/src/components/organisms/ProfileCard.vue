@@ -7,15 +7,23 @@
         alt="Profile picture"
       />
     </div>
-    <div class="p-3 pt-14 group">
+    <div class="group p-3 pt-14">
       <p class="text-sm font-semibold capitalize">{{ name }}</p>
-      <div class="flex justify-center relative">
-        <div ref="qrcode" class="absolute z-50 -top-48 p-2 border drop-shadow-lg rounded bg-white hidden group-hover:block"></div>
+      <div class="relative flex justify-center">
+        <div
+          ref="qrcode"
+          class="absolute -top-48 z-50 hidden rounded border bg-white p-2 drop-shadow-lg group-hover:block"
+        ></div>
       </div>
 
       <div class="flex justify-center">
-        <span class="text-sm text-neutral-400 cursor-pointer" @click="copiarTexto">
-          <span v-if="showTooltip" class="absolute font-normal transition-opacity text-gray-700  px-2 py-1 bg-gray-400 bg-opacity-60 rounded-lg" :class="{ 'opacity-0': !showTooltip, 'opacity-100': showTooltip }">Copiado com sucesso!</span>
+        <span class="cursor-pointer text-sm text-neutral-400" @click="copiarTexto">
+          <span
+            v-if="showTooltip"
+            class="absolute rounded-lg bg-gray-400 bg-opacity-60 px-2 py-1 font-normal text-gray-700 transition-opacity"
+            :class="{ 'opacity-0': !showTooltip, 'opacity-100': showTooltip }"
+            >Copiado com sucesso!</span
+          >
           <span class="truncate">{{ id }}</span>
         </span>
       </div>
@@ -59,7 +67,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex text-gray-700 font-normalP">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="font-normalP flex text-gray-700">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <li class="flex cursor-pointer items-center border-r-4 !border-r-blue-500 py-4 pl-4 hover:bg-[#F8F9FB]">
@@ -84,7 +92,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex text-gray-700 font-normalP justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="font-normalP flex justify-center text-gray-700">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
@@ -97,7 +105,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex text-gray-700 font-normalP justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="font-normalP flex justify-center text-gray-700">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
@@ -110,7 +118,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex text-gray-700 font-normalP justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="font-normalP flex justify-center text-gray-700">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
@@ -123,7 +131,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex text-gray-700 font-normalP justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="font-normalP flex justify-center text-gray-700">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
@@ -136,7 +144,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex text-gray-700 font-normalP justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="font-normalP flex justify-center text-gray-700">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
       </ul>
@@ -165,7 +173,7 @@ import {
   addMonths,
 } from 'date-fns'
 import { useI18n } from 'vue3-i18n'
-import QRCode from 'easyqrcodejs';
+import QRCode from 'easyqrcodejs'
 
 const { t } = useI18n()
 const patientsStore = usePatientsStore()
@@ -206,37 +214,37 @@ const props = defineProps({
     default: '0',
   },
 })
-const showTooltip = ref(false);
+const showTooltip = ref(false)
 
 const copiarTexto = () => {
-  const areaDeTransferencia = document.createElement('textarea');
-  areaDeTransferencia.value = props.id;
-  document.body.appendChild(areaDeTransferencia);
-  areaDeTransferencia.select();
-  document.execCommand('copy');
-  document.body.removeChild(areaDeTransferencia);
+  const areaDeTransferencia = document.createElement('textarea')
+  areaDeTransferencia.value = props.id
+  document.body.appendChild(areaDeTransferencia)
+  areaDeTransferencia.select()
+  document.execCommand('copy')
+  document.body.removeChild(areaDeTransferencia)
 
-  showTooltip.value = true;
+  showTooltip.value = true
 
   // Esconder o tooltip após 2 segundos (2000ms)
   setTimeout(() => {
-    showTooltip.value = false;
-  }, 999);
-};
+    showTooltip.value = false
+  }, 999)
+}
 
-const qrcodeUrl = ref(`${window.location.protocol}//${window.location.host}/patients/${patientsStore.item.id}`);
-let qrcode = ref(null);
+const qrcodeUrl = ref(`${window.location.protocol}//${window.location.host}/patients/${patientsStore.item.id}`)
+let qrcode = ref(null)
 
 onMounted(() => {
   new QRCode(qrcode.value, {
     text: qrcodeUrl.value,
     width: 96,
     height: 96,
-    colorDark: "#000000",
-    colorLight: "#ffffff",
-    correctLevel: QRCode.CorrectLevel.H
-  });
-});
+    colorDark: '#000000',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.H,
+  })
+})
 </script>
 <style>
 @keyframes fadeInOut {
@@ -266,5 +274,4 @@ onMounted(() => {
     opacity: 1;
   }
 }
-
 </style>
