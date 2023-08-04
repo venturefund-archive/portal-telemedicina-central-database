@@ -26,9 +26,9 @@
         </div>
 
         <div class="flex w-full justify-end p-4">
-          <button type="submit" class="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600">
+          <Button type="submit" :disabled="'development' == node_env" class="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600">
             Salvar
-          </button>
+          </Button>
         </div>
       </form>
     </div>
@@ -43,6 +43,8 @@ import { useStorage } from '@vueuse/core'
 import { errorToast, successToast } from '@/toast'
 
 const loggedUserStore = useLoggedUserStore()
+
+const node_env = ref(import.meta.env.NODE_ENV)
 
 let formData = ref({
   username: '',

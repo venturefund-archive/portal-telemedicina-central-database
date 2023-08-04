@@ -3,7 +3,7 @@
     <p class="mb-4 text-xl font-semibold text-gray-700">
       {{ $t('manager.vaccination-map') }}
     </p>
-    <div class="!z-20 h-[106px] w-full rounded-t-2xl border !bg-gray-50 drop-shadow-lg">
+    <div class="!z-20 rounded-t-2xl border !bg-gray-50 drop-shadow-lg">
       <div>
         <!-- People with vaccines delayed -->
         <div class="flex flex-col items-center justify-between space-y-5 md:flex-row md:space-x-5 md:space-y-0">

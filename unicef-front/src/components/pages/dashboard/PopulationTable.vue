@@ -4,9 +4,9 @@
       {{ $t('dashboard.health-population') }}
     </p>
 
-    <div class="w-full rounded-t-2xl !bg-white shadow">
-      <div>
-        <div class="flex flex-col items-center justify-between space-y-5 p-5 md:flex-row md:space-x-5 md:space-y-0">
+    <div class="w-full rounded-t-2xl bg-white shadow">
+
+          <div class="flex flex-col items-center justify-between space-y-5 p-5 md:flex-row md:space-x-5 md:space-y-0">
           <div class="flex flex-col items-center space-y-5 md:flex-row md:space-x-5 md:space-y-0">
             <div class="flex items-center space-x-5">
               <div class="flex items-center">
@@ -72,7 +72,6 @@
                 </ul>
               </div>
             </div>
-          </div>
         </div>
       </div>
       <div class="flex flex-col rounded rounded-b-2xl bg-white shadow-lg">
@@ -88,7 +87,7 @@
 
         <div class="max-h-[580px] overflow-y-auto">
           <div
-            class="text-md h-18 flex flex-col items-center gap-4 p-2 text-left hover:bg-gray-100 md:flex-row"
+            class="text-md h-18 flex w-full items-center gap-4 p-2 text-left hover:bg-gray-100"
             v-for="(patient, index) in paginated"
             :key="index"
             :class="{ 'bg-gray-50': index % 2 }"

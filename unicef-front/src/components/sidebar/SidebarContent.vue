@@ -2,7 +2,7 @@
   <PerfectScrollbar
     tagname="nav"
     aria-label="main"
-    class="relative flex max-h-full flex-1 flex-row justify-around gap-4 px-3 px-8 sm:flex-col sm:justify-start sm:px-3"
+    class="relative flex max-h-full flex-row justify-around gap-4 px-3 px-8 sm:flex-col sm:justify-start sm:px-3"
   >
     <SidebarLink :title="$t('dashboard.patients')" :to="{ name: 'Patients' }" :active="isCurrentRoute('Patients')">
       <template #icon>
@@ -24,7 +24,7 @@
   <Button
     iconOnly
     variant="secondary"
-    class="mx-auto w-10 bg-white opacity-80"
+    class="mx-auto w-10 bg-white opacity-80 hidden"
     v-slot="{ iconSizeClasses }"
     v-show="sidebarState.isOpen || sidebarState.isHovered"
     @click="sidebarState.isOpen = !sidebarState.isOpen"

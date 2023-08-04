@@ -1,8 +1,8 @@
 <template>
   <PageWrapper>
     <div class="pb-10">
-      <div class="flex items-baseline justify-center py-10">
-        <div class="mr-4 md:flex-1">
+      <div class="flex flex-col-reverse md:flex-row items-baseline justify-center py-10">
+        <div class="mr-4 w-full">
           <MapGoogle
             :markers="markers"
             @update:markers-in-view="updateMarkersFiltered"
@@ -15,7 +15,7 @@
             :areaCursor="areaCursor"
           />
         </div>
-        <div class="m-3 md:w-1/3">
+        <div class="m-3">
           <PatientListCard
             :patients="filteredMarkers"
             :onlyAlerts="onlyAlerts"

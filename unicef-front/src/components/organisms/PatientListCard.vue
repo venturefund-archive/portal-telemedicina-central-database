@@ -3,7 +3,7 @@
   <p class="mb-4 text-xl font-semibold text-gray-700">{{ $t('manager.patients-delayed') }}</p>
 
     <div
-      class="min-h-[900px] border-1 float-right flex w-full flex-col rounded-2xl border border-gray-200 bg-white p-4"
+      class="min-h-[900px] min-w-[620px] border-1 float-right flex w-full flex-col rounded-2xl border border-gray-200 bg-white p-4"
     >
       <!-- List contents here -->
       <div class="flex flex-col flex-grow">
@@ -74,7 +74,7 @@
                 {{ patient.name.toLowerCase() }}
               </p>
 
-              <p class="text-xs text-gray-500 uppercase max-w-sm truncate uppercase">{{ patient.address.line[0] }}</p>
+              <p class="text-xs text-gray-500 max-w-sm truncate uppercase">{{ patient.address.line[0] }}</p>
             </div>
           </div>
           <div>
