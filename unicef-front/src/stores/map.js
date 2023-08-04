@@ -161,8 +161,8 @@ export const useMapStore = defineStore('map', () => {
       markers.value[index] = response.data
       return response.data
     } catch (err) {
-      console.log(err)
-      errorToast({ text: err.message })
+      // console.log(err)
+      // errorToast({ text: err.message })
     }
   }
 
