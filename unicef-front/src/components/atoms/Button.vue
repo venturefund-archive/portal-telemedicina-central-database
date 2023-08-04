@@ -79,7 +79,7 @@ const variantClasses = (variant) => ({
   'bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500': variant == 'primary',
   'bg-white text-gray-500 hover:bg-gray-100 focus:ring-blue-500 dark:text-gray-400 dark:bg-dark-eval-1 dark:hover:bg-dark-eval-2 dark:hover:text-gray-200':
     variant == 'secondary',
-    'bg-white text-gray-500 hover:bg-gray-100 focus:ring-green-500 dark:text-gray-400 dark:bg-dark-eval-1 dark:hover:bg-dark-eval-2 dark:hover:text-gray-200':
+  'bg-white text-gray-500 hover:bg-gray-100 focus:ring-green-500 dark:text-gray-400 dark:bg-dark-eval-1 dark:hover:bg-dark-eval-2 dark:hover:text-gray-200':
     variant == 'third',
   'bg-green-500  border border-2 border-green-500 text-white bg-green-500 hover:bg-green-600 hover:border-green-600 focus:ring-green-500':
     variant == 'success',

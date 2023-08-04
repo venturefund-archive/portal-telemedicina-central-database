@@ -64,7 +64,7 @@
         >
           <div class="flex flex-auto items-center gap-2">
             <span class="hidden align-baseline text-xs text-gray-500">{{ indexStart + ++index }}.</span>
-            <div>
+            <div class="flex flex-col">
               <p
                 @click="
                   $emit('centralize-on-location', { ...patient.address, newPatientCursor: patient.id })
@@ -74,7 +74,7 @@
                 {{ patient.name.toLowerCase() }}
               </p>
 
-              <span class="text-xs text-gray-500"> {{ patient.address.formatted_address }} </span>
+              <p class="text-xs text-gray-500 uppercase max-w-sm truncate uppercase">{{ patient.address.line[0] }}</p>
             </div>
           </div>
           <div>
@@ -168,7 +168,7 @@ const node_env = ref(import.meta.env.NODE_ENV)
 const mode = ref('cpfs')
 const patientQuery = ref('')
 const current = ref(1)
-const pageSize = ref(10)
+const pageSize = ref(11)
 const isLastPage = computed(() => current.value + 1 >= totalPages.value + 1)
 const isFirstPage = computed(() => current.value == 1)
 const indexStart = computed(() => (current.value - 1) * pageSize.value)
@@ -180,7 +180,7 @@ const filteredPatients = computed(() => {
 })
 const filteredPatientsQuery = computed(() => {
   return props.patients.filter((patient) => {
-    return patient.name.toLowerCase().includes(patientQuery.value.toLowerCase())
+    return patient.name.toLowerCase().includes(patientQuery.value.toLowerCase()) || patient.address.line[0].toLowerCase().includes(patientQuery.value.toLowerCase())
   })
 })
 const handleMarkerChange = (event) => {

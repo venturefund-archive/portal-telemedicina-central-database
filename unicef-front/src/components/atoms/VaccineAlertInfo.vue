@@ -26,9 +26,7 @@
 
         <div class="grid grid-cols-2 gap-4">
           <div>
-            <label for="vaccine" class="block p-2 text-base ">{{
-              $t('patient-details.vaccine')
-            }}</label>
+            <label for="vaccine" class="block p-2 text-base">{{ $t('patient-details.vaccine') }}</label>
             <input
               id="vaccine"
               type="text"
@@ -38,9 +36,7 @@
             />
           </div>
           <div>
-            <label for="recommended" class="block p-2 text-base ">{{
-              $t('patient-details.recommended')
-            }}</label>
+            <label for="recommended" class="block p-2 text-base">{{ $t('patient-details.recommended') }}</label>
             <input
               id="recommended"
               type="text"
@@ -52,7 +48,7 @@
         </div>
         <div class="grid grid-cols-2 gap-4" v-if="props.dose.status && props.dose.status.completed">
           <div>
-            <label for="cns_number" class="block px-4 py-2 text-base ">
+            <label for="cns_number" class="block px-4 py-2 text-base">
               CSN {{ $t('patient-details.profissional') }}
             </label>
             <input
@@ -65,9 +61,7 @@
           </div>
 
           <div>
-            <label for="profissional" class="block p-2 text-base ">{{
-              $t('patient-details.profissional')
-            }}</label>
+            <label for="profissional" class="block p-2 text-base">{{ $t('patient-details.profissional') }}</label>
             <input
               id="profissional"
               type="text"
@@ -78,7 +72,7 @@
           </div>
 
           <div>
-            <label for="cnes_number" class="block px-4 py-2 text-base "> CNES </label>
+            <label for="cnes_number" class="block px-4 py-2 text-base"> CNES </label>
             <input
               id="cnes_number"
               type="text"
@@ -89,9 +83,7 @@
           </div>
 
           <div>
-            <label for="batch" class="block p-2 text-base ">{{
-              $t('patient-details.batch')
-            }}</label>
+            <label for="batch" class="block p-2 text-base">{{ $t('patient-details.batch') }}</label>
             <input
               id="batch"
               type="text"
@@ -102,7 +94,7 @@
           </div>
 
           <div>
-            <label for="data-application" class="block px-4 py-2 text-base ">{{
+            <label for="data-application" class="block px-4 py-2 text-base">{{
               $t('patient-details.dose-application-date')
             }}</label>
             <input
@@ -114,7 +106,7 @@
             />
           </div>
           <div>
-            <label for="next-data-application" class="block px-4 py-2 text-base ">
+            <label for="next-data-application" class="block px-4 py-2 text-base">
               {{ $t('patient-details.next-application') }}
             </label>
             <input

@@ -13,10 +13,10 @@
             :zoom="currentZoom"
             :patientCursor="patientCursor"
             :areaCursor="areaCursor"
-            />
-          </div>
-          <div class="m-3 md:w-1/3">
-            <PatientListCard
+          />
+        </div>
+        <div class="m-3 md:w-1/3">
+          <PatientListCard
             :patients="filteredMarkers"
             :onlyAlerts="onlyAlerts"
             :patientCursor="patientCursor"
@@ -33,7 +33,9 @@ import { onMounted, onUpdated, reactive, ref, inject, watch, onRenderTracked } f
 import MapGoogle from '@/components/organisms/MapGoogle.vue'
 import { usePatientsStore } from '@/stores/patients'
 import { useRoute } from 'vue-router'
+import { useMapStore } from '@/stores/map'
 
+const mapStore = useMapStore()
 const route = useRoute()
 const patientsStore = usePatientsStore()
 const currentCenter = ref(undefined)
@@ -54,12 +56,12 @@ onMounted(async () => {
   }
   markers.value = filteredMarkers.value = patientsStore.items
   const inputFilterBy = route.path.split('/')[2]
-  if(props.id){
-    if('area' == inputFilterBy){
+  if (props.id) {
+    if ('area' == inputFilterBy) {
       setTimeout(async () => {
         areaCursor.value = props.id
       }, 500)
-    }else{
+    } else {
       setTimeout(async () => {
         patientCursor.value = props.id
       }, 500)
@@ -73,14 +75,24 @@ const handleGeoCoderReady = (geocoderLocal) => {
 const updateMarkersFiltered = (newMarkers) => {
   // @TODO: Find a better place to calculate geocode
   newMarkers.map((newMarker, index) => {
-    if (!newMarkers[index].address.formatted_address) {
-      console.log('processando geocode..')
+    if (0 == newMarkers[index].address.line.length || 'Unknown' == newMarkers[index].address.line[0]) {
       geocoder.value.geocode(
         { location: { lat: newMarker.address.latitude, lng: newMarker.address.longitude } },
         async (results, status) => {
           if (status === 'OK') {
             if (results[0]) {
-              newMarkers[index].address.formatted_address = results[0].formatted_address
+              const updatedMarker = {
+                address: [
+                  {
+                    id: 1,
+                    latitude: newMarker.address.latitude,
+                    longitude: newMarker.address.longitude,
+                    line: [results[0].formatted_address],
+                  },
+                ],
+              }
+              newMarkers[index].address.line[0] = results[0].formatted_address
+              await mapStore.updateMarker(newMarker.id, updatedMarker)
             } else {
               console.log('No results found')
             }
@@ -89,8 +101,9 @@ const updateMarkersFiltered = (newMarkers) => {
           }
         }
       )
-    } else {
-      //console.log('cache..')
+      // } else {
+      //   console.log('cache..')
+      //   console.log(newMarkers[index].address.line)
     }
   })
   filteredMarkers.value = newMarkers

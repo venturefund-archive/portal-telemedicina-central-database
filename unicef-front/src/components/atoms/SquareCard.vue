@@ -15,7 +15,7 @@
 
     <div class="flex flex-grow flex-col items-center justify-center pt-3">
       <h4 class="break-word text-center text-xl font-light text-black">{{ title }}</h4>
-      <span class="text-md break-word text-center text-gray-400 hidden">subtitle</span>
+      <span class="text-md break-word hidden text-center text-gray-400">subtitle</span>
     </div>
 
     <div v-if="protocolStore.isLoading" class="flex flex-col p-2">

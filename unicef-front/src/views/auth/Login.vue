@@ -121,7 +121,6 @@ const login = async () => {
       router.replace({ name: 'Patients' })
     }
   } catch (err) {
-    console.log(err)
     if (err.response.data.non_field_errors) {
       errorToast({ text: t('auth.user-under-approval-phase-or-user-under-analysis') })
       return false

@@ -32,7 +32,9 @@
                     clip-rule="evenodd"
                   ></path>
                 </svg>
-                <span class="ml-1 font-normal text-gray-500 md:ml-2">{{ $t('patient-details.patient-details-title') }}</span>
+                <span class="ml-1 font-normal text-gray-500 md:ml-2">{{
+                  $t('patient-details.patient-details-title')
+                }}</span>
               </div>
             </li>
             <li>
@@ -243,10 +245,7 @@
                           class="-my-1 rounded-lg text-left text-sm font-medium"
                         >
                           <p class="-mb-1.5 p-0">{{ vaccine.display }}</p>
-                          <p
-                            class="mt-0.5 text-xs text-gray-400 "
-                            v-if="vaccine.description != vaccine.display"
-                          >
+                          <p class="mt-0.5 text-xs text-gray-400" v-if="vaccine.description != vaccine.display">
                             {{ vaccine.description }}
                           </p>
                         </span>

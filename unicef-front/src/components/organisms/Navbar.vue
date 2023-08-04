@@ -10,7 +10,7 @@
     ]"
   >
     <div class="flex grow items-center pr-5">
-      <form @submit.prevent="search" class="!w-full sm:w-96 ">
+      <form @submit.prevent="search" class="!w-full sm:w-96">
         <InputIconWrapper>
           <template #icon>
             <SearchIcon aria-hidden="true" class="h-5 w-5" />
@@ -32,14 +32,14 @@
           >
             <div class="flex flex-col items-end justify-center">
               <p class="font-bold">{{ loggedUserStore.item.username }}</p>
-              <p class="text-sm text-gray-500 hidden">Nurse</p>
+              <p class="hidden text-sm text-gray-500">Nurse</p>
             </div>
             <img class="mx-5 h-12 w-12 rounded-md object-cover" :src="userAvatar" alt="User Name" />
           </button>
         </template>
         <template #content>
-          <DropdownLink to="/settings" @click="settings" class="flex justify-around group" >
-            <CogIcon class="group-hover:animate-spin w-6 h-6" />
+          <DropdownLink to="/settings" @click="settings" class="group flex justify-around">
+            <CogIcon class="h-6 w-6 group-hover:animate-spin" />
             <span class="text-base">Configurações</span>
           </DropdownLink>
         </template>
@@ -54,7 +54,7 @@
         variant="third"
         @click="toggleFullScreen"
         v-slot="{ iconSizeClasses }"
-        class="hidden md:inline-flex transition-transform duration-500 duration-500 ease-in-out hover:scale-110"
+        class="hidden transition-transform duration-500 duration-500 ease-in-out hover:scale-110 md:inline-flex"
         srText="Toggle fullscreen mode"
       >
         <ArrowsExpandIcon v-show="!isFullscreen" aria-hidden="true" :class="iconSizeClasses" />

@@ -59,7 +59,7 @@ watch(
       currentInfoWindow.close()
       currentInfoWindow = null
     }
-  },
+  }
 )
 
 const map = inject('map')
@@ -215,14 +215,16 @@ ${person.number_of_alerts_by_protocol === 1 ? t('manager.alert-protocol') : t('m
             </p>
           </div>
           ${
-            (person.address.formatted_address &&
+            (person.address.line[0] &&
               `
           <div class="flex flex-col py-2">
             <p class="pr-1 text-sm font-medium text-gray-600"> ${t('manager.address')}: </p>
             <p class="text-sm">
-              ${person.address.formatted_address}
+              ${person.address.line[0]}
             </p>
-          </div>`) || ''}
+          </div>`) ||
+            ''
+          }
         </div>
       </div>
 

@@ -18,14 +18,14 @@
           <div>
             <a
               href="#"
-              class="block w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-white hover:text-gray-900 hover:no-underline"
+              class="block w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-white hover:text-gray-900"
               role="menuitem"
               @click="openModal"
               >{{ $t('patient-details.manually-include') }}</a
             >
             <a
               href="#"
-              class="block w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-white hover:text-gray-900 hover:no-underline"
+              class="block hidden w-full px-4 py-2 text-center text-sm text-gray-700 hover:bg-white hover:text-gray-900"
               role="menuitem"
               @click="openModal2"
               >{{ $t('patient-details.send-booklet') }}</a
@@ -74,7 +74,7 @@
                       <button
                         type="button"
                         @click="closeModal"
-                        class="absolute right-2 ml-auto inline-flex items-center rounded bg-transparent p-1.5 text-sm text-white hover:bg-blue-600  hover:text-white"
+                        class="absolute right-2 ml-auto inline-flex items-center rounded bg-transparent p-1.5 text-sm text-white hover:bg-blue-600 hover:text-white"
                       >
                         <XIcon @click="closeModal" class="flex h-5 w-5 justify-end hover:cursor-pointer" />
                       </button>
@@ -84,7 +84,7 @@
                 <form class="w-full max-w-lg" @submit.prevent="submit">
                   <Input type="hidden" name="patient_id" v-model="doseForm.patient_id" />
 
-                  <div class="m-5 rounded-2xl bg-white p-6 bg-white border border-gray-200">
+                  <div class="m-5 rounded-2xl border border-gray-200 bg-white bg-white p-6">
                     <div class="mb-4 flex">
                       <div class="flex-1">
                         <label class="block px-4 py-2 text-sm font-medium text-gray-700" for="vacina">{{
@@ -95,7 +95,7 @@
                           name="vaccine_id"
                           v-model="doseForm.vaccine_id"
                           required
-                          class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2 focus:ring-0 focus:border-green-500"
+                          class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2 focus:border-green-500 focus:ring-0"
                         >
                           <option v-for="vaccine in filteredVaccines" :key="vaccine.id" :value="vaccine.id">
                             {{ vaccine.display }}: {{ vaccine.description }}
@@ -112,7 +112,7 @@
                             name="vaccine_dose"
                             v-model="doseForm.vaccine_dose"
                             required
-                            class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2 focus:ring-0 focus:border-green-500"
+                            class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2 focus:border-green-500 focus:ring-0"
                           >
                             <option
                               v-for="dose in filteredDosesByVaccine({ id: doseForm.vaccine_id })"
@@ -245,17 +245,10 @@
                     </div>
                   </div>
                   <div class="flex justify-end p-10 pt-20">
-                    <Button
-                      type="button"
-                      variant="success-outline"
-                      @click="closeModal"
-                      class="mr-3"
-                    >
+                    <Button type="button" variant="success-outline" @click="closeModal" class="mr-3">
                       {{ $t('patient-details.cancel') }}
                     </Button>
-                    <Button
-                      variant="success"
-                      type="submit"                    >
+                    <Button variant="success" type="submit">
                       {{ $t('patient-details.send') }}
                     </Button>
                   </div>

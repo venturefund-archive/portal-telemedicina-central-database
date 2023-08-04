@@ -1,23 +1,24 @@
 <template>
   <section class="mx-auto grid w-full grid-cols-1 place-content-center gap-6 pt-5 md:pt-0 lg:pt-0">
-    <p class="mt-5 text-xl font-semibold uppercase text-gray-700 tracking-tight">{{ $t('dashboard.health-population') }}</p>
+    <p class="mt-5 text-xl font-semibold uppercase tracking-tight text-gray-700">
+      {{ $t('dashboard.health-population') }}
+    </p>
 
-    <div class="w-full rounded-t-2xl  !bg-white shadow">
+    <div class="w-full rounded-t-2xl !bg-white shadow">
       <div>
-
         <div class="flex flex-col items-center justify-between space-y-5 p-5 md:flex-row md:space-x-5 md:space-y-0">
-          <div class="flex flex-col items-center space-y-5 md:flex-row md:space-y-0 md:space-x-5">
+          <div class="flex flex-col items-center space-y-5 md:flex-row md:space-x-5 md:space-y-0">
             <div class="flex items-center space-x-5">
               <div class="flex items-center">
                 <UserIcon class="mr-3 h-6 w-6 text-blue-500" />
                 <div class="flex flex-col items-start justify-center">
-                  <h4 class="text-xl font-semibold pl-1">{{ filterAndSortPatients.length }}</h4>
-                  <span class="text-sm text-gray-500">{{$t('dashboard.patients')}}</span>
+                  <h4 class="pl-1 text-xl font-semibold">{{ filterAndSortPatients.length }}</h4>
+                  <span class="text-sm text-gray-500">{{ $t('dashboard.patients') }}</span>
                 </div>
               </div>
               <div
-          class="border-r-1 inline-flex items-center justify-center gap-2 border border-l-0 border-gray-200 border-b-transparent border-t-transparent py-7"
-        ></div>
+                class="border-r-1 inline-flex items-center justify-center gap-2 border border-l-0 border-gray-200 border-b-transparent border-t-transparent py-7"
+              ></div>
               <div>
                 <form @submit.prevent="searchAddress">
                   <label for="default-search" class="sr-only">Procurar</label>
@@ -76,38 +77,38 @@
       </div>
       <div class="flex flex-col rounded rounded-b-2xl bg-white shadow-lg">
         <div class="flex justify-between gap-4 border-b text-left text-xs font-medium uppercase text-gray-500">
-          <span class="flex-grow p-2 pl-5">{{$t('dashboard.patient')}}</span>
-          <span class="w-36 p-2 text-center hidden">{{$t('dashboard.priority')}}</span>
-          <span class="w-36 p-2 text-center hidden">{{$t('dashboard.alerts')}}</span>
-          <span class="w-36 p-2 text-center hidden">{{$t('dashboard.team')}}</span>
-          <span class="w-48 p-2 text-center">{{$t('manager.alerts-protocol')}}</span>
+          <span class="flex-grow p-2 pl-5">{{ $t('dashboard.patient') }}</span>
+          <span class="hidden w-36 p-2 text-center">{{ $t('dashboard.priority') }}</span>
+          <span class="hidden w-36 p-2 text-center">{{ $t('dashboard.alerts') }}</span>
+          <span class="hidden w-36 p-2 text-center">{{ $t('dashboard.team') }}</span>
+          <span class="w-48 p-2 text-center">{{ $t('manager.alerts-protocol') }}</span>
           <span class="w-36 p-2 text-center"></span>
           <span class="w-36 p-2 text-center"></span>
         </div>
 
         <div class="max-h-[580px] overflow-y-auto">
           <div
-            class="text-md h-18 flex flex-col items-center md:flex-row gap-4 p-2 text-left hover:bg-gray-100"
+            class="text-md h-18 flex flex-col items-center gap-4 p-2 text-left hover:bg-gray-100 md:flex-row"
             v-for="(patient, index) in paginated"
             :key="index"
             :class="{ 'bg-gray-50': index % 2 }"
           >
             <span class="flex-grow whitespace-nowrap p-2 font-semibold capitalize">
               <router-link
-            :to="{ name: 'PatientDetails', params: { id: patient.id } }"
-            class="hover:underline"
-            @click="handleClick({ id: patient.id })"
-          >
-              {{ patient.name.toLowerCase() }}
+                :to="{ name: 'PatientDetails', params: { id: patient.id } }"
+                class="hover:underline"
+                @click="handleClick({ id: patient.id })"
+              >
+                {{ patient.name.toLowerCase() }}
               </router-link>
             </span>
-            <span class="w-36 p-2 text-center text-gray-500">{{patient.number_of_alerts_by_protocol}}</span>
-            <span class="w-72 p-2 pl-16 text-center hidden">
+            <span class="w-36 p-2 text-center text-gray-500">{{ patient.number_of_alerts_by_protocol }}</span>
+            <span class="hidden w-72 p-2 pl-16 text-center">
               <span :class="['inline-block rounded-full px-2 py-1 text-sm', getClassByPriority(priority)]">
                 {{ priority }}
               </span>
             </span>
-            <span class="w-auto p-2 text-center hidden">
+            <span class="hidden w-auto p-2 text-center">
               <span
                 class="mr-0.5 inline-block rounded-full px-2 py-2 opacity-90"
                 v-for="(color, index) in colors"
@@ -116,22 +117,24 @@
               >
               </span>
             </span>
-             <span class="w-36 p-2 text-center text-gray-500 hidden">49 - Integração</span>
-            <span class="w-36 p-2 text-center text-gray-500 hidden">
+            <span class="hidden w-36 p-2 text-center text-gray-500">49 - Integração</span>
+            <span class="hidden w-36 p-2 text-center text-gray-500">
               <!-- <router-link :to="`/map/area/${area.id}`">{{ area.name }}</router-link>
               <router-link :to="`/map/area/1`">Região Exemplo</router-link> -->
             </span>
             <router-link :to="`/map/patient/${patient.id}`">
-              <span class="group flex cursor-pointer flex-col w-36 items-center text-center">
+              <span class="group flex w-36 cursor-pointer flex-col items-center text-center">
                 <MapIcon class="h-6 w-6 font-light text-gray-500" />
-                <span class="text-gray-500 group-hover:underline text-sm lowercase"> {{$t('dashboard.see-on-map')}}</span>
+                <span class="text-sm lowercase text-gray-500 group-hover:underline">
+                  {{ $t('dashboard.see-on-map') }}</span
+                >
               </span>
             </router-link>
-            <span class="flex justify-end pr-5 w-36">
+            <span class="flex w-36 justify-end pr-5">
               <a
                 :href="`/patients/${patient.id}`"
                 class="cursor-pointer font-normal lowercase text-blue-600 hover:underline"
-                @click.prevent="vaccineModalIndex = patient.id; patientsStore.item = patient"
+                @click.prevent="handlePatientDetails(patient)"
               >
                 {{ $t('manager.see-details') }}
               </a>
@@ -146,11 +149,11 @@
         </div>
 
         <div v-if="patientsStore.isLoading" class="max-h-[580px] overflow-y-auto">
-        <div class="pt-4 flex flex-col">
-          <SkeletonLoader type="text" animation="fade-in" class="py-3 h-20" v-for="i in 100" />
+          <div class="flex flex-col pt-4">
+            <SkeletonLoader type="text" animation="fade-in" class="h-20 py-3" v-for="i in 100" />
+          </div>
         </div>
-      </div>
-        <div class="flex h-full p-48 flex-col items-center justify-center" v-else-if="paginated.length == 0">
+        <div class="flex h-full flex-col items-center justify-center p-48" v-else-if="paginated.length == 0">
           <div class="flex justify-center">
             <EmptyResultPhoto />
           </div>
@@ -244,25 +247,26 @@ const handleClick = ({ id }) => {
   state.value.patientLastViewed = id
 }
 
+const handlePatientDetails = (patient) => {
+  vaccineModalIndex.value = patient.id
+  patientsStore.item = patient
+}
 const filterAndSortPatients = computed(() => {
-  return filteredPatients.value
-    .sort((a, b) => {
-      // Comparar prioridades
-      // if (a.priority !== b.priority) {
-      //   // Se a prioridade de a for maior que a de b, a vem primeiro (ordem decrescente)
-      //   return b.priority - a.priority;
-      // }
-
-      // // Se as prioridades são iguais, compare a equipe
-      // if (a.team !== b.team) {
-      //   // Ordene alfabeticamente (ordem crescente)
-      //   return a.team.localeCompare(b.team);
-      // }
-
-      // // Se a equipe é a mesma, compare a área
-      // // Ordene alfabeticamente (ordem crescente)
-      // return a.area.localeCompare(b.area);
-    });
+  return filteredPatients.value.sort((a, b) => {
+    // Comparar prioridades
+    // if (a.priority !== b.priority) {
+    //   // Se a prioridade de a for maior que a de b, a vem primeiro (ordem decrescente)
+    //   return b.priority - a.priority;
+    // }
+    // // Se as prioridades são iguais, compare a equipe
+    // if (a.team !== b.team) {
+    //   // Ordene alfabeticamente (ordem crescente)
+    //   return a.team.localeCompare(b.team);
+    // }
+    // // Se a equipe é a mesma, compare a área
+    // // Ordene alfabeticamente (ordem crescente)
+    // return a.area.localeCompare(b.area);
+  })
 })
 
 const handleClickOutside = (event) => {

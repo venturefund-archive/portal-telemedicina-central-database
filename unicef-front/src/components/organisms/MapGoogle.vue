@@ -72,8 +72,8 @@
                 </Switch>
                 <span class="pt-2 text-sm">{{ $t('manager.alerts') }}</span>
               </div>
-              <div class="hidden flex flex-col items-center rounded-md px-4 py-2 text-gray-300 cursor-not-allowed">
-                <TableIcon class="w-8 h-8"/>
+              <div class="flex hidden cursor-not-allowed flex-col items-center rounded-md px-4 py-2 text-gray-300">
+                <TableIcon class="h-8 w-8" />
                 <span>{{ $t('manager.visualization') }}</span>
               </div>
             </div>
@@ -184,15 +184,17 @@ watch(
       const index = mapStore.polygons.findIndex((polygon) => {
         return polygon.id == areaCursor
       })
-      if(-1 != index) {
+      if (-1 != index) {
         const polygon = mapStore.polygons[index]
-        const googlePolygon = getPolygonCenter(new google.maps.Polygon({
-          paths: polygon.coordinates,
-        }))
+        const googlePolygon = getPolygonCenter(
+          new google.maps.Polygon({
+            paths: polygon.coordinates,
+          })
+        )
         const latitude = googlePolygon.lat()
         const longitude = googlePolygon.lng()
         emit('centralize-on-location', { latitude, longitude, newAreaCursor: `${polygon.id}` })
-      }else{
+      } else {
         console.log('area not found')
       }
     }
@@ -288,7 +290,9 @@ const createLoadedPolygon = (polygonData) => {
         <h3 class="font-bold text-lg text-center text-gray-700">${t('manager.edit-info')}</h3>
         <hr class="mb-4 mt-1 w-full border border-dashed" />
       </div>
-      <input type="text" placeholder="${t('manager.region-name')}" class="border border-gray-200 focus:ring-0 focus:border focus:border-green-500 bg-white h-10 px-5 pr-16 rounded-lg text-sm mb-4">
+      <input type="text" placeholder="${t(
+        'manager.region-name'
+      )}" class="border border-gray-200 focus:ring-0 focus:border focus:border-green-500 bg-white h-10 px-5 pr-16 rounded-lg text-sm mb-4">
       <div class="flex justify-between">
         <button id="deleteButton"class="mx-2 gap-2 focus:outline-none text-base font-semibold py-2 bg-white rounded-md border text-red-500 hover:text-white border-red-500 hover:bg-red-500 px-6">${t(
           'manager.delete'
@@ -351,7 +355,7 @@ const initializeMap = async () => {
     center: geocodeAddress(geoCoderQuery.value),
   })
   map.value.addListener('idle', () => {
-    if(map.value.getBounds()){
+    if (map.value.getBounds()) {
       getMarkersInView()
     }
   })
@@ -399,7 +403,8 @@ const filteredMarkers = computed(() => {
 })
 
 const updateMarkerPosition = ({ payload, marker }) => {
-  marker.address.formatted_address = payload
+  // marker.address.line = []
+  marker.address.line[0] = payload
 }
 
 const createPolygon = (polygonData) => {

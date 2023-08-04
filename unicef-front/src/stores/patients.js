@@ -24,7 +24,6 @@ export const usePatientsStore = defineStore('patients', () => {
       })
       isLoading.value = false
       items.value = response.data
-
     } catch (err) {
       isLoading.value = false
       console.log(err)
