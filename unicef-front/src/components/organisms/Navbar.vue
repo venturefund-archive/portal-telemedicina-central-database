@@ -78,7 +78,7 @@
   <div
     class="block sm:hidden"
     :class="[
-      'dark:bg-dark-eval-1 fixed inset-x-0 bottom-0 z-10 flex items-center justify-between bg-blue-500 px-4 py-4 transition-transform duration-500 sm:px-6 md:hidden',
+      'dark:bg-dark-eval-1 fixed inset-x-0 bottom-0 z-[999999] flex items-center justify-between bg-blue-500 px-4 py-4 transition-transform duration-500 sm:px-6 md:hidden',
       {
         'translate-y-full': scrolling.down,
         'translate-y-0': scrolling.up,
@@ -97,7 +97,7 @@
       v-if="!sidebarState.isOpen"
       @click="sidebarState.isOpen = !sidebarState.isOpen"
       v-slot="{ iconSizeClasses }"
-      class="md:hidden"
+      class="invisible"
       srText="Search"
     >
       <MenuIcon v-show="!sidebarState.isOpen" aria-hidden="true" :class="iconSizeClasses" />
