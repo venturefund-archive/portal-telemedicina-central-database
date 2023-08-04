@@ -57,7 +57,7 @@
               </button>
             </div>
 
-            <div class="h-full bg-white p-4">
+            <div class="h-full bg-[#F8F9FB] p-4">
               <slot />
             </div>
           </DialogPanel>

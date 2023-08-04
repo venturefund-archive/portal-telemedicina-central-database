@@ -283,6 +283,7 @@ const createLoadedPolygon = (polygonData) => {
 
   const infoWindow = new google.maps.InfoWindow()
 
+
   const tempDiv = document.createElement('div')
   tempDiv.innerHTML = `
   <div class="flex flex-col">
@@ -290,7 +291,7 @@ const createLoadedPolygon = (polygonData) => {
         <h3 class="font-bold text-lg text-center text-gray-700">${t('manager.edit-info')}</h3>
         <hr class="mb-4 mt-1 w-full border border-dashed" />
       </div>
-      <input type="text" placeholder="${t(
+      <input type="text" value="${polygonData.name}" placeholder="${t(
         'manager.region-name'
       )}" class="border border-gray-200 focus:ring-0 focus:border focus:border-green-500 bg-white h-10 px-5 pr-16 rounded-lg text-sm mb-4">
       <div class="flex justify-between">
@@ -411,10 +412,10 @@ const createPolygon = (polygonData) => {
   const polygon = new google.maps.Polygon({
     paths: polygonData.coordinates,
     map: map.value,
-    strokeColor: '#FF0000',
+    strokeColor: '#166534',
     strokeOpacity: 0.8,
     strokeWeight: 2,
-    fillColor: '#FF0000',
+    fillColor: '#fb923c',
     fillOpacity: 0.35,
   })
 
@@ -428,17 +429,19 @@ const createPolygonInfoWindow = (polygon, openImmediately = true) => {
 
   const tempDiv = document.createElement('div')
   tempDiv.innerHTML = `
-    <div class="flex flex-col">
+  <div class="flex flex-col">
       <div class="sticky top-0 bg-white">
-        <h3 class="font-bold text-lg mb-2">${t('manager.edit-info')}</h3>
-        <hr class="my-3 w-full border border-dashed" />
+        <h3 class="font-bold text-lg text-center text-gray-700">${t('manager.edit-info')}</h3>
+        <hr class="mb-4 mt-1 w-full border border-dashed" />
       </div>
-      <input type="text" class="border border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:ring-0 focus:border focus:border-green-500 mb-4">
+      <input type="text" placeholder="${t(
+        'manager.region-name'
+      )}" class="border border-gray-200 focus:ring-0 focus:border focus:border-green-500 bg-white h-10 px-5 pr-16 rounded-lg text-sm mb-4">
       <div class="flex justify-between">
-        <button id="deleteButton" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">${t(
+        <button id="deleteButton"class="mx-2 gap-2 focus:outline-none text-base font-semibold py-2 bg-white rounded-md border text-red-500 hover:text-white border-red-500 hover:bg-red-500 px-6">${t(
           'manager.delete'
         )}</button>
-        <button id="saveButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">${t(
+        <button id="saveButton" class="mx-2 gap-2 focus:outline-none text-base font-semibold py-2 hover:bg-green-600 rounded-md border text-white  border-green-500 bg-green-500 px-6">${t(
           'manager.save'
         )}</button>
       </div>
