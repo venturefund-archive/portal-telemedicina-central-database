@@ -27,7 +27,7 @@
         <div class="grid grid-cols-2 gap-4">
           <div>
             <label for="vaccine" class="block p-2 text-base">{{ $t('patient-details.vaccine') }}</label>
-            <input
+            <Input
               id="vaccine"
               type="text"
               v-model="doseForm.vaccine.description"
@@ -37,7 +37,7 @@
           </div>
           <div>
             <label for="recommended" class="block p-2 text-base">{{ $t('patient-details.recommended') }}</label>
-            <input
+            <Input
               id="recommended"
               type="text"
               v-model="doseForm.recommended_age"
@@ -51,7 +51,7 @@
             <label for="cns_number" class="block px-4 py-2 text-base">
               CSN {{ $t('patient-details.profissional') }}
             </label>
-            <input
+            <Input
               id="cns_number"
               type="text"
               v-model="doseForm.health_professional.cns_number"
@@ -62,7 +62,7 @@
 
           <div>
             <label for="profissional" class="block p-2 text-base">{{ $t('patient-details.profissional') }}</label>
-            <input
+            <Input
               id="profissional"
               type="text"
               v-model="doseForm.health_professional.name"
@@ -73,7 +73,7 @@
 
           <div>
             <label for="cnes_number" class="block px-4 py-2 text-base"> CNES </label>
-            <input
+            <Input
               id="cnes_number"
               type="text"
               v-model="doseForm.health_professional.cnes_number"
@@ -84,7 +84,7 @@
 
           <div>
             <label for="batch" class="block p-2 text-base">{{ $t('patient-details.batch') }}</label>
-            <input
+            <Input
               id="batch"
               type="text"
               v-model="doseForm.batch"
@@ -97,7 +97,7 @@
             <label for="data-application" class="block px-4 py-2 text-base">{{
               $t('patient-details.dose-application-date')
             }}</label>
-            <input
+            <Input
               id="data-application"
               type="text"
               v-model="doseForm.application_date"
@@ -109,7 +109,7 @@
             <label for="next-data-application" class="block px-4 py-2 text-base">
               {{ $t('patient-details.next-application') }}
             </label>
-            <input
+            <Input
               id="next-data-application"
               type="text"
               v-model="doseForm.next_dose_application_date"
