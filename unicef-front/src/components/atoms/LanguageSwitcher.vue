@@ -2,11 +2,16 @@
   <div class="relative">
     <button
       @click="toggleDropdown"
-      class="border-r-1 border-l-1 inline-flex items-center justify-center gap-2 border border-gray-100 border-t-transparent border-b-transparent py-2 px-4"
+      class="border-r-1 border-l-1 group inline-flex items-center justify-center gap-2 border border-gray-100 border-b-transparent border-t-transparent px-4 py-2"
     >
       <img class="h-5 w-5 rounded" :src="selectedLang.flag" :alt="selectedLang.name" />
       <span class="text-sm font-semibold">{{ selectedLang.name }}</span>
-      <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+      <svg
+        class="h-5 w-5 fill-gray-500 group-hover:fill-gray-500"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
         <path fill-rule="evenodd" d="M10 14.667L3.333 8 5 6.333 10 11.333 15 6.333 16.667 8z" clip-rule="evenodd" />
       </svg>
     </button>

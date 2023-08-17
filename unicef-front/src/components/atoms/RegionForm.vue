@@ -17,7 +17,7 @@
           v-model="localPolygon.name"
           withIcon
           required
-          class="mb-3 block w-full rounded-lg border border-gray-200 border-transparent bg-gray-50 p-4 pl-10 text-sm font-medium text-gray-900 focus:border-green-500"
+          class="mb-3 block w-full rounded-lg border border-gray-200 border-transparent bg-gray-50 p-4 pl-10 text-sm font-medium text-gray-900 focus:border-green-500 focus:ring-0"
         />
       </InputIconWrapper>
       <div class="flex pt-7" :class="[{ 'justify-end': !isCreating }, 'justify-between']">

@@ -118,10 +118,9 @@ const login = async () => {
     if (state.value.intendedRoute) {
       router.replace(state.value.intendedRoute)
     } else {
-      router.replace({ name: 'Dashboard' })
+      router.replace({ name: 'Patients' })
     }
   } catch (err) {
-    console.log(err)
     if (err.response.data.non_field_errors) {
       errorToast({ text: t('auth.user-under-approval-phase-or-user-under-analysis') })
       return false

@@ -2,20 +2,9 @@
   <PerfectScrollbar
     tagname="nav"
     aria-label="main"
-    class="relative flex max-h-full flex-1 flex-row justify-around gap-4 px-3 px-8 sm:flex-col sm:justify-start sm:px-3"
+    class="relative flex max-h-full flex-row justify-around gap-4 px-3 px-8 sm:flex-col sm:justify-start sm:px-3"
   >
-    <SidebarLink :title="$t('dashboard.dashboard')" :to="{ name: 'Dashboard' }" :active="isCurrentRoute('Dashboard')">
-      <template #icon>
-        <TemplateIcon class="h-6 w-6 flex-shrink-0" aria-hidden="true" />
-      </template>
-    </SidebarLink>
-
-    <SidebarLink
-      :title="$t('dashboard.patients')"
-      class="capitalize"
-      :to="{ name: 'PatientDetailsNobody' }"
-      :active="isCurrentRoute('PatientDetails') || isCurrentRoute('PatientDetailsNobody')"
-    >
+    <SidebarLink :title="$t('dashboard.patients')" :to="{ name: 'Patients' }" :active="isCurrentRoute('Patients')">
       <template #icon>
         <UserGroupIcon class="h-6 w-6 flex-shrink-0" aria-hidden="true" />
       </template>
@@ -35,7 +24,7 @@
   <Button
     iconOnly
     variant="secondary"
-    class="mx-auto w-10 bg-white opacity-80"
+    class="mx-auto w-10 bg-white opacity-80 hidden"
     v-slot="{ iconSizeClasses }"
     v-show="sidebarState.isOpen || sidebarState.isHovered"
     @click="sidebarState.isOpen = !sidebarState.isOpen"

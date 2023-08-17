@@ -1,5 +1,6 @@
 import google.auth
 from fhirclient.client import FHIRClient
+from fhirclient.models.bundle import Bundle
 from fhirclient.server import FHIRServer
 from google.auth.transport import requests as google_requests
 
@@ -19,22 +20,35 @@ class GoogleFHIRServer(FHIRServer):
             self.session = session
 
 
+def default_save_func(x):
+    return x
+
+
 class GoogleFHIRClient(FHIRClient):
-    def __init__(self, settings=None, state=None, save_func=lambda x: x):
+    def __init__(self, settings=None, state=None, save_func=default_save_func):
         super().__init__(settings=settings, state=state, save_func=save_func)
         self.server = GoogleFHIRServer(
             self, base_uri=settings["api_base"], custom_session=True
         )
 
-    def fetch_page(self, search):
+    def fetch_all_pages(self, search):
         bundle = search.perform(self.server)
-        next_link = None
-        for link in bundle.link:
-            if link.relation == "next":
-                next_link = link.url
-                break
 
-        return bundle, next_link
+        all_bundles = []
+
+        while bundle is not None:
+            all_bundles.append(bundle)
+            next_link = None
+            for link in bundle.link:
+                if link.relation == "next":
+                    next_link = link.url
+                    break
+
+            if next_link:
+                bundle = Bundle.read_from(next_link, self.server)
+            else:
+                bundle = None
+        return all_bundles
 
 
 def server_settings(dataset, fhirstore):

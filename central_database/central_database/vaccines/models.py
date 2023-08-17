@@ -10,6 +10,7 @@ from central_database.customers.models import (  # noqa: E501
     FhirStore,
     HealthProfessional,
 )
+from central_database.users.models import User
 
 
 class Vaccine(CDModel, models.Model):
@@ -387,3 +388,13 @@ class VaccineProtocol(models.Model):
             vaccine_dose__in=self.vaccine_doses.all(),
             active=True,
         ).count()
+
+
+class VaccinationCard(CDModel):
+    patient_id = models.CharField(
+        max_length=255, help_text="Patient ID from FHIR."
+    )  # noqa: E501
+    client = models.ForeignKey(Client, on_delete=models.PROTECT, null=True)
+    document = models.FileField(upload_to="vaccination_cards/")
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+    uploaded_by = models.ForeignKey(User, on_delete=models.PROTECT)

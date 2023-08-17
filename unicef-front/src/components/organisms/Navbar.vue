@@ -2,7 +2,7 @@
   <nav
     aria-label="secondary"
     :class="[
-      'sticky top-0 z-10 flex items-center justify-between bg-white py-4 px-5 shadow-md transition-transform duration-500',
+      'sticky top-0 z-10 flex items-center justify-between bg-white px-5 py-4 shadow-md transition-transform duration-500',
       {
         '-translate-y-full': scrolling.down,
         'translate-y-0': scrolling.up,
@@ -10,8 +10,7 @@
     ]"
   >
     <div class="flex grow items-center pr-5">
-      <form @submit.prevent="search" class="w-full sm:w-96">
-        <label for="default-search" class="sr-only mb-2 text-sm font-medium text-gray-900">Procurar</label>
+      <form @submit.prevent="search" class="!w-full sm:w-96">
         <InputIconWrapper>
           <template #icon>
             <SearchIcon aria-hidden="true" class="h-5 w-5" />
@@ -26,29 +25,36 @@
         <LanguageSwitcher />
       </div>
       <!-- Dropdwon -->
-      <div>
-        <div>
+      <Dropdown align="right" width="48">
+        <template #trigger>
           <button
-            class="dark:focus:ring-offset-dark-eval-1 flex rounded-md border-2 border-transparent text-sm transition focus:outline-none focus:ring focus:ring-blue-500 focus:ring-offset-1 focus:ring-offset-white"
+            class="flex rounded-md border border-transparent text-sm transition focus:outline-none focus:ring focus:ring-green-500 focus:ring-offset-0 focus:ring-offset-white"
           >
             <div class="flex flex-col items-end justify-center">
-              <p class="font-normal" v-if="loggedUserStore.item">{{ loggedUserStore.item.username }}</p>
+              <p class="font-bold">{{ loggedUserStore.item.username }}</p>
+              <p class="hidden text-sm text-gray-500">Nurse</p>
             </div>
             <img class="mx-5 h-12 w-12 rounded-md object-cover" :src="userAvatar" alt="User Name" />
           </button>
-        </div>
-      </div>
+        </template>
+        <template #content>
+          <DropdownLink to="/settings" @click="settings" class="group flex justify-around">
+            <CogIcon class="h-6 w-6 group-hover:animate-spin" />
+            <span class="text-base">Configurações</span>
+          </DropdownLink>
+        </template>
+      </Dropdown>
       <div>
         <div
-          class="border-r-1 inline-flex items-center justify-center gap-2 border border-l-0 border-gray-100 border-t-transparent border-b-transparent py-5 px-4"
+          class="border-r-1 inline-flex items-center justify-center gap-2 border border-l-0 border-gray-100 border-b-transparent border-t-transparent px-4 py-5"
         ></div>
       </div>
       <Button
         iconOnly
-        variant="secondary"
+        variant="third"
         @click="toggleFullScreen"
         v-slot="{ iconSizeClasses }"
-        class="hidden md:inline-flex"
+        class="hidden transition-transform duration-500 duration-500 ease-in-out hover:scale-110 md:inline-flex"
         srText="Toggle fullscreen mode"
       >
         <ArrowsExpandIcon v-show="!isFullscreen" aria-hidden="true" :class="iconSizeClasses" />
@@ -56,7 +62,7 @@
       </Button>
       <Button
         iconOnly
-        variant="secondary"
+        variant="third"
         @click="logout"
         v-slot="{ iconSizeClasses }"
         class="hidden md:inline-flex"
@@ -72,7 +78,7 @@
   <div
     class="block sm:hidden"
     :class="[
-      'dark:bg-dark-eval-1 fixed inset-x-0 bottom-0 z-10 flex items-center justify-between bg-blue-500 px-4 py-4 transition-transform duration-500 sm:px-6 md:hidden',
+      'dark:bg-dark-eval-1 fixed inset-x-0 bottom-0 z-[999999] flex items-center justify-between bg-blue-500 px-4 py-4 transition-transform duration-500 sm:px-6 md:hidden',
       {
         'translate-y-full': scrolling.down,
         'translate-y-0': scrolling.up,
@@ -91,7 +97,7 @@
       v-if="!sidebarState.isOpen"
       @click="sidebarState.isOpen = !sidebarState.isOpen"
       v-slot="{ iconSizeClasses }"
-      class="md:hidden"
+      class="invisible"
       srText="Search"
     >
       <MenuIcon v-show="!sidebarState.isOpen" aria-hidden="true" :class="iconSizeClasses" />
@@ -103,7 +109,7 @@
 <script setup>
 import { onMounted, onUnmounted, reactive } from 'vue'
 import { useFullscreen } from '@vueuse/core'
-import { SunIcon, MoonIcon, SearchIcon, LogoutIcon, MenuIcon, XIcon, ArrowsExpandIcon } from '@heroicons/vue/outline'
+import { CogIcon, SearchIcon, LogoutIcon, MenuIcon, XIcon, ArrowsExpandIcon } from '@heroicons/vue/outline'
 import {
   handleScroll,
   isDark,
@@ -120,6 +126,7 @@ import { errorToast, successToast } from '@/toast'
 import { ref, watch, computed } from 'vue'
 import { usePatientsStore } from '@/stores/patients'
 import { useLoggedUserStore } from '@/stores/loggedUser'
+
 const loggedUserStore = useLoggedUserStore()
 const patientsStore = usePatientsStore()
 
@@ -143,7 +150,7 @@ const filteredResults = computed(() => {
 
   let matches = 0
 
-  return items.value.filter((patient) => {
+  return patientsStore.items.filter((patient) => {
     if (
       (patient.name.toLowerCase().includes(queryText.value.toLowerCase()) ||
         patient.id.toLowerCase().includes(queryText.value.toLowerCase())) &&
@@ -157,7 +164,6 @@ const filteredResults = computed(() => {
 
 onMounted(async () => {
   document.addEventListener('scroll', handleScroll)
-  items.value = patientsStore.items
 })
 
 onUnmounted(() => {

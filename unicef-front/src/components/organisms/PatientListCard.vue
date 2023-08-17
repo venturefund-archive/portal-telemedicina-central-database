@@ -3,7 +3,7 @@
   <p class="mb-4 text-xl font-semibold text-gray-700">{{ $t('manager.patients-delayed') }}</p>
 
     <div
-      class="min-h-[900px] border-1 float-right flex w-full flex-col rounded-2xl border border-gray-200 bg-white p-4"
+      class="min-h-[900px] min-w-[620px] border-1 float-right flex w-full flex-col rounded-2xl border border-gray-200 bg-white p-4"
     >
       <!-- List contents here -->
       <div class="flex flex-col flex-grow">
@@ -60,10 +60,11 @@
           class="flex items-center justify-between border-b border-gray-200 px-2 py-1 mt-2.5 hover:rounded hover:bg-gray-100"
           v-for="(patient, index) in paginated"
           :key="index"
+          :class="{'bg-gray-200': patient.id == props.patientCursor}"
         >
           <div class="flex flex-auto items-center gap-2">
             <span class="hidden align-baseline text-xs text-gray-500">{{ indexStart + ++index }}.</span>
-            <div>
+            <div class="flex flex-col">
               <p
                 @click="
                   $emit('centralize-on-location', { ...patient.address, newPatientCursor: patient.id })
@@ -73,7 +74,7 @@
                 {{ patient.name.toLowerCase() }}
               </p>
 
-              <span class="text-xs text-gray-500"> {{ patient.address.formatted_address }} </span>
+              <p class="text-xs text-gray-500 max-w-sm truncate uppercase">{{ patient.address.line[0] }}</p>
             </div>
           </div>
           <div>
@@ -82,7 +83,7 @@
               class="border-1 cursor-pointer rounded border border-green-500 py-2 px-4 text-sm font-normal uppercase tracking-wide text-green-500 hover:bg-green-500 hover:text-white hover:no-underline"
               @click.prevent="vaccineModalIndex = patient.id; patientsStore.item = patient"
               >{{ $t('manager.details') }}</a>
-            <VaccineTableModal
+            <PatientDetailsModal
               v-if="patient.id === vaccineModalIndex"
               :patient="patientsStore.item"
               :is-open="patient.id === vaccineModalIndex"
@@ -167,7 +168,7 @@ const node_env = ref(import.meta.env.NODE_ENV)
 const mode = ref('cpfs')
 const patientQuery = ref('')
 const current = ref(1)
-const pageSize = ref(10)
+const pageSize = ref(11)
 const isLastPage = computed(() => current.value + 1 >= totalPages.value + 1)
 const isFirstPage = computed(() => current.value == 1)
 const indexStart = computed(() => (current.value - 1) * pageSize.value)
@@ -179,7 +180,7 @@ const filteredPatients = computed(() => {
 })
 const filteredPatientsQuery = computed(() => {
   return props.patients.filter((patient) => {
-    return patient.name.toLowerCase().includes(patientQuery.value.toLowerCase())
+    return patient.name.toLowerCase().includes(patientQuery.value.toLowerCase()) || patient.address.line[0].toLowerCase().includes(patientQuery.value.toLowerCase())
   })
 })
 const handleMarkerChange = (event) => {
@@ -211,6 +212,10 @@ const props = defineProps({
   onlyAlerts: {
     type: Boolean,
     default: false,
+  },
+  patientCursor: {
+    type: String,
+    default: '0',
   },
 })
 const vaccineModalIndex = ref(null)

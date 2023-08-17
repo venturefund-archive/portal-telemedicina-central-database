@@ -1,5 +1,5 @@
 <template>
-  <div class="flex-shrink-0 px-3 lg:hidden">
+  <div class="flex-shrink-0 px-3 lg:hidden hidden">
     <Button
       iconOnly
       variant="secondary"

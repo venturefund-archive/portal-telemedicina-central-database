@@ -1,5 +1,6 @@
 from unittest import mock
 
+from django.core.cache import cache
 from fhirclient.models.patient import Patient
 from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
@@ -52,13 +53,17 @@ class TestPatientViewSet(APITestCase):
 
         self.assertEqual(response.status_code, 403)
 
+    @mock.patch.object(cache, "set")
+    @mock.patch.object(cache, "get")
     @mock.patch(
         "central_database.patients.api.views.PatientsViewSet._get_fhir_client"  # noqa: E501
     )
     @mock.patch(
         "central_database.patients.api.views.PatientsViewSet.get_queryset"  # noqa: E501
     )
-    def test_it_lists_patients(self, mock_get, mock_get_fhir_client):
+    def test_it_lists_patients(
+        self, mock_get, mock_get_fhir_client, mock_cache_get, mock_cache_set
+    ):
 
         queryset = [PatientFactory() for _ in range(2)]
         self.vaccine_dose_1 = VaccineDoseFactory(
@@ -87,6 +92,7 @@ class TestPatientViewSet(APITestCase):
             client=self.user.client,
         )
         mock_get.return_value = (queryset, "fake_url")
+        mock_cache_get.return_value = None
 
         mock_fhir_client = mock.MagicMock()
         mock_get_fhir_client.return_value = mock_fhir_client
@@ -95,9 +101,12 @@ class TestPatientViewSet(APITestCase):
         response = self.client.get(reverse("api:patients-list"))
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.data), 2)
+        mock_cache_get.assert_called_once_with(
+            f"patients-{self.user.client.city}"
+        )  # noqa: E501
+        mock_cache_set.assert_called()
 
-        for data in response.data.get("results"):
+        for data in response.data:
             self.assertTrue("id" in data)
             self.assertTrue("birth_date" in data)
             self.assertTrue("name" in data)
@@ -174,6 +183,7 @@ class TestPatientUpdateViewSet(APITestCase):
 
         self.assertEqual(response.status_code, 403)
 
+    @mock.patch.object(cache, "delete")
     @mock.patch(
         "central_database.patients.api.views.PatientsViewSet._get_fhir_client"  # noqa: E501
     )
@@ -182,11 +192,16 @@ class TestPatientUpdateViewSet(APITestCase):
     )  # noqa: E501
     @mock.patch.object(Patient, "update")
     def test_it_updates_patient(
-        self, mock_update, mock_get_object, mock_get_fhir_client
+        self,
+        mock_update,
+        mock_get_object,
+        mock_get_fhir_client,
+        mock_cache_delete,  # noqa: E501
     ):
         test_patient = PatientFactory()
 
         mock_get_object.return_value = test_patient
+
         mock_fhir_client = mock.MagicMock()
         mock_get_fhir_client.return_value = mock_fhir_client
 
@@ -222,7 +237,11 @@ class TestPatientUpdateViewSet(APITestCase):
         mock_update.update.assert_not_called()
 
         self.assertEqual(response.status_code, 200)
+        mock_cache_delete.assert_called_once_with(
+            f"patients-{self.user.client.city}"
+        )  # noqa: E501
 
+    @mock.patch.object(cache, "delete")
     @mock.patch(
         "central_database.patients.api.views.PatientsViewSet._get_fhir_client"  # noqa: E501
     )
@@ -231,7 +250,11 @@ class TestPatientUpdateViewSet(APITestCase):
     )  # noqa: E501
     @mock.patch.object(Patient, "update")
     def test_it_updates_patient_partially(
-        self, mock_update, mock_get_object, mock_get_fhir_client
+        self,
+        mock_update,
+        mock_get_object,
+        mock_get_fhir_client,
+        mock_cache_delete,  # noqa: E501
     ):
         test_patient = PatientFactory()
 
@@ -252,8 +275,12 @@ class TestPatientUpdateViewSet(APITestCase):
         mock_update.update.assert_not_called()
 
         self.assertEqual(response.status_code, 200)
+        mock_cache_delete.assert_called_once_with(
+            f"patients-{self.user.client.city}"
+        )  # noqa: E501
         self.assertEqual(response.data["gender"], "male")
 
+    @mock.patch.object(cache, "delete")
     @mock.patch(
         "central_database.patients.api.views.PatientsViewSet._get_fhir_client"  # noqa: E501
     )
@@ -262,7 +289,11 @@ class TestPatientUpdateViewSet(APITestCase):
     )  # noqa: E501
     @mock.patch.object(Patient, "update")
     def test_update_coordinates(
-        self, mock_update, mock_get_object, mock_get_fhir_client
+        self,
+        mock_update,
+        mock_get_object,
+        mock_get_fhir_client,
+        mock_cache_delete,  # noqa: E501
     ):
         test_patient = PatientFactory()
 
@@ -283,5 +314,8 @@ class TestPatientUpdateViewSet(APITestCase):
         mock_update.update.assert_not_called()
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data["address"][0].get("latitude"), 100)
-        self.assertEqual(response.data["address"][0].get("longitude"), 101)
+        mock_cache_delete.assert_called_once_with(
+            f"patients-{self.user.client.city}"
+        )  # noqa: E501
+        self.assertEqual(response.data["address"].get("latitude"), 100)
+        self.assertEqual(response.data["address"].get("longitude"), 101)
