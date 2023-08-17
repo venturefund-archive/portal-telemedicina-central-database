@@ -7,8 +7,26 @@
         alt="Profile picture"
       />
     </div>
-    <div class="p-3 pt-14">
+    <div class="group p-3 pt-14">
       <p class="text-sm font-semibold capitalize">{{ name }}</p>
+      <div class="relative flex justify-center">
+        <div
+          ref="qrcode"
+          class="absolute -top-48 z-50 hidden rounded border bg-white p-2 drop-shadow-lg group-hover:block"
+        ></div>
+      </div>
+
+      <div class="flex justify-center">
+        <span class="cursor-pointer text-sm text-neutral-400" @click="copiarTexto">
+          <span
+            v-if="showTooltip"
+            class="absolute rounded-lg bg-gray-400 bg-opacity-60 px-2 py-1 font-normal text-gray-700 transition-opacity"
+            :class="{ 'opacity-0': !showTooltip, 'opacity-100': showTooltip }"
+            >Copiado com sucesso!</span
+          >
+          <span class="truncate">{{ id }}</span>
+        </span>
+      </div>
     </div>
     <ul class="px-3 text-sm text-neutral-500">
       <li>
@@ -32,9 +50,9 @@
         >: {{ postalCode }}
       </li>
 
-      <p v-if="patientsStore.item.marital_status && patientsStore.item.marital_status.text">
+      <li v-if="patientsStore.item.marital_status && patientsStore.item.marital_status.text">
         {{ $t('patient-details.civil-status') }} <span>{{ patientsStore.item.marital_status.text }}</span>
-      </p>
+      </li>
     </ul>
     <div class="mt-4">
       <ul class="divide-y divide-gray-100 text-sm font-semibold">
@@ -49,7 +67,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="font-normalP flex text-gray-700">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <li class="flex cursor-pointer items-center border-r-4 !border-r-blue-500 py-4 pl-4 hover:bg-[#F8F9FB]">
@@ -74,7 +92,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="font-normalP flex justify-center text-gray-700">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
@@ -87,7 +105,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="font-normalP flex justify-center text-gray-700">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
@@ -100,7 +118,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="font-normalP flex justify-center text-gray-700">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
@@ -113,7 +131,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="font-normalP flex justify-center text-gray-700">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
         <Tooltip variant="gray" position="right">
@@ -126,7 +144,7 @@
             </li>
           </template>
           <template #content>
-            <div class="flex justify-center">{{ $t('patient-details.comming-soon') }}</div>
+            <div class="font-normalP flex justify-center text-gray-700">{{ $t('patient-details.comming-soon') }}</div>
           </template>
         </Tooltip>
       </ul>
@@ -155,6 +173,8 @@ import {
   addMonths,
 } from 'date-fns'
 import { useI18n } from 'vue3-i18n'
+import QRCode from 'easyqrcodejs'
+
 const { t } = useI18n()
 const patientsStore = usePatientsStore()
 const router = useRouter()
@@ -163,8 +183,8 @@ const name = ref(patientsStore.item.name.toLowerCase())
 const gender = computed(() =>
   'male' == patientsStore.item.gender ? t('patient-details.male') : t('patient-details.female')
 )
-const region = ref(patientsStore.item.address[0].city + ' / ' + patientsStore.item.address[0].state)
-const postalCode = ref(patientsStore.item.address[0].postal_code)
+const region = ref(patientsStore.item.address.city + ' / ' + patientsStore.item.address.state)
+const postalCode = ref(patientsStore.item.address.postal_code)
 
 const birthDate = computed(() => parseISO(patientsStore.item.birth_date))
 
@@ -194,4 +214,64 @@ const props = defineProps({
     default: '0',
   },
 })
+const showTooltip = ref(false)
+
+const copiarTexto = () => {
+  const areaDeTransferencia = document.createElement('textarea')
+  areaDeTransferencia.value = props.id
+  document.body.appendChild(areaDeTransferencia)
+  areaDeTransferencia.select()
+  document.execCommand('copy')
+  document.body.removeChild(areaDeTransferencia)
+
+  showTooltip.value = true
+
+  // Esconder o tooltip após 2 segundos (2000ms)
+  setTimeout(() => {
+    showTooltip.value = false
+  }, 999)
+}
+
+const qrcodeUrl = ref(`${window.location.protocol}//${window.location.host}/patients/${patientsStore.item.id}`)
+let qrcode = ref(null)
+
+onMounted(() => {
+  new QRCode(qrcode.value, {
+    text: qrcodeUrl.value,
+    width: 96,
+    height: 96,
+    colorDark: '#000000',
+    colorLight: '#ffffff',
+    correctLevel: QRCode.CorrectLevel.H,
+  })
+})
 </script>
+<style>
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+}
+
+.animate-tooltip {
+  animation: fadeInOut 2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+</style>

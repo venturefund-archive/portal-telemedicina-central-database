@@ -6,7 +6,7 @@
       id="authentication-modal"
       tabindex="-1"
       aria-hidden="true"
-      class="fixed top-0 right-0 left-0 bottom-0 z-50 mx-auto h-modal w-full overflow-y-auto overflow-x-hidden p-4 md:inset-0 md:h-full"
+      class="fixed bottom-0 left-0 right-0 top-0 z-50 mx-auto h-modal w-full overflow-y-auto overflow-x-hidden p-4 md:inset-0 md:h-full"
     >
       <div class="relative h-full w-full max-w-md md:h-auto">
         <!-- Modal content -->
@@ -14,7 +14,7 @@
           <button
             type="button"
             @click="closeModal"
-            class="absolute top-3 right-2.5 ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white"
+            class="absolute right-2.5 top-3 ml-auto inline-flex items-center rounded-lg bg-transparent p-1.5 text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-800 dark:hover:text-white"
           >
             <svg
               aria-hidden="true"
@@ -31,7 +31,7 @@
             </svg>
             <span class="sr-only">Close modal</span>
           </button>
-          <div class="py-6 px-6 lg:px-8">
+          <div class="px-6 py-6 lg:px-8">
             <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Vacina: BCGI</h3>
             <form class="space-y-6" action="#">
               <div class="flex">

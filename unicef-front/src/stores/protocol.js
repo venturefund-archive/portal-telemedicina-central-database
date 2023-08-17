@@ -13,7 +13,7 @@ export const useProtocolStore = defineStore('protocol', () => {
     const state = useStorage('app-store', { token: '' })
     try {
       isLoading.value = true
-      const response = await axios.get(import.meta.env.VITE_API_URL + `/api/vaccine-protocol/metrics/${id}`, {
+      const response = await axios.get(import.meta.env.VITE_API_URL + `/api/vaccine-protocol/metrics/${id}/`, {
         headers: {
           'Content-type': 'application/json',
           Authorization: `token ${state.value.token}`,

@@ -6,13 +6,13 @@ const router = useRouter()
 
 export default [
   {
-    path: '/dashboard',
+    path: '/patients',
     component: () => import('@/layouts/DashboardLayout.vue'),
     children: [
       {
-        path: '/dashboard',
-        name: 'Dashboard',
-        component: () => import('@/views/Dashboard.vue'),
+        path: '/patients',
+        name: 'Patients',
+        component: () => import('@/views/Patients.vue'),
       },
       {
         path: '/patients/:id',
@@ -20,11 +20,11 @@ export default [
         component: () => import('@/views/pages/PatientDetails.vue'),
         props: true,
       },
-      {
-        path: '/patients',
-        name: 'PatientDetailsNobody',
-        component: () => import('@/views/pages/PatientDetailsNobody.vue'),
-      },
+      // {
+      //   path: '/patients',
+      //   name: 'PatientDetailsNobody',
+      //   component: () => import('@/views/pages/PatientDetailsNobody.vue'),
+      // },
       {
         path: '/map',
         name: 'Map',
@@ -32,8 +32,19 @@ export default [
         props: true,
       },
       {
-        path: '/map/:id',
+        path: '/settings',
+        name: 'Settings',
+        component: () => import('@/views/pages/Settings.vue'),
+      },
+      {
+        path: '/map/patient/:id',
         name: 'MapPatient',
+        component: () => import('@/views/pages/Map.vue'),
+        props: true,
+      },
+      {
+        path: '/map/area/:id',
+        name: 'MapArea',
         component: () => import('@/views/pages/Map.vue'),
         props: true,
       },
@@ -107,7 +118,7 @@ export default [
         const loggedUserStore = useLoggedUserStore()
         try {
           const response = await loggedUserStore.fetchMe()
-          next({ name: 'Dashboard' })
+          next({ name: 'Patients' })
         } catch (err) {
           state.value = null
           console.log(err)

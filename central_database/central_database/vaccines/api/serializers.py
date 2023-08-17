@@ -11,6 +11,7 @@ from central_database.permissions_manager.rest_api.mixins import (
     PermissionSerializerMixin,
 )
 from central_database.vaccines.models import (
+    VaccinationCard,
     Vaccine,
     VaccineAlert,
     VaccineDose,
@@ -225,3 +226,9 @@ class VaccineProtocolSerializer(
 
         data.update({"vaccine_doses": serialized_vaccine_doses})
         return data
+
+
+class VaccinationCardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VaccinationCard
+        fields = "__all__"

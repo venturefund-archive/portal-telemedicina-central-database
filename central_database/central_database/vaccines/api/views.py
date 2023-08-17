@@ -22,6 +22,7 @@ from central_database.vaccines.api.filters import (  # noqa: E501
     VaccineFilterSet,
 )
 from central_database.vaccines.api.serializers import (
+    VaccinationCardSerializer,
     VaccineAlertSerializer,
     VaccineDosesSerializer,
     VaccineProtocolSerializer,
@@ -29,6 +30,7 @@ from central_database.vaccines.api.serializers import (
     VaccineStatusSerializer,
 )
 from central_database.vaccines.models import (  # noqa: E501
+    VaccinationCard,
     Vaccine,
     VaccineAlert,
     VaccineDose,
@@ -164,3 +166,11 @@ class VaccineStatusViewSet(
 
     def get_queryset(self):
         return VaccineStatus.objects.all()
+
+
+class VaccinationCardViewSet(GenericViewSet, CreateModelMixin):
+
+    serializer_class = VaccinationCardSerializer
+
+    def get_queryset(self):
+        return VaccinationCard.objects.all()

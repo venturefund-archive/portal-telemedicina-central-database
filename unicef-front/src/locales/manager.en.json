@@ -12,7 +12,9 @@
   "code-record": "Card code",
   "data-record": "date record",
   "delete": "Delete",
-  "details": "Details",
+  "patient-details": "Patient Details",
+  "details": " Details",
+  "see-details": "See details",
   "diabetic": "Diabetics",
   "district": "District",
   "document": "Document",
@@ -54,4 +56,5 @@
   "vaccine": "Vaccine",
   "vaccine-delay": "Overdue vaccines",
   "visualization": "Visualization"
+
 }
