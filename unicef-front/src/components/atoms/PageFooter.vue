@@ -5,7 +5,7 @@
         &#169;
         <span class="pr-0.5">{{ new Date().getFullYear() }}</span>
         <a href="#" target="_blank" class="text-blue-600 hover:underline"
-          >Integra Saúde Digital</a
+          >Integra Sapúde Digital</a
         >. {{ $t('dashboard.all-rights-reserved') }}
       </p>
       <p class="flex items-center gap-1 text-sm">
