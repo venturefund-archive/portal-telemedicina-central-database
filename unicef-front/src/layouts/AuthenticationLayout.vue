@@ -19,7 +19,7 @@
         <div class="flex justify-center pt-32">
           <div class="-ml-10 flex-shrink-0">
             <router-link to="/">
-              <img src="@/assets/portal_logo.png" alt="unicef logo" class="h-16" />
+              <img src="@/assets/integra_logo.svg" alt="unicef logo" class="h-16" />
               <span class="sr-only">Dashboard</span>
             </router-link>
           </div>
