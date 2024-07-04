@@ -1,6 +1,5 @@
 ARG PYTHON_VERSION=3.9-slim-bullseye
 
-# define an alias for the specific python version used in this file.
 FROM python:${PYTHON_VERSION} as python
 
 ARG BUILD_ENVIRONMENT=local
@@ -13,15 +12,10 @@ ENV POETRY_VERSION=1.4.2
 
 # Install apt packages
 RUN apt-get update && apt-get install --no-install-recommends -y \
-  # dependencies for building Python packages
   build-essential \
-  # psycopg2 dependencies
   libpq-dev \
-  # Translations dependencies
   gettext \
-  # GDAL dependencies
   binutils libproj-dev gdal-bin \
-  # cleaning up unused files
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
 
@@ -51,18 +45,18 @@ COPY ./central_database/compose/local/django/start /start
 RUN sed -i 's/\r$//g' /start
 RUN chmod +x /start
 
+# Install curl
 RUN apt-get update && apt-get install -y curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Downloading gcloud package
-RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz > /tmp/google-cloud-sdk.tar.gz
+# Downloading and installing gcloud package
+RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz -o /tmp/google-cloud-sdk.tar.gz \
+    && mkdir -p /usr/local/gcloud \
+    && tar -C /usr/local/gcloud -xvf /tmp/google-cloud-sdk.tar.gz \
+    && /usr/local/gcloud/google-cloud-sdk/install.sh \
+    && rm /tmp/google-cloud-sdk.tar.gz
 
-# Installing the package
-RUN mkdir -p /usr/local/gcloud \
-  && tar -C /usr/local/gcloud -xvf /tmp/google-cloud-sdk.tar.gz \
-  && /usr/local/gcloud/google-cloud-sdk/install.sh
-
-# Adding the package path to local
+# Adding the package path to PATH environment variable
 ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
 
 # copy application code to WORKDIR

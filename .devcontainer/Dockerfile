@@ -1,4 +1,4 @@
-ARG VARIANT=3-bullseye
+ARG VARIANT=3.9-slim-bullseye
 FROM mcr.microsoft.com/vscode/devcontainers/python:0-${VARIANT}
 
 ENV PYTHONUNBUFFERED 1
@@ -12,15 +12,10 @@ RUN pip install --upgrade pip
 
 # Install apt packages
 RUN apt-get update && apt-get install --no-install-recommends -y \
-  # dependencies for building Python packages
   build-essential \
-  # psycopg2 dependencies
   libpq-dev \
-  # Translations dependencies
   gettext \
-  # GDAL dependencies
   binutils libproj-dev gdal-bin \
-  # cleaning up unused files
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
 
@@ -37,3 +32,13 @@ RUN pip install poetry==${POETRY_VERSION}
 COPY pyproject.toml poetry.lock ./
 RUN poetry config virtualenvs.create false && \
     poetry install --no-interaction --no-root
+
+# Install gcloud
+RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz -o /tmp/google-cloud-sdk.tar.gz \
+    && mkdir -p /usr/local/gcloud \
+    && tar -C /usr/local/gcloud -xvf /tmp/google-cloud-sdk.tar.gz \
+    && /usr/local/gcloud/google-cloud-sdk/install.sh \
+    && rm /tmp/google-cloud-sdk.tar.gz
+
+# Adding gcloud to PATH
+ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
