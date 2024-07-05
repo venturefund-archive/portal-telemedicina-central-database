@@ -23,13 +23,7 @@ class TestPatientSerializer(APITestCase):
         patient = PatientFactory()
 
         serialized_patient = PatientSerializer(patient).data
-        parts = []
-        patient_name = patient.name[0]
-        if patient_name.given:
-            parts.extend(patient_name.given)
-        if patient_name.family:
-            parts.append(patient_name.family)
-        name = " ".join(parts)
+        name = patient.name[0].text
 
         self.assertEqual(serialized_patient["id"], patient.id)
         self.assertEqual(
@@ -114,13 +108,7 @@ class TestPatientSerializer(APITestCase):
             [patient.id for patient in resources]
         )
         for serialized_patient, patient_object in matching_patients:
-            parts = []
-            patient_name = patient_object.name[0]
-            if patient_name.given:
-                parts.extend(patient_name.given)
-            if patient_name.family:
-                parts.append(patient_name.family)
-            name = " ".join(parts)
+            name = patient_object.name[0].text
 
             self.assertEqual(serialized_patient["id"], patient_object.id)
             self.assertEqual(
