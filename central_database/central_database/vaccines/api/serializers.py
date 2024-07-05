@@ -210,6 +210,7 @@ class VaccineProtocolSerializer(
             vaccine_name = Vaccine.objects.get(
                 id=vaccine_dose["vaccine"]
             ).display  # noqa: E501
+
             vaccine_dose = {
                 "id": vaccine_dose["id"],
                 "vaccine": {
@@ -222,6 +223,7 @@ class VaccineProtocolSerializer(
                 "completed_amount": completed_amount,
                 "completed_percentage": round(completed_dose_percentage, 2),
             }
+
             serialized_vaccine_doses.append(vaccine_dose)
 
         data.update({"vaccine_doses": serialized_vaccine_doses})

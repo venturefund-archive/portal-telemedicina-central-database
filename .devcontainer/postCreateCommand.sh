@@ -1,5 +1,11 @@
 git config --global --add safe.directory /workspace
 
+echo 'export PATH=$PATH:/usr/local/gcloud/google-cloud-sdk/bin' >> ~/.bashrc
+source ~/.bashrc
+
+# Verify gcloud installation
+gcloud version
+
 # Install local dependencies
 pip install --upgrade pip
 pip install pre-commit==2.19.0

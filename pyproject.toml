@@ -48,6 +48,9 @@ djangorestframework-gis = "^1.0"
 django-storages = "^1.13.2"
 channels = "^4.0.0"
 channels-redis = "^4.1.0"
+pandas = "^2.2.0"
+google-cloud-bigquery = "^3.25.0"
+db-dtypes = "^1.2.0"
 
 [tool.poetry.dev-dependencies]
 Werkzeug = {extras = ["watchdog"], version = "2.0.3"} # https://github.com/pallets/werkzeug

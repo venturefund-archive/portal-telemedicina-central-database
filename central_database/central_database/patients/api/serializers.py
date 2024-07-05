@@ -192,13 +192,8 @@ class PatientSerializer(serializers.Serializer):
 
     def get_name(self, obj):
         if obj.name and len(obj.name) > 0:
-            name = obj.name[0]
-            parts = []
-            if name.given:
-                parts.extend(name.given)
-            if name.family:
-                parts.append(name.family)
-            return " ".join(parts)
+            name = obj.name[0].text
+            return name
         return None
 
     class Meta:

@@ -29,6 +29,13 @@ class Client(CDModel):
     def __str__(self):
         return self.client_name
 
+    @staticmethod
+    def get_client_by_city(city):
+        client = Client.objects.filter(city=city)
+        if len(client) > 0:
+            return client.first()
+        return
+
 
 class HealthProfessional(CDModel):
     name = models.CharField(max_length=255)

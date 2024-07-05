@@ -3,6 +3,8 @@ from datetime import datetime
 
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 from central_database.base_models import Alert, AlertType, CDModel
 from central_database.customers.models import (  # noqa: E501
@@ -173,6 +175,10 @@ class VaccineDose(CDModel, models.Model):
     def get_alerts_count_by_dose(dose_id):
         return VaccineDose.objects.get(id=dose_id).alerts_count()
 
+    @staticmethod
+    def get_vaccine_doses_id():
+        return list(VaccineDose.objects.values_list("id", flat=True))
+
 
 class VaccineAlertType(AlertType, models.Model):
     """
@@ -241,6 +247,34 @@ class VaccineStatus(CDModel, models.Model):
         return VaccineStatus.objects.filter(
             vaccine_dose=dose, completed=True
         ).count()  # noqa: E501
+
+    @staticmethod
+    def check_exists_vaccine_status(patient_id, vaccine_dose_id):
+        return VaccineStatus.objects.filter(
+            patient_id=patient_id, vaccine_dose=vaccine_dose_id, completed=True
+        ).exists()
+
+    @staticmethod
+    def insert_vaccine_status_in_bulk(data, fhir_store):
+        vaccine_status_list = []
+        for index, row in data.iterrows():
+            patient_id = row["fhir_id"]
+            vaccine_dose_id = row["dose_id"]
+            if not VaccineStatus.check_exists_vaccine_status(
+                patient_id, vaccine_dose_id
+            ):
+                vaccine_status_object = VaccineStatus(
+                    fhir_store=fhir_store,
+                    patient_id=patient_id,
+                    completed=True,
+                    vaccine_dose_id=vaccine_dose_id,
+                    application_date=row["application_date"],
+                )
+                vaccine_status_list.append(vaccine_status_object)
+
+        vaccine_status = VaccineStatus.objects.bulk_create(vaccine_status_list)
+
+        return vaccine_status
 
 
 class VaccineAlert(Alert, models.Model):
@@ -333,6 +367,33 @@ class VaccineAlert(Alert, models.Model):
 
         return dict(alerts_dict)
 
+    @staticmethod
+    def check_exists_vaccine_alert(patient_id, vaccine_dose_id):
+        return VaccineAlert.objects.filter(
+            patient_id=patient_id, vaccine_dose=vaccine_dose_id
+        ).exists()  # noqa: E501
+
+    @staticmethod
+    def insert_vaccine_alerts_in_bulk(fhir_id, dose_list, fhir_store):
+        vaccine_alert_list = []
+        for id in dose_list:
+            patient_id = fhir_id
+            vaccine_dose_id = VaccineDose.objects.get(id=id)
+            if not VaccineAlert.check_exists_vaccine_alert(
+                patient_id, vaccine_dose_id
+            ):  # noqa: E501
+                vaccine_alert = VaccineAlert(
+                    fhir_store=fhir_store,
+                    patient_id=patient_id,
+                    active=True,
+                    alert_type_id=1,
+                    vaccine_dose=vaccine_dose_id,
+                )
+                vaccine_alert_list.append(vaccine_alert)
+
+        vaccine_alerts = VaccineAlert.objects.bulk_create(vaccine_alert_list)
+        return vaccine_alerts
+
 
 class VaccineProtocol(models.Model):
     vaccine_doses = models.ManyToManyField(VaccineDose)
@@ -398,3 +459,16 @@ class VaccinationCard(CDModel):
     document = models.FileField(upload_to="vaccination_cards/")
     uploaded_at = models.DateTimeField(auto_now_add=True)
     uploaded_by = models.ForeignKey(User, on_delete=models.PROTECT)
+
+
+@receiver(post_save, sender=VaccineStatus)
+def delete_related_vaccine_delayed(sender, instance, **kwargs):
+    # Delete the associated VaccineDelayed object
+    try:
+        vaccine_delayed = VaccineAlert.objects.get(
+            patient_id=instance.patient_id, vaccine_dose=instance.vaccine_dose
+        )
+        vaccine_delayed.delete()
+    except VaccineAlert.DoesNotExist:
+        # The related VaccineDelayed object does not exist, nothing to delete
+        pass

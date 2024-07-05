@@ -107,6 +107,7 @@ LOCAL_APPS = [
     "central_database.vaccines.apps.VaccinesConfig",
     "central_database.permissions_manager",
     "central_database.customers",
+    "central_database.pipelines",
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -406,3 +407,5 @@ CACHES = {
         },
     }
 }
+
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 55000
