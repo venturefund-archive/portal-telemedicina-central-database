@@ -74,7 +74,10 @@
                 {{ patient.name.toLowerCase() }}
               </p>
 
-              <p class="text-xs text-gray-500 max-w-sm truncate uppercase">{{ patient.address.line[0] }}</p>
+              <p class="text-xs text-gray-500 max-w-sm truncate uppercase">
+                {{ patient.address.line.join(', ') }}
+                <span v-if="patient.address.district">, {{ patient.address.district }}</span>
+              </p>
             </div>
           </div>
           <div>
