@@ -1,0 +1,1 @@
+from integrations.fhir.fhir_resources.immunization.resource import Immunization

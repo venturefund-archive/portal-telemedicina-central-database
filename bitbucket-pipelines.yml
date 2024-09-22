@@ -1,33 +1,46 @@
 pipelines:
   pull-requests:
-    '**':
-      - parallel:
-        - step:
-            name: Linter (using Flake8)
-            image: python:3.9
-            script:
-              - pip install flake8
-              - flake8 --config=central_database/setup.cfg
-        - step:
-            name: Django automated tests and coverage (using pytest)
-            image: python:3.9
-            script:
-              - pip install poetry==1.4.2
-              - pip install virtualenv
-              - poetry install --no-interaction --no-root
-              - export DATABASE_URL=postgres://debug:debug@127.0.0.0:5432/central_database
-              - export POSTGRES_HOST=127.0.0.0
-              - export POSTGRES_PORT=5432
-              - export POSTGRES_DB=central_database
-              - export POSTGRES_USER=debug
-              - export POSTGRES_PASSWORD=debug
-              - export USE_DOCKER=no
-              - export DJANGO_SETTINGS_MODULE=config.settings.pipeline_test
-              - apt-get update && apt-get install -y binutils libproj-dev gdal-bin
-              - poetry run python central_database/manage.py migrate
-              - poetry run pytest --cov --cov-fail-under=80 central_database/
-            services:
-              - postgres
+    'development':
+      - <<: *backend-pipeline
+    'homolog':
+      - <<: *backend-pipeline
+    'master':
+      - <<: *backend-pipeline
+
+definitions:
+  backend-pipeline: &backend-pipeline
+    - step:
+        name: Check for backend changes
+        script:
+          - BACKEND_CHANGES=$(git diff --name-only origin/$BITBUCKET_PR_DESTINATION_BRANCH...HEAD | grep -E "^backend/|^bitbucket-pipelines.yml" || true)
+          - if [ -z "$BACKEND_CHANGES" ]; then echo "No backend changes, skipping tests"; exit 0; fi
+    - parallel:
+      - step:
+          name: Linter (using Flake8)
+          image: python:3.9
+          script:
+            - pip install flake8
+            - flake8 --config=backend/setup.cfg
+      - step:
+          name: Django automated tests and coverage (using pytest)
+          image: python:3.9
+          script:
+            - cd backend
+            - pip install -r requirements.txt
+            - export DATABASE_URL=postgres://debug:debug@127.0.0.0:5432/central_database
+            - export POSTGRES_HOST=127.0.0.0
+            - export POSTGRES_PORT=5432
+            - export POSTGRES_DB=central_database
+            - export POSTGRES_USER=debug
+            - export POSTGRES_PASSWORD=debug
+            - export USE_DOCKER=no
+            - export DJANGO_SETTINGS_MODULE=config.settings.pipeline_test
+            - apt-get update && apt-get install -y binutils libproj-dev gdal-bin
+            - python manage.py migrate
+            - pytest --cov --cov-fail-under=80
+          services:
+            - postgres
+
 definitions:
   services:
     postgres:

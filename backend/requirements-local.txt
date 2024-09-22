@@ -1,0 +1,27 @@
+-r requirements.txt
+Werkzeug[watchdog]==2.0.3
+ipdb==0.13.9
+watchgod==0.8.2
+mypy==0.950
+django-stubs==1.12.0
+pytest==7.1.2
+pytest-sugar==0.9.4
+djangorestframework-stubs==1.7.0
+pytest-cov==3.0.0
+sphinx==5.0.1
+sphinx-autobuild==2021.3.14
+sphinxcontrib-httpdomain==1.8.0
+sphinxcontrib-openapi==0.7.0
+mistune==0.8.4
+flake8==4.0.1
+flake8-isort==4.1.1
+coverage==6.4.1
+black==22.6.0
+pylint-django==2.5.3
+pre-commit==2.19.0
+django-debug-toolbar==3.5.0
+django-extensions==3.1.5
+django-coverage-plugin==2.0.3
+pytest-django==4.5.2
+pydotplus==2.0.2
+graphviz==0.20.1

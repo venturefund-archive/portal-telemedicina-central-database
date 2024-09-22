@@ -1,6 +1,6 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '--build-arg', 'VITE_MODE=$BRANCH_NAME', '-t', 'us.gcr.io/$PROJECT_ID/$REPO_NAME-di-client-$BRANCH_NAME:$COMMIT_SHA', '-f', './unicef-front/Dockerfile.production', './unicef-front']
+  args: ['build', '--build-arg', 'VITE_MODE=$BRANCH_NAME', '-t', 'us.gcr.io/$PROJECT_ID/$REPO_NAME-di-client-$BRANCH_NAME:$COMMIT_SHA', '-f', './frontend/Dockerfile.prod', './frontend']
 - name: 'google/cloud-sdk:alpine'
   args:
     - source

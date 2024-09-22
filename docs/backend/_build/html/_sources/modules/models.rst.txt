@@ -1,0 +1,10 @@
+Models
+======
+
+Vaccine Model
+-------------
+
+.. automodule:: vaccines.models
+   :members:
+   :undoc-members:
+   :show-inheritance:

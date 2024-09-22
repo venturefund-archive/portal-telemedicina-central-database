@@ -1,7 +1,0 @@
-{
-    "logConfiguration": {
-    "logDriver": "json-file",
-    "options": null
-}
-
-}

@@ -1,0 +1,118 @@
+version: '3.8'
+
+volumes:
+  postgres_data:
+  hapifhir_db_data:
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules/
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./backend:/app:z
+      - $HOME/.config/gcloud:/root/.config/gcloud:ro
+    environment:
+      - PYTHONBREAKPOINT=ipdb.set_trace
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@example.com
+      - DJANGO_SUPERUSER_PASSWORD=admin
+      - DJANGO_SECRET_KEY=Pt6GagSSYkMUEBKnFktX7FHaDLNQahpfoiCONZOXQ2p5Yz2jpx39qa3ODLrxErW
+      - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1
+      - DJANGO_DEBUG=True
+      - DJNAGO_ADMIN_URL=admin/
+      - DJANGO_SECURE_SSL_REDIRECT=false
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=central_database
+      - POSTGRES_USER=debug
+      - POSTGRES_PASSWORD=debug
+      - USE_DOCKER=YES
+      - USE_FHIR_STORE=True
+      - FHIR_PROJECT_ID=ptm-gestao-di-dev
+      - FHIR_LOCATION=southamerica-east1
+      - DEFAULT_FHIR_CLIENT=google
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - IPDB_CONTEXT_SIZE=5
+      - IPDB_DISABLE_COLORS=1
+      - TERM=dumb
+      - PYTHONBREAKPOINT=pdb.set_trace
+      - GOOGLE_CLOUD_PROJECT=ptm-gestao-di-dev
+      - MAPS_API_KEY=AIzaSyA6Whf_ujYs2xP5ZNnXqSAl_OigekYW7Ms
+    stdin_open: true
+    tty: true
+
+  docs-backend:
+    build:
+      context: ./docs/backend
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./docs/backend:/app
+
+  docs-frontend:
+    build:
+      context: ./docs/frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8080"
+    volumes:
+      - ./docs/frontend:/app
+      - /app/node_modules
+
+  postgres:
+    image: postgis/postgis:14-3.1
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=central_database
+      - POSTGRES_USER=debug
+      - POSTGRES_PASSWORD=debug
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  hapifhir:
+    image: hapiproject/hapi:v6.0.1
+    container_name: hapi-fhir-jpaserver
+    depends_on:
+      - hapifhir-db
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://hapifhir-db:5432/hapi
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin
+      - HAPI_FHIR_MDM_ENABLED=false
+
+  hapifhir-db:
+    image: postgres:14
+    restart: always
+    volumes:
+      - hapifhir_db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=hapi
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+

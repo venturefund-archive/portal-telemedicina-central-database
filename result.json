@@ -1,0 +1,1088 @@
+{
+    "resourceType": "Bundle",
+    "id": "0f2ad1e7-e004-40e2-a373-31e33982f7f1",
+    "meta": {
+        "lastUpdated": "2024-09-19T20:38:20.593-03:00"
+    },
+    "type": "searchset",
+    "total": 5,
+    "link": [
+        {
+            "relation": "self",
+            "url": "https://pi-ehr-services.saude.gov.br/1.15/api/fhir/r4/Patient?name=maria+joao&birthplace=220840"
+        },
+        {
+            "relation": "next",
+            "url": "https://pi-ehr-services.saude.gov.br/1.15/api/fhir/r4/Patient?name=maria+joao&birthplace=220840&_bookmark=FGluY2x1ZGVfY29udGV4dF91dWlkDnF1ZXJ5VGhlbkZldGNoGBY5a1pVVzVJSFMzQ0RScXgyaFRqVlRBAAAAAH_Rb1UWQ0FkdzBTbWRTZ1dhcXp6cEd3TE0xURY3OHFSZklHblRLZVBMVFZyWU1UN3JRAAAAAI8KSCcWWmhVNG9sTk1TNW1ZN01CSVpVQTZCZxZHMDJOVGtQalJxQzQtaURUZFhQa2dRAAAAAHnBnckWZzduVkoyeFBTM21wOXBhWDlxb0lOURZ5NEFmUDZNdVMxUzM1NFoyZmtCTHR3AAAAAG1OCiQWSnQzaVZNaWRTMW1UQ0xJaGwtazR1QRYwMHB4eVRoRVFJQ1RBVTNqbjFzOEVnAAAAABoD0e4WTFFveHdmMkhSZ2FCUlRDUWR5MjJfdxZKaXB0S3dCWVQxNkluOVgyQVVJcUNnAAAAAAtpiioWd08tVFNOOXZSYk9rMHlrdGQ0bFlHQRZPRU1icEZXTFJGaWNISjhKeFQ1QWRRAAAAAAZjdusWQk0ydS0wUHhSWVNxZ2tUUi1xSlJHURY3OHFSZklHblRLZVBMVFZyWU1UN3JRAAAAAI8KSCkWWmhVNG9sTk1TNW1ZN01CSVpVQTZCZxY4NFVMS0VhWFJqT00yU0lLazVtWTVBAAAAAAC3PHwWREV1ZVlmUUZUb1dzeGdzZEN2NFlZZxZPR2NDREF5NVNHYTdZZVBHdmxUcV9nAAAAAAZg8fcWRE0yZ1JLbnpTVE9ld0VzMDRNNHFBQRZ5c0gtTHNoLVI0TzRIMldCLThwdUZnAAAAAIISJ-IWcTJaMVJmT2FUU3U5dlloTlZ5d3IwQRZvYU5WQ24zVlQ2YXdvQ2p3RXJwclVBAAAAAAD_6qEWOFJuZ0FZM2xRcW0zdTBvNGdTSXMzQRZ5NktDSEtCbVR2eVR5Wk1MWE5hRTh3AAAAABskFJkWMEVwT00tNWdSNnk3TGxfQlYtcFI3ZxY5a1pVVzVJSFMzQ0RScXgyaFRqVlRBAAAAAH_Rb1YWQ0FkdzBTbWRTZ1dhcXp6cEd3TE0xURZrU2k2YnlPX1NDeWRha1hsdXV1TjdBAAAAAAoPPYUWTTF1UTRXV2RUWTJsUHBVUlUybUdzQRZPR2NDREF5NVNHYTdZZVBHdmxUcV9nAAAAAAZg8fgWRE0yZ1JLbnpTVE9ld0VzMDRNNHFBQRZPRU1icEZXTFJGaWNISjhKeFQ1QWRRAAAAAAZjdvIWQk0ydS0wUHhSWVNxZ2tUUi1xSlJHURYySW1ra0xOT1RodTNiYmNydVNXaFJ3AAAAAAC2kMIWVzNmSFloR1ZSeG1LV3c3ZVRkbkdKdxZrU2k2YnlPX1NDeWRha1hsdXV1TjdBAAAAAAoPPYYWTTF1UTRXV2RUWTJsUHBVUlUybUdzQRZ5NktDSEtCbVR2eVR5Wk1MWE5hRTh3AAAAABskFJoWMEVwT00tNWdSNnk3TGxfQlYtcFI3ZxZ5c0gtTHNoLVI0TzRIMldCLThwdUZnAAAAAIISJ-MWcTJaMVJmT2FUU3U5dlloTlZ5d3IwQRZPR2NDREF5NVNHYTdZZVBHdmxUcV9nAAAAAAZg8foWRE0yZ1JLbnpTVE9ld0VzMDRNNHFBQRZUMGNqc1BnU1R5QzlhZXpSb1h1d3ZnAAAAAAYFmYMWWGVTNE1kekdUX1dIVjBIZTgtQWlQURYySW1ra0xOT1RodTNiYmNydVNXaFJ3AAAAAAC2kMMWVzNmSFloR1ZSeG1LV3c3ZVRkbkdKdw%3D%3D"
+        }
+    ],
+    "entry": [
+        {
+            "fullUrl": "https://pi-ehr-services.saude.gov.br/1.15/api/fhir/r4/Patient/898006320479045",
+            "resource": {
+                "resourceType": "Patient",
+                "id": "898006320479045",
+                "meta": {
+                    "lastUpdated": "2023-04-19T09:24:46.000-03:00",
+                    "profile": [
+                        "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-patient-1.0"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-recordqualityscore-1.0",
+                        "valuePositiveInt": 52
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/patient-importance",
+                        "valueBoolean": false
+                    },
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-parent-1.0",
+                        "extension": [
+                            {
+                                "url": "relationship",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                                            "code": "MTH",
+                                            "display": "mother"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "url": "name",
+                                "valueHumanName": {
+                                    "use": "official",
+                                    "text": "FRANCISCA MARIA DA SILVA"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-race-1.0",
+                        "extension": [
+                            {
+                                "url": "race",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-race-1.0",
+                                            "code": "03",
+                                            "display": "PARDA"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
+                        "valueAddress": {
+                            "city": "PIRIPIRI",
+                            "_city": {
+                                "extension": [
+                                    {
+                                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-city-1.0",
+                                        "valueString": "220840"
+                                    }
+                                ]
+                            },
+                            "state": "PI",
+                            "country": "BRASIL",
+                            "_country": {
+                                "extension": [
+                                    {
+                                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-country-1.0",
+                                        "valueCodeableConcept": {
+                                            "coding": [
+                                                {
+                                                    "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-cadsuscountry-1.0",
+                                                    "code": "10",
+                                                    "display": "BRASIL"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-nationality-1.0",
+                        "extension": [
+                            {
+                                "url": "use",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-nationnalityuse-1.0",
+                                            "code": "brazilian",
+                                            "display": "Brasileiro"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "identifier": [
+                    {
+                        "use": "official",
+                        "system": "http://rnds.saude.gov.br/fhir/r4/NamingSystem/cns",
+                        "value": "898006320479045",
+                        "period": {
+                            "start": "2023-03-20T16:43:42-03:00"
+                        }
+                    }
+                ],
+                "active": true,
+                "name": [
+                    {
+                        "use": "official",
+                        "text": "RN DE GEMELAR II DE FRANCISCA MARIA DA SILVA"
+                    }
+                ],
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "558632763362",
+                        "use": "temp"
+                    }
+                ],
+                "gender": "female",
+                "birthDate": "2023-03-06",
+                "deceasedBoolean": false,
+                "address": [
+                    {
+                        "use": "home",
+                        "line": [
+                            "DOS MARAJAS",
+                            "51"
+                        ],
+                        "_line": [
+                            {
+                                "extension": [
+                                    {
+                                        "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetAddressLine",
+                                        "valueString": "DOS MARAJAS"
+                                    }
+                                ]
+                            },
+                            {
+                                "extension": [
+                                    {
+                                        "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber",
+                                        "valueString": "51"
+                                    }
+                                ]
+                            }
+                        ],
+                        "city": "PIRIPIRI",
+                        "_city": {
+                            "extension": [
+                                {
+                                    "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-city-1.0",
+                                    "valueString": "220840"
+                                }
+                            ]
+                        },
+                        "district": "TRAVESSA",
+                        "state": "PI",
+                        "postalCode": "64260000",
+                        "country": "BRASIL",
+                        "_country": {
+                            "extension": [
+                                {
+                                    "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-country-1.0",
+                                    "valueCodeableConcept": {
+                                        "coding": [
+                                            {
+                                                "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-cadsuscountry-1.0",
+                                                "code": "10",
+                                                "display": "BRASIL"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "multipleBirthBoolean": false
+            }
+        },
+        {
+            "fullUrl": "https://pi-ehr-services.saude.gov.br/1.15/api/fhir/r4/Patient/204423698100004",
+            "resource": {
+                "resourceType": "Patient",
+                "id": "204423698100004",
+                "meta": {
+                    "lastUpdated": "2015-09-23T18:36:36.000-03:00",
+                    "profile": [
+                        "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-patient-1.0"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-recordqualityscore-1.0",
+                        "valuePositiveInt": 76
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/patient-importance",
+                        "valueBoolean": false
+                    },
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-parent-1.0",
+                        "extension": [
+                            {
+                                "url": "relationship",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                                            "code": "MTH",
+                                            "display": "mother"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "url": "name",
+                                "valueHumanName": {
+                                    "use": "official",
+                                    "text": "RAIMUNDA NONATA CORDEIRO MOURA"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-race-1.0",
+                        "extension": [
+                            {
+                                "url": "race",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-race-1.0",
+                                            "code": "04",
+                                            "display": "AMARELA"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
+                        "valueAddress": {
+                            "city": "PIRIPIRI",
+                            "_city": {
+                                "extension": [
+                                    {
+                                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-city-1.0",
+                                        "valueString": "220840"
+                                    }
+                                ]
+                            },
+                            "state": "PI",
+                            "country": "BRASIL",
+                            "_country": {
+                                "extension": [
+                                    {
+                                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-country-1.0",
+                                        "valueCodeableConcept": {
+                                            "coding": [
+                                                {
+                                                    "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-cadsuscountry-1.0",
+                                                    "code": "10",
+                                                    "display": "BRASIL"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-nationality-1.0",
+                        "extension": [
+                            {
+                                "url": "use",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-nationnalityuse-1.0",
+                                            "code": "brazilian",
+                                            "display": "Brasileiro"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "identifier": [
+                    {
+                        "system": "http://rnds.saude.gov.br/fhir/r4/NamingSystem/cpf",
+                        "value": "49729486808"
+                    },
+                    {
+                        "use": "official",
+                        "system": "http://rnds.saude.gov.br/fhir/r4/NamingSystem/cns",
+                        "value": "204423698100004",
+                        "period": {
+                            "start": "2006-06-21T19:21:06-03:00"
+                        }
+                    },
+                    {
+                        "use": "secondary",
+                        "system": "http://rnds.saude.gov.br/fhir/r4/NamingSystem/cns",
+                        "value": "898000909008622",
+                        "period": {
+                            "start": "2006-06-21T19:21:06-03:00"
+                        }
+                    },
+                    {
+                        "use": "secondary",
+                        "system": "http://rnds.saude.gov.br/fhir/r4/NamingSystem/cns",
+                        "value": "898000928469958",
+                        "period": {
+                            "start": "2006-06-21T19:21:30-03:00"
+                        }
+                    },
+                    {
+                        "use": "secondary",
+                        "system": "http://rnds.saude.gov.br/fhir/r4/NamingSystem/cns",
+                        "value": "898001404668227",
+                        "period": {
+                            "start": "2014-04-10T10:19:24-03:00"
+                        }
+                    }
+                ],
+                "active": true,
+                "name": [
+                    {
+                        "use": "official",
+                        "text": "JOAO HENRIQUE CORDEIRO MOURA"
+                    }
+                ],
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "556133152425",
+                        "use": "home"
+                    }
+                ],
+                "gender": "male",
+                "birthDate": "1999-09-22",
+                "deceasedBoolean": false,
+                "address": [
+                    {
+                        "use": "home",
+                        "line": [
+                            "SALGADO I"
+                        ],
+                        "_line": [
+                            {
+                                "extension": [
+                                    {
+                                        "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetAddressLine",
+                                        "valueString": "SALGADO I"
+                                    }
+                                ]
+                            }
+                        ],
+                        "city": "PIRIPIRI",
+                        "_city": {
+                            "extension": [
+                                {
+                                    "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-city-1.0",
+                                    "valueString": "220840"
+                                }
+                            ]
+                        },
+                        "district": "ZONA RURAL",
+                        "state": "PI",
+                        "postalCode": "64260000",
+                        "country": "BRASIL",
+                        "_country": {
+                            "extension": [
+                                {
+                                    "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-country-1.0",
+                                    "valueCodeableConcept": {
+                                        "coding": [
+                                            {
+                                                "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-cadsuscountry-1.0",
+                                                "code": "10",
+                                                "display": "BRASIL"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "multipleBirthBoolean": false
+            }
+        },
+        {
+            "fullUrl": "https://pi-ehr-services.saude.gov.br/1.15/api/fhir/r4/Patient/705205470412575",
+            "resource": {
+                "resourceType": "Patient",
+                "id": "705205470412575",
+                "meta": {
+                    "lastUpdated": "2015-06-28T21:37:11.000-03:00",
+                    "profile": [
+                        "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-patient-1.0"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-recordqualityscore-1.0",
+                        "valuePositiveInt": 80
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/patient-importance",
+                        "valueBoolean": false
+                    },
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-parent-1.0",
+                        "extension": [
+                            {
+                                "url": "relationship",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                                            "code": "MTH",
+                                            "display": "mother"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "url": "name",
+                                "valueHumanName": {
+                                    "use": "official",
+                                    "text": "CLARA RAIMUNDA DE MOURA SILVA"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-parent-1.0",
+                        "extension": [
+                            {
+                                "url": "relationship",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                                            "code": "FTH",
+                                            "display": "father"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "url": "name",
+                                "valueHumanName": {
+                                    "use": "official",
+                                    "text": "VICENTE FERREIRA DA SILVA"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-race-1.0",
+                        "extension": [
+                            {
+                                "url": "race",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-race-1.0",
+                                            "code": "02",
+                                            "display": "PRETA"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
+                        "valueAddress": {
+                            "city": "PIRIPIRI",
+                            "_city": {
+                                "extension": [
+                                    {
+                                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-city-1.0",
+                                        "valueString": "220840"
+                                    }
+                                ]
+                            },
+                            "state": "PI",
+                            "country": "BRASIL",
+                            "_country": {
+                                "extension": [
+                                    {
+                                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-country-1.0",
+                                        "valueCodeableConcept": {
+                                            "coding": [
+                                                {
+                                                    "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-cadsuscountry-1.0",
+                                                    "code": "10",
+                                                    "display": "BRASIL"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-nationality-1.0",
+                        "extension": [
+                            {
+                                "url": "use",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-nationnalityuse-1.0",
+                                            "code": "brazilian",
+                                            "display": "Brasileiro"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "identifier": [
+                    {
+                        "system": "http://rnds.saude.gov.br/fhir/r4/NamingSystem/cpf",
+                        "value": "02579654321"
+                    },
+                    {
+                        "use": "secondary",
+                        "system": "http://rnds.saude.gov.br/fhir/r4/NamingSystem/cns",
+                        "value": "207380362550007",
+                        "period": {
+                            "start": "2006-06-21T19:20:58-03:00"
+                        }
+                    },
+                    {
+                        "use": "official",
+                        "system": "http://rnds.saude.gov.br/fhir/r4/NamingSystem/cns",
+                        "value": "705205470412575",
+                        "period": {
+                            "start": "2014-01-10T21:36:52-02:00"
+                        }
+                    }
+                ],
+                "active": true,
+                "name": [
+                    {
+                        "use": "official",
+                        "text": "JOAO MOURA DA SILVA"
+                    }
+                ],
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "558632763615",
+                        "use": "home"
+                    }
+                ],
+                "gender": "male",
+                "birthDate": "1945-05-10",
+                "deceasedDateTime": "2012-04-29T00:00:00-03:00",
+                "address": [
+                    {
+                        "use": "work",
+                        "line": [
+                            "PIQUI"
+                        ],
+                        "_line": [
+                            {
+                                "extension": [
+                                    {
+                                        "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetAddressLine",
+                                        "valueString": "PIQUI"
+                                    }
+                                ]
+                            }
+                        ],
+                        "city": "PIRIPIRI",
+                        "_city": {
+                            "extension": [
+                                {
+                                    "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-city-1.0",
+                                    "valueString": "220840"
+                                }
+                            ]
+                        },
+                        "district": "ZONA RURAL",
+                        "state": "PI",
+                        "postalCode": "64260000",
+                        "country": "BRASIL",
+                        "_country": {
+                            "extension": [
+                                {
+                                    "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-country-1.0",
+                                    "valueCodeableConcept": {
+                                        "coding": [
+                                            {
+                                                "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-cadsuscountry-1.0",
+                                                "code": "10",
+                                                "display": "BRASIL"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "multipleBirthBoolean": false
+            }
+        },
+        {
+            "fullUrl": "https://pi-ehr-services.saude.gov.br/1.15/api/fhir/r4/Patient/700404411207649",
+            "resource": {
+                "resourceType": "Patient",
+                "id": "700404411207649",
+                "meta": {
+                    "lastUpdated": "2019-12-16T12:21:56.000-03:00",
+                    "profile": [
+                        "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-patient-1.0"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-recordqualityscore-1.0",
+                        "valuePositiveInt": 83
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/patient-importance",
+                        "valueBoolean": false
+                    },
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-parent-1.0",
+                        "extension": [
+                            {
+                                "url": "relationship",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                                            "code": "MTH",
+                                            "display": "mother"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "url": "name",
+                                "valueHumanName": {
+                                    "use": "official",
+                                    "text": "WESLENY AUGUSTA DE MOURA"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-parent-1.0",
+                        "extension": [
+                            {
+                                "url": "relationship",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                                            "code": "FTH",
+                                            "display": "father"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "url": "name",
+                                "valueHumanName": {
+                                    "use": "official",
+                                    "text": "PAULO ROBSON ANDRADE SOUSA"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-race-1.0",
+                        "extension": [
+                            {
+                                "url": "race",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-race-1.0",
+                                            "code": "03",
+                                            "display": "PARDA"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
+                        "valueAddress": {
+                            "city": "PIRIPIRI",
+                            "_city": {
+                                "extension": [
+                                    {
+                                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-city-1.0",
+                                        "valueString": "220840"
+                                    }
+                                ]
+                            },
+                            "state": "PI",
+                            "country": "BRASIL",
+                            "_country": {
+                                "extension": [
+                                    {
+                                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-country-1.0",
+                                        "valueCodeableConcept": {
+                                            "coding": [
+                                                {
+                                                    "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-cadsuscountry-1.0",
+                                                    "code": "10",
+                                                    "display": "BRASIL"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-nationality-1.0",
+                        "extension": [
+                            {
+                                "url": "use",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-nationnalityuse-1.0",
+                                            "code": "brazilian",
+                                            "display": "Brasileiro"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "identifier": [
+                    {
+                        "system": "http://rnds.saude.gov.br/fhir/r4/NamingSystem/cpf",
+                        "value": "08604433376"
+                    },
+                    {
+                        "use": "secondary",
+                        "system": "http://rnds.saude.gov.br/fhir/r4/NamingSystem/cns",
+                        "value": "898003283759466",
+                        "period": {
+                            "start": "2012-04-02T08:21:51-03:00"
+                        }
+                    },
+                    {
+                        "use": "secondary",
+                        "system": "http://rnds.saude.gov.br/fhir/r4/NamingSystem/cns",
+                        "value": "898005135264878",
+                        "period": {
+                            "start": "2016-09-16T09:24:50-03:00"
+                        }
+                    },
+                    {
+                        "use": "official",
+                        "system": "http://rnds.saude.gov.br/fhir/r4/NamingSystem/cns",
+                        "value": "700404411207649",
+                        "period": {
+                            "start": "2019-04-12T08:59:28-03:00"
+                        }
+                    }
+                ],
+                "active": true,
+                "name": [
+                    {
+                        "use": "official",
+                        "text": "JOAO GUILHERME MOURA ANDRADE"
+                    }
+                ],
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "5586994022255",
+                        "use": "mobile"
+                    }
+                ],
+                "gender": "male",
+                "birthDate": "2009-05-19",
+                "deceasedBoolean": false,
+                "address": [
+                    {
+                        "use": "home",
+                        "line": [
+                            "CONJUNTO SAO JOAO",
+                            "S/N"
+                        ],
+                        "_line": [
+                            {
+                                "extension": [
+                                    {
+                                        "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetAddressLine",
+                                        "valueString": "CONJUNTO SAO JOAO"
+                                    }
+                                ]
+                            },
+                            {
+                                "extension": [
+                                    {
+                                        "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber",
+                                        "valueString": "S/N"
+                                    }
+                                ]
+                            }
+                        ],
+                        "city": "CAPITAO DE CAMPOS",
+                        "_city": {
+                            "extension": [
+                                {
+                                    "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-city-1.0",
+                                    "valueString": "220240"
+                                }
+                            ]
+                        },
+                        "district": "CALIFORNIA",
+                        "state": "PI",
+                        "postalCode": "64270000",
+                        "country": "BRASIL",
+                        "_country": {
+                            "extension": [
+                                {
+                                    "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-country-1.0",
+                                    "valueCodeableConcept": {
+                                        "coding": [
+                                            {
+                                                "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-cadsuscountry-1.0",
+                                                "code": "10",
+                                                "display": "BRASIL"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "multipleBirthBoolean": false
+            }
+        },
+        {
+            "fullUrl": "https://pi-ehr-services.saude.gov.br/1.15/api/fhir/r4/Patient/203415951300006",
+            "resource": {
+                "resourceType": "Patient",
+                "id": "203415951300006",
+                "meta": {
+                    "lastUpdated": "2014-12-27T18:12:34.000-02:00",
+                    "profile": [
+                        "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-patient-1.0"
+                    ]
+                },
+                "extension": [
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-recordqualityscore-1.0",
+                        "valuePositiveInt": 45
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/patient-importance",
+                        "valueBoolean": false
+                    },
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-parent-1.0",
+                        "extension": [
+                            {
+                                "url": "relationship",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://terminology.hl7.org/CodeSystem/v3-RoleCode",
+                                            "code": "MTH",
+                                            "display": "mother"
+                                        }
+                                    ]
+                                }
+                            },
+                            {
+                                "url": "name",
+                                "valueHumanName": {
+                                    "use": "official",
+                                    "text": "MARIA DIVINA DE JESUS"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-race-1.0",
+                        "extension": [
+                            {
+                                "url": "race",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-race-1.0",
+                                            "code": "04",
+                                            "display": "AMARELA"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "url": "http://hl7.org/fhir/StructureDefinition/patient-birthPlace",
+                        "valueAddress": {
+                            "city": "PIRIPIRI",
+                            "_city": {
+                                "extension": [
+                                    {
+                                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-city-1.0",
+                                        "valueString": "220840"
+                                    }
+                                ]
+                            },
+                            "state": "PI",
+                            "country": "BRASIL",
+                            "_country": {
+                                "extension": [
+                                    {
+                                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-country-1.0",
+                                        "valueCodeableConcept": {
+                                            "coding": [
+                                                {
+                                                    "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-cadsuscountry-1.0",
+                                                    "code": "10",
+                                                    "display": "BRASIL"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-nationality-1.0",
+                        "extension": [
+                            {
+                                "url": "use",
+                                "valueCodeableConcept": {
+                                    "coding": [
+                                        {
+                                            "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-nationnalityuse-1.0",
+                                            "code": "brazilian",
+                                            "display": "Brasileiro"
+                                        }
+                                    ]
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "identifier": [
+                    {
+                        "use": "official",
+                        "system": "http://rnds.saude.gov.br/fhir/r4/NamingSystem/cns",
+                        "value": "203415951300006",
+                        "period": {
+                            "start": "2006-05-19T21:56:58-03:00"
+                        }
+                    }
+                ],
+                "active": true,
+                "name": [
+                    {
+                        "use": "official",
+                        "text": "MARIA ODETE DE J CONCEICAO"
+                    }
+                ],
+                "gender": "female",
+                "birthDate": "1945-12-31",
+                "deceasedBoolean": false,
+                "address": [
+                    {
+                        "use": "home",
+                        "line": [
+                            "NATAL",
+                            "71"
+                        ],
+                        "_line": [
+                            {
+                                "extension": [
+                                    {
+                                        "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-streetAddressLine",
+                                        "valueString": "NATAL"
+                                    }
+                                ]
+                            },
+                            {
+                                "extension": [
+                                    {
+                                        "url": "http://hl7.org/fhir/StructureDefinition/iso21090-ADXP-houseNumber",
+                                        "valueString": "71"
+                                    }
+                                ]
+                            }
+                        ],
+                        "city": "IMPERATRIZ",
+                        "_city": {
+                            "extension": [
+                                {
+                                    "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-city-1.0",
+                                    "valueString": "210530"
+                                }
+                            ]
+                        },
+                        "district": "VILA BRASIL",
+                        "state": "MA",
+                        "country": "BRASIL",
+                        "_country": {
+                            "extension": [
+                                {
+                                    "url": "http://rnds.saude.gov.br/fhir/r4/StructureDefinition/rnds-country-1.0",
+                                    "valueCodeableConcept": {
+                                        "coding": [
+                                            {
+                                                "system": "http://rnds.saude.gov.br/fhir/r4/CodeSystem/rnds-cadsuscountry-1.0",
+                                                "code": "10",
+                                                "display": "BRASIL"
+                                            }
+                                        ]
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "multipleBirthBoolean": false
+            }
+        }
+    ]
+}
